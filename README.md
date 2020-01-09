@@ -4,7 +4,11 @@
 [![PyPI Version](https://img.shields.io/pypi/v/clusteval)](https://pypi.org/project/clusteval/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/clusteval/blob/master/LICENSE)
 
-* clusteval is Python package for unsupervised cluster evaluation.
+* clusteval is Python package for unsupervised cluster evaluation. Five methods are implemented that can be used to evalute clusterings; silhouette, dbindex, derivative, dbscan and hdbscan.
+
+## Methods
+out = clusteval.fit(X, <optional>)
+      clusteval.plot(out, X)
 
 ## Contents
 - [Installation](#-installation)
@@ -44,38 +48,70 @@ python setup.py install
 import clusteval as clusteval
 ```
 
-## Example: Cluster validation
+## Create example data set
 ```python
+# Generate some random data
 from sklearn.datasets import make_blobs
 [X,_] = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
+```
+
+## Cluster validation using Silhouette score
+```python
+# Determine the optimal number of clusters
 out = clusteval.fit(X, method='silhouette')
+# Plot
 fig = clusteval.plot(out, X)
 ```
 <p align="center">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1.png" width="600" />
-  
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png" width="600" />
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1b_sil.png" width="600" />
 </p>
 
-* Choosing various methodtypes and scoringtypes:
+## Cluster validation using davies-boulin index
 ```python
-model_hc_bic  = clusteval.structure_learning(df, methodtype='hc', scoretype='bic')
+# Determine the optimal number of clusters
+out = clusteval.fit(X, method='dbindex')
+# Plot
+fig = clusteval.plot(out, X)
 ```
+<p align="center">
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png" width="600" />
+</p>
 
-#### df looks like this:
+## Cluster validation using derivative method
+```python
+# Determine the optimal number of clusters
+out = clusteval.fit(X, method='derivative')
+# Plot
+fig = clusteval.plot(out)
 ```
-     Cloudy  Sprinkler  Rain  Wet_Grass
-0         0          1     0          1
-1         1          1     1          1
-2         1          0     1          1
-3         0          0     1          1
-4         1          0     1          1
-..      ...        ...   ...        ...
-995       0          0     0          0
-996       1          0     0          0
-997       0          0     1          0
-998       1          1     0          1
-999       1          0     1          1
+<p align="center">
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig3_der.png" width="600" />
+</p>
+
+## Cluster validation using hdbscan
+```python
+# Determine the optimal number of clusters
+out = clusteval.fit(X, method='hdbscan')
+# Plot
+fig = clusteval.plot(out)
 ```
+<p align="center">
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4a_hdbscan.png" width="600" />
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4b_hdbscan.png" width="600" />
+</p>
+
+## Cluster validation using dbscan
+```python
+# Determine the optimal number of clusters
+out = clusteval.fit(X, method='hdbscan')
+# Plot
+fig = clusteval.plot(out, X)
+```
+<p align="center">
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig5_dbscan.png" width="600" />
+</p>
+
 
 
 ## Citation
