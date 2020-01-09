@@ -59,7 +59,6 @@ from sklearn.datasets import make_blobs
 ```python
 # Determine the optimal number of clusters
 out = clusteval.fit(X, method='silhouette')
-# Plot
 fig = clusteval.plot(out, X)
 ```
 <p align="center">
@@ -71,7 +70,6 @@ fig = clusteval.plot(out, X)
 ```python
 # Determine the optimal number of clusters
 out = clusteval.fit(X, method='dbindex')
-# Plot
 fig = clusteval.plot(out, X)
 ```
 <p align="center">
@@ -82,7 +80,6 @@ fig = clusteval.plot(out, X)
 ```python
 # Determine the optimal number of clusters
 out = clusteval.fit(X, method='derivative')
-# Plot
 fig = clusteval.plot(out)
 ```
 <p align="center">
@@ -93,7 +90,6 @@ fig = clusteval.plot(out)
 ```python
 # Determine the optimal number of clusters
 out = clusteval.fit(X, method='hdbscan')
-# Plot
 fig = clusteval.plot(out)
 ```
 <p align="center">
@@ -105,7 +101,6 @@ fig = clusteval.plot(out)
 ```python
 # Determine the optimal number of clusters
 out = clusteval.fit(X, method='hdbscan')
-# Plot
 fig = clusteval.plot(out, X)
 ```
 <p align="center">
