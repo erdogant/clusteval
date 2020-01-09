@@ -4,10 +4,7 @@
 [![PyPI Version](https://img.shields.io/pypi/v/clusteval)](https://pypi.org/project/clusteval/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/clusteval/blob/master/LICENSE)
 
-* clusteval is Python package for cluster evaluation.
-
-## Method overview
-Learning a Bayesian network can be split into two problems which are both implemented in this package:
+* clusteval is Python package for unsupervised cluster evaluation.
 
 ## Contents
 - [Installation](#-installation)
@@ -27,7 +24,7 @@ Learning a Bayesian network can be split into two problems which are both implem
 ```python
 conda create -n env_clusteval python=3.6
 conda activate env_clusteval
-pip install numpy pandas tqdm matplotlib
+pip install matplotlib numpy pandas tqdm seaborn hdbscan sklearn
 ```
 
 ## Quick Start
@@ -47,11 +44,12 @@ python setup.py install
 import clusteval as clusteval
 ```
 
-## Example: Structure Learning
+## Example: Cluster validation
 ```python
-df = pd.read_csv('https://github.com/erdogant/hnet/blob/master/clusteval/data/example_data.csv')
-model = clusteval.structure_learning(df)
-G = clusteval.plot(model)
+from sklearn.datasets import make_blobs
+[X,_] = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
+out = clusteval.fit(X, method='silhouette')
+fig = clusteval.plot(out, X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1.png" width="600" />
