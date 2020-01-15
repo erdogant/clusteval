@@ -3,6 +3,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/clusteval)](https://img.shields.io/pypi/pyversions/clusteval)
 [![PyPI Version](https://img.shields.io/pypi/v/clusteval)](https://pypi.org/project/clusteval/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/clusteval/blob/master/LICENSE)
+[![Downloads](https://pepy.tech/badge/clusteval/week)](https://pepy.tech/project/clusteval/week)
 
 * clusteval is Python package for unsupervised cluster evaluation. Five methods are implemented that can be used to evalute clusterings; silhouette, dbindex, derivative, dbscan and hdbscan.
 
