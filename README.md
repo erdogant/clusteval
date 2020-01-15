@@ -9,7 +9,8 @@
 
 ## Methods
 ```python
-out = clusteval.fit(X, <optional>)
+# X is your data
+out = clusteval.fit(X)
 clusteval.plot(out, X)
 ```
 
