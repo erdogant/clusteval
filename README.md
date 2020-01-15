@@ -8,8 +8,10 @@
 * clusteval is Python package for unsupervised cluster evaluation. Five methods are implemented that can be used to evalute clusterings; silhouette, dbindex, derivative, dbscan and hdbscan.
 
 ## Methods
+```python
 out = clusteval.fit(X, <optional>)
-      clusteval.plot(out, X)
+clusteval.plot(out, X)
+```
 
 ## Contents
 - [Installation](#-installation)
