@@ -11,17 +11,12 @@ import clusteval.dendrogram as dendrogram
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-#__version__ = '0.1.0'
-
-# Automatic version control
-#from ._version import get_versions
-#__version__ = get_versions()['version']
-#del get_versions
+__version__ = '0.1.0'
 
 
 # module level doc-string
 __doc__ = """
-clusteval - clusteval provides methods for unsupervised cluster validation
+clusteval is a python package that provides various methods for unsupervised cluster validation.
 =====================================================================
 
 **clusteval** 

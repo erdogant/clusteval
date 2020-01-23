@@ -1,7 +1,7 @@
 echo "Cleaning previous builds first.."
 rm -rf dist
 rm -rf build
-rm -rf hnet.egg-info
+rm -rf clusteval.egg-info
 
 read -p "Making source build after pressing [Enter].."
 echo "Making new build.."

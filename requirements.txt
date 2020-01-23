@@ -1,4 +1,10 @@
 #conda create -n env_CLUSTEVAL python=3.6
 #conda activate env_CLUSTEVAL
-pip install matplotlib numpy pandas tqdm
 #conda install spyder
+
+matplotlib
+numpy
+pandas
+tqdm
+seaborn
+hdbscan
