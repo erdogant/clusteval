@@ -104,7 +104,7 @@ fig = clusteval.plot(out)
 ## Cluster validation using dbscan
 ```python
 # Determine the optimal number of clusters
-out = clusteval.fit(X, method='hdbscan')
+out = clusteval.fit(X, method='dbscan')
 fig = clusteval.plot(out, X)
 ```
 <p align="center">
