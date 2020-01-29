@@ -11,7 +11,7 @@ import clusteval.dendrogram as dendrogram
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 
 # module level doc-string
