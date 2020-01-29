@@ -106,6 +106,7 @@ if __name__ == '__main__':
             # Continue with the process of building a new version if the current version is really newer then the one on github!
             VERSION_OK = version.parse(current_version)>version.parse(github_version)
             if VERSION_OK:
+                input("Press Enter to continue...")
                 # Make build and install
                 make_build_and_install(PACKAGE_NAME, current_version)
                 # Set tag to github and push
