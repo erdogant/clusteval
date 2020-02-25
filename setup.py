@@ -13,7 +13,7 @@ else:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
-     install_requires=['matplotlib','numpy','pandas','tqdm','seaborn'],
+     install_requires=['matplotlib','numpy','pandas','tqdm','seaborn','hdbscan'],
      python_requires='>=3',
      name='clusteval',
      version=new_version,
@@ -23,7 +23,7 @@ setuptools.setup(
      long_description=long_description,
      long_description_content_type="text/markdown",
      url="https://github.com/erdogant/clusteval",
-	 download_url = 'https://github.com/erdogant/clusteval/archive/'+new_version+'.tar.gz',
+     download_url = 'https://github.com/erdogant/clusteval/archive/'+new_version+'.tar.gz',
      packages=setuptools.find_packages(), # Searches throughout all dirs for files to include
      include_package_data=True, # Must be true to include files depicted in MANIFEST.in
      classifiers=[
