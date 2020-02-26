@@ -24,7 +24,6 @@ from scipy.cluster.hierarchy import linkage as scipy_linkage
 # %% Main function
 def fit(X, method='silhouette', metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, savemem=False, verbose=1):
     """Cluster validation.
-    
 
     Parameters
     ----------
@@ -32,7 +31,7 @@ def fit(X, method='silhouette', metric='euclidean', linkage='ward', minclusters=
         rows = features
         colums = samples
 
-    method : String, optional
+    method : str, optional
         Method type for cluster validation
         'silhouette' (default)
         'dbindex'
@@ -40,13 +39,13 @@ def fit(X, method='silhouette', metric='euclidean', linkage='ward', minclusters=
         'hdbscan'
         'dbscan' (the default settings it the use of silhoutte)
 
-    metric : String, optional (default: 'euclidean')
+    metric : str, optional (default: 'euclidean')
         Distance measure for the clustering
         'euclidean' (default, hierarchical)
         'hamming'
         'kmeans' (prototypes)
 
-    linkage : String, optional (default: 'ward')
+    linkage : str, optional (default: 'ward')
         Linkage type for the clustering
         'ward' (default)
         'single
@@ -56,13 +55,13 @@ def fit(X, method='silhouette', metric='euclidean', linkage='ward', minclusters=
         'centroid'
         'median'
 
-    minclusters : Int, optional (default: 2)
+    minclusters : int, optional (default: 2)
         Minimum or more number of clusters >=
 
-    maxclusters : TYPE, optional (default: 25)
+    maxclusters : int, optional (default: 25)
         Maximum or more number of clusters =<
 
-    savemem : Bool, optional
+    savemem : bool, optional
         This works only for KMeans.
         [False]: No (default)
         [True]: Yes
@@ -112,8 +111,7 @@ def fit(X, method='silhouette', metric='euclidean', linkage='ward', minclusters=
 
 # %% Plot
 def plot(out, X=None, figsize=(15, 8)):
-    """
-
+    """Make a plot.
 
     Parameters
     ----------
