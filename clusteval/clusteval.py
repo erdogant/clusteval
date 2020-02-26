@@ -1,9 +1,5 @@
 """clusteval provides methods for unsupervised cluster validation to return the cluster labels with the optimal cutt-off based on the choosen clustering method.
 
-   out = clusteval.fit(X)
-   _   = clusteval.plot(out, X)
-   
-
    TODO:
    ----
    * https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_measures.html#sphx-glr-auto-examples-cluster-plot-adjusted-for-chance-measures-py
