@@ -140,4 +140,4 @@ https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_m
 See [LICENSE](LICENSE) for details.
 
 ### Donation
-* This package is created and maintained in my free time. If this package is usefull, you can show your <a href="https://erdogant.github.io/donate/?currency=USD&amount=5">gratitude</a> :) Thanks!
+* This work is created and maintained in my free time. If you wish to buy me a <a href="https://erdogant.github.io/donate/?currency=USD&amount=5">Coffee</a> for this work, it is very appreciated.
