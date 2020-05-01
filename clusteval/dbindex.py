@@ -152,7 +152,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
         dbclust[i]=len(np.unique(labx))
         # Compute silhoutte (can only be done if more then 1 cluster)
         if dbclust[i]>1:
-            scores[i]=dbindex_score(X, labx)
+            scores[i]=_dbindex_score(X, labx)
 
 
     # Convert to array
@@ -184,7 +184,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     return(out)
 
 #%% Compute DB-score
-def dbindex_score(X, labels):
+def _dbindex_score(X, labels):
     n_cluster = np.unique(labels)
     cluster_k=[]
     for k in range(0, len(n_cluster)):

@@ -1,7 +1,8 @@
 # EXAMPLE
 import clusteval
 from sklearn.datasets import make_blobs
-
+print(clusteval.__version__)
+print(dir(clusteval))
 
 # %%
 [X, labels_true] = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)

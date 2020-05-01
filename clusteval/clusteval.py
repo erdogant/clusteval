@@ -17,7 +17,6 @@ import clusteval.dbindex as dbindex
 import clusteval.silhouette as silhouette
 import clusteval.derivative as derivative
 import clusteval.dbscan as dbscan
-import clusteval.hdbscan as hdbscan
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 # from cuml import DBSCAN
 
@@ -104,6 +103,7 @@ def fit(X, method='silhouette', metric='euclidean', linkage='ward', minclusters=
         out=dbscan.fit(X, eps=None, epsres=50, min_samples=0.01, metric=Param['metric'], norm=True, n_jobs=-1, minclusters=Param['minclusters'], maxclusters=Param['maxclusters'], verbose=Param['verbose'])
 
     if Param['method']=='hdbscan':
+        import clusteval.hdbscan as hdbscan
         out=hdbscan.fit(X, min_samples=0.01, metric=Param['metric'], norm=True, n_jobs=-1, minclusters=Param['minclusters'], verbose=Param['verbose'])
 
     return(out)
@@ -138,4 +138,5 @@ def plot(out, X=None, figsize=(15, 8)):
     if out['methodtype']=='dbscan':
         dbscan.plot(out, X=X, width=figsize[0], height=figsize[1])
     if out['methodtype']=='hdbscan':
+        import clusteval.hdbscan as hdbscan
         hdbscan.plot(out, width=figsize[0], height=figsize[1])
