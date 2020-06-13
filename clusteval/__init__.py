@@ -1,10 +1,10 @@
 from clusteval.clusteval import clusteval
 
+# import clusteval.dbindex as dbindex
+# import clusteval.silhouette as silhouette
+# import clusteval.derivative as derivative
+# import clusteval.dbscan as dbscan
 # import clusteval.hdbscan
-# import clusteval.dbscan
-# import clusteval.silhouette
-# import clusteval.derivative
-# import clusteval.dbindex
 # import clusteval.dendrogram
 
 __author__ = 'Erdogan Tasksen'
