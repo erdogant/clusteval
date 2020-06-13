@@ -27,7 +27,7 @@
 
  showfig=        Boolean [0,1]: Progressbar
                  [0]: No (default)
-                 [1]: Yes (silhoutte plot)
+                 [1]: Yes (silhouette plot)
                    
  height=         Integer:  Height of figure
                  [5]: (default)
@@ -150,7 +150,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
         clustlabx.append(labx)
         # Store number of unique clusters
         dbclust[i]=len(np.unique(labx))
-        # Compute silhoutte (can only be done if more then 1 cluster)
+        # Compute silhouette (can only be done if more then 1 cluster)
         if dbclust[i]>1:
             scores[i]=_dbindex_score(X, labx)
 

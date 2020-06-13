@@ -23,7 +23,7 @@
 
  showfig=        Boolean [0,1]: Progressbar
                  [0]: No (default)
-                 [1]: Yes (silhoutte plot)
+                 [1]: Yes (silhouette plot)
                    
  height=         Integer:  Height of figure
                  [5]: (default)

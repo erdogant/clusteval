@@ -35,7 +35,7 @@
 
  showfig=        Boolean [0,1]:
                  [0]: No (default)
-                 [1]: Yes (silhoutte plot)
+                 [1]: Yes (silhouette plot)
                    
  height=         Integer:  Height of figure
                  [5]: (default)
@@ -103,10 +103,10 @@ def plot(out, X=None, width=15, height=8):
     ax1.set_xticks(out['fig']['clustcutt'])
     ax1.set_xlabel('#Clusters')
     ax1.set_ylabel('Score')
-    ax1.set_title("Silhoutte score versus number of clusters")
+    ax1.set_title("silhouette score versus number of clusters")
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
 
-    # Plot silhoutte samples plot
+    # Plot silhouette samples plot
     if not isinstance(X, type(None)):
         silhouette_plot(X,out['labx'])
 
@@ -138,7 +138,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
         Z=linkage(X, method=Param['linkage'], metric=Param['metric'])
 
     # Make all possible cluster-cut-offs
-    if Param['verbose']>=3: print('[SILHOUETTE] Determining optimal [%s] clustering by Silhoutte score..' %(Param['metric']))
+    if Param['verbose']>=3: print('[SILHOUETTE] Determining optimal [%s] clustering by silhouette score..' %(Param['metric']))
 
     # Setup storing parameters
     clustcutt = np.arange(Param['minclusters'],Param['maxclusters'])
@@ -158,7 +158,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
         clustlabx.append(labx)
         # Store number of unique clusters
         sillclust[i]=len(np.unique(labx))
-        # Compute silhoutte (can only be done if more then 1 cluster)
+        # Compute silhouette (can only be done if more then 1 cluster)
         if sillclust[i]>1:
             silscores[i]=silhouette_score(X, labx)
 
@@ -179,7 +179,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     idx = np.argmax(silscores)
     
     # Store results
-    out['methodtype']='silhoutte'
+    out['method']='silhouette'
     out['score'] = pd.DataFrame(np.array([sillclust,silscores]).T, columns=['clusters','score'])
     out['score']['clusters'] = out['score']['clusters'].astype(int)
     out['labx']  = clustlabx[idx,:]-1

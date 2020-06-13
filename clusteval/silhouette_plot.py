@@ -1,4 +1,4 @@
-""" Plotting clusters with silhoutte analysis
+""" Plotting clusters with silhouette analysis
 
 	A= silhouette_plot(data, cluster_labels)
 
@@ -15,7 +15,7 @@
 	output
 
  DESCRIPTION
-   Plotting clusters with silhoutte analysis
+   Plotting clusters with silhouette analysis
    http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html
    
    
@@ -45,23 +45,23 @@ import numpy as np
 
 #%%
 def silhouette_plot(data, cluster_labels):
-    #%% The silhouette_score gives the average value for all the samples. This gives a perspective into the density and separation of the formed clusters
+    # The silhouette_score gives the average value for all the samples. This gives a perspective into the density and separation of the formed clusters
 #    n_clusters = len(np.unique(cluster_labels))
     n_clusters = len(set(cluster_labels)) - (1 if -1 in cluster_labels else 0)
     silhouette_avg=silhouette_score(data, cluster_labels)
     print("For n_clusters =", n_clusters, "The average silhouette_score is :", silhouette_avg)
 
-    #%% Compute the silhouette scores for each sample
+    # Compute the silhouette scores for each sample
     sample_silhouette_values = silhouette_samples(data, cluster_labels)
 
-    #%% Create a subplot with 1 row and 2 columns
+    # Create a subplot with 1 row and 2 columns
     fig, (ax1, ax2) = plt.subplots(1, 2)
     fig.set_size_inches(18, 7)
     ax1.set_xlim([-0.1, 1])
     # plots of individual clusters, to demarcate them clearly.
     ax1.set_ylim([0, len(data) + (n_clusters + 1) * 10])
 
-    #%
+    #
     y_lower = 10
     uiclust = np.unique(cluster_labels)
 
@@ -85,7 +85,7 @@ def silhouette_plot(data, cluster_labels):
         # Compute the new y_lower for next plot
         y_lower = y_upper + 10  # 10 for the 0 samples
 
-    #%%
+    #
     ax1.set_title("The silhouette plot for the various clusters")
     ax1.set_xlabel("The silhouette coefficient values")
     ax1.set_ylabel("Cluster label")

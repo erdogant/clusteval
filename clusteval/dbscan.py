@@ -116,7 +116,7 @@ def plot(out, X=None, width=15, height=8, verbose=3):
     ax2 = ax1.twinx()
     ax1.plot(out['eps'], out['silscores'], color='k')
     ax1.set_xlabel('eps')
-    ax1.set_ylabel('Silhoutte score')
+    ax1.set_ylabel('Silhouette score')
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
     ax2.plot(out['eps'], out['sillclust'], color='b')
     ax2.set_ylabel('#Clusters')
@@ -152,12 +152,12 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
 
     # Iterate over epsilon
     if Param['eps']==None:
-        if Param['verbose']>=3: print('[DBSCAN] Determining optimal clustering by Silhoutte score..')
+        if Param['verbose']>=3: print('[DBSCAN] Determining optimal clustering by Silhouette score..')
         # Optimize
         [eps, sillclust, silscores, silllabx]=optimize_eps(X, eps, Param)
         # Store results
         idx = np.argmax(silscores)
-        out['methodtype']='dbscan'
+        out['method']='dbscan'
         out['labx']  = silllabx[idx,:]
         out['eps']  = eps
         out['silscores'] = silscores
@@ -192,7 +192,7 @@ def optimize_eps(X, eps, Param):
         sillclust[i]=len(np.unique(labx))
         # Store all labx
         silllabx.append(labx)
-        # Compute silhoutte only if more then 1 cluster
+        # Compute Silhouette only if more then 1 cluster
         if sillclust[i]>1:
             silscores[i]=silhouette_score(X, db.labels_)
 
