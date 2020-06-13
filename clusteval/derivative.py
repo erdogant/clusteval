@@ -51,7 +51,7 @@
 
 
  SEE ALSO
-   silhouette, silhouette_plot, dbindex, 
+   silhouette, dbindex, 
 """
 #print(__doc__)
 

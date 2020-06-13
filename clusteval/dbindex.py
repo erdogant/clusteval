@@ -60,7 +60,7 @@
 
 
  SEE ALSO
-   silhouette, silhouette_plot, elbowclust
+   silhouette, elbowclust
 """
 #print(__doc__)
 

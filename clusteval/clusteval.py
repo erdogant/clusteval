@@ -153,12 +153,13 @@ class clusteval():
 
         if self.method=='silhouette':
             silhouette.plot(self.results, X=X, figsize=figsize)
+            silhouette.scatter(self.results, X=X, figsize=figsize)
         elif self.method=='dbindex':
             dbindex.plot(self.results, width=figsize[0], height=figsize[1])
         elif self.method=='derivative':
             derivative.plot(self.results, width=figsize[0], height=figsize[1])
         elif self.method=='dbscan':
-            dbscan.plot(self.results, X=X, width=figsize[0], height=figsize[1])
+            dbscan.plot(self.results, X=X, figsize=figsize)
         elif self.method=='hdbscan':
             import clusteval.hdbscan as hdbscan
             hdbscan.plot(self.results, width=figsize[0], height=figsize[1])
