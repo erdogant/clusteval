@@ -135,7 +135,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, wi
     clustlabx = np.array(clustlabx)
     
     # Store results
-    out['methodtype']='derivative'
+    out['method']='derivative'
     out['labx'] = clustlabx
     out['fig'] = dict()
     out['fig']['last_rev']=last_rev

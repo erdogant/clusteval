@@ -112,7 +112,7 @@ def fit(data, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1, minclu
     model = hdb.HDBSCAN(algorithm='best', metric=Param['metric'], min_samples=np.int(Param['min_samples']), core_dist_n_jobs=Param['n_jobs'], min_cluster_size=np.int(Param['minclusters']), p=None,gen_min_span_tree=Param['gen_min_span_tree'])
     model.fit(data) # Perform the clustering
 
-    out['methodtype']          ='hdbscan'
+    out['method']          ='hdbscan'
     out['labx']                = model.labels_        # Labels
     out['p']                   = model.probabilities_ # The strength with which each sample is a member of its assigned cluster. Noise points have probability zero; points in clusters have values assigned proportional to the degree that they persist as part of the cluster.
     out['cluster_persistence'] = model.cluster_persistence_ # A score of how persistent each cluster is. A score of 1.0 represents a perfectly stable cluster that persists over all distance scales, while a score of 0.0 represents a perfectly ephemeral cluster. These scores can be guage the relative coherence of the clusters output by the algorithm.

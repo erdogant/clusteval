@@ -172,7 +172,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     idx = np.argmin(scores)
     
     # Store results
-    out['methodtype']='dbindex'
+    out['method']='dbindex'
     out['score'] = pd.DataFrame(np.array([dbclust,scores]).T, columns=['clusters','score'])
     out['score'].clusters = out['score'].clusters.astype(int)
     out['labx']  = clustlabx[idx,:]-1
