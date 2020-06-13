@@ -152,7 +152,7 @@ class clusteval():
         if self.verbose>=3: print('[clusteval] >Make plot.')
 
         if self.method=='silhouette':
-            silhouette.plot(self.results, X=X, width=figsize[0], height=figsize[1])
+            silhouette.plot(self.results, X=X, figsize=figsize)
         elif self.method=='dbindex':
             dbindex.plot(self.results, width=figsize[0], height=figsize[1])
         elif self.method=='derivative':
