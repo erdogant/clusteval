@@ -8,7 +8,9 @@ print(dir(clusteval))
 from clusteval import clusteval
 [X, labels_true] = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
 
+# %%
 ce1 = clusteval(method='silhouette')
+ce1 = clusteval(method='silhouette', metric='kmeans', savemem=True)
 out1 = ce1.fit(X)
 ce1.plot(X)
 
