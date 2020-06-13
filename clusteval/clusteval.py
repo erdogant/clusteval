@@ -83,11 +83,11 @@ class clusteval():
     # Fit
     def fit(self, X):
         """Cluster validation.
-    
+
         Parameters
         ----------
         X : Numpy-array, where rows is features and colums is samples.
-    
+
         Returns
         -------
         dict.
@@ -134,7 +134,7 @@ class clusteval():
     # Plot
     def plot(self, X=None, figsize=(15,8)):
         """Make a plot.
-    
+
         Parameters
         ----------
         X : array-like, (default: None)
