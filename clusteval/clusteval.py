@@ -90,7 +90,7 @@ class clusteval():
 
         Returns
         -------
-        dict.
+        dict. with various keys. Note that the underneath keys can change based on the used methodtype.
         method: str
             Method name that is used for cluster evaluation.
         score: pd.DataFrame()
