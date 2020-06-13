@@ -19,7 +19,7 @@ clusteval
 
 Description
 -----------
-clusteval is a python package that provides various methods for unsupervised cluster validation.
+clusteval is a python package that provides five popular methods for unsupervised cluster validation, i.e. silhouette, dbindex, derivative, dbscan and hdbscan.
 
 Example
 -------
