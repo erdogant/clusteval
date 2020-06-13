@@ -20,123 +20,145 @@ import clusteval.dbscan as dbscan
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 # from cuml import DBSCAN
 
-# %% Main function
-def fit(X, method='silhouette', metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, savemem=False, verbose=1):
-    """Cluster validation.
+# %%
+class clusteval():
+    """clusteval - Cluster evaluation.
+
+    Description
+    -----------
+    clusteval is a python package that provides various methods for unsupervised cluster validation.
 
     Parameters
     ----------
-    X : Numpy array
-        rows = features
-        colums = samples
-
-    method : str, optional
-        Method type for cluster validation
-        'silhouette' (default)
-        'dbindex'
-        'derivative'
-        'hdbscan'
-        'dbscan' (the default settings it the use of silhoutte)
-
-    metric : str, optional (default: 'euclidean')
-        Distance measure for the clustering
-        'euclidean' (default, hierarchical)
-        'hamming'
-        'kmeans' (prototypes)
-
-    linkage : str, optional (default: 'ward')
-        Linkage type for the clustering
-        'ward' (default)
-        'single
-        'complete'
-        'average'
-        'weighted'
-        'centroid'
-        'median'
-
-    minclusters : int, optional (default: 2)
-        Minimum or more number of clusters >=
-
-    maxclusters : int, optional (default: 25)
-        Maximum or more number of clusters =<
-
-    savemem : bool, optional
-        This works only for KMeans.
-        [False]: No (default)
-        [True]: Yes
-
-    verbose : int [1-5], optional (default: 1)
-        Print messages.
+    method : str, (default: 'silhouette' )
+        Method type for cluster validation. 
+        'silhouette', 'dbindex','derivative','dbscan','hdbscan'.
+    metric : str, (default: 'euclidean').
+        Distance measure for the clustering.
+        'euclidean','hamming','kmeans'.
+    linkage : str, (default: 'ward')
+        Linkage type for the clustering.
+        'ward','single',',complete','average','weighted','centroid','median'.
+    minclusters : int, (default: 2)
+        Minimum number of clusters (>=). 
+    maxclusters : int, (default: 25)
+        Maximum number of clusters (<=). 
+    savemem : bool, (default: False)
+        Save memmory when working with large datasets. Note that htis option only in case of KMeans.
+    verbose : int, optional (default: 3)
+        Print message to screen [1-5]. The larger the number, the more information.
 
     Returns
     -------
-    None.
+    dict : The output is a dictionary containing the following keys:
+
+    Examples
+    --------
+    >>> # Import library
+    >>> from clusteval import clusteval
+    >>> # Initialize clusteval with default parameters
+    >>> ce = clusteval()
+    >>> # Generate random data
+    >>> from sklearn.datasets import make_blobs
+    >>> X, labels_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
+    >>> # Fit best clusters
+    >>> results = ce.fit(X)
+    >>> # Make plot
+    >>> ce.plot(X)
 
     """
-    assert 'array' in str(type(X)), 'Input data must be of type numpy array'
-    out ={}
-    Param = {}
-    Param['method'] = method
-    Param['verbose'] = verbose
-    Param['metric'] = metric
-    Param['linkage'] = linkage
-    Param['minclusters'] = minclusters
-    Param['maxclusters'] = maxclusters
-    Param['savemem'] = savemem
+    def __init__(self, method='silhouette', metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, savemem=False, verbose=3):
+        """Initialize clusteval with user-defined parameters."""
 
-    # Cluster hierarchical using on metric/linkage
-    Z = []
-    if Param['metric']!='kmeans':
-        Z=scipy_linkage(X, method=Param['linkage'], metric=Param['metric'])
+        if (minclusters<2): minclusters=2
+        # Store in object
+        self.method = method
+        self.metric = metric
+        self.linkage = linkage
+        self.minclusters = minclusters
+        self.maxclusters = maxclusters
+        self.savemem = savemem
+        self.verbose = verbose
 
-    # Choosing method
-    if Param['method']=='silhouette':
-        out=silhouette.fit(X, Z=Z, metric=Param['metric'], minclusters=Param['minclusters'], maxclusters=Param['maxclusters'], savemem=Param['savemem'], verbose=Param['verbose'])
+    # Fit
+    def fit(self, X):
+        """Cluster validation.
+    
+        Parameters
+        ----------
+        X : Numpy-array, where rows is features and colums is samples.
+    
+        Returns
+        -------
+        dict.
+        method: str
+            Method name that is used for cluster evaluation.
+        score: pd.DataFrame()
+            The scoring values per clusters. The methods [silhouette, dbindex] provide this information.
+        labx: list
+            Cluster labels.
+        fig: list
+            Relevant information to make the plot.
 
-    if Param['method']=='dbindex':
-        out=dbindex.fit(X, Z=Z, metric=Param['metric'], minclusters=Param['minclusters'], maxclusters=Param['maxclusters'], savemem=Param['savemem'], verbose=Param['verbose'])
+        """
+        assert 'array' in str(type(X)), 'Input data must be of type numpy array'
 
-    if Param['method']=='derivative':
-        out=derivative.fit(X, Z=Z, metric=Param['metric'], minclusters=Param['minclusters'], maxclusters=Param['maxclusters'], verbose=Param['verbose'])
+        # Cluster hierarchical using on metric/linkage
+        Z = []
+        if self.metric!='kmeans':
+            Z=scipy_linkage(X, method=self.linkage, metric=self.metric)
 
-    if Param['method']=='dbscan':
-        out=dbscan.fit(X, eps=None, epsres=50, min_samples=0.01, metric=Param['metric'], norm=True, n_jobs=-1, minclusters=Param['minclusters'], maxclusters=Param['maxclusters'], verbose=Param['verbose'])
+        # Choosing method
+        if self.method=='silhouette':
+            self.results = silhouette.fit(X, Z=Z, metric=self.metric, minclusters=self.minclusters, maxclusters=self.maxclusters, savemem=self.savemem, verbose=self.verbose)
+        elif self.method=='dbindex':
+            self.results = dbindex.fit(X, Z=Z, metric=self.metric, minclusters=self.minclusters, maxclusters=self.maxclusters, savemem=self.savemem, verbose=self.verbose)
+        elif self.method=='derivative':
+            self.results = derivative.fit(X, Z=Z, metric=self.metric, minclusters=self.minclusters, maxclusters=self.maxclusters, verbose=self.verbose)
+        elif self.method=='dbscan':
+            self.results = dbscan.fit(X, eps=None, epsres=50, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, minclusters=self.minclusters, maxclusters=self.maxclusters, verbose=self.verbose)
+        elif self.method=='hdbscan':
+            try:
+                import clusteval.hdbscan as hdbscan
+                self.results = hdbscan.fit(X, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, minclusters=self.minclusters, verbose=self.verbose)
+            except:
+                raise ImportError('hdbscan must be installed manually. Try to: <pip install hdbscan>')
+        else:
+            results = None
+            if self.verbose>=3: print('[clusteval] >Method [%s] is not implemented.' %(self.method))
 
-    if Param['method']=='hdbscan':
-        import clusteval.hdbscan as hdbscan
-        out=hdbscan.fit(X, min_samples=0.01, metric=Param['metric'], norm=True, n_jobs=-1, minclusters=Param['minclusters'], verbose=Param['verbose'])
+        # Return
+        if self.verbose>=3: print('[clusteval] >Fin.')
+        return self.results
 
-    return(out)
+    # Plot
+    def plot(self, X=None, figsize=(15,8)):
+        """Make a plot.
+    
+        Parameters
+        ----------
+        X : array-like, (default: None)
+            Input dataset used in the .fit() funciton. Some plots will be more extensive if the input data is also provided.
+        figsize : tuple, (default: (15,8).
+            Size of the figure (height,width).
+    
+        Returns
+        -------
+        None.
+    
+        """
+        if self.results is None:
+            if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
+        if self.verbose>=3: print('[clusteval] >Make plot.')
 
-
-# %% Plot
-def plot(out, X=None, figsize=(15, 8)):
-    """Make a plot.
-
-    Parameters
-    ----------
-    out : dict
-        The output of the fit() functoin.
-    X : Data set, optional
-        Some plots will be more extensive if the input data is also provided. The default is None.
-    width : TYPE, optional
-        DESCRIPTION. The default is 15.
-    height : TYPE, optional
-        DESCRIPTION. The default is 8.
-
-    Returns
-    -------
-    None.
-
-    """
-    if out['methodtype']=='silhoutte':
-        silhouette.plot(out, X=X, width=figsize[0], height=figsize[1])
-    if out['methodtype']=='dbindex':
-        dbindex.plot(out, width=figsize[0], height=figsize[1])
-    if out['methodtype']=='derivative':
-        derivative.plot(out, width=figsize[0], height=figsize[1])
-    if out['methodtype']=='dbscan':
-        dbscan.plot(out, X=X, width=figsize[0], height=figsize[1])
-    if out['methodtype']=='hdbscan':
-        import clusteval.hdbscan as hdbscan
-        hdbscan.plot(out, width=figsize[0], height=figsize[1])
+        if self.method=='silhouette':
+            silhouette.plot(self.results, X=X, width=figsize[0], height=figsize[1])
+        elif self.method=='dbindex':
+            dbindex.plot(self.results, width=figsize[0], height=figsize[1])
+        elif self.method=='derivative':
+            derivative.plot(self.results, width=figsize[0], height=figsize[1])
+        elif self.method=='dbscan':
+            dbscan.plot(self.results, X=X, width=figsize[0], height=figsize[1])
+        elif self.method=='hdbscan':
+            import clusteval.hdbscan as hdbscan
+            hdbscan.plot(self.results, width=figsize[0], height=figsize[1])

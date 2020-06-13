@@ -1,13 +1,15 @@
-from clusteval.clusteval import (
-    fit,
-    plot,
-)
-import clusteval.hdbscan
-import clusteval.dbscan
-import clusteval.silhouette
-import clusteval.derivative
-import clusteval.dbindex
-import clusteval.dendrogram
+from clusteval.clusteval import clusteval
+
+# from clusteval.clusteval import (
+#     fit,
+#     plot,
+# )
+# import clusteval.hdbscan
+# import clusteval.dbscan
+# import clusteval.silhouette
+# import clusteval.derivative
+# import clusteval.dbindex
+# import clusteval.dendrogram
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
@@ -31,9 +33,7 @@ clusteval provides methods for unsupervised cluster validation and returns the c
 >>> # Generate random data
 >>> from sklearn.datasets import make_blobs
 >>> [X, labels_true] = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
->>>
 >>> model = clusteval.fit(X)
->>>
 >>> fig = clusteval.plot(out, X)
 
 
