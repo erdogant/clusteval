@@ -3,17 +3,12 @@
 [![Python](https://img.shields.io/pypi/pyversions/clusteval)](https://img.shields.io/pypi/pyversions/clusteval)
 [![PyPI Version](https://img.shields.io/pypi/v/clusteval)](https://pypi.org/project/clusteval/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/clusteval/blob/master/LICENSE)
-[![Downloads](https://pepy.tech/badge/clusteval/week)](https://pepy.tech/project/clusteval/week)
-[![Donate](https://img.shields.io/badge/donate-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)
+[![Downloads](https://pepy.tech/badge/clusteval/month)](https://pepy.tech/project/clusteval/month)
+[![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)
 
-* clusteval is Python package for unsupervised cluster evaluation. Five methods are implemented that can be used to evalute clusterings; silhouette, dbindex, derivative, dbscan and hdbscan.
+* clusteval is Python package for unsupervised cluster evaluation.
+Five methods are implemented that can be used to evalute clusterings; silhouette, dbindex, derivative, dbscan and hdbscan.
 
-## Methods
-```python
-# X is your data
-out = clusteval.fit(X)
-clusteval.plot(out, X)
-```
 
 ## Contents
 - [Installation](#-installation)
@@ -21,50 +16,56 @@ clusteval.plot(out, X)
 - [Quick Start](#-quick-start)
 - [Contribute](#-contribute)
 - [Citation](#-citation)
-- [Maintainers](#-maintainers)
-- [License](#-copyright)
 
 ## Installation
 * Install clusteval from PyPI (recommended). clusteval is compatible with Python 3.6+ and runs on Linux, MacOS X and Windows. 
 * It is distributed under the MIT license.
 
-## Requirements
-* It is advisable to create a new environment. 
+* A new environment can be created as following:
+
 ```python
 conda create -n env_clusteval python=3.6
 conda activate env_clusteval
-pip install matplotlib numpy pandas tqdm seaborn hdbscan sklearn
 ```
 
-## Quick Start
-```
+```bash
 pip install clusteval
 ```
 
-* Alternatively, install clusteval from the GitHub source:
+
+* Alternatively, beta version can be installed from the GitHub source:
 ```bash
+# Directly install from github source
+pip install -e git://github.com/erdogant/clusteval.git@0.1.0#egg=master
+pip install git+https://github.com/erdogant/clusteval#egg=master
+pip install git+https://github.com/erdogant/clusteval
+
+# By cloning
 git clone https://github.com/erdogant/clusteval.git
 cd clusteval
-python setup.py install
+pip install -U .
 ```  
+
 
 ## Import clusteval package
 ```python
-import clusteval as clusteval
+from clusteval import clusteval
 ```
 
 ## Create example data set
 ```python
-# Generate some random data
+# Generate random data
 from sklearn.datasets import make_blobs
-[X,_] = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
+X, labx_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
 ```
 
 ## Cluster validation using Silhouette score
 ```python
 # Determine the optimal number of clusters
-out = clusteval.fit(X, method='silhouette')
-fig = clusteval.plot(out, X)
+
+ce = clusteval(method='silhouette')
+out = ce.fit(X)
+ce.plot(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png" width="600" />
@@ -74,8 +75,8 @@ fig = clusteval.plot(out, X)
 ## Cluster validation using davies-boulin index
 ```python
 # Determine the optimal number of clusters
-out = clusteval.fit(X, method='dbindex')
-fig = clusteval.plot(out, X)
+ce = clusteval(method='dbindex')
+ce.plot(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png" width="600" />
@@ -84,32 +85,38 @@ fig = clusteval.plot(out, X)
 ## Cluster validation using derivative method
 ```python
 # Determine the optimal number of clusters
-out = clusteval.fit(X, method='derivative')
-fig = clusteval.plot(out)
+ce = clusteval(method='derivative')
+ce.plot(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig3_der.png" width="600" />
 </p>
 
-## Cluster validation using hdbscan
-```python
-# Determine the optimal number of clusters
-out = clusteval.fit(X, method='hdbscan')
-fig = clusteval.plot(out)
-```
-<p align="center">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4a_hdbscan.png" width="600" />
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4b_hdbscan.png" width="600" />
-</p>
 
 ## Cluster validation using dbscan
 ```python
 # Determine the optimal number of clusters
-out = clusteval.fit(X, method='dbscan')
-fig = clusteval.plot(out, X)
+ce = clusteval(method='dbscan')
+ce.plot(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig5_dbscan.png" width="600" />
+</p>
+
+## Cluster validation using hdbscan
+To run hdbscan, it requires an installation. This library is not included in the ``clusteval`` setup file because it frequently gives installation issues.
+```bash
+pip install hdbscan
+```
+
+```python
+# Determine the optimal number of clusters
+ce = clusteval(method='hdbscan')
+ce.plot(X)
+```
+<p align="center">
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4a_hdbscan.png" width="600" />
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4b_hdbscan.png" width="600" />
 </p>
 
 
@@ -130,14 +137,8 @@ Please cite clusteval in your publications if this is useful for your research. 
 https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html
 https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_measures.html#sphx-glr-auto-examples-cluster-plot-adjusted-for-chance-measures-py
 
-## Maintainers
+### Maintainer
 * Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
-
-## Contribute
 * Contributions are welcome.
-
-## Licence
-See [LICENSE](LICENSE) for details.
-
-### Donation
-* This work is created and maintained in my free time. If you wish to buy me a <a href="https://erdogant.github.io/donate/?currency=USD&amount=5">Coffee</a> for this work, it is very appreciated.
+* If you wish to buy me a <a href="https://erdogant.github.io/donate/?currency=USD&amount=5">Coffee</a> for this work, it is very appreciated :)
+	Star it if you like it!
