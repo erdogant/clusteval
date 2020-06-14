@@ -4,7 +4,6 @@
 # Contact     : erdogant@gmail.com
 # ------------------------------------------------------
 
-# %% Libraries
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -54,13 +53,17 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     --------
     >>> import clusteval.silhouette as silhouette
     >>> from sklearn.datasets.samples_generator import make_blobs
+    >>>
+    >>> # Example 1:
+    >>> Generate demo data
     >>> X, labels_true = make_blobs(n_samples=750, centers=5, n_features=10)
     >>> # Fit with default parameters
     >>> results = silhouette.fit(X)
     >>> # plot
     >>> silhouette.scatter(results, X)
     >>> silhouette.plot(results, X)
-
+    >>>
+    >>> # Example 2:
     >>> # Try also alternative dataset
     >>> X, labels_true = make_blobs(n_samples=750, centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]], cluster_std=0.4,random_state=0)
     >>> # Fit with some specified parameters
@@ -71,7 +74,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
 
     References
     ----------
-    Plotting clusters with silhouette analysis: http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html
+    http://scikit-learn.org/stable/auto_examples/cluster/plot_kmeans_silhouette_analysis.html
 
     """
     # Make dictionary to store Parameters
@@ -152,7 +155,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     return(results)
 
 # %% plot
-def plot(results, X=None, figsize=(15,8)):
+def plot(results, figsize=(15,8)):
     idx = np.argmax(results['fig']['silscores'])
     # Make figure
     [fig, ax1] = plt.subplots(figsize=figsize)
@@ -171,6 +174,7 @@ def plot(results, X=None, figsize=(15,8)):
     ax1.set_ylabel('Score')
     ax1.set_title("silhouette score versus number of clusters")
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
+    plt.show()
 
 
 # %% Scatter data
@@ -234,4 +238,3 @@ def scatter(results, X=None, figsize=(15,8)):
     ax2.set_ylabel("Feature space for the 2nd feature")
     plt.suptitle(("Silhouette analysis for clustering on sample X with n_clusters = %d" % n_clusters), fontsize=14, fontweight='bold')
     plt.show()
-

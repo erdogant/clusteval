@@ -4,7 +4,6 @@
 # Contact     : erdogant@gmail.com
 #--------------------------------------------------------------------------
 
-#%% Libraries
 from tqdm import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,7 +11,6 @@ import sklearn.cluster as cluster
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 import clusteval.silhouette as silhouette
-
 
 # %% Main function
 def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1, minclusters=2, maxclusters=25, epsres=100, verbose=3):
@@ -49,14 +47,17 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
     
     Examples
     --------
+    >>> Generate demo data
     >>> import clusteval.dbscan as dbscan
     >>> from sklearn.datasets.samples_generator import make_blobs
     >>> [X, labels_true] = make_blobs(n_samples=750, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
     >>> [X, labels_true] = make_blobs(n_samples=750, centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]], cluster_std=0.4,random_state=0)
+    >>> # Fit with default parameters
     >>> results = dbscan.fit(X)
-    >>> dbscan.plot(results, X)
-    >>> from VIZ.scatter import scatter
-    >>> scatter(X[:,0],X[:,1], size=100, labx=out['labx'])
+    >>> # plot
+    >>> dbscan.plot(results)
+    >>> # scatter
+    >>> dbscan.scatter(results, X)
 
     References
     ----------
@@ -64,7 +65,6 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
     * http://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html
 
     """
-    out = {}
     Param = {}
     Param['verbose'] = verbose
     Param['eps'] = eps
@@ -77,31 +77,33 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
     Param['min_samples'] = np.floor(min_samples*X.shape[0]) # Set max. outliers
 
     # Transform data
-    if Param['norm']: 
+    if Param['norm']:
+        if Param['verbose']>=3: print('[dbscan] >Normalize data (unit variance, zero-mean).')
         X = StandardScaler().fit_transform(X)
 
     # Iterate over epsilon
+    results = {}
     if Param['eps']==None:
-        if Param['verbose']>=3: print('[DBSCAN] Determining optimal clustering by Silhouette score..')
+        if Param['verbose']>=3: print('[dbscan] Gridsearch on epsilon to determine optimal clusters using silhouette scores.')
         # Optimize
         [eps, sillclust, silscores, silllabx] = _optimize_eps(X, eps, Param)
         # Store results
         idx = np.argmax(silscores)
-        out['method']='dbscan'
-        out['labx']  = silllabx[idx,:]
-        out['eps']  = eps
-        out['silscores'] = silscores
-        out['sillclust'] = sillclust
-        out['idx'] = idx
+        results['method']='dbscan'
+        results['labx'] = silllabx[idx,:]
+        results['eps'] = eps
+        results['silscores'] = silscores
+        results['sillclust'] = sillclust
+        results['idx'] = idx
     else:
         db = cluster.DBSCAN(eps=Param['eps'], metric=Param['metric'], min_samples=Param['min_samples'], n_jobs=Param['n_jobs'])
         db.fit(X)
-        out['labx']=db.labels_
+        results['labx'] = db.labels_
 
     # Nr of clusters
-    out['n_clusters'] = len(set(out['labx'])) - (1 if -1 in out['labx'] else 0)
+    results['n_clusters'] = len(set(results['labx'])) - (1 if -1 in results['labx'] else 0)
         
-    return(out)
+    return(results)
 
 # %% optimize_eps
 def _optimize_eps(X, eps, Param):
@@ -142,23 +144,32 @@ def _optimize_eps(X, eps, Param):
     return(eps, sillclust, silscores, silllabx)
 
 # %% Plot
-def plot(out, X=None, figsize=(15,8), verbose=3):
-    idx = out['idx']
+def plot(results, figsize=(15,8), verbose=3):
+    # Setup figure properties
     [fig, ax1] = plt.subplots(figsize=figsize)
     ax2 = ax1.twinx()
-    ax1.plot(out['eps'], out['silscores'], color='k')
+
+    # Make figure 1
+    idx = results['idx']
+    ax1.plot(results['eps'], results['silscores'], color='k')
     ax1.set_xlabel('eps')
     ax1.set_ylabel('Silhouette score')
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
-    ax2.plot(out['eps'], out['sillclust'], color='b')
+
+    # Make figure 2
+    ax2.plot(results['eps'], results['sillclust'], color='b')
     ax2.set_ylabel('#Clusters')
     ax2.grid(color='grey', linestyle='--', linewidth=0.2)
     # Plot vertical line To stress the cut-off point
-    ax2.axvline(x=out['eps'][idx], ymin=0, ymax=out['sillclust'][idx], linewidth=2, color='r')
+    ax2.axvline(x=results['eps'][idx], ymin=0, ymax=results['sillclust'][idx], linewidth=2, color='r')
+    plt.show()
     
-    if X is not None:
-        if out['n_clusters']!=X.shape[0] and out['n_clusters']>1:
-            if verbose>=3: print('[DBSCAN] Estimated number of clusters: %d' %(out['n_clusters']))
-            silhouette.scatter(out, X, figsize=figsize)
+
+# %% Scatter data
+def scatter(results, X, figsize=(15,8), verbose=3):
+    if results['n_clusters']!=X.shape[0] and results['n_clusters']>1:
+        if verbose>=3: print('[dbscan] >Estimated number of clusters: %d' %(results['n_clusters']))
+        silhouette.scatter(results, X, figsize=figsize)
     else:
-        if verbose>=3: print('[DBSCAN] data required for silhouette plot')
+        if verbose>=3: print('[dbscan] >Error: Can scatter: Number of clusters does not equal sample size or number of clusters is <1.')
+    
