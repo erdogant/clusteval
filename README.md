@@ -65,7 +65,7 @@ X, labx_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.
 
 ce = clusteval(method='silhouette')
 out = ce.fit(X)
-ce.plotX)
+ce.plot()
 ce.scatter(X)
 ```
 <p align="center">
@@ -77,7 +77,7 @@ ce.scatter(X)
 ```python
 # Determine the optimal number of clusters
 ce = clusteval(method='dbindex')
-ce.plotX)
+ce.plot()
 ce.scatter(X)
 ```
 <p align="center">
@@ -88,7 +88,7 @@ ce.scatter(X)
 ```python
 # Determine the optimal number of clusters
 ce = clusteval(method='derivative')
-ce.plotX)
+ce.plot()
 ce.scatter(X)
 ```
 <p align="center">
@@ -100,7 +100,7 @@ ce.scatter(X)
 ```python
 # Determine the optimal number of clusters
 ce = clusteval(method='dbscan')
-ce.plotX)
+ce.plot()
 ce.scatter(X)
 ```
 <p align="center">
@@ -116,7 +116,7 @@ pip install hdbscan
 ```python
 # Determine the optimal number of clusters
 ce = clusteval(method='hdbscan')
-ce.plotX)
+ce.plot()
 ce.scatter(X)
 ```
 <p align="center">
