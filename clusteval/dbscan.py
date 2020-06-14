@@ -105,7 +105,7 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
 
     # Nr of clusters
     results['n_clusters'] = len(set(results['labx'])) - (1 if -1 in results['labx'] else 0)
-        
+    # Return
     return(results)
 
 # %% optimize_eps
@@ -143,13 +143,13 @@ def _optimize_eps(X, eps, Param):
     sillclust = sillclust[I]
     eps = eps[I]
     silllabx = silllabx[I,:]
-
+    # Return
     return(eps, sillclust, silscores, silllabx)
 
 # %% Plot
 def plot(results, figsize=(15,8), verbose=3):
     # Setup figure properties
-    [fig, ax1] = plt.subplots(figsize=figsize)
+    fig, ax1 = plt.subplots(figsize=figsize)
     ax2 = ax1.twinx()
 
     # Make figure 1
@@ -166,4 +166,7 @@ def plot(results, figsize=(15,8), verbose=3):
     # Plot vertical line To stress the cut-off point
     ax2.axvline(x=results['fig']['eps'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r')
     plt.show()
+    # Return
+    return (fig, ax1, ax2)
+
         
