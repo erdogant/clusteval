@@ -10,11 +10,12 @@ from tqdm import tqdm
 import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import fcluster
+from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_score, silhouette_samples, silhouette_score
 
 # %% Main
-def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=[], savemem=False, verbose=3):
+def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=None, savemem=False, verbose=3):
     """This function return the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.
 
     Parameters
