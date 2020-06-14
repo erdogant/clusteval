@@ -65,7 +65,8 @@ X, labx_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.
 
 ce = clusteval(method='silhouette')
 out = ce.fit(X)
-ce.plot(X)
+ce.plotX)
+ce.scatter(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png" width="600" />
@@ -76,7 +77,8 @@ ce.plot(X)
 ```python
 # Determine the optimal number of clusters
 ce = clusteval(method='dbindex')
-ce.plot(X)
+ce.plotX)
+ce.scatter(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png" width="600" />
@@ -86,7 +88,8 @@ ce.plot(X)
 ```python
 # Determine the optimal number of clusters
 ce = clusteval(method='derivative')
-ce.plot(X)
+ce.plotX)
+ce.scatter(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig3_der.png" width="600" />
@@ -97,7 +100,8 @@ ce.plot(X)
 ```python
 # Determine the optimal number of clusters
 ce = clusteval(method='dbscan')
-ce.plot(X)
+ce.plotX)
+ce.scatter(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig5_dbscan.png" width="600" />
@@ -112,7 +116,8 @@ pip install hdbscan
 ```python
 # Determine the optimal number of clusters
 ce = clusteval(method='hdbscan')
-ce.plot(X)
+ce.plotX)
+ce.scatter(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4a_hdbscan.png" width="600" />
