@@ -62,4 +62,4 @@ fig,ax = clusteval.derivative.plot(results)
 
 # dbscan
 results = clusteval.dbscan.fit(X)
-fig,ax = clusteval.dbscan.plot(results)
+fig,ax1,ax2 = clusteval.dbscan.plot(results)
