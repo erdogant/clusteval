@@ -162,8 +162,24 @@ def _dbindex_score(X, labels):
     outscore = np.max(db) / len(n_cluster)
     return(outscore)
 
+
 # %% plot
 def plot(results, figsize=(15,8)):
+    """Make plot for the gridsearch over the number of clusters.
+
+    Parameters
+    ----------
+    results : dict.
+        Dictionary that is the output of the .fit() function.
+    figsize : tuple, (default: (15,8))
+        Figure size, (heigh,width).
+
+    Returns
+    -------
+    tuple, (fig, ax)
+        Figure and axis of the figure.
+
+    """
     idx = np.argmin(results['fig']['scores'])
     # Make figure
     [fig, ax1] = plt.subplots(figsize=figsize)
@@ -182,3 +198,6 @@ def plot(results, figsize=(15,8)):
     ax1.set_ylabel('Score')
     ax1.set_title("Davies Bouldin index versus number of clusters")
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
+    plt.show()
+    # Return
+    retun(fig,ax1)
