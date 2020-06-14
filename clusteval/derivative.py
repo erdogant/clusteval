@@ -82,18 +82,18 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, wi
         return
 
     # Cluster hierarchical using on metric/linkage
-    if len(Z)==0:
-        Z=linkage_scipy(X, method=Param['linkage'], metric=Param['metric'])
+    if Z is None:
+        Z = linkage_scipy(X, method=Param['linkage'], metric=Param['metric'])
 
     # Make all possible cluster-cut-offs
     if Param['verbose']>=3: print('[DERIVATIVE] Determining optimal clustering by derivatives..')
 
     # Run over all cluster cutoffs
-    last     = Z[-10:, 2]
+    last = Z[-10:, 2]
     last_rev = last[::-1]
-    idxs     = np.arange(1, len(last) + 1)
+    idxs = np.arange(1, len(last) + 1)
     
-    acceleration     = np.diff(last, 2)  # 2nd derivative of the distances
+    acceleration = np.diff(last, 2)  # 2nd derivative of the distances
     acceleration_rev = acceleration[::-1]
 
     k = acceleration_rev.argmax() + 2  # if idx 0 is the max of this we want 2 clusters
