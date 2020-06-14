@@ -1,2 +1,0 @@
-include versioneer.py
-include clusteval/_version.py
