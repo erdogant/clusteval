@@ -139,8 +139,9 @@ Please cite clusteval in your publications if this is useful for your research. 
 ## TODO
 * Use ARI when the ground truth clustering has large equal sized clusters
 * Usa AMI when the ground truth clustering is unbalanced and there exist small clusters
-https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html
-https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_measures.html#sphx-glr-auto-examples-cluster-plot-adjusted-for-chance-measures-py
+* https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html
+* https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_measures.html#sphx-glr-auto-examples-cluster-plot-adjusted-for-chance-measures-py
+
 
 ### Maintainer
 * Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
