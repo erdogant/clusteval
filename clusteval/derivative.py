@@ -44,7 +44,7 @@
  EXAMPLE
    import clusteval.derivative as derivative
 
-   from sklearn.datasets.samples_generator import make_blobs
+   from sklearn.datasets import make_blobs
    [X, labels_true] = make_blobs(n_samples=750, centers=6, n_features=10)
    out= derivative.fit(X)
    fig= derivative.plot(out)

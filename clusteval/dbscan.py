@@ -93,10 +93,11 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
         idx = np.argmax(silscores)
         results['method']='dbscan'
         results['labx'] = silllabx[idx,:]
-        results['eps'] = eps
-        results['silscores'] = silscores
-        results['sillclust'] = sillclust
-        results['idx'] = idx
+        results['fig'] = {}
+        results['fig']['eps'] = eps
+        results['fig']['silscores'] = silscores
+        results['fig']['sillclust'] = sillclust
+        results['fig']['idx'] = idx
     else:
         db = cluster.DBSCAN(eps=Param['eps'], metric=Param['metric'], min_samples=Param['min_samples'], n_jobs=Param['n_jobs'])
         db.fit(X)
@@ -110,10 +111,10 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
 # %% optimize_eps
 def _optimize_eps(X, eps, Param):
     # Setup resolution
-    eps       = np.arange(0.1,5,1/Param['epsres'])
+    eps = np.arange(0.1,5,1/Param['epsres'])
     silscores = np.zeros(len(eps))*np.nan
     sillclust = np.zeros(len(eps))*np.nan
-    silllabx  = []
+    silllabx = []
 
     # Run over all Epsilons
     for i in tqdm(range(len(eps))):
@@ -128,7 +129,7 @@ def _optimize_eps(X, eps, Param):
         silllabx.append(labx)
         # Compute Silhouette only if more then 1 cluster
         if sillclust[i]>1:
-            silscores[i]=silhouette_score(X, db.labels_)
+            silscores[i] = silhouette_score(X, db.labels_)
 
     # Convert to array
     silllabx = np.array(silllabx)
@@ -140,8 +141,8 @@ def _optimize_eps(X, eps, Param):
     # Get only those of interest
     silscores = silscores[I]
     sillclust = sillclust[I]
-    eps       = eps[I]
-    silllabx  = silllabx[I,:]
+    eps = eps[I]
+    silllabx = silllabx[I,:]
 
     return(eps, sillclust, silscores, silllabx)
 
@@ -152,26 +153,17 @@ def plot(results, figsize=(15,8), verbose=3):
     ax2 = ax1.twinx()
 
     # Make figure 1
-    idx = results['idx']
-    ax1.plot(results['eps'], results['silscores'], color='k')
+    idx = results['fig']['idx']
+    ax1.plot(results['fig']['eps'], results['fig']['silscores'], color='k')
     ax1.set_xlabel('eps')
     ax1.set_ylabel('Silhouette score')
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
 
     # Make figure 2
-    ax2.plot(results['eps'], results['sillclust'], color='b')
+    ax2.plot(results['fig']['eps'], results['fig']['sillclust'], color='b')
     ax2.set_ylabel('#Clusters')
     ax2.grid(color='grey', linestyle='--', linewidth=0.2)
     # Plot vertical line To stress the cut-off point
-    ax2.axvline(x=results['eps'][idx], ymin=0, ymax=results['sillclust'][idx], linewidth=2, color='r')
+    ax2.axvline(x=results['fig']['eps'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r')
     plt.show()
-    
-
-# %% Scatter data
-def scatter(results, X, figsize=(15,8), verbose=3):
-    if results['n_clusters']!=X.shape[0] and results['n_clusters']>1:
-        if verbose>=3: print('[dbscan] >Estimated number of clusters: %d' %(results['n_clusters']))
-        silhouette.scatter(results, X, figsize=figsize)
-    else:
-        if verbose>=3: print('[dbscan] >Error: Can scatter: Number of clusters does not equal sample size or number of clusters is <1.')
-    
+        
