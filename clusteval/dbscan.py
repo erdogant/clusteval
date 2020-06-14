@@ -43,21 +43,23 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
 
     Returns
     -------
-    None.
-    
+    dict. with various keys. Note that the underneath keys can change based on the used methodtype.
+    method: str
+        Method name that is used for cluster evaluation.
+    labx: list
+        Cluster labels.
+
     Examples
     --------
     >>> Generate demo data
     >>> import clusteval.dbscan as dbscan
-    >>> from sklearn.datasets.samples_generator import make_blobs
+    >>> from sklearn.datasets import make_blobs
     >>> [X, labels_true] = make_blobs(n_samples=750, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
     >>> [X, labels_true] = make_blobs(n_samples=750, centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]], cluster_std=0.4,random_state=0)
     >>> # Fit with default parameters
     >>> results = dbscan.fit(X)
     >>> # plot
     >>> dbscan.plot(results)
-    >>> # scatter
-    >>> dbscan.scatter(results, X)
 
     References
     ----------

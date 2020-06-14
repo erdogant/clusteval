@@ -1,120 +1,78 @@
-""" This function return the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method
-
-	out = dbindex.fit(X)
-	fig = dbindex.plot(out, X)
-
- INPUT:
-   X:            datamatrix
-                 rows    = features
-                 colums  = samples
- OPTIONAL
-
- metric=         String: Distance measure for the clustering 
-                 'euclidean' (default)
-
- linkage=        String: Linkage type for the clustering 
-                 'ward' (default)
-
- minclusters=    Integer: Minimum or more number of clusters >=
-                 [2] (default)
-
- maxclusters=    Integer: Maximum or less number of clusters <=
-                 [25] (default)
-
- savemem=        Boolean [0,1]: This works only for KMeans
-                 [False]: No (default)
-                 [True]: Yes
-
- showfig=        Boolean [0,1]: Progressbar
-                 [0]: No (default)
-                 [1]: Yes (silhouette plot)
-                   
- height=         Integer:  Height of figure
-                 [5]: (default)
-
- width=          Integer:  Width of figure
-                 [5]: (default)
-
-
- Z=              Object from linkage function. This will speed-up computation if you readily have Z
-                 [] (default)
-                 Z=linkage(X, method='ward', metric='euclidean')
- 
- verbose=        Boolean [0,1]: Progressbar
-                 [0]: No (default)
-                 [1]: Yes
-
- OUTPUT
-	output
-
- DESCRIPTION
-  This function return the cluster labels for the optimal cutt-off based on the choosen clustering method
-  
- EXAMPLE
-   import clusteval.dbindex as dbindex
-   
-   from sklearn.datasets.samples_generator import make_blobs
-   [X, labels_true] = make_blobs(n_samples=750, centers=6, n_features=10)
-   out = dbindex.fit(X)
-   fig = dbindex.plot(out)
-
-
- SEE ALSO
-   silhouette, elbowclust
-"""
-#print(__doc__)
-
 #--------------------------------------------------------------------------
 # Name        : dbindex.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
-# Date        : Feb. 2018
 #--------------------------------------------------------------------------
 
-#%% Libraries
-#from matplotlib.pyplot import plot
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 from scipy.spatial.distance import euclidean
 from scipy.cluster.hierarchy import fcluster
+from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 
-#%% plot
-def plot(out, width=15, height=8):
-    idx = np.argmin(out['fig']['scores'])
-    # Make figure
-    [fig, ax1] = plt.subplots(figsize=(width,height))
-    # Plot
-    ax1.plot(out['fig']['dbclust'], out['fig']['scores'], color='k')
-    # Plot optimal cut
-    ax1.axvline(x=out['fig']['clustcutt'][idx], ymin=0, ymax=out['fig']['dbclust'][idx], linewidth=2, color='r',linestyle="--")
-    # Set fontsizes
-    plt.rc('axes', titlesize=14)     # fontsize of the axes title
-    plt.rc('xtick', labelsize=10)     # fontsize of the axes title
-    plt.rc('ytick', labelsize=10)     # fontsize of the axes title
-    plt.rc('font', size=10)
-    # Set labels
-    ax1.set_xticks(out['fig']['clustcutt'])
-    ax1.set_xlabel('#Clusters')
-    ax1.set_ylabel('Score')
-    ax1.set_title("Davies Bouldin index versus number of clusters")
-    ax1.grid(color='grey', linestyle='--', linewidth=0.2)
-    
-#%% main
-def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=[], savemem=False, verbose=3):
-	# DECLARATIONS
-    out ={}
-    
+# %% main
+def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=None, savemem=False, verbose=3):
+    """ Determine optimal number of clusters using dbindex.
+
+    Description
+    -----------
+    This function return the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.
+
+    Parameters
+    ----------
+    X : Numpy-array.
+        The rows are the features and the colums are the samples.
+    metric : str, (default: 'euclidean').
+        Distance measure for the clustering, such as 'euclidean','hamming', etc.
+    linkage : str, (default: 'ward')
+        Linkage type for the clustering.
+        'ward','single',',complete','average','weighted','centroid','median'.
+    minclusters : int, (default: 2)
+        Minimum number of clusters (>=).
+    maxclusters : int, (default: 25)
+        Maximum number of clusters (<=).
+    Z : Object, (default: None).
+        This will speed-up computation if you readily have Z. e.g., Z=linkage(X, method='ward', metric='euclidean').
+    savemem : bool, (default: False)
+        Save memmory when working with large datasets. Note that htis option only in case of KMeans.
+    verbose : int, optional (default: 3)
+        Print message to screen [1-5]. The larger the number, the more information.
+
+    Returns
+    -------
+    dict. with various keys. Note that the underneath keys can change based on the used methodtype.
+    method: str
+        Method name that is used for cluster evaluation.
+    score: pd.DataFrame()
+        The scoring values per clusters.
+    labx: list
+        Cluster labels.
+    fig: list
+        Relevant information to make the plot.
+
+    Examples
+    --------
+    >>> # Import library
+    >>> import clusteval.dbindex as dbindex
+    >>> from sklearn.datasets import make_blobs
+    >>> Generate demo data
+    >>> X, labels_true = make_blobs(n_samples=750, centers=6, n_features=10)
+    >>> # Fit with default parameters
+    >>> results = dbindex.fit(X)
+    >>> # plot
+    >>> dbindex.plot(results)
+    """
     # Make dictionary to store Parameters
     Param = {}
-    Param['verbose']     = verbose
-    Param['metric']      = metric
-    Param['linkage']     = linkage
+    Param['verbose'] = verbose
+    Param['metric'] = metric
+    Param['linkage'] = linkage
     Param['minclusters'] = minclusters
     Param['maxclusters'] = maxclusters
-    Param['savemem']     = savemem
+    Param['savemem'] = savemem
 
     # Savemem for kmeans
     if Param['metric']=='kmeans':

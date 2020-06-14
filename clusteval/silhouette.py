@@ -33,8 +33,8 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
         Maximum number of clusters <=.
     savemem : bool, (default: False)
         Save memmory when working with large datasets. Note that htis option only in case of KMeans.
-    Z : array-like, (default: None).
-        output of the linkage.
+    Z : Object, (default: None).
+        This will speed-up computation if you readily have Z. e.g., Z=linkage(X, method='ward', metric='euclidean').
     verbose : int, optional (default: 3)
         Print message to screen [1-5]. The larger the number, the more information is returned.
 
@@ -44,7 +44,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     method: str
         Method name that is used for cluster evaluation.
     score: pd.DataFrame()
-        The scoring values per clusters. The methods [silhouette, dbindex] provide this information.
+        The scoring values per clusters.
     labx: list
         Cluster labels.
     fig: list
@@ -52,8 +52,9 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
 
     Examples
     --------
+    >>> # Import library
     >>> import clusteval.silhouette as silhouette
-    >>> from sklearn.datasets.samples_generator import make_blobs
+    >>> from sklearn.datasets import make_blobs
     >>>
     >>> # Example 1:
     >>> Generate demo data
@@ -62,7 +63,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     >>> results = silhouette.fit(X)
     >>> # plot
     >>> silhouette.scatter(results, X)
-    >>> silhouette.plot(results, X)
+    >>> silhouette.plot(results)
     >>>
     >>> # Example 2:
     >>> # Try also alternative dataset
@@ -71,7 +72,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     >>> results = silhouette.fit(X, metric='kmeans', savemem=True)
     >>> # plot
     >>> silhouette.scatter(results, X)
-    >>> silhouette.plot(results, X)
+    >>> silhouette.plot(results)
 
     References
     ----------
@@ -127,7 +128,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
 
     # Convert to array
     clustlabx = np.array(clustlabx)
-    
+
     # Store only if agrees to restriction of input clusters number
     I1 = np.isnan(silscores)==False
     I2 = sillclust>=Param['minclusters']
@@ -140,7 +141,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     clustlabx = clustlabx[I,:]
     clustcutt = clustcutt[I]
     idx = np.argmax(silscores)
-    
+
     # Store results
     results = {}
     results['method']='silhouette'
@@ -151,7 +152,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     results['fig']['silscores'] = silscores
     results['fig']['sillclust'] = sillclust
     results['fig']['clustcutt'] = clustcutt
-    
+
     # Return
     return(results)
 

@@ -34,8 +34,7 @@ class clusteval():
         Method type for cluster validation. 
         'silhouette', 'dbindex','derivative','dbscan','hdbscan'.
     metric : str, (default: 'euclidean').
-        Distance measure for the clustering.
-        'euclidean','hamming','kmeans'.
+        Distance measure for the clustering, such as 'euclidean','hamming', etc.
     linkage : str, (default: 'ward')
         Linkage type for the clustering.
         'ward','single',',complete','average','weighted','centroid','median'.
@@ -86,7 +85,8 @@ class clusteval():
 
         Parameters
         ----------
-        X : Numpy-array, where rows is features and colums is samples.
+        X : Numpy-array.
+            The rows are the features and the colums are the samples.
 
         Returns
         -------
@@ -132,13 +132,11 @@ class clusteval():
         return self.results
 
     # Plot
-    def plot(self, X=None, figsize=(15,8)):
+    def plot(self, figsize=(15,8)):
         """Make a plot.
 
         Parameters
         ----------
-        X : array-like, (default: None)
-            Input dataset used in the .fit() funciton. Some plots will be more extensive if the input data is also provided.
         figsize : tuple, (default: (15,8).
             Size of the figure (height,width).
     
