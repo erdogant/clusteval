@@ -49,7 +49,7 @@
    import numpy as np
 
    EXAMPLE 1
-   from sklearn.datasets.samples_generator import make_blobs
+   from sklearn.datasets import make_blobs
    [X, labels_true] = make_blobs(n_samples=750, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
 
    out = hdbscan.fit(X)
