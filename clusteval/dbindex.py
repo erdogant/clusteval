@@ -83,12 +83,11 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
             kmeansmodel=KMeans
 
     # Cluster hierarchical using on metric/linkage
-    if len(Z)==0 and Param['metric']!='kmeans':
-        from scipy.cluster.hierarchy import linkage
-        Z=linkage(X, method=Param['linkage'], metric=Param['metric'])
+    if (Z is None) and (Param['metric']!='kmeans'):
+        Z = scipy_linkage(X, method=Param['linkage'], metric=Param['metric'])
     
     # Make all possible cluster-cut-offs
-    if Param['verbose']>=3: print('[DBINDEX] Determining optimal clustering by Davies-Bouldin Index score..')
+    if Param['verbose']>=3: print('[dbindex] >Determining optimal clustering by Davies-Bouldin Index score..')
 
     # Setup storing parameters
     clustcutt = np.arange(Param['minclusters'],Param['maxclusters'])
@@ -115,12 +114,12 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
 
     # Convert to array
     clustlabx = np.array(clustlabx)
-    
+
     # Store only if agrees to restriction of input clusters number
     I1 = np.isnan(scores)==False
     I2 = dbclust>=Param['minclusters']
     I3 = dbclust<=Param['maxclusters']
-    I  = I1 & I2 & I3
+    I = I1 & I2 & I3
 
     # Get only clusters of interest
     scores = scores[I]
@@ -128,20 +127,23 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     clustlabx = clustlabx[I,:]
     clustcutt = clustcutt[I]
     idx = np.argmin(scores)
-    
-    # Store results
-    out['method']='dbindex'
-    out['score'] = pd.DataFrame(np.array([dbclust,scores]).T, columns=['clusters','score'])
-    out['score'].clusters = out['score'].clusters.astype(int)
-    out['labx']  = clustlabx[idx,:]-1
-    out['fig']=dict()
-    out['fig']['dbclust']=dbclust
-    out['fig']['scores']=scores
-    out['fig']['clustcutt']=clustcutt
-    
-    return(out)
 
-#%% Compute DB-score
+    # Store results
+    results = {}
+    results['method'] = 'dbindex'
+    results['score'] = pd.DataFrame(np.array([dbclust,scores]).T, columns=['clusters','score'])
+    results['score'].clusters = results['score'].clusters.astype(int)
+    results['labx'] = clustlabx[idx,:]-1
+    results['fig'] = {}
+    results['fig']['dbclust'] = dbclust
+    results['fig']['scores'] = scores
+    results['fig']['clustcutt'] = clustcutt
+
+    # Return
+    return(results)
+
+
+# %% Compute DB-score
 def _dbindex_score(X, labels):
     n_cluster = np.unique(labels)
     cluster_k=[]
@@ -159,3 +161,24 @@ def _dbindex_score(X, labels):
 
     outscore = np.max(db) / len(n_cluster)
     return(outscore)
+
+# %% plot
+def plot(results, figsize=(15,8)):
+    idx = np.argmin(results['fig']['scores'])
+    # Make figure
+    [fig, ax1] = plt.subplots(figsize=figsize)
+    # Plot
+    ax1.plot(results['fig']['dbclust'], results['fig']['scores'], color='k')
+    # Plot optimal cut
+    ax1.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['dbclust'][idx], linewidth=2, color='r',linestyle="--")
+    # Set fontsizes
+    plt.rc('axes', titlesize=14)     # fontsize of the axes title
+    plt.rc('xtick', labelsize=10)     # fontsize of the axes title
+    plt.rc('ytick', labelsize=10)     # fontsize of the axes title
+    plt.rc('font', size=10)
+    # Set labels
+    ax1.set_xticks(results['fig']['clustcutt'])
+    ax1.set_xlabel('#Clusters')
+    ax1.set_ylabel('Score')
+    ax1.set_title("Davies Bouldin index versus number of clusters")
+    ax1.grid(color='grey', linestyle='--', linewidth=0.2)
