@@ -157,9 +157,24 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
 
 # %% plot
 def plot(results, figsize=(15,8)):
+    """Make plot for the gridsearch over the number of clusters.
+
+    Parameters
+    ----------
+    results : dict.
+        Dictionary that is the output of the .fit() function.
+    figsize : tuple, (default: (15,8))
+        Figure size, (heigh,width).
+
+    Returns
+    -------
+    tuple, (fig, ax)
+        Figure and axis of the figure.
+
+    """
     idx = np.argmax(results['fig']['silscores'])
     # Make figure
-    [fig, ax1] = plt.subplots(figsize=figsize)
+    fig, ax1 = plt.subplots(figsize=figsize)
     # Plot
     ax1.plot(results['fig']['sillclust'], results['fig']['silscores'], color='k')
     # Plot optimal cut
@@ -176,10 +191,29 @@ def plot(results, figsize=(15,8)):
     ax1.set_title("silhouette score versus number of clusters")
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
     plt.show()
+    # Return
+    retun(fig,ax1)
 
 
 # %% Scatter data
 def scatter(labx, X=None, figsize=(15,8), verbose=3):
+    """Make scatter for the cluster labels with the samples.
+
+    Parameters
+    ----------
+    labx: list
+        Cluster labels for the samples in X (some order).
+    X : Numpy-array,
+        Where rows is features and colums are samples. The first two columns of the matrix are used for plotting. Note that it is also possible provide tSNE coordinates for a better representation of the data.
+    figsize : tuple, (default: (15,8))
+        Figure size, (heigh,width).
+
+    Returns
+    -------
+    tuple, (fig, ax1, ax2)
+        Figure and axis of the figure.
+
+    """
     if X is None:
         if verbose>=2: print('[silhouette] >Warning: Input data X is required for the scatterplot.')
         return None
@@ -248,3 +282,5 @@ def scatter(labx, X=None, figsize=(15,8), verbose=3):
     # General title
     plt.suptitle(("Silhouette analysis results in n_clusters = %d" %(n_clusters)), fontsize=14, fontweight='bold')
     plt.show()
+    # Return
+    return (fig, ax1, ax2)
