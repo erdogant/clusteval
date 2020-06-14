@@ -192,7 +192,7 @@ def plot(results, figsize=(15,8)):
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
     plt.show()
     # Return
-    retun(fig,ax1)
+    return(fig,ax1)
 
 
 # %% Scatter data
@@ -283,4 +283,4 @@ def scatter(labx, X=None, figsize=(15,8), verbose=3):
     plt.suptitle(("Silhouette analysis results in n_clusters = %d" %(n_clusters)), fontsize=14, fontweight='bold')
     plt.show()
     # Return
-    return (fig, ax1, ax2)
+    return(fig, ax1, ax2)

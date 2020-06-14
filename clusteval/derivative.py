@@ -150,4 +150,4 @@ def plot(results, figsize=(15,8), verbose=3):
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
     plt.show()
     # Return
-    retun(fig,ax1)
+    return(fig, ax1)
