@@ -147,17 +147,37 @@ class clusteval():
         """
         if self.results is None:
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
-        if self.verbose>=3: print('[clusteval] >Make plot.')
+        # if self.verbose>=3: print('[clusteval] >Make plot.')
 
         if self.method=='silhouette':
-            silhouette.plot(self.results, X=X, figsize=figsize)
-            silhouette.scatter(self.results, X=X, figsize=figsize)
+            silhouette.plot(self.results, figsize=figsize)
         elif self.method=='dbindex':
-            dbindex.plot(self.results, width=figsize[0], height=figsize[1])
+            dbindex.plot(self.results, figsize=figsize)
         elif self.method=='derivative':
             derivative.plot(self.results, width=figsize[0], height=figsize[1])
         elif self.method=='dbscan':
-            dbscan.plot(self.results, X=X, figsize=figsize)
+            dbscan.plot(self.results, figsize=figsize)
         elif self.method=='hdbscan':
             import clusteval.hdbscan as hdbscan
             hdbscan.plot(self.results, width=figsize[0], height=figsize[1])
+
+    # Plot
+    def scatter(self, X, figsize=(15,8)):
+        """Make a plot.
+
+        Parameters
+        ----------
+        X : array-like, (default: None)
+            Input dataset used in the .fit() funciton. Some plots will be more extensive if the input data is also provided.
+        figsize : tuple, (default: (15,8).
+            Size of the figure (height,width).
+
+        Returns
+        -------
+        None.
+
+        """
+        if self.results is None:
+            if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
+        # Make scatter
+        silhouette.scatter(self.results, X=X, figsize=figsize)
