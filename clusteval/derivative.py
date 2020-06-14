@@ -1,9 +1,8 @@
-#--------------------------------------------------------------------------
+#-----------------------------------
 # Name        : derivative.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
-# Date        : Feb. 2018
-#--------------------------------------------------------------------------
+#-----------------------------------
 
 import numpy as np
 from scipy.cluster.hierarchy import fcluster
@@ -28,9 +27,9 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
         Linkage type for the clustering.
         'ward','single',',complete','average','weighted','centroid','median'.
     minclusters : int, (default: 2)
-        Minimum number of clusters (>=).
+        Number of clusters that is evaluated greater or equals to minclusters.
     maxclusters : int, (default: 25)
-        Maximum number of clusters (<=).
+        Number of clusters that is evaluated smaller or equals to maxclusters.
     Z : Object, (default: None).
         This will speed-up computation if you readily have Z. e.g., Z=linkage(X, method='ward', metric='euclidean').
     verbose : int, optional (default: 3)
@@ -59,6 +58,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     >>> results = derivative.fit(X)
     >>> # plot
     >>> derivative.plot(results)
+
     """
     # Make dictionary to store Parameters
     Param = {}
@@ -83,19 +83,19 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     last = Z[-10:, 2]
     last_rev = last[::-1]
     idxs = np.arange(1, len(last) + 1)
-    
+
     acceleration = np.diff(last, 2)  # 2nd derivative of the distances
     acceleration_rev = acceleration[::-1]
 
     k = acceleration_rev.argmax() + 2  # if idx 0 is the max of this we want 2 clusters
     if Param['verbose']>=3: print('[derivative] >Clusters: %d' %k)
-    
+
     # Now use the optimal cluster cut-off for the selection of clusters
     clustlabx = fcluster(Z, k, criterion='maxclust')
 
     # Convert to array
     clustlabx = np.array(clustlabx)
-    
+
     # Store results
     results = {}
     results['method']='derivative'
@@ -108,7 +108,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     return(results)
 
 # %% Plot
-def plot(results, figsize=(15,8)):
+def plot(results, figsize=(15,8), verbose=3):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -117,6 +117,8 @@ def plot(results, figsize=(15,8)):
         Dictionary that is the output of the .fit() function.
     figsize : tuple, (default: (15,8))
         Figure size, (heigh,width).
+    verbose : int, optional (default: 3)
+        Print message to screen [1-5]. The larger the number, the more information.
 
     Returns
     -------

@@ -28,9 +28,9 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
         Linkage type for the clustering.
         'ward','single',',complete','average','weighted','centroid','median'.
     minclusters : int, (default: 2)
-        Minimum number of clusters >=.
+        Number of clusters that is evaluated greater or equals to minclusters.
     maxclusters : int, (default: 25)
-        Maximum number of clusters <=.
+        Number of clusters that is evaluated smaller or equals to maxclusters.
     savemem : bool, (default: False)
         Save memmory when working with large datasets. Note that htis option only in case of KMeans.
     Z : Object, (default: None).

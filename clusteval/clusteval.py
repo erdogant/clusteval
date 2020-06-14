@@ -1,18 +1,9 @@
-"""clusteval provides methods for unsupervised cluster validation to return the cluster labels with the optimal cutt-off based on the choosen clustering method.
-
-   TODO:
-   ----
-   * https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_measures.html#sphx-glr-auto-examples-cluster-plot-adjusted-for-chance-measures-py
-   * https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html
-"""
-
 # -----------------------------------
 # Name        : clusteval.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # -----------------------------------
 
-# %% Libraries
 import clusteval.dbindex as dbindex
 import clusteval.silhouette as silhouette
 import clusteval.derivative as derivative
@@ -39,9 +30,9 @@ class clusteval():
         Linkage type for the clustering.
         'ward','single',',complete','average','weighted','centroid','median'.
     minclusters : int, (default: 2)
-        Minimum number of clusters (>=). 
+        Number of clusters that is evaluated greater or equals to minclusters.
     maxclusters : int, (default: 25)
-        Maximum number of clusters (<=). 
+        Number of clusters that is evaluated smaller or equals to maxclusters.
     savemem : bool, (default: False)
         Save memmory when working with large datasets. Note that htis option only in case of KMeans.
     verbose : int, optional (default: 3)

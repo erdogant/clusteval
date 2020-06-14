@@ -1,8 +1,8 @@
-#--------------------------------------------------------------------------
+#-----------------------------------
 # Name        : dbscan.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
-#--------------------------------------------------------------------------
+#-----------------------------------
 
 from tqdm import tqdm
 import numpy as np
@@ -33,9 +33,9 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
     n_jobs : int, (default: -1)
         The number of parallel jobs to run. -1: ALL cpus, 1: Use a single core.
     minclusters : int, (default: 2)
-        Minimum number of clusters >=.
+        Number of clusters that is evaluated greater or equals to minclusters.
     maxclusters : int, (default: 25)
-        Maximum number of clusters <=.
+        Number of clusters that is evaluated smaller or equals to maxclusters.
     epsres : int, (default: 100)
         Resoultion to test the different epsilons. The higher the longer it will take.
     verbose : int, optional (default: 3)
@@ -148,6 +148,23 @@ def _optimize_eps(X, eps, Param):
 
 # %% Plot
 def plot(results, figsize=(15,8), verbose=3):
+    """Make plot for the gridsearch over the number of clusters.
+
+    Parameters
+    ----------
+    results : dict.
+        Dictionary that is the output of the .fit() function.
+    figsize : tuple, (default: (15,8))
+        Figure size, (heigh,width).
+    verbose : int, optional (default: 3)
+        Print message to screen [1-5]. The larger the number, the more information.
+
+    Returns
+    -------
+    tuple, (fig, ax)
+        Figure and axis of the figure.
+
+    """    
     # Setup figure properties
     fig, ax1 = plt.subplots(figsize=figsize)
     ax2 = ax1.twinx()
@@ -168,5 +185,3 @@ def plot(results, figsize=(15,8), verbose=3):
     plt.show()
     # Return
     return (fig, ax1, ax2)
-
-        
