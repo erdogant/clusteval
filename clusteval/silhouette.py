@@ -92,17 +92,16 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     if Param['metric']=='kmeans':
         if Param['savemem']:
             kmeansmodel = MiniBatchKMeans
-            if Param['verbose']>=3: print('[clusteval] >Save memory enabled for kmeans with method silhouette.')
+            if Param['verbose']>=3: print('[silhouette] >Save memory enabled for kmeans with method silhouette.')
         else:
             kmeansmodel = KMeans
 
     # Cluster hierarchical using on metric/linkage
-    if len(Z)==0 and Param['metric']!='kmeans':
-        from scipy.cluster.hierarchy import linkage
-        Z = linkage(X, method=Param['linkage'], metric=Param['metric'])
+    if (Z is None) and (Param['metric']!='kmeans'):
+        Z = scipy_linkage(X, method=Param['linkage'], metric=Param['metric'])
 
     # Make all possible cluster-cut-offs
-    if Param['verbose']>=3: print('[clusteval] >Determining optimal [%s] clustering by silhouette score..' %(Param['metric']))
+    if Param['verbose']>=3: print('[silhouette] >Determining optimal [%s] clustering by silhouette score..' %(Param['metric']))
 
     # Setup storing parameters
     clustcutt = np.arange(Param['minclusters'],Param['maxclusters'])
@@ -180,17 +179,24 @@ def plot(results, figsize=(15,8)):
 
 
 # %% Scatter data
-def scatter(results, X=None, figsize=(15,8)):
+def scatter(labx, X=None, figsize=(15,8), verbose=3):
     if X is None:
+        if verbose>=2: print('[silhouette] >Warning: Input data X is required for the scatterplot.')
         return None
+
     # Label
-    labx = results['labx']
-    
+    if isinstance(labx, dict):
+        labx = labx.get('labx', None)
+    # Check labx
+    if labx is None:
+        if verbose>=3: print('[silhouette] >Error: No labels provided.')
+        return None
+
     # Plot silhouette samples plot
     # n_clusters = len(np.unique(labx))
     n_clusters = len(set(labx)) - (1 if -1 in labx else 0)
     silhouette_avg = silhouette_score(X, labx)
-    print("For n_clusters =", n_clusters, "The average silhouette_score is :", silhouette_avg)
+    if verbose>=3: print('[silhouette] >Estimated number of n_clusters: %d, average silhouette_score=%.3f' %(n_clusters, silhouette_avg))
 
     # Compute the silhouette scores for each sample
     sample_silhouette_values = silhouette_samples(X, labx)
@@ -199,12 +205,13 @@ def scatter(results, X=None, figsize=(15,8)):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
     fig.set_size_inches(18, 7)
     ax1.set_xlim([-0.1, 1])
-    
+
     # plots of individual clusters, to demarcate them clearly.
     ax1.set_ylim([0, len(X) + (n_clusters + 1) * 10])
     y_lower = 10
     uiclust = np.unique(labx)
 
+    # Make 1st plot
     for i in range(0,len(uiclust)):
         # Aggregate the silhouette scores for samples belonging to
         # cluster i, and sort them
@@ -235,8 +242,9 @@ def scatter(results, X=None, figsize=(15,8)):
     color = cm.Set2(labx.astype(float) / n_clusters)
     ax2.scatter(X[:, 0], X[:, 1], marker='.', s=30, lw=0, alpha=0.8,c=color, edgecolor='k')
     ax2.grid(color='grey', linestyle='--', linewidth=0.2)
-    ax2.set_title("Clustered X.")
-    ax2.set_xlabel("Feature space for the 1st feature")
-    ax2.set_ylabel("Feature space for the 2nd feature")
-    plt.suptitle(("Silhouette analysis for clustering on sample X with n_clusters = %d" % n_clusters), fontsize=14, fontweight='bold')
+    ax2.set_title("Estimated cluster labels")
+    ax2.set_xlabel("1st feature")
+    ax2.set_ylabel("2nd feature")
+    # General title
+    plt.suptitle(("Silhouette analysis results in n_clusters = %d" %(n_clusters)), fontsize=14, fontweight='bold')
     plt.show()
