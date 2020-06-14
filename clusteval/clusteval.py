@@ -154,7 +154,7 @@ class clusteval():
         elif self.method=='dbindex':
             dbindex.plot(self.results, figsize=figsize)
         elif self.method=='derivative':
-            derivative.plot(self.results, width=figsize[0], height=figsize[1])
+            derivative.plot(self.results, figsize=figsize)
         elif self.method=='dbscan':
             dbscan.plot(self.results, figsize=figsize)
         elif self.method=='hdbscan':
