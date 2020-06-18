@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/clusteval)](https://img.shields.io/pypi/pyversions/clusteval)
 [![PyPI Version](https://img.shields.io/pypi/v/clusteval)](https://pypi.org/project/clusteval/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/clusteval/blob/master/LICENSE)
-[![Downloads](https://pepy.tech/badge/clusteval/month)](https://pepy.tech/project/clusteval/month)
+[![Downloads](https://pepy.tech/badge/clusteval)](https://pepy.tech/project/clusteval)
 [![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)
 
 * clusteval is Python package for unsupervised cluster evaluation.
