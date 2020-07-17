@@ -8,6 +8,7 @@ import clusteval.dbindex as dbindex
 import clusteval.silhouette as silhouette
 import clusteval.derivative as derivative
 import clusteval.dbscan as dbscan
+import clusteval.dendrogram_fancy as dendrogram_fancy
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 # from cuml import DBSCAN
 
@@ -54,7 +55,9 @@ class clusteval():
     >>> # Fit best clusters
     >>> results = ce.fit(X)
     >>> # Make plot
-    >>> ce.plot(X)
+    >>> ce.plot()
+    >>> # Make scatter plot with samples
+    >>> ce.scatter(X)
 
     """
     def __init__(self, method='silhouette', metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, savemem=False, verbose=3):

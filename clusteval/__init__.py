@@ -4,12 +4,12 @@ from clusteval.clusteval import clusteval
 # import clusteval.silhouette as silhouette
 # import clusteval.derivative as derivative
 # import clusteval.dbscan as dbscan
-# import clusteval.dendrogram
+# import clusteval.dendrogram_fancy
 # import clusteval.hdbscan
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 
 __doc__ = """

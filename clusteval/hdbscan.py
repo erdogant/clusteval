@@ -109,7 +109,7 @@ def fit(X, metric='euclidean', minclusters=2, min_samples=0.01, norm=True, n_job
 
 
 # %% Plot
-def plot(results, figsize=(15,8), verbose=3):
+def plot(results, figsize=(15, 8), verbose=3):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -128,7 +128,7 @@ def plot(results, figsize=(15,8), verbose=3):
 
     """
     model = results['model']
-    if results['minclusters']==True:
+    if results['minclusters']:
         plt.subplots(figsize=figsize)
         model.minimum_spanning_tree_.plot(edge_cmap='viridis', edge_alpha=0.6, node_size=80, edge_linewidth=2)
 
