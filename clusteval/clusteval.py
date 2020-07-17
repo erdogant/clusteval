@@ -150,7 +150,7 @@ class clusteval():
             dbscan.plot(self.results, figsize=figsize)
         elif self.method=='hdbscan':
             import clusteval.hdbscan as hdbscan
-            hdbscan.plot(self.results, width=figsize[0], height=figsize[1])
+            hdbscan.plot(self.results, figsize=figsize)
 
     # Plot
     def scatter(self, X, figsize=(15,8)):
