@@ -116,7 +116,7 @@ class clusteval():
                 import clusteval.hdbscan as hdbscan
                 self.results = hdbscan.fit(X, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, minclusters=self.minclusters, verbose=self.verbose)
             except:
-                raise ImportError('hdbscan must be installed manually. Try to: <pip install hdbscan>')
+                raise ImportError('hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
         else:
             results = None
             if self.verbose>=3: print('[clusteval] >Method [%s] is not implemented.' %(self.method))
