@@ -128,7 +128,7 @@ def plot(results, figsize=(15, 8), verbose=3):
 
     """
     model = results['model']
-    if results['minclusters']:
+    if results['minclusters']==True:
         plt.subplots(figsize=figsize)
         model.minimum_spanning_tree_.plot(edge_cmap='viridis', edge_alpha=0.6, node_size=80, edge_linewidth=2)
 
