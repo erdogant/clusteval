@@ -9,7 +9,7 @@ from clusteval.clusteval import clusteval
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 
 __doc__ = """
