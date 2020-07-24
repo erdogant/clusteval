@@ -1,8 +1,10 @@
-#--------------------------------------------------------------------------
+#-----------------------------------------------
 # Name        : dbindex.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
-#--------------------------------------------------------------------------
+# Licence     : MIT
+# Respect the autor and leave this here
+#-----------------------------------------------
 
 import numpy as np
 import pandas as pd

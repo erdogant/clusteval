@@ -7,10 +7,11 @@ print(dir(clusteval))
 from clusteval import clusteval
 
 # %% Generate dataset
-X, labels_true = make_blobs(n_samples=750, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
+X, labels_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
 # [X, labels_true] = make_blobs(n_samples=750, centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]], cluster_std=0.4,random_state=0)
 # X, labels_true = make_blobs(n_samples=750, centers=4, n_features=6, cluster_std=0.5)
 # X, labels_true = make_blobs(n_samples=750, centers=6, n_features=10)
+
 
 # %% Silhouette
 # ce = clusteval(method='silhouette', metric='kmeans', savemem=True)
@@ -19,29 +20,53 @@ results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
 
+results = ce.dendrogram()
+results = ce.dendrogram(max_d=9)
+results = ce.dendrogram(X=X, linkage='single', metric='euclidean')
+results = ce.dendrogram(X=X, linkage='single', metric='euclidean', max_d=0.8)
+results = ce.dendrogram(X=X, linkage='complete', metric='euclidean', max_d=2)
+
+results = ce.dendrogram(figsize=(15,8), show_contracted=True)
+
+# %% Silhouette
+from clusteval import clusteval
+ce = clusteval(method='silhouette')
+results = ce.fit(X)
+ce.plot()
+ce.scatter(X)
+results = ce.dendrogram()
+
+
 # %% dbscan
+from clusteval import clusteval
 ce = clusteval(method='dbscan')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
+results = ce.dendrogram()
 
 # %% dbindex
+from clusteval import clusteval
 ce = clusteval(method='dbindex')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
+results = ce.dendrogram()
 
 # %% derivative
+from clusteval import clusteval
 ce = clusteval(method='derivative')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
 
 # %% hdbscan
+from clusteval import clusteval
 ce = clusteval(method='hdbscan')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
+results = ce.dendrogram(figsize=(15,8), orientation='top')
 
 # %% Directly use the dbindex method
 import clusteval

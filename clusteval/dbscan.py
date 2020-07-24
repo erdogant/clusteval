@@ -2,7 +2,9 @@
 # Name        : dbscan.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
-#-----------------------------------
+# Licence     : MIT
+# Respect the autor and leave this here
+#-----------------------------------------------
 
 from tqdm import tqdm
 import numpy as np

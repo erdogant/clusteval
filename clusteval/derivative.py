@@ -1,8 +1,10 @@
-#-----------------------------------
+#-----------------------------------------------
 # Name        : derivative.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
-#-----------------------------------
+# Licence     : MIT
+# Respect the autor and leave this here
+#-----------------------------------------------
 
 import numpy as np
 from scipy.cluster.hierarchy import fcluster

@@ -4,7 +4,7 @@ from clusteval.clusteval import clusteval
 # import clusteval.silhouette as silhouette
 # import clusteval.derivative as derivative
 # import clusteval.dbscan as dbscan
-# import clusteval.dendrogram_fancy
+# import clusteval.plot_dendrogram
 # import clusteval.hdbscan
 
 __author__ = 'Erdogan Tasksen'
@@ -23,21 +23,28 @@ The metric and linkage types can choosen independently per validation method.
 
 Examples
 --------
-clusteval provides methods for unsupervised cluster validation and returns the cluster labels with the optimal cutt-off.
 
 >>> # Import library
 >>> from clusteval import clusteval
 >>> # Initialize clusteval with default parameters
 >>> ce = clusteval()
+>>>
 >>> # Generate random data
 >>> from sklearn.datasets import make_blobs
 >>> X, labels_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
+>>>
 >>> # Fit best clusters
 >>> results = ce.fit(X)
+>>>
 >>> # Make plot
 >>> ce.plot()
->>> # Make scatter plot with samples
+>>>
+>>> # Scatter plot
 >>> ce.scatter(X)
+>>>
+>>> # Dendrogram
+>>> ce.dendrogram()
+
 
 References
 ----------
