@@ -1,9 +1,9 @@
-#-----------------------------------------------
+# -----------------------------------------------
 # Name        : dbscan.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # Licence     : MIT
-#-----------------------------------------------
+# -----------------------------------------------
 
 from scipy.cluster.hierarchy import dendrogram
 import matplotlib.pyplot as plt
