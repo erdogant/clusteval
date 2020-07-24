@@ -257,7 +257,7 @@ class clusteval():
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function with metric that is different than kmeans <return>')
             return None
         else:
-            if self.verbose>=3: print('[clusteval] >Plotting the dendrogram with optimized settings for metric=%s, linkage=%s, max_d=%.3f Be patient now..' %(self.metric, self.linkage, self.results['max_d']))
+            if self.verbose>=3: print('[clusteval] >Plotting the dendrogram with optimized settings: metric=%s, linkage=%s, max_d=%.3f. Be patient now..' %(self.metric, self.linkage, self.results['max_d']))
             Z = self.Z
             metric = self.metric
             linkage = self.linkage
@@ -268,7 +268,8 @@ class clusteval():
             max_d_upper = self.results['max_d_upper']
 
         # Make the dendrogram
-        fig, ax = plt.subplots(figsize=figsize)
+        if showfig:
+            fig, ax = plt.subplots(figsize=figsize)
         annotate_above = max_d
         results = plot_dendrogram(Z, labels=labels, leaf_rotation=leaf_rotation, leaf_font_size=leaf_font_size, orientation=orientation, show_contracted=show_contracted, annotate_above=annotate_above, max_d=max_d, truncate_mode=truncate_mode, ax=ax, no_plot=no_plot)
 
@@ -281,6 +282,7 @@ class clusteval():
         results['max_d'] = max_d
         results['max_d_lower'] = max_d_lower
         results['max_d_upper'] = max_d_upper
+        results['ax'] = ax
         return results
 
 
