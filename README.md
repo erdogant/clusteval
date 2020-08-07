@@ -3,8 +3,9 @@
 [![Python](https://img.shields.io/pypi/pyversions/clusteval)](https://img.shields.io/pypi/pyversions/clusteval)
 [![PyPI Version](https://img.shields.io/pypi/v/clusteval)](https://pypi.org/project/clusteval/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/clusteval/blob/master/LICENSE)
-[![Downloads](https://pepy.tech/badge/clusteval)](https://pepy.tech/project/clusteval)
 [![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)
+[![Downloads](https://pepy.tech/badge/clusteval)](https://pepy.tech/project/clusteval)
+[![Downloads](https://pepy.tech/badge/clusteval/month)](https://pepy.tech/project/clusteval/month)
 
 * clusteval is Python package for unsupervised cluster evaluation.
 Five methods are implemented that can be used to evalute clusterings; silhouette, dbindex, derivative, dbscan and hdbscan.
@@ -66,10 +67,12 @@ X, labx_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.
 ce = clusteval(method='silhouette')
 out = ce.fit(X)
 ce.plot()
+ce.dendrogram()
 ce.scatter(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png" width="600" />
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/dendrogram.png" width="600" />
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1b_sil.png" width="600" />
 </p>
 
@@ -79,6 +82,7 @@ ce.scatter(X)
 ce = clusteval(method='dbindex')
 ce.plot()
 ce.scatter(X)
+ce.dendrogram()
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png" width="600" />
@@ -89,6 +93,7 @@ ce.scatter(X)
 # Determine the optimal number of clusters
 ce = clusteval(method='derivative')
 ce.plot()
+ce.dendrogram()
 ce.scatter(X)
 ```
 <p align="center">
@@ -101,6 +106,7 @@ ce.scatter(X)
 # Determine the optimal number of clusters
 ce = clusteval(method='dbscan')
 ce.plot()
+ce.dendrogram()
 ce.scatter(X)
 ```
 <p align="center">
