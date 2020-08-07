@@ -40,7 +40,7 @@ class clusteval():
         Linkage type for the clustering.
         * 'ward'
         * 'single'
-        * ',complete'
+        * 'complete'
         * 'average'
         * 'weighted'
         * 'centroid'
