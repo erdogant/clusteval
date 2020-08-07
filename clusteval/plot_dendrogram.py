@@ -3,6 +3,7 @@
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # Licence     : MIT
+# Respect the autor and leave this here
 # -----------------------------------------------
 
 from scipy.cluster.hierarchy import dendrogram

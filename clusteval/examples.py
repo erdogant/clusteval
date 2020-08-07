@@ -28,6 +28,9 @@ results = ce.dendrogram(X=X, linkage='complete', metric='euclidean', max_d=2)
 
 results = ce.dendrogram(figsize=(15,8), show_contracted=True)
 
+results['labx']
+results['order_rows']
+
 # %% Silhouette
 from clusteval import clusteval
 ce = clusteval(method='silhouette')

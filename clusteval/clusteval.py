@@ -29,12 +29,22 @@ class clusteval():
     ----------
     method : str, (default: 'silhouette' )
         Method type for cluster validation. 
-        'silhouette', 'dbindex','derivative','dbscan','hdbscan'.
+        * 'silhouette'
+        * 'dbindex'
+        * 'derivative'
+        * 'dbscan'
+        * 'hdbscan'.
     metric : str, (default: 'euclidean').
         Distance measure for the clustering, such as 'euclidean','hamming', etc.
     linkage : str, (default: 'ward')
         Linkage type for the clustering.
-        'ward','single',',complete','average','weighted','centroid','median'.
+        * 'ward'
+        * 'single'
+        * ',complete'
+        * 'average'
+        * 'weighted'
+        * 'centroid'
+        * 'median'
     minclusters : int, (default: 2)
         Number of clusters that is evaluated greater or equals to minclusters.
     maxclusters : int, (default: 25)
