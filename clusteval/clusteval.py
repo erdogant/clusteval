@@ -207,7 +207,7 @@ class clusteval():
 
     # Plot dendrogram
     def dendrogram(self, X=None, labels=None, leaf_rotation=90, leaf_font_size=12, orientation='top', show_contracted=True, max_d=None, showfig=True, metric=None, linkage=None, truncate_mode=None, figsize=(15, 10)):
-        """Plot Dendrogram
+        """Plot Dendrogram.
 
         Parameters
         ----------
@@ -240,12 +240,11 @@ class clusteval():
         Returns
         -------
         results : dict
-            Dictionary containing various keys.
-            labx : int : Cluster labels based on the input-ordering.
-            order_rows : string : Order of the cluster labels as presented in the dendrogram (left-to-right).
-            max_d : float : maximum distance to set the horizontal threshold line.
-            max_d_lower : float : maximum distance lowebound
-            max_d_upper : float : maximum distance upperbound
+            * labx : int : Cluster labels based on the input-ordering.
+            * order_rows : string : Order of the cluster labels as presented in the dendrogram (left-to-right).
+            * max_d : float : maximum distance to set the horizontal threshold line.
+            * max_d_lower : float : maximum distance lowebound
+            * max_d_upper : float : maximum distance upperbound
 
         """
         # Set parameters
