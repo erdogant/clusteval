@@ -72,6 +72,7 @@ ce.scatter(X)
 ```
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png" width="600" />
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/dendrogram.png" width="600" />
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1b_sil.png" width="600" />
 </p>
 
