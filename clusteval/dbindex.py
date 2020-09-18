@@ -117,29 +117,32 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         if dbclust[i]>1:
             scores[i]=_dbindex_score(X, labx)
 
-
     # Convert to array
     clustlabx = np.array(clustlabx)
 
     # Store only if agrees to restriction of input clusters number
     I1 = np.isnan(scores)==False
-    I2 = dbclust>=Param['minclusters']
+    I2 = dbclust>=Param['min_clust']
     I3 = dbclust<=Param['maxclusters']
-    I = I1 & I2 & I3
+    Iloc = I1 & I2 & I3
 
     # Get only clusters of interest
-    scores = scores[I]
-    dbclust = dbclust[I]
-    clustlabx = clustlabx[I,:]
-    clustcutt = clustcutt[I]
-    idx = np.argmin(scores)
+    if len(Iloc)>0:
+        scores = scores[Iloc]
+        dbclust = dbclust[Iloc]
+        clustlabx = clustlabx[Iloc, :]
+        clustcutt = clustcutt[Iloc]
+        idx = np.argmin(scores)
+        clustlabx = clustlabx[idx, :] - 1
+    else:
+        if verbose>=3: print('[clusteval] >No clusters detected.')
 
     # Store results
     results = {}
     results['method'] = 'dbindex'
-    results['score'] = pd.DataFrame(np.array([dbclust,scores]).T, columns=['clusters','score'])
+    results['score'] = pd.DataFrame(np.array([dbclust, scores]).T, columns=['clusters', 'score'])
     results['score'].clusters = results['score'].clusters.astype(int)
-    results['labx'] = clustlabx[idx,:]-1
+    results['labx'] = clustlabx
     results['fig'] = {}
     results['fig']['dbclust'] = dbclust
     results['fig']['scores'] = scores
@@ -156,21 +159,21 @@ def _dbindex_score(X, labels):
     for k in range(0, len(n_cluster)):
         cluster_k.append(X[labels==n_cluster[k]])
 
-    centroids = [np.mean(k, axis = 0) for k in cluster_k]
+    centroids = [np.mean(k, axis=0) for k in cluster_k]
     variances = [np.mean([euclidean(p, centroids[i]) for p in k]) for i, k in enumerate(cluster_k)]
 
     db = []
-    for i in range(0,len(n_cluster)):
-        for j in range(0,len(n_cluster)):
+    for i in range(0, len(n_cluster)):
+        for j in range(0, len(n_cluster)):
             if n_cluster[j] != n_cluster[i]:
-                db.append( (variances[i] + variances[j]) / euclidean(centroids[i], centroids[j]) )
+                db.append((variances[i] + variances[j]) / euclidean(centroids[i], centroids[j]))
 
     outscore = np.max(db) / len(n_cluster)
     return(outscore)
 
 
 # %% plot
-def plot(results, figsize=(15,8)):
+def plot(results, figsize=(15, 8)):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters

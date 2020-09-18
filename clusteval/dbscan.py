@@ -137,19 +137,20 @@ def _optimize_eps(X, eps, Param):
     silllabx = np.array(silllabx)
     # Store only if agrees to restriction of input clusters number
     I1 = np.isnan(silscores)==False
-    I2 = sillclust>=Param['minclusters']
-    I3 = sillclust<=Param['maxclusters']
-    I = I1 & I2 & I3
+    I2 = sillclust >= Param['minclusters']
+    I3 = sillclust <= Param['maxclusters']
+    Iloc = I1 & I2 & I3
     # Get only those of interest
-    silscores = silscores[I]
-    sillclust = sillclust[I]
-    eps = eps[I]
-    silllabx = silllabx[I,:]
+    silscores = silscores[Iloc]
+    sillclust = sillclust[Iloc]
+    eps = eps[Iloc]
+    silllabx = silllabx[Iloc, :]
     # Return
     return(eps, sillclust, silscores, silllabx)
 
+
 # %% Plot
-def plot(results, figsize=(15,8), verbose=3):
+def plot(results, figsize=(15, 8), verbose=3):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
