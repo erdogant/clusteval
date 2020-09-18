@@ -148,7 +148,7 @@ class clusteval:
             elif self.method=='dbindex':
                 self.results = dbindex.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, savemem=self.savemem, verbose=self.verbose)
             elif self.method=='derivative':
-                self.results = derivative.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, verbose=self.verbose)
+                self.results = derivative.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, verbose=self.verbose)
         elif (self.cluster=='dbscan') and (self.method=='silhouette'):
             self.results = dbscan.fit(X, eps=None, epsres=50, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, max_clust=self.max_clust, verbose=self.verbose)
         elif self.cluster=='hdbscan':
@@ -166,6 +166,8 @@ class clusteval:
             max_d, max_d_lower, max_d_upper = _compute_dendrogram_threshold(self.Z, self.results['labx'], verbose=self.verbose)
 
         # Return
+        if self.results['labx'] is not None:
+            if self.verbose>=3: print('[clusteval] >Optimal number clusters detected: [%.0d].' %(len(np.unique(self.results['labx']))))
         if self.verbose>=3: print('[clusteval] >Fin.')
         self.results['max_d'] = max_d
         self.results['max_d_lower'] = max_d_lower
@@ -187,8 +189,9 @@ class clusteval:
 
         """
         fig, ax = None, None
-        if self.results is None:
+        if (self.results is None) or (self.results['labx'] is None):
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
+            return None
 
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
             if self.method=='silhouette':
@@ -221,8 +224,9 @@ class clusteval:
         None.
 
         """
-        if self.results is None:
+        if (self.results is None) or (self.results['labx'] is None):
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
+            return None
         # Make scatter
         silhouette.scatter(self.results, X=X, figsize=figsize)
 
@@ -268,6 +272,10 @@ class clusteval:
             * max_d_upper : float : maximum distance upperbound
 
         """
+        if (self.results is None) or (self.results['labx'] is None):
+            if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
+            return None
+
         # Set parameters
         no_plot = False if showfig else True
         max_d_lower, max_d_upper = None, None
