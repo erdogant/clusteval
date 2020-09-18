@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 
 # %% Main
-def fit(X, metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, verbose=3):
+def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, verbose=3):
     """ Determine optimal number of clusters using dbindex.
 
     Description
@@ -24,6 +24,10 @@ def fit(X, metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None
     ----------
     X : Numpy-array.
         The rows are the features and the colums are the samples.
+    cluster : str, (default: 'agglomerative')
+        Clustering method type for clustering.
+            * 'agglomerative'
+            * 'kmeans'
     metric : str, (default: 'euclidean').
         Distance measure for the clustering, such as 'euclidean','hamming', etc.
     linkage : str, (default: 'ward')
@@ -65,6 +69,7 @@ def fit(X, metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None
     """
     Param = {}
     Param['verbose'] = verbose
+    Param['cluster'] = cluster
     Param['metric'] = metric
     Param['linkage'] = linkage
     Param['min_clust'] = min_clust
@@ -72,9 +77,16 @@ def fit(X, metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None
 
     if verbose>=3: print('[clusteval] >Evaluate using derivatives.')
 
-    if Param['metric']=='kmeans':
+    if Param['cluster']=='kmeans':
         if verbose>=3: print('[clusteval] >Does not work with Kmeans! <return>')
-        return None
+        results = {}
+        results['method']='derivative'
+        results['labx'] = None
+        results['score'] = None
+        results['fig'] = {}
+        results['fig']['last_rev'] = None
+        results['fig']['acceleration_rev'] = None
+        return results
 
     # Cluster hierarchical using on metric/linkage
     if Z is None:
@@ -89,6 +101,12 @@ def fit(X, metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None
 
     acceleration = np.diff(last, 2)  # 2nd derivative of the distances
     acceleration_rev = acceleration[::-1]
+
+    # Only focus on the min-max clusters
+    acceleration_rev[:Param['min_clust']]=0
+    acceleration_rev[Param['max_clust']:]=0
+    last_rev[:Param['min_clust']]=0
+    last_rev[Param['max_clust']:]=0
 
     k = acceleration_rev.argmax() + 2  # if idx 0 is the max of this we want 2 clusters
     if Param['verbose']>=3: print('[clusteval] >Clusters: %d' %k)
