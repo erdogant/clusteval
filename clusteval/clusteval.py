@@ -17,80 +17,94 @@ from scipy.cluster.hierarchy import fcluster
 import matplotlib.pyplot as plt
 import numpy as np
 
-# %%
-class clusteval():
-    """clusteval - Cluster evaluation.
 
-    Description
-    -----------
-    clusteval is a python package that provides various methods for unsupervised cluster validation.
+# %% Class
+class clusteval:
+    """clusteval - Cluster evaluation."""
 
-    Parameters
-    ----------
-    method : str, (default: 'silhouette' )
-        Method type for cluster validation. 
-        * 'silhouette'
-        * 'dbindex'
-        * 'derivative'
-        * 'dbscan'
-        * 'hdbscan'.
-    metric : str, (default: 'euclidean').
-        Distance measure for the clustering, such as 'euclidean','hamming', etc.
-    linkage : str, (default: 'ward')
-        Linkage type for the clustering.
-        * 'ward'
-        * 'single'
-        * 'complete'
-        * 'average'
-        * 'weighted'
-        * 'centroid'
-        * 'median'
-    minclusters : int, (default: 2)
-        Number of clusters that is evaluated greater or equals to minclusters.
-    maxclusters : int, (default: 25)
-        Number of clusters that is evaluated smaller or equals to maxclusters.
-    savemem : bool, (default: False)
-        Save memmory when working with large datasets. Note that htis option only in case of KMeans.
-    verbose : int, optional (default: 3)
-        Print message to screen [1-5]. The larger the number, the more information.
+    def __init__(self, cluster='agglomerative', method='silhouette', metric='euclidean', linkage='ward', min_clust=2, maxclusters=25, savemem=False, verbose=3):
+        """Initialize clusteval with user-defined parameters.
 
-    Returns
-    -------
-    dict : The output is a dictionary containing the following keys:
+        Description
+        -----------
+        clusteval is a python package that provides various methods for unsupervised cluster validation.
 
-    Examples
-    --------
-    >>> # Import library
-    >>> from clusteval import clusteval
-    >>> # Initialize clusteval with default parameters
-    >>> ce = clusteval()
-    >>>
-    >>> # Generate random data
-    >>> from sklearn.datasets import make_blobs
-    >>> X, labels_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
-    >>>
-    >>> # Fit best clusters
-    >>> results = ce.fit(X)
-    >>>
-    >>> # Make plot
-    >>> ce.plot()
-    >>>
-    >>> # Scatter plot
-    >>> ce.scatter(X)
-    >>>
-    >>> # Dendrogram
-    >>> ce.dendrogram()
+        Parameters
+        ----------
+        cluster : str, (default: 'agglomerative')
+            Clustering method type for clustering.
+                * 'agglomerative'
+                * 'kmeans'
+                * 'dbscan'
+                * 'hdbscan'
+                * 'optics' # TODO
+        method : str, (default: 'silhouette')
+            Method type for cluster validation.
+                * 'silhouette'
+                * 'dbindex'
+                * 'derivative'
+        metric : str, (default: 'euclidean').
+            Distance measures. All metrics from sklearn can be used such as:
+                * 'euclidean'
+                * 'hamming'
+                * etc
+        linkage : str, (default: 'ward')
+            Linkage type for the clustering.
+                * 'ward'
+                * 'single'
+                * 'complete'
+                * 'average'
+                * 'weighted'
+                * 'centroid'
+                * 'median'
+        min_clust : int, (default: 2)
+            Number of clusters that is evaluated greater or equals to min_clust.
+        maxclusters : int, (default: 25)
+            Number of clusters that is evaluated smaller or equals to maxclusters.
+        savemem : bool, (default: False)
+            Save memmory when working with large datasets. Note that htis option only in case of KMeans.
+        verbose : int, optional (default: 3)
+            Print message to screen [1-5]. The larger the number, the more information.
 
-    """
-    def __init__(self, method='silhouette', metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, savemem=False, verbose=3):
-        """Initialize clusteval with user-defined parameters."""
+        Returns
+        -------
+        dict : The output is a dictionary containing the following keys:
 
-        if (minclusters<2): minclusters=2
+        Examples
+        --------
+        >>> # Import library
+        >>> from clusteval import clusteval
+        >>> # Initialize clusteval with default parameters
+        >>> ce = clusteval()
+        >>>
+        >>> # Generate random data
+        >>> from sklearn.datasets import make_blobs
+        >>> X, labels_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
+        >>>
+        >>> # Fit best clusters
+        >>> results = ce.fit(X)
+        >>>
+        >>> # Make plot
+        >>> ce.plot()
+        >>>
+        >>> # Scatter plot
+        >>> ce.scatter(X)
+        >>>
+        >>> # Dendrogram
+        >>> ce.dendrogram()
+
+        """
+        if ((min_clust is None) or (min_clust<2)):
+            min_clust=2
+        if ((maxclusters is None) or (maxclusters<min_clust)):
+            maxclusters=min_clust + 1
+
         # Store in object
         self.method = method
+        self.cluster = cluster
         self.metric = metric
         self.linkage = linkage
-        self.minclusters = minclusters
+        self.min_clust = min_clust
         self.maxclusters = maxclusters
         self.savemem = savemem
         self.verbose = verbose
@@ -107,44 +121,48 @@ class clusteval():
         Returns
         -------
         dict. with various keys. Note that the underneath keys can change based on the used methodtype.
-        method: str
-            Method name that is used for cluster evaluation.
-        score: pd.DataFrame()
-            The scoring values per clusters. The methods [silhouette, dbindex] provide this information.
-        labx: list
-            Cluster labels.
-        fig: list
-            Relevant information to make the plot.
+            method: str
+                Method name that is used for cluster evaluation.
+            score: pd.DataFrame()
+                The scoring values per clusters. The methods [silhouette, dbindex] provide this information.
+            labx: list
+                Cluster labels.
+            fig: list
+                Relevant information to make the plot.
 
         """
-        assert 'array' in str(type(X)), 'Input data must be of type numpy array'
+        if 'array' not in str(type(X)): raise ValueError('Input data must be of type numpy array')
         max_d, max_d_lower, max_d_upper = None, None, None
-        # Cluster hierarchical using on metric/linkage
         self.Z = []
-        if self.metric!='kmeans':
+
+        # Cluster using on metric/linkage
+        if self.verbose>=3: print('\n[clusteval] >Fit using %s with metric: %s, and linkage: %s' %(self.cluster, self.metric, self.linkage))
+        # Compute linkages
+        if self.cluster!='kmeans':
             self.Z = scipy_linkage(X, method=self.linkage, metric=self.metric)
 
         # Choosing method
-        if self.method=='silhouette':
-            self.results = silhouette.fit(X, Z=self.Z, metric=self.metric, minclusters=self.minclusters, maxclusters=self.maxclusters, savemem=self.savemem, verbose=self.verbose)
-        elif self.method=='dbindex':
-            self.results = dbindex.fit(X, Z=self.Z, metric=self.metric, minclusters=self.minclusters, maxclusters=self.maxclusters, savemem=self.savemem, verbose=self.verbose)
-        elif self.method=='derivative':
-            self.results = derivative.fit(X, Z=self.Z, metric=self.metric, minclusters=self.minclusters, maxclusters=self.maxclusters, verbose=self.verbose)
-        elif self.method=='dbscan':
-            self.results = dbscan.fit(X, eps=None, epsres=50, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, minclusters=self.minclusters, maxclusters=self.maxclusters, verbose=self.verbose)
-        elif self.method=='hdbscan':
+        if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
+            if self.method=='silhouette':
+                self.results = silhouette.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, min_clust=self.min_clust, maxclusters=self.maxclusters, savemem=self.savemem, verbose=self.verbose)
+            elif self.method=='dbindex':
+                self.results = dbindex.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, maxclusters=self.maxclusters, savemem=self.savemem, verbose=self.verbose)
+            elif self.method=='derivative':
+                self.results = derivative.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, maxclusters=self.maxclusters, verbose=self.verbose)
+        elif (self.cluster=='dbscan') and (self.method=='silhouette'):
+            self.results = dbscan.fit(X, eps=None, epsres=50, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, maxclusters=self.maxclusters, verbose=self.verbose)
+        elif self.cluster=='hdbscan':
             try:
                 import clusteval.hdbscan as hdbscan
-                self.results = hdbscan.fit(X, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, minclusters=self.minclusters, verbose=self.verbose)
+                self.results = hdbscan.fit(X, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, verbose=self.verbose)
             except:
-                raise ImportError('hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
+                raise ValueError('hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
         else:
-            results = None
-            if self.verbose>=3: print('[clusteval] >Method [%s] is not implemented.' %(self.method))
+            raise ValueError('[clusteval] >The combination cluster"%s", method="%s" is not implemented.' %(self.cluster, self.method))
 
         # Compute the dendrogram threshold
-        if self.metric!='kmeans':
+        if (self.cluster!='kmeans') and (len(np.unique(self.results['labx']))>1):
+            # print(self.results['labx'])
             max_d, max_d_lower, max_d_upper = _compute_dendrogram_threshold(self.Z, self.results['labx'], verbose=self.verbose)
 
         # Return
@@ -168,21 +186,24 @@ class clusteval():
         None.
 
         """
+        fig, ax = None, None
         if self.results is None:
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
-        # if self.verbose>=3: print('[clusteval] >Make plot.')
 
-        if self.method=='silhouette':
-            silhouette.plot(self.results, figsize=figsize)
-        elif self.method=='dbindex':
-            dbindex.plot(self.results, figsize=figsize)
-        elif self.method=='derivative':
-            derivative.plot(self.results, figsize=figsize)
-        elif self.method=='dbscan':
-            dbscan.plot(self.results, figsize=figsize)
-        elif self.method=='hdbscan':
+        if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
+            if self.method=='silhouette':
+                fig, ax = silhouette.plot(self.results, figsize=figsize)
+            elif self.method=='dbindex':
+                fig, ax = dbindex.plot(self.results, figsize=figsize)
+            elif self.method=='derivative':
+                fig, ax = derivative.plot(self.results, figsize=figsize)
+        elif self.cluster=='dbscan':
+            fig, ax = dbscan.plot(self.results, figsize=figsize)
+        elif self.cluster=='hdbscan':
             import clusteval.hdbscan as hdbscan
             hdbscan.plot(self.results, figsize=figsize)
+        # Return
+        return fig, ax
 
     # Plot
     def scatter(self, X, figsize=(15, 8)):
@@ -262,14 +283,15 @@ class clusteval():
             # Return if Z is not computed.
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function (no kmeans) <return>')
             return None
-        elif self.metric=='kmeans':
-            if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function with metric that is different than kmeans <return>')
-            return None
         else:
             if self.verbose>=3: print('[clusteval] >Plotting the dendrogram with optimized settings: metric=%s, linkage=%s, max_d=%.3f. Be patient now..' %(self.metric, self.linkage, self.results['max_d']))
             Z = self.Z
             metric = self.metric
             linkage = self.linkage
+
+        if self.cluster=='kmeans':
+            if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function with metric that is different than kmeans <return>')
+            return None
 
         if max_d is None:
             max_d = self.results['max_d']

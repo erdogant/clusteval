@@ -1,10 +1,10 @@
-#-----------------------------------------------
+# -----------------------------------------------
 # Name        : dbindex.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # Licence     : MIT
 # Respect the autor and leave this here
-#-----------------------------------------------
+# -----------------------------------------------
 
 import numpy as np
 import pandas as pd
@@ -15,8 +15,9 @@ from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 
+
 # %% main
-def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=None, savemem=False, verbose=3):
+def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, maxclusters=25, Z=None, savemem=False, verbose=3):
     """ Determine optimal number of clusters using dbindex.
 
     Description
@@ -27,12 +28,16 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     ----------
     X : Numpy-array.
         The rows are the features and the colums are the samples.
+    cluster : str, (default: 'agglomerative')
+        Clustering method type for clustering.
+            * 'agglomerative'
+            * 'kmeans'
     metric : str, (default: 'euclidean').
         Distance measure for the clustering, such as 'euclidean','hamming', etc.
     linkage : str, (default: 'ward')
         Linkage type for the clustering.
         'ward','single',',complete','average','weighted','centroid','median'.
-    minclusters : int, (default: 2)
+    min_clust : int, (default: 2)
         Minimum number of clusters (>=).
     maxclusters : int, (default: 25)
         Maximum number of clusters (<=).
@@ -70,37 +75,36 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     # Make dictionary to store Parameters
     Param = {}
     Param['verbose'] = verbose
+    Param['cluster'] = cluster
     Param['metric'] = metric
     Param['linkage'] = linkage
-    Param['minclusters'] = minclusters
+    Param['min_clust'] = min_clust
     Param['maxclusters'] = maxclusters
     Param['savemem'] = savemem
+    if verbose>=3: print('[clusteval] >Evaluate using dbindex.')
 
     # Savemem for kmeans
-    if Param['metric']=='kmeans':
-        if Param['savemem']==True:
+    if Param['cluster']=='kmeans':
+        if Param['savemem']:
             kmeansmodel=MiniBatchKMeans
-            print('>Save memory enabled for kmeans.')
+            print('[clusteval] >Save memory enabled for kmeans.')
         else:
             kmeansmodel=KMeans
 
     # Cluster hierarchical using on metric/linkage
-    if (Z is None) and (Param['metric']!='kmeans'):
+    if (Z is None) and (Param['cluster']!='kmeans'):
         Z = scipy_linkage(X, method=Param['linkage'], metric=Param['metric'])
-    
-    # Make all possible cluster-cut-offs
-    if Param['verbose']>=3: print('[dbindex] >Determining optimal clustering by Davies-Bouldin Index score..')
 
     # Setup storing parameters
-    clustcutt = np.arange(Param['minclusters'],Param['maxclusters'])
-    scores = np.zeros((len(clustcutt)))*np.nan
-    dbclust = np.zeros((len(clustcutt)))*np.nan
+    clustcutt = np.arange(Param['min_clust'], Param['maxclusters'])
+    scores = np.zeros((len(clustcutt))) * np.nan
+    dbclust = np.zeros((len(clustcutt))) * np.nan
     clustlabx = []
 
     # Run over all cluster cutoffs
     for i in tqdm(range(len(clustcutt))):
         # Cut the dendrogram for i clusters
-        if Param['metric']=='kmeans':
+        if Param['cluster']=='kmeans':
             labx=kmeansmodel(n_clusters=clustcutt[i], verbose=0).fit(X).labels_
         else:
             labx = fcluster(Z, clustcutt[i], criterion='maxclust')

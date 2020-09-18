@@ -39,15 +39,6 @@ ce.plot()
 ce.scatter(X)
 results = ce.dendrogram()
 
-
-# %% dbscan
-from clusteval import clusteval
-ce = clusteval(method='dbscan')
-results = ce.fit(X)
-ce.plot()
-ce.scatter(X)
-results = ce.dendrogram()
-
 # %% dbindex
 from clusteval import clusteval
 ce = clusteval(method='dbindex')
@@ -63,9 +54,17 @@ results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
 
+# %% dbscan
+from clusteval import clusteval
+ce = clusteval(cluster='dbscan')
+results = ce.fit(X)
+ce.plot()
+ce.scatter(X)
+results = ce.dendrogram()
+
 # %% hdbscan
 from clusteval import clusteval
-ce = clusteval(method='hdbscan')
+ce = clusteval(cluster='hdbscan')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
