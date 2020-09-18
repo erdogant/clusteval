@@ -30,7 +30,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
             * 'agglomerative'
             * 'kmeans'
     metric : str, (default: 'euclidean').
-        Distance measure for the clustering. Options are: 'euclidean'.
+        Distance measure for the clustering, such as 'euclidean','hamming', etc.
     linkage : str, (default: 'ward')
         Linkage type for the clustering.
         'ward','single',',complete','average','weighted','centroid','median'.
