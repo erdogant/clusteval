@@ -42,12 +42,12 @@ def parameter_gridtest(X, y_true, clusters, methods, metrics, linkages, min_clus
                             print(min_clust)
                             print(max_clust)
 
-                            cluster='agglomerative'
-                            method='derivative'
-                            metric='euclidean'
-                            linkage='complete'
-                            min_clust=1
-                            max_clust=10
+                            # cluster='agglomerative'
+                            # method='derivative'
+                            # metric='euclidean'
+                            # linkage='complete'
+                            # min_clust=1
+                            # max_clust=10
 
                             try:
                                 status = 'OK'
