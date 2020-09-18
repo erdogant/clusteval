@@ -6,21 +6,25 @@ import numpy as np
 
 # %%
 def test_fit():
-    X, y = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
+    X, y_true = make_blobs(n_samples=500, centers=6, n_features=10)
+    # ce = clusteval(method='agglomerative', cluster=cluster, metric=metric, linkage=linkage, min_clust=min_clust, max_clust=max_clust, verbose=3)
+    # results = ce.fit(X)
+    # print('Clusters: %s' %(str(np.unique(results['labx']))))
 
+    # X, y_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
     # Set all parameters to be evaluated
     clusters = ['agglomerative', 'kmeans', 'dbscan']
     methods = ['silhouette', 'dbindex', 'derivative']
     metrics = ['euclidean', 'hamming']
     linkages = ['ward', 'single', 'complete']
-    minclusters = [1, 2, 10]
-    maxclusters = [1, 10, 2]
+    min_clusts = [1, 2, 10]
+    max_clusts = [1, 10, 2]
 
     # Evaluate across all paramters
-    out = parameter_gridtest(X, y, clusters, methods, metrics, linkages, minclusters, maxclusters)
+    out = parameter_gridtest(X, y_true, clusters, methods, metrics, linkages, min_clusts, max_clusts)
 
 # %%
-def parameter_gridtest(X, y, clusters, methods, metrics, linkages, minclusters, maxclusters):
+def parameter_gridtest(X, y_true, clusters, methods, metrics, linkages, min_clusts, max_clusts):
     random_state = 42
     out = []
     count = 0
@@ -29,29 +33,36 @@ def parameter_gridtest(X, y, clusters, methods, metrics, linkages, minclusters, 
         for method in methods:
             for metric in metrics:
                 for linkage in linkages:
-                    for mincluster in minclusters:
-                        for maxcluster in maxclusters:
+                    for min_clust in min_clusts:
+                        for max_clust in max_clusts:
                             print(cluster)
                             print(method)
                             print(metric)
                             print(linkage)
-                            print(mincluster)
-                            print(maxcluster)
+                            print(min_clust)
+                            print(max_clust)
 
                             cluster='agglomerative'
                             method='derivative'
-                            metric='hamming'
-                            linkage='single'
-                            mincluster=None
-                            maxcluster=None
+                            metric='euclidean'
+                            linkage='complete'
+                            min_clust=1
+                            max_clust=10
 
                             try:
                                 status = 'OK'
-                                ce = clusteval(method=method, cluster=cluster, metric=metric, linkage=linkage, minclusters=mincluster, maxclusters=maxcluster, verbose=3)
+                                ce = clusteval(method=method, cluster=cluster, metric=metric, linkage=linkage, min_clust=min_clust, max_clust=max_clust, verbose=3)
                                 results = ce.fit(X)
-                                assert ce.plot()
-                                assert ce.scatter(X)
-                                assert ce.dendrogram()
+                                # print('Clusters: %s' %(str(np.unique(results['labx']))))
+                                # assert ce.plot()
+                                # assert ce.scatter(X)
+                                # assert ce.dendrogram()
+
+                                if (ce.results['labx'] is not None) and (linkage!='single') and (min_clust < len(np.unique(y_true))) and (max_clust > len(np.unique(y_true))) and (metric=='euclidean'):
+                                    print(len(np.unique(results['labx'])))
+                                    print(len(np.unique(y_true)))
+                                    assert len(np.unique(results['labx']))==len(np.unique(y_true))
+                                    
                             except ValueError as err:
                                 assert not 'clusteval' in err.args
                                 status = err.args
