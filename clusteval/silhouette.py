@@ -138,21 +138,32 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', minclust
     I1 = np.isnan(silscores)==False
     I2 = sillclust>=Param['minclusters']
     I3 = sillclust<=Param['maxclusters']
-    I  = I1 & I2 & I3
+    Iloc = I1 & I2 & I3
 
-    # Get only clusters of interest
-    silscores = silscores[I]
-    sillclust = sillclust[I]
-    clustlabx = clustlabx[I,:]
-    clustcutt = clustcutt[I]
-    idx = np.argmax(silscores)
+    if verbose>=5:
+        print(clustlabx)
+        print('Iloc: %s' %(str(Iloc)))
+        print('silscores: %s' %(str(silscores)))
+        print('sillclust: %s' %(str(sillclust)))
+        print('clustlabx: %s' %(str(clustlabx)))
+
+    if len(Iloc)>0:
+        # Get only clusters of interest
+        silscores = silscores[Iloc]
+        sillclust = sillclust[Iloc]
+        clustlabx = clustlabx[Iloc, :]
+        clustcutt = clustcutt[Iloc]
+        idx = np.argmax(silscores)
+        clustlabx = clustlabx[idx, :] - 1
+    else:
+        if verbose>=3: print('[clusteval] >No clusters detected.')
 
     # Store results
     results = {}
     results['method']='silhouette'
-    results['score'] = pd.DataFrame(np.array([sillclust,silscores]).T, columns=['clusters','score'])
+    results['score'] = pd.DataFrame(np.array([sillclust, silscores]).T, columns=['clusters', 'score'])
     results['score']['clusters'] = results['score']['clusters'].astype(int)
-    results['labx']  = clustlabx[idx,:]-1
+    results['labx'] = clustlabx
     results['fig'] = {}
     results['fig']['silscores'] = silscores
     results['fig']['sillclust'] = sillclust
@@ -184,7 +195,7 @@ def plot(results, figsize=(15,8)):
     # Plot
     ax1.plot(results['fig']['sillclust'], results['fig']['silscores'], color='k')
     # Plot optimal cut
-    ax1.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r',linestyle="--")
+    ax1.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r', linestyle="--")
     # Set fontsizes
     plt.rc('axes', titlesize=14)  # fontsize of the axes title
     plt.rc('xtick', labelsize=10)  # fontsize of the axes title
@@ -198,11 +209,11 @@ def plot(results, figsize=(15,8)):
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
     plt.show()
     # Return
-    return(fig,ax1)
+    return(fig, ax1)
 
 
 # %% Scatter data
-def scatter(labx, X=None, figsize=(15,8), verbose=3):
+def scatter(labx, X=None, figsize=(15, 8), verbose=3):
     """Make scatter for the cluster labels with the samples.
 
     Parameters
@@ -221,7 +232,7 @@ def scatter(labx, X=None, figsize=(15,8), verbose=3):
 
     """
     if X is None:
-        if verbose>=2: print('[silhouette] >Warning: Input data X is required for the scatterplot.')
+        if verbose>=2: print('[clusteval] >Warning: Input data X is required for the scatterplot.')
         return None
 
     # Label
@@ -229,14 +240,14 @@ def scatter(labx, X=None, figsize=(15,8), verbose=3):
         labx = labx.get('labx', None)
     # Check labx
     if labx is None:
-        if verbose>=3: print('[silhouette] >Error: No labels provided.')
+        if verbose>=3: print('[clusteval] >Error: No labels provided.')
         return None
 
     # Plot silhouette samples plot
     # n_clusters = len(np.unique(labx))
     n_clusters = len(set(labx)) - (1 if -1 in labx else 0)
     silhouette_avg = silhouette_score(X, labx)
-    if verbose>=3: print('[silhouette] >Estimated number of n_clusters: %d, average silhouette_score=%.3f' %(n_clusters, silhouette_avg))
+    if verbose>=3: print('[clusteval] >Estimated number of n_clusters: %d, average silhouette_score=%.3f' %(n_clusters, silhouette_avg))
 
     # Compute the silhouette scores for each sample
     sample_silhouette_values = silhouette_samples(X, labx)
@@ -252,7 +263,7 @@ def scatter(labx, X=None, figsize=(15,8), verbose=3):
     uiclust = np.unique(labx)
 
     # Make 1st plot
-    for i in range(0,len(uiclust)):
+    for i in range(0, len(uiclust)):
         # Aggregate the silhouette scores for samples belonging to
         # cluster i, and sort them
         ith_cluster_silhouette_values = sample_silhouette_values[labx == uiclust[i]]
@@ -280,7 +291,7 @@ def scatter(labx, X=None, figsize=(15,8), verbose=3):
 
     # 2nd Plot showing the actual clusters formed
     color = cm.Set2(labx.astype(float) / n_clusters)
-    ax2.scatter(X[:, 0], X[:, 1], marker='.', s=30, lw=0, alpha=0.8,c=color, edgecolor='k')
+    ax2.scatter(X[:, 0], X[:, 1], marker='.', s=30, lw=0, alpha=0.8, c=color, edgecolor='k')
     ax2.grid(color='grey', linestyle='--', linewidth=0.2)
     ax2.set_title("Estimated cluster labels")
     ax2.set_xlabel("1st feature")

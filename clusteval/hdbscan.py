@@ -62,7 +62,7 @@ def fit(X, metric='euclidean', minclusters=2, min_samples=0.01, norm=True, n_job
     >>> results = hdbscan.fit(X)
     >>> # plot
     >>> hdbscan.plot(results)
-    
+
     References
     ----------
     * http://scikit-learn.org/stable/auto_examples/cluster/plot_dbscan.html
@@ -70,8 +70,6 @@ def fit(X, metric='euclidean', minclusters=2, min_samples=0.01, norm=True, n_job
     * https://github.com/scikit-learn-contrib/hdbscan
 
     """
-
-	# DECLARATIONS
     Param = {}
     Param['min_samples'] = min_samples
     Param['minclusters'] = minclusters
@@ -79,34 +77,35 @@ def fit(X, metric='euclidean', minclusters=2, min_samples=0.01, norm=True, n_job
     Param['n_jobs'] = n_jobs
     Param['norm'] = norm
     Param['gen_min_span_tree'] = False
-    Param['min_samples'] = np.int(np.floor(min_samples*X.shape[0])) # Set max. outliers
+    Param['min_samples'] = np.int(np.floor(min_samples * X.shape[0]))  # Set max. outliers
+    # if verbose>=3: print('[clusteval] >Fit using hdbscan.')
 
     # Transform X
     if Param['norm']:
         X = StandardScaler().fit_transform(X)
-        
-    # SET PARAMTERS FOR DBSCAN
-    model = hdb.HDBSCAN(algorithm='best', metric=Param['metric'], min_samples=np.int(Param['min_samples']), core_dist_n_jobs=Param['n_jobs'], min_cluster_size=np.int(Param['minclusters']), p=None,gen_min_span_tree=Param['gen_min_span_tree'])
-    model.fit(X) # Perform the clustering
+
+    # Set parameters for hdbscan
+    model = hdb.HDBSCAN(algorithm='best', metric=Param['metric'], min_samples=np.int(Param['min_samples']), core_dist_n_jobs=Param['n_jobs'], min_cluster_size=np.int(Param['minclusters']), p=None, gen_min_span_tree=Param['gen_min_span_tree'])
+    model.fit(X)
 
     results = {}
     results['method'] ='hdbscan'
-    results['labx'] = model.labels_        # Labels
-    results['p'] = model.probabilities_ # The strength with which each sample is a member of its assigned cluster. Noise points have probability zero; points in clusters have values assigned proportional to the degree that they persist as part of the cluster.
-    results['cluster_persistence'] = model.cluster_persistence_ # A score of how persistent each cluster is. A score of 1.0 represents a perfectly stable cluster that persists over all distance scales, while a score of 0.0 represents a perfectly ephemeral cluster. These scores can be guage the relative coherence of the clusters resultsput by the algorithm.
-    results['outlier'] = model.outlier_scores_      # Outlier scores for clustered points; the larger the score the more outlier-like the point. Useful as an outlier detection technique. Based on the GLOSH algorithm by Campello, Moulavi, Zimek and Sander.
-    # out2['predict'] = model.prediction_data_     # Cached data used for predicting the cluster labels of new or unseen points. Necessary only if you are using functions from hdbscan.prediction (see approximate_predict(), membership_vector(), and all_points_membership_vectors()).
+    results['labx'] = model.labels_  # Labels
+    results['p'] = model.probabilities_  # The strength with which each sample is a member of its assigned cluster. Noise points have probability zero; points in clusters have values assigned proportional to the degree that they persist as part of the cluster.
+    results['cluster_persistence'] = model.cluster_persistence_  # A score of how persistent each cluster is. A score of 1.0 represents a perfectly stable cluster that persists over all distance scales, while a score of 0.0 represents a perfectly ephemeral cluster. These scores can be guage the relative coherence of the clusters resultsput by the algorithm.
+    results['outlier'] = model.outlier_scores_  # Outlier scores for clustered points; the larger the score the more outlier-like the point. Useful as an outlier detection technique. Based on the GLOSH algorithm by Campello, Moulavi, Zimek and Sander.
+    # out2['predict'] = model.prediction_data_  # Cached data used for predicting the cluster labels of new or unseen points. Necessary only if you are using functions from hdbscan.prediction (see approximate_predict(), membership_vector(), and all_points_membership_vectors()).
     results['minclusters'] = Param['minclusters']
     results['model'] = model
 
     # Some info
     if verbose>=3:
         n_clusters = len(set(results['labx'])) - (1 if -1 in results['labx'] else 0)
-        print('[HDBSCAN] Estimated number of clusters: %d' % n_clusters)
+        print('[clusteval] >Estimated number of clusters: %d' % n_clusters)
 
         if n_clusters!=X.shape[0] and n_clusters>1:
-            print("[HDBSCAN] Silhouette Coefficient: %0.3f" % metrics.silhouette_score(X, results['labx']))
-        
+            print("[clusteval] >Silhouette Coefficient: %0.3f" % metrics.silhouette_score(X, results['labx']))
+
     return(results)
 
 

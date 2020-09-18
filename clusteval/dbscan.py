@@ -1,10 +1,10 @@
-#-----------------------------------
+# -----------------------------------
 # Name        : dbscan.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # Licence     : MIT
 # Respect the autor and leave this here
-#-----------------------------------------------
+# -----------------------------------------------
 
 from tqdm import tqdm
 import numpy as np
@@ -13,6 +13,7 @@ import sklearn.cluster as cluster
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 import clusteval.silhouette as silhouette
+
 
 # %% Main function
 def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1, minclusters=2, maxclusters=25, epsres=100, verbose=3):
@@ -31,7 +32,7 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
         Distance measure for the clustering. Types can be found at [metrics.pairwise.calculate_distance] or a distance matrix if thats the case.
         'euclidean' (default) squared euclidean distance or 'precomputed' if input is a distance matrix!
     norm : bool, (default: True)
-        You may want to set this =0 using distance matrix as input.
+        Normalize the input data. You may want to set this when using a distance matrix as input.
     n_jobs : int, (default: -1)
         The number of parallel jobs to run. -1: ALL cpus, 1: Use a single core.
     minclusters : int, (default: 2)
@@ -77,24 +78,25 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
     Param['norm'] = norm
     Param['minclusters'] = minclusters
     Param['maxclusters'] = maxclusters
-    Param['epsres'] = epsres # Resolution of the epsilon to estimate % The higher the more detailed, the more time it costs to compute. Only for DBSCAN
-    Param['min_samples'] = np.floor(min_samples*X.shape[0]) # Set max. outliers
+    Param['epsres'] = epsres  # Resolution of the epsilon to estimate % The higher the more detailed, the more time it costs to compute. Only for DBSCAN
+    Param['min_samples'] = np.floor(min_samples * X.shape[0])  # Set max. outliers
+    # if verbose>=3: print('[clusteval] >Fit using dbscan.')
 
     # Transform data
     if Param['norm']:
-        if Param['verbose']>=3: print('[dbscan] >Normalize data (unit variance, zero-mean).')
+        if Param['verbose']>=3: print('[clusteval] >Normalize data (unit variance, zero-mean).')
         X = StandardScaler().fit_transform(X)
 
     # Iterate over epsilon
     results = {}
-    if Param['eps']==None:
-        if Param['verbose']>=3: print('[dbscan] Gridsearch on epsilon to determine optimal clusters using silhouette scores.')
+    if Param['eps'] is None:
+        if Param['verbose']>=3: print('[clusteval] >Gridsearch across epsilon..')
         # Optimize
-        [eps, sillclust, silscores, silllabx] = _optimize_eps(X, eps, Param)
+        [eps, sillclust, silscores, silllabx] = _optimize_eps(X, eps, Param, verbose=verbose)
         # Store results
         idx = np.argmax(silscores)
         results['method']='dbscan'
-        results['labx'] = silllabx[idx,:]
+        results['labx'] = silllabx[idx, :]
         results['fig'] = {}
         results['fig']['eps'] = eps
         results['fig']['silscores'] = silscores
@@ -110,12 +112,15 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
     # Return
     return(results)
 
+
 # %% optimize_eps
-def _optimize_eps(X, eps, Param):
+def _optimize_eps(X, eps, Param, verbose=3):
+    if verbose>=3: print('[clusteval] >Evaluate using silhouette..')
+
     # Setup resolution
-    eps = np.arange(0.1,5,1/Param['epsres'])
-    silscores = np.zeros(len(eps))*np.nan
-    sillclust = np.zeros(len(eps))*np.nan
+    eps = np.arange(0.1, 5, 1 / Param['epsres'])
+    silscores = np.zeros(len(eps)) * np.nan
+    sillclust = np.zeros(len(eps)) * np.nan
     silllabx = []
 
     # Run over all Epsilons
@@ -167,7 +172,7 @@ def plot(results, figsize=(15, 8), verbose=3):
     tuple, (fig, ax)
         Figure and axis of the figure.
 
-    """    
+    """
     # Setup figure properties
     fig, ax1 = plt.subplots(figsize=figsize)
     ax2 = ax1.twinx()
@@ -187,4 +192,4 @@ def plot(results, figsize=(15, 8), verbose=3):
     ax2.axvline(x=results['fig']['eps'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r')
     plt.show()
     # Return
-    return (fig, ax1, ax2)
+    return (fig, (ax1, ax2))
