@@ -195,7 +195,7 @@ def plot(results, figsize=(15, 8)):
     # Plot
     ax1.plot(results['fig']['dbclust'], results['fig']['scores'], color='k')
     # Plot optimal cut
-    ax1.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['dbclust'][idx], linewidth=2, color='r',linestyle="--")
+    ax1.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['dbclust'][idx], linewidth=2, color='r', linestyle="--")
     # Set fontsizes
     plt.rc('axes', titlesize=14)     # fontsize of the axes title
     plt.rc('xtick', labelsize=10)     # fontsize of the axes title
@@ -209,4 +209,4 @@ def plot(results, figsize=(15, 8)):
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
     plt.show()
     # Return
-    return(fig,ax1)
+    return(fig, ax1)

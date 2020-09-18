@@ -15,7 +15,7 @@ X, labels_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], c
 
 # %% Silhouette
 # ce = clusteval(method='silhouette', metric='kmeans', savemem=True)
-ce = clusteval(method='silhouette')
+ce = clusteval(method='silhouette', verbose=3)
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
@@ -25,7 +25,6 @@ results = ce.dendrogram(max_d=9)
 results = ce.dendrogram(X=X, linkage='single', metric='euclidean')
 results = ce.dendrogram(X=X, linkage='single', metric='euclidean', max_d=0.8)
 results = ce.dendrogram(X=X, linkage='complete', metric='euclidean', max_d=2)
-
 results = ce.dendrogram(figsize=(15,8), show_contracted=True)
 
 results['labx']

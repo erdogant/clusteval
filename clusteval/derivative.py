@@ -140,14 +140,14 @@ def plot(results, figsize=(15,8), verbose=3):
     plt.plot(idxs[:-2] + 1, results['fig']['acceleration_rev'])
 
     # Plot optimal cut
-    ax1.axvline(x=k, ymin=0, linewidth=2, color='r',linestyle="--")
+    ax1.axvline(x=k, ymin=0, linewidth=2, color='r', linestyle="--")
     # Set fontsizes
     plt.rc('axes', titlesize=14)     # fontsize of the axes title
     plt.rc('xtick', labelsize=10)     # fontsize of the axes title
     plt.rc('ytick', labelsize=10)     # fontsize of the axes title
     plt.rc('font', size=10)
     # Set labels
-    ax1.set_xticks(np.arange(0,len(idxs)))
+    ax1.set_xticks(np.arange(0, len(idxs)))
     ax1.set_xlabel('#Clusters')
     ax1.set_ylabel('Score')
     ax1.set_title("Derivatives versus number of clusters")
