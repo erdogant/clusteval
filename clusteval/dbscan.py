@@ -16,7 +16,7 @@ import clusteval.silhouette as silhouette
 
 
 # %% Main function
-def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1, minclusters=2, maxclusters=25, epsres=100, verbose=3):
+def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1, min_clust=2, max_clust=25, epsres=100, verbose=3):
     """Density Based clustering.
 
     Parameters
@@ -35,10 +35,10 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
         Normalize the input data. You may want to set this when using a distance matrix as input.
     n_jobs : int, (default: -1)
         The number of parallel jobs to run. -1: ALL cpus, 1: Use a single core.
-    minclusters : int, (default: 2)
-        Number of clusters that is evaluated greater or equals to minclusters.
-    maxclusters : int, (default: 25)
-        Number of clusters that is evaluated smaller or equals to maxclusters.
+    min_clust : int, (default: 2)
+        Number of clusters that is evaluated greater or equals to min_clust.
+    max_clust : int, (default: 25)
+        Number of clusters that is evaluated smaller or equals to max_clust.
     epsres : int, (default: 100)
         Resoultion to test the different epsilons. The higher the longer it will take.
     verbose : int, optional (default: 3)
@@ -76,8 +76,8 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1,
     Param['metric'] = metric
     Param['n_jobs'] = n_jobs
     Param['norm'] = norm
-    Param['minclusters'] = minclusters
-    Param['maxclusters'] = maxclusters
+    Param['min_clust'] = min_clust
+    Param['max_clust'] = max_clust
     Param['epsres'] = epsres  # Resolution of the epsilon to estimate % The higher the more detailed, the more time it costs to compute. Only for DBSCAN
     Param['min_samples'] = np.floor(min_samples * X.shape[0])  # Set max. outliers
     # if verbose>=3: print('[clusteval] >Fit using dbscan.')
@@ -142,8 +142,8 @@ def _optimize_eps(X, eps, Param, verbose=3):
     silllabx = np.array(silllabx)
     # Store only if agrees to restriction of input clusters number
     I1 = np.isnan(silscores)==False
-    I2 = sillclust >= Param['minclusters']
-    I3 = sillclust <= Param['maxclusters']
+    I2 = sillclust >= Param['min_clust']
+    I3 = sillclust <= Param['max_clust']
     Iloc = I1 & I2 & I3
     # Get only those of interest
     silscores = silscores[Iloc]

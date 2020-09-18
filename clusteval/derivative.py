@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 
 # %% Main
-def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=None, verbose=3):
+def fit(X, metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, verbose=3):
     """ Determine optimal number of clusters using dbindex.
 
     Description
@@ -29,10 +29,10 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     linkage : str, (default: 'ward')
         Linkage type for the clustering.
         'ward','single',',complete','average','weighted','centroid','median'.
-    minclusters : int, (default: 2)
-        Number of clusters that is evaluated greater or equals to minclusters.
-    maxclusters : int, (default: 25)
-        Number of clusters that is evaluated smaller or equals to maxclusters.
+    min_clust : int, (default: 2)
+        Number of clusters that is evaluated greater or equals to min_clust.
+    max_clust : int, (default: 25)
+        Number of clusters that is evaluated smaller or equals to max_clust.
     Z : Object, (default: None).
         This will speed-up computation if you readily have Z. e.g., Z=linkage(X, method='ward', metric='euclidean').
     verbose : int, optional (default: 3)
@@ -67,8 +67,8 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     Param['verbose'] = verbose
     Param['metric'] = metric
     Param['linkage'] = linkage
-    Param['minclusters'] = minclusters
-    Param['maxclusters'] = maxclusters
+    Param['min_clust'] = min_clust
+    Param['max_clust'] = max_clust
 
     if verbose>=3: print('[clusteval] >Evaluate using derivatives.')
 

@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 
 # %% Main
-def fit(X, metric='euclidean', minclusters=2, min_samples=0.01, norm=True, n_jobs=-1, verbose=3):
+def fit(X, metric='euclidean', min_clust=2, min_samples=0.01, norm=True, n_jobs=-1, verbose=3):
     """ Determine optimal number of clusters using dbindex.
 
     Description
@@ -28,8 +28,8 @@ def fit(X, metric='euclidean', minclusters=2, min_samples=0.01, norm=True, n_job
         The rows are the features and the colums are the samples.
     metric : str, (default: 'euclidean').
         Distance measure for the clustering, such as 'euclidean','hamming', etc.
-    minclusters : int, (default: 2)
-        Number of clusters that is evaluated greater or equals to minclusters.
+    min_clust : int, (default: 2)
+        Number of clusters that is evaluated greater or equals to min_clust.
     min_samples : float [0..1], (default: 0.01)
         Percentage of expected outliers among number of samples.
     norm : bool, (default: True)
@@ -72,7 +72,7 @@ def fit(X, metric='euclidean', minclusters=2, min_samples=0.01, norm=True, n_job
     """
     Param = {}
     Param['min_samples'] = min_samples
-    Param['minclusters'] = minclusters
+    Param['min_clust'] = min_clust
     Param['metric'] = metric
     Param['n_jobs'] = n_jobs
     Param['norm'] = norm
@@ -85,7 +85,7 @@ def fit(X, metric='euclidean', minclusters=2, min_samples=0.01, norm=True, n_job
         X = StandardScaler().fit_transform(X)
 
     # Set parameters for hdbscan
-    model = hdb.HDBSCAN(algorithm='best', metric=Param['metric'], min_samples=np.int(Param['min_samples']), core_dist_n_jobs=Param['n_jobs'], min_cluster_size=np.int(Param['minclusters']), p=None, gen_min_span_tree=Param['gen_min_span_tree'])
+    model = hdb.HDBSCAN(algorithm='best', metric=Param['metric'], min_samples=np.int(Param['min_samples']), core_dist_n_jobs=Param['n_jobs'], min_cluster_size=np.int(Param['min_clust']), p=None, gen_min_span_tree=Param['gen_min_span_tree'])
     model.fit(X)
 
     results = {}
@@ -95,7 +95,7 @@ def fit(X, metric='euclidean', minclusters=2, min_samples=0.01, norm=True, n_job
     results['cluster_persistence'] = model.cluster_persistence_  # A score of how persistent each cluster is. A score of 1.0 represents a perfectly stable cluster that persists over all distance scales, while a score of 0.0 represents a perfectly ephemeral cluster. These scores can be guage the relative coherence of the clusters resultsput by the algorithm.
     results['outlier'] = model.outlier_scores_  # Outlier scores for clustered points; the larger the score the more outlier-like the point. Useful as an outlier detection technique. Based on the GLOSH algorithm by Campello, Moulavi, Zimek and Sander.
     # out2['predict'] = model.prediction_data_  # Cached data used for predicting the cluster labels of new or unseen points. Necessary only if you are using functions from hdbscan.prediction (see approximate_predict(), membership_vector(), and all_points_membership_vectors()).
-    results['minclusters'] = Param['minclusters']
+    results['min_clust'] = Param['min_clust']
     results['model'] = model
 
     # Some info
@@ -129,7 +129,7 @@ def plot(results, figsize=(15, 8), verbose=3):
 
     """
     model = results['model']
-    if results['minclusters']==True:
+    if results['min_clust']==True:
         plt.subplots(figsize=figsize)
         model.minimum_spanning_tree_.plot(edge_cmap='viridis', edge_alpha=0.6, node_size=80, edge_linewidth=2)
 

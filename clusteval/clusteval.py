@@ -22,7 +22,7 @@ import numpy as np
 class clusteval:
     """clusteval - Cluster evaluation."""
 
-    def __init__(self, cluster='agglomerative', method='silhouette', metric='euclidean', linkage='ward', min_clust=2, maxclusters=25, savemem=False, verbose=3):
+    def __init__(self, cluster='agglomerative', method='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, savemem=False, verbose=3):
         """Initialize clusteval with user-defined parameters.
 
         Description
@@ -59,8 +59,8 @@ class clusteval:
                 * 'median'
         min_clust : int, (default: 2)
             Number of clusters that is evaluated greater or equals to min_clust.
-        maxclusters : int, (default: 25)
-            Number of clusters that is evaluated smaller or equals to maxclusters.
+        max_clust : int, (default: 25)
+            Number of clusters that is evaluated smaller or equals to max_clust.
         savemem : bool, (default: False)
             Save memmory when working with large datasets. Note that htis option only in case of KMeans.
         verbose : int, optional (default: 3)
@@ -96,8 +96,8 @@ class clusteval:
         """
         if ((min_clust is None) or (min_clust<2)):
             min_clust=2
-        if ((maxclusters is None) or (maxclusters<min_clust)):
-            maxclusters=min_clust + 1
+        if ((max_clust is None) or (max_clust<min_clust)):
+            max_clust=min_clust + 1
 
         # Store in object
         self.method = method
@@ -105,7 +105,7 @@ class clusteval:
         self.metric = metric
         self.linkage = linkage
         self.min_clust = min_clust
-        self.maxclusters = maxclusters
+        self.max_clust = max_clust
         self.savemem = savemem
         self.verbose = verbose
 
@@ -144,13 +144,13 @@ class clusteval:
         # Choosing method
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
             if self.method=='silhouette':
-                self.results = silhouette.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, min_clust=self.min_clust, maxclusters=self.maxclusters, savemem=self.savemem, verbose=self.verbose)
+                self.results = silhouette.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, savemem=self.savemem, verbose=self.verbose)
             elif self.method=='dbindex':
-                self.results = dbindex.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, maxclusters=self.maxclusters, savemem=self.savemem, verbose=self.verbose)
+                self.results = dbindex.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, savemem=self.savemem, verbose=self.verbose)
             elif self.method=='derivative':
-                self.results = derivative.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, maxclusters=self.maxclusters, verbose=self.verbose)
+                self.results = derivative.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, verbose=self.verbose)
         elif (self.cluster=='dbscan') and (self.method=='silhouette'):
-            self.results = dbscan.fit(X, eps=None, epsres=50, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, maxclusters=self.maxclusters, verbose=self.verbose)
+            self.results = dbscan.fit(X, eps=None, epsres=50, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, max_clust=self.max_clust, verbose=self.verbose)
         elif self.cluster=='hdbscan':
             try:
                 import clusteval.hdbscan as hdbscan

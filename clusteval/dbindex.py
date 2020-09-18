@@ -17,7 +17,7 @@ from sklearn.cluster import KMeans, MiniBatchKMeans
 
 
 # %% main
-def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, maxclusters=25, Z=None, savemem=False, verbose=3):
+def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, savemem=False, verbose=3):
     """ Determine optimal number of clusters using dbindex.
 
     Description
@@ -39,7 +39,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         'ward','single',',complete','average','weighted','centroid','median'.
     min_clust : int, (default: 2)
         Minimum number of clusters (>=).
-    maxclusters : int, (default: 25)
+    max_clust : int, (default: 25)
         Maximum number of clusters (<=).
     Z : Object, (default: None).
         This will speed-up computation if you readily have Z. e.g., Z=linkage(X, method='ward', metric='euclidean').
@@ -79,7 +79,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     Param['metric'] = metric
     Param['linkage'] = linkage
     Param['min_clust'] = min_clust
-    Param['maxclusters'] = maxclusters
+    Param['max_clust'] = max_clust
     Param['savemem'] = savemem
     if verbose>=3: print('[clusteval] >Evaluate using dbindex.')
 
@@ -96,7 +96,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         Z = scipy_linkage(X, method=Param['linkage'], metric=Param['metric'])
 
     # Setup storing parameters
-    clustcutt = np.arange(Param['min_clust'], Param['maxclusters'])
+    clustcutt = np.arange(Param['min_clust'], Param['max_clust'])
     scores = np.zeros((len(clustcutt))) * np.nan
     dbclust = np.zeros((len(clustcutt))) * np.nan
     clustlabx = []
@@ -123,7 +123,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     # Store only if agrees to restriction of input clusters number
     I1 = np.isnan(scores)==False
     I2 = dbclust>=Param['min_clust']
-    I3 = dbclust<=Param['maxclusters']
+    I3 = dbclust<=Param['max_clust']
     Iloc = I1 & I2 & I3
 
     # Get only clusters of interest

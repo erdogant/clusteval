@@ -18,7 +18,7 @@ from sklearn.metrics import silhouette_score, silhouette_samples, silhouette_sco
 
 
 # %% Main
-def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=None, savemem=False, verbose=3):
+def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, savemem=False, verbose=3):
     """This function return the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.
 
     Parameters
@@ -34,10 +34,10 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', minclust
     linkage : str, (default: 'ward')
         Linkage type for the clustering.
         'ward','single',',complete','average','weighted','centroid','median'.
-    minclusters : int, (default: 2)
-        Number of clusters that is evaluated greater or equals to minclusters.
-    maxclusters : int, (default: 25)
-        Number of clusters that is evaluated smaller or equals to maxclusters.
+    min_clust : int, (default: 2)
+        Number of clusters that is evaluated greater or equals to min_clust.
+    max_clust : int, (default: 25)
+        Number of clusters that is evaluated smaller or equals to max_clust.
     savemem : bool, (default: False)
         Save memmory when working with large datasets. Note that htis option only in case of KMeans.
     Z : Object, (default: None).
@@ -92,8 +92,8 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', minclust
     Param['cluster'] = cluster
     Param['metric'] = metric
     Param['linkage'] = linkage
-    Param['minclusters'] = minclusters
-    Param['maxclusters'] = maxclusters
+    Param['min_clust'] = min_clust
+    Param['max_clust'] = max_clust
     Param['savemem'] = savemem
     if verbose>=3: print('[clusteval] >Evaluate using silhouette.')
 
@@ -110,7 +110,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', minclust
         Z = scipy_linkage(X, method=Param['linkage'], metric=Param['metric'])
 
     # Setup storing parameters
-    clustcutt = np.arange(Param['minclusters'], Param['maxclusters'])
+    clustcutt = np.arange(Param['min_clust'], Param['max_clust'])
     silscores = np.zeros((len(clustcutt))) * np.nan
     sillclust = np.zeros((len(clustcutt))) * np.nan
     clustlabx = []
@@ -136,8 +136,8 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', minclust
 
     # Store only if agrees to restriction of input clusters number
     I1 = np.isnan(silscores)==False
-    I2 = sillclust>=Param['minclusters']
-    I3 = sillclust<=Param['maxclusters']
+    I2 = sillclust>=Param['min_clust']
+    I3 = sillclust<=Param['max_clust']
     Iloc = I1 & I2 & I3
 
     if verbose>=5:
