@@ -1,15 +1,16 @@
-#-----------------------------------------------
+# -----------------------------------------------
 # Name        : derivative.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # Licence     : MIT
 # Respect the autor and leave this here
-#-----------------------------------------------
+# -----------------------------------------------
 
 import numpy as np
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as linkage_scipy
 import matplotlib.pyplot as plt
+
 
 # %% Main
 def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=None, verbose=3):
@@ -62,35 +63,35 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     >>> derivative.plot(results)
 
     """
-    # Make dictionary to store Parameters
     Param = {}
-    Param['verbose']     = verbose
-    Param['metric']      = metric
-    Param['linkage']     = linkage
+    Param['verbose'] = verbose
+    Param['metric'] = metric
+    Param['linkage'] = linkage
     Param['minclusters'] = minclusters
     Param['maxclusters'] = maxclusters
 
+    if verbose>=3: print('[clusteval] >Evaluate using derivatives.')
+
     if Param['metric']=='kmeans':
-        print('[derivative] >Does not work with Kmeans! <return>')
-        return
+        if verbose>=3: print('[clusteval] >Does not work with Kmeans! <return>')
+        return None
 
     # Cluster hierarchical using on metric/linkage
     if Z is None:
         Z = linkage_scipy(X, method=Param['linkage'], metric=Param['metric'])
 
     # Make all possible cluster-cut-offs
-    if Param['verbose']>=3: print('[derivative] >Determining optimal clustering by derivatives..')
+    if Param['verbose']>=3: print('[clusteval] >Determining optimal clustering by derivatives..')
 
     # Run over all cluster cutoffs
     last = Z[-10:, 2]
     last_rev = last[::-1]
-    idxs = np.arange(1, len(last) + 1)
 
     acceleration = np.diff(last, 2)  # 2nd derivative of the distances
     acceleration_rev = acceleration[::-1]
 
     k = acceleration_rev.argmax() + 2  # if idx 0 is the max of this we want 2 clusters
-    if Param['verbose']>=3: print('[derivative] >Clusters: %d' %k)
+    if Param['verbose']>=3: print('[clusteval] >Clusters: %d' %k)
 
     # Now use the optimal cluster cut-off for the selection of clusters
     clustlabx = fcluster(Z, k, criterion='maxclust')
@@ -108,6 +109,7 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     results['fig']['acceleration_rev'] = acceleration_rev
     # Return
     return(results)
+
 
 # %% Plot
 def plot(results, figsize=(15,8), verbose=3):
