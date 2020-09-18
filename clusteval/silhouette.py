@@ -16,16 +16,21 @@ from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_score, silhouette_samples, silhouette_score
 
+
 # %% Main
-def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=None, savemem=False, verbose=3):
+def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=None, savemem=False, verbose=3):
     """This function return the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.
 
     Parameters
     ----------
     X : Numpy-array,
         Where rows is features and colums are samples.
+    cluster : str, (default: 'agglomerative')
+        Clustering method type for clustering.
+            * 'agglomerative'
+            * 'kmeans'
     metric : str, (default: 'euclidean').
-        Distance measure for the clustering. Options are: 'euclidean','kmeans'.
+        Distance measure for the clustering. Options are: 'euclidean'.
     linkage : str, (default: 'ward')
         Linkage type for the clustering.
         'ward','single',',complete','average','weighted','centroid','median'.
@@ -84,37 +89,36 @@ def fit(X, metric='euclidean', linkage='ward', minclusters=2, maxclusters=25, Z=
     # Make dictionary to store Parameters
     Param = {}
     Param['verbose'] = verbose
+    Param['cluster'] = cluster
     Param['metric'] = metric
     Param['linkage'] = linkage
     Param['minclusters'] = minclusters
     Param['maxclusters'] = maxclusters
     Param['savemem'] = savemem
+    if verbose>=3: print('[clusteval] >Evaluate using silhouette.')
 
     # Savemem for kmeans
-    if Param['metric']=='kmeans':
+    if Param['cluster']=='kmeans':
         if Param['savemem']:
             kmeansmodel = MiniBatchKMeans
-            if Param['verbose']>=3: print('[silhouette] >Save memory enabled for kmeans with method silhouette.')
+            if Param['verbose']>=3: print('[clusteval] >Save memory enabled for kmeans with method silhouette.')
         else:
             kmeansmodel = KMeans
 
     # Cluster hierarchical using on metric/linkage
-    if (Z is None) and (Param['metric']!='kmeans'):
+    if (Z is None) and (Param['cluster']!='kmeans'):
         Z = scipy_linkage(X, method=Param['linkage'], metric=Param['metric'])
 
-    # Make all possible cluster-cut-offs
-    if Param['verbose']>=3: print('[silhouette] >Determining optimal [%s] clustering by silhouette score..' %(Param['metric']))
-
     # Setup storing parameters
-    clustcutt = np.arange(Param['minclusters'],Param['maxclusters'])
-    silscores = np.zeros((len(clustcutt)))*np.nan
-    sillclust = np.zeros((len(clustcutt)))*np.nan
+    clustcutt = np.arange(Param['minclusters'], Param['maxclusters'])
+    silscores = np.zeros((len(clustcutt))) * np.nan
+    sillclust = np.zeros((len(clustcutt))) * np.nan
     clustlabx = []
 
     # Run over all cluster cutoffs
     for i in tqdm(range(len(clustcutt))):
         # Cut the dendrogram for i clusters
-        if Param['metric']=='kmeans':
+        if Param['cluster']=='kmeans':
             labx = kmeansmodel(n_clusters=clustcutt[i], verbose=0).fit(X).labels_
         else:
             labx = fcluster(Z, clustcutt[i], criterion='maxclust')
