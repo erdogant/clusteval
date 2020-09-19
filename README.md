@@ -10,8 +10,9 @@
 [![Downloads](https://pepy.tech/badge/clusteval/month)](https://pepy.tech/project/clusteval/month)
 [![Downloads](https://pepy.tech/badge/clusteval)](https://pepy.tech/project/clusteval)
 
-* clusteval is Python package for unsupervised cluster evaluation.
-Five methods are implemented that can be used to evalute clusterings; silhouette, dbindex, derivative, dbscan and hdbscan.
+* ``clusteval`` is Python package for unsupervised cluster evaluation.
+Three methods are implemented that can be used to evalute clusterings; silhouette, dbindex, and derivative
+Four clustering methods can be used: agglomerative, kmeans, dbscan and hdbscan.
 
 
 ## Contents
