@@ -47,7 +47,7 @@ class clusteval:
             Distance measures. All metrics from sklearn can be used such as:
                 * 'euclidean'
                 * 'hamming'
-                * etc
+                * 'braycurtis', 'canberra', 'chebyshev', 'cityblock', 'correlation', 'cosine', 'dice', 'euclidean', 'hamming', 'jaccard', 'jensenshannon', 'kulsinski', 'mahalanobis', 'matching', 'minkowski', 'rogerstanimoto', 'russellrao', 'seuclidean', 'sokalmichener', 'sokalsneath', 'sqeuclidean', 'yule'
         linkage : str, (default: 'ward')
             Linkage type for the clustering.
                 * 'ward'
