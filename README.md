@@ -7,8 +7,8 @@
 [![Github Forks](https://img.shields.io/github/forks/erdogant/clusteval.svg)](https://github.com/erdogant/clusteval/network)
 [![GitHub Open Issues](https://img.shields.io/github/issues/erdogant/clusteval.svg)](https://github.com/erdogant/clusteval/issues)
 [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
-[![Downloads](https://pepy.tech/badge/clusteval)](https://pepy.tech/project/clusteval)
 [![Downloads](https://pepy.tech/badge/clusteval/month)](https://pepy.tech/project/clusteval/month)
+[![Downloads](https://pepy.tech/badge/clusteval)](https://pepy.tech/project/clusteval)
 
 * clusteval is Python package for unsupervised cluster evaluation.
 Five methods are implemented that can be used to evalute clusterings; silhouette, dbindex, derivative, dbscan and hdbscan.
