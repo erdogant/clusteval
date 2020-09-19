@@ -1,15 +1,8 @@
 from clusteval.clusteval import clusteval
 
-# import clusteval.dbindex as dbindex
-# import clusteval.silhouette as silhouette
-# import clusteval.derivative as derivative
-# import clusteval.dbscan as dbscan
-# import clusteval.plot_dendrogram
-# import clusteval.hdbscan
-
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '1.0.2'
+__version__ = '2.0.0'
 
 
 __doc__ = """
@@ -18,8 +11,7 @@ clusteval
 
 Description
 -----------
-clusteval is a python package for unsupervised cluster validation using five popular methods, i.e. silhouette, dbindex, derivative, dbscan and hdbscan.
-The metric and linkage types can choosen independently per validation method.
+clusteval is a python package for unsupervised cluster validation.
 
 Examples
 --------

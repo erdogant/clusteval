@@ -34,19 +34,12 @@ pip install clusteval
 ```
 
 
-* Alternatively, beta version can be installed from the GitHub source:
+* Beta version can be installed from the GitHub source:
 ```bash
-# Directly install from github source
-pip install -e git://github.com/erdogant/clusteval.git@0.1.0#egg=master
-pip install git+https://github.com/erdogant/clusteval#egg=master
-pip install git+https://github.com/erdogant/clusteval
-
-# By cloning
-git clone https://github.com/erdogant/clusteval.git
+git clone https://github.com/erdogant/clusteval
 cd clusteval
 pip install -U .
 ```  
-
 
 ## Import clusteval package
 ```python
@@ -65,7 +58,7 @@ X, labx_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.
 # Determine the optimal number of clusters
 
 ce = clusteval(method='silhouette')
-out = ce.fit(X)
+ce.fit(X)
 ce.plot()
 ce.dendrogram()
 ce.scatter(X)
@@ -80,10 +73,12 @@ ce.scatter(X)
 ```python
 # Determine the optimal number of clusters
 ce = clusteval(method='dbindex')
+ce.fit(X)
 ce.plot()
 ce.scatter(X)
 ce.dendrogram()
 ```
+
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png" width="600" />
 </p>
@@ -92,10 +87,12 @@ ce.dendrogram()
 ```python
 # Determine the optimal number of clusters
 ce = clusteval(method='derivative')
+ce.fit(X)
 ce.plot()
-ce.dendrogram()
 ce.scatter(X)
+ce.dendrogram()
 ```
+
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig3_der.png" width="600" />
 </p>
@@ -103,12 +100,14 @@ ce.scatter(X)
 
 ## Cluster validation using dbscan
 ```python
-# Determine the optimal number of clusters
-ce = clusteval(method='dbscan')
+# Determine the optimal number of clusters using dbscan and silhoutte
+ce = clusteval(cluster='dbscan')
+ce.fit(X)
 ce.plot()
-ce.dendrogram()
 ce.scatter(X)
+ce.dendrogram()
 ```
+
 <p align="center">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig5_dbscan.png" width="600" />
 </p>
@@ -121,7 +120,7 @@ pip install hdbscan
 
 ```python
 # Determine the optimal number of clusters
-ce = clusteval(method='hdbscan')
+ce = clusteval(cluster='hdbscan')
 ce.plot()
 ce.scatter(X)
 ```

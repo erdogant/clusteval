@@ -281,10 +281,10 @@ class clusteval:
         max_d_lower, max_d_upper = None, None
 
         # Check whether
-        if (metric is not None) & (linkage is not None) & (X is not None):
+        if (metric is not None) and (linkage is not None) and (X is not None):
             if self.verbose>=2: print('[clusteval] >Compute dendrogram using metric=%s, linkage=%s' %(metric, linkage))
             Z = scipy_linkage(X, method=linkage, metric=metric)
-        elif (metric is not None) & (linkage is not None) & (X is None):
+        elif (metric is not None) and (linkage is not None) and (X is None):
             if self.verbose>=2: print('[clusteval] >To compute the dendrogram, also provide the data: X=data <return>')
             return None
         elif (not hasattr(self, 'Z')):
@@ -313,6 +313,7 @@ class clusteval:
         results = plot_dendrogram(Z, labels=labels, leaf_rotation=leaf_rotation, leaf_font_size=leaf_font_size, orientation=orientation, show_contracted=show_contracted, annotate_above=annotate_above, max_d=max_d, truncate_mode=truncate_mode, ax=ax, no_plot=no_plot)
 
         # Compute cluster labels
+        if self.verbose>=3: print('[clusteval] >Compute cluster labels.')
         labx = fcluster(Z, max_d, criterion='distance')
 
         # Store results

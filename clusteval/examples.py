@@ -12,7 +12,6 @@ X, labels_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], c
 # X, labels_true = make_blobs(n_samples=750, centers=4, n_features=6, cluster_std=0.5)
 # X, labels_true = make_blobs(n_samples=750, centers=6, n_features=10)
 
-
 # %% Silhouette
 # ce = clusteval(method='silhouette', metric='kmeans', savemem=True)
 ce = clusteval(method='silhouette', verbose=3)
