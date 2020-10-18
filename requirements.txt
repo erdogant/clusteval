@@ -9,3 +9,4 @@ tqdm
 seaborn
 hdbscan
 sklearn
+wget

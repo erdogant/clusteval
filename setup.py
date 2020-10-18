@@ -13,7 +13,7 @@ else:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
-     install_requires=['matplotlib','numpy','pandas','tqdm','seaborn','sklearn'],
+     install_requires=['matplotlib','numpy','pandas','tqdm','seaborn','sklearn','wget'],
      python_requires='>=3',
      name='clusteval',
      version=new_version,

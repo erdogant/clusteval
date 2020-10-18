@@ -1,8 +1,13 @@
 from clusteval.clusteval import clusteval
 
+from clusteval.clusteval import (
+    import_example,
+    )
+
+
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.0.0'
+__version__ = '2.0.1'
 
 
 __doc__ = """

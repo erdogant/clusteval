@@ -6,6 +6,57 @@ print(dir(clusteval))
 
 from clusteval import clusteval
 
+# %% Example with titanic dataset and one-hot array
+import clusteval
+df = clusteval.import_example()
+del df['PassengerId']
+import df2onehot
+dfhot = df2onehot.df2onehot(df, excl_background='0.0')['onehot']
+X = dfhot.values
+
+from clusteval import clusteval
+ce = clusteval(cluster='agglomerative', metric='hamming', linkage='complete', min_clust=7, verbose=3)
+# ce = clusteval(cluster='dbscan', metric='hamming', linkage='complete', min_clust=7, verbose=3)
+results = ce.fit(X)
+ce.plot()
+ce.scatter(X)
+
+# %% Example with textual data
+# import clusteval
+# df = clusteval.import_example(data='retail')
+# corpus = df['Description'].values
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
+from sklearn.manifold import TSNE
+from sklearn.preprocessing import Normalizer
+from sklearn.pipeline import make_pipeline
+
+corpus = ['This is the first document.',
+          'This document is the second document.',
+          'And this is the third one.',
+          'Is this the first document?',
+          'This about cats',
+          'This about red cars',
+          'hello world',
+          ]
+
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(corpus)
+print(vectorizer.get_feature_names())
+
+svd = TruncatedSVD(n_components=2)
+normalizer = Normalizer(copy=False, norm='l2')
+lsa = make_pipeline(svd, normalizer)
+X = lsa.fit_transform(X)
+
+from clusteval import clusteval
+ce = clusteval(cluster='dbscan')
+ce.fit(X)
+ce.plot()
+ce.scatter(X)
+ce.dendrogram(labels=corpus)
+
 # %% Generate dataset
 X, labels_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
 # [X, labels_true] = make_blobs(n_samples=750, centers=[[1, 1], [-1, -1], [1, -1], [-1, 1]], cluster_std=0.4,random_state=0)
@@ -14,6 +65,7 @@ X, labels_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], c
 
 # %% Silhouette
 # ce = clusteval(method='silhouette', metric='kmeans', savemem=True)
+from clusteval import clusteval
 ce = clusteval(method='silhouette', verbose=3)
 results = ce.fit(X)
 ce.plot()
