@@ -1,10 +1,21 @@
 # EXAMPLE
-import clusteval
+# import clusteval
+# from sklearn.datasets import make_blobs
+# print(clusteval.__version__)
+# print(dir(clusteval))
+
+# from clusteval import clusteval
+
+# %% Check
 from sklearn.datasets import make_blobs
-print(clusteval.__version__)
-print(dir(clusteval))
 
 from clusteval import clusteval
+ce = clusteval(cluster='dbscan')
+X, labels_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
+results = ce.fit(X)
+ce.plot()
+ce.scatter(X)
+cluster_labels = results['labx']
 
 # %% Example with titanic dataset and one-hot array
 import clusteval
@@ -20,6 +31,13 @@ ce = clusteval(cluster='agglomerative', metric='hamming', linkage='complete', mi
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
+
+# %%
+# from s_dbw import S_Dbw
+# score = S_Dbw(X, df['Survived'].values, centers_id=None, method='Tong', alg_noise='bind',centr='mean', nearest_centr=True, metric='euclidean')
+
+# from s_dbw import SD
+# score = SD(X, df['Survived'].values, k=5, centers_id=None,  alg_noise='bind',centr='mean', nearest_centr=True, metric='euclidean')
 
 # %% Example with textual data
 # import clusteval

@@ -161,22 +161,26 @@ class clusteval:
                 import clusteval.hdbscan as hdbscan
                 self.results = hdbscan.fit(X, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, verbose=self.verbose)
             except:
-                raise ValueError('hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
+                raise ValueError('[clusteval] >hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
         else:
             raise ValueError('[clusteval] >The combination cluster"%s", method="%s" is not implemented.' %(self.cluster, self.method))
 
         # Compute the dendrogram threshold
-        if (self.cluster!='kmeans') and (len(np.unique(self.results['labx']))>1):
-            # print(self.results['labx'])
-            max_d, max_d_lower, max_d_upper = _compute_dendrogram_threshold(self.Z, self.results['labx'], verbose=self.verbose)
-
-        # Return
+        max_d, max_d_lower, max_d_upper = None, None, None
         if self.results['labx'] is not None:
             if self.verbose>=3: print('[clusteval] >Optimal number clusters detected: [%.0d].' %(len(np.unique(self.results['labx']))))
-        if self.verbose>=3: print('[clusteval] >Fin.')
+
+            # Compute the dendrogram threshold
+            if (self.cluster!='kmeans') and (len(np.unique(self.results['labx']))>1):
+                # print(self.results['labx'])
+                max_d, max_d_lower, max_d_upper = _compute_dendrogram_threshold(self.Z, self.results['labx'], verbose=self.verbose)
+
         self.results['max_d'] = max_d
         self.results['max_d_lower'] = max_d_lower
         self.results['max_d_upper'] = max_d_upper
+        if self.verbose>=3: print('[clusteval] >Fin.')
+
+        # Return
         return self.results
 
     # Plot
