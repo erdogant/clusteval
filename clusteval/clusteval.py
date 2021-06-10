@@ -167,13 +167,15 @@ class clusteval:
 
         # Compute the dendrogram threshold
         max_d, max_d_lower, max_d_upper = None, None, None
+
+        # Compute the dendrogram threshold
+        if (self.cluster!='kmeans') and (self.results['labx'] is not None) and (len(np.unique(self.results['labx']))>1):
+            # print(self.results['labx'])
+            max_d, max_d_lower, max_d_upper = _compute_dendrogram_threshold(self.Z, self.results['labx'], verbose=self.verbose)
+
         if self.results['labx'] is not None:
             if self.verbose>=3: print('[clusteval] >Optimal number clusters detected: [%.0d].' %(len(np.unique(self.results['labx']))))
 
-            # Compute the dendrogram threshold
-            if (self.cluster!='kmeans') and (len(np.unique(self.results['labx']))>1):
-                # print(self.results['labx'])
-                max_d, max_d_lower, max_d_upper = _compute_dendrogram_threshold(self.Z, self.results['labx'], verbose=self.verbose)
 
         self.results['max_d'] = max_d
         self.results['max_d_lower'] = max_d_lower
@@ -365,7 +367,10 @@ def _compute_dendrogram_threshold(Z, labx, verbose=3):
     Iloc = np.isin(Z[:, 3], np.unique(labx, return_counts=True)[1])
     max_d_lower = np.max(Z[Iloc, 2])
     # Find the next level
-    max_d_upper = Z[np.where(Z[:, 2] > max_d_lower)[0][0], 2]
+    if np.any(Z[:, 2] > max_d_lower):
+        max_d_upper = Z[np.where(Z[:, 2] > max_d_lower)[0][0], 2]
+    else:
+        max_d_upper = np.sort(Z[Iloc, 2])[-2]
     # Average the max_d between the start and stop level
     max_d = max_d_lower + ((max_d_upper - max_d_lower) / 2)
     # Return

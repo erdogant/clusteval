@@ -1,10 +1,10 @@
 # EXAMPLE
-# import clusteval
-# from sklearn.datasets import make_blobs
-# print(clusteval.__version__)
-# print(dir(clusteval))
+import clusteval
+from sklearn.datasets import make_blobs
+print(clusteval.__version__)
+print(dir(clusteval))
 
-# from clusteval import clusteval
+from clusteval import clusteval
 
 # %% Check
 from sklearn.datasets import make_blobs
@@ -105,7 +105,11 @@ ce = clusteval(method='silhouette')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
-results = ce.dendrogram()
+results_dendro = ce.dendrogram()
+
+for i in zip(results['labx'], results_dendro['labx']):
+    if not np.all(np.logical_and(np.where(results['labx']==i[0])[0]+1, np.where(results_dendro['labx']==i[1])[0]+1)):
+        print('error')
 
 # %% dbindex
 from clusteval import clusteval
@@ -113,7 +117,13 @@ ce = clusteval(method='dbindex')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
-results = ce.dendrogram()
+results_dendro = ce.dendrogram()
+
+results['labx']
+results_dendro['labx']
+
+for i in zip(results['labx'], results_dendro['labx']):
+    assert np.all(np.logical_and(np.where(results['labx']==i[0])[0]+1, np.where(results_dendro['labx']==i[1])[0]+1))
 
 # %% derivative
 from clusteval import clusteval
@@ -121,6 +131,14 @@ ce = clusteval(method='derivative')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
+results_dendro = ce.dendrogram()
+
+np.unique(results_dendro['labx'])
+np.unique(results['labx'])
+
+for i in zip(results['labx'], results_dendro['labx']):
+    assert np.all(np.logical_and(np.where(results['labx']==i[0])[0]+1, np.where(results_dendro['labx']==i[1])[0]+1))
+
 
 # %% dbscan
 from clusteval import clusteval
@@ -128,7 +146,10 @@ ce = clusteval(cluster='dbscan')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
-results = ce.dendrogram()
+results_dendro = ce.dendrogram()
+
+for i in zip(results['labx'], results_dendro['labx']):
+    assert np.all(np.logical_and(np.where(results['labx']==i[0])[0]+1, np.where(results_dendro['labx']==i[1])[0]+1))
 
 # %% hdbscan
 from clusteval import clusteval
@@ -136,7 +157,10 @@ ce = clusteval(cluster='hdbscan')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
-results = ce.dendrogram(figsize=(15,8), orientation='top')
+results_dendro = ce.dendrogram(figsize=(15,8), orientation='top')
+
+for i in zip(results['labx'], results_dendro['labx']):
+    assert np.all(np.logical_and(np.where(results['labx']==i[0])[0]+1, np.where(results_dendro['labx']==i[1])[0]+1))
 
 # %% Directly use the dbindex method
 import clusteval
