@@ -30,8 +30,8 @@ def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=
         Distance measure for the clustering, such as 'euclidean','hamming', etc.
     min_clust : int, (default: 2)
         Number of clusters that is evaluated greater or equals to min_clust.
-    min_samples : float [0..1], (default: 0.01)
-        Percentage of expected outliers among number of samples.
+    min_samples : float [0..1], (default: None)
+        The percentage of samples in a neighbourhood for a point to be considered a core point.
     norm : bool, (default: True)
         You may want to set this =0 using distance matrix as input.
     n_jobs : int, (default: -1)
@@ -77,7 +77,10 @@ def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=
     Param['n_jobs'] = n_jobs
     Param['norm'] = norm
     Param['gen_min_span_tree'] = False
-    Param['min_samples'] = np.int(np.floor(min_samples * X.shape[0]))  # Set max. outliers
+    
+    
+    
+    Param['min_samples'] = None if min_samples is None else (int(np.floor(min_samples * X.shape[0])))  # Set max. outliers
     # if verbose>=3: print('[clusteval] >Fit using hdbscan.')
 
     # Transform X
@@ -85,7 +88,7 @@ def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=
         X = StandardScaler().fit_transform(X)
 
     # Set parameters for hdbscan
-    model = hdb.HDBSCAN(algorithm='best', metric=Param['metric'], min_samples=np.int(Param['min_samples']), core_dist_n_jobs=Param['n_jobs'], min_cluster_size=np.int(Param['min_clust']), p=None, gen_min_span_tree=Param['gen_min_span_tree'])
+    model = hdb.HDBSCAN(algorithm='best', metric=Param['metric'], min_samples=Param['min_samples'], core_dist_n_jobs=Param['n_jobs'], min_cluster_size=int(Param['min_clust']), p=None, gen_min_span_tree=Param['gen_min_span_tree'])
     model.fit(X)
 
     results = {}
