@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 
 # %% Main
-def fit(X, metric='euclidean', min_clust=2, min_samples=0.01, norm=True, n_jobs=-1, verbose=3):
+def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=-1, verbose=3):
     """ Determine optimal number of clusters using dbindex.
 
     Description
