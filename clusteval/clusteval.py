@@ -159,7 +159,7 @@ class clusteval:
         elif self.cluster=='hdbscan':
             try:
                 import clusteval.hdbscan as hdbscan
-                self.results = hdbscan.fit(X, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, verbose=self.verbose)
+                self.results = hdbscan.fit(X, min_samples=None, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, verbose=self.verbose)
             except:
                 raise ValueError('[clusteval] >hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
         else:
