@@ -7,7 +7,7 @@ from clusteval.clusteval import (
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.0.2'
+__version__ = '2.0.3'
 
 
 __doc__ = """

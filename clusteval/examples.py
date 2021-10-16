@@ -6,6 +6,20 @@ print(dir(clusteval))
 
 from clusteval import clusteval
 
+# %%
+from sklearn.datasets import make_blobs
+
+from clusteval import clusteval
+ce = clusteval(cluster='dbscan')
+X, labels_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
+
+# Import library
+from clusteval import clusteval
+# Set the method
+ce = clusteval(method='hdbscan')
+# Evaluate
+results = ce.fit(X)
+
 # %% Check
 from sklearn.datasets import make_blobs
 
