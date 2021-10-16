@@ -169,7 +169,7 @@ class clusteval:
         max_d, max_d_lower, max_d_upper = None, None, None
 
         # Compute the dendrogram threshold
-        if (self.cluster!='kmeans') and (self.results['labx'] is not None) and (len(np.unique(self.results['labx']))>1):
+        if (self.cluster!='kmeans') and hasattr(self, 'results') and (self.results['labx'] is not None) and (len(np.unique(self.results['labx']))>1):
             # print(self.results['labx'])
             max_d, max_d_lower, max_d_upper = _compute_dendrogram_threshold(self.Z, self.results['labx'], verbose=self.verbose)
 
