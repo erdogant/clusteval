@@ -1,6 +1,6 @@
 # EXAMPLE
-import clusteval
 from sklearn.datasets import make_blobs
+import clusteval
 print(clusteval.__version__)
 print(dir(clusteval))
 
@@ -16,9 +16,10 @@ X, labels_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], c
 # Import library
 from clusteval import clusteval
 # Set the method
-ce = clusteval(method='hdbscan')
+ce = clusteval(cluster='hdbscan')
 # Evaluate
 results = ce.fit(X)
+ce.plot()
 
 # %% Check
 from sklearn.datasets import make_blobs

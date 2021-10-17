@@ -37,7 +37,7 @@ class clusteval:
         Parameters
         ----------
         cluster : str, (default: 'agglomerative')
-            Clustering method type for clustering.
+            Type of clustering.
                 * 'agglomerative'
                 * 'kmeans'
                 * 'dbscan'
@@ -103,6 +103,9 @@ class clusteval:
             min_clust=2
         if ((max_clust is None) or (max_clust<min_clust)):
             max_clust=min_clust + 1
+        
+        if not np.any(np.isin(method, ['silhouette', 'dbindex', 'derivative'])): raise ValueError("method has incorrect input argument [%s]." %(method))
+        if not np.any(np.isin(cluster, ['agglomerative', 'kmeans', 'dbscan', 'hdbscan'])): raise ValueError("cluster has incorrect input argument [%s]." %(cluster))
 
         # Store in object
         self.method = method
@@ -159,9 +162,9 @@ class clusteval:
         elif self.cluster=='hdbscan':
             try:
                 import clusteval.hdbscan as hdbscan
-                self.results = hdbscan.fit(X, min_samples=None, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, verbose=self.verbose)
             except:
                 raise ValueError('[clusteval] >hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
+            self.results = hdbscan.fit(X, min_samples=None, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, verbose=self.verbose)
         else:
             raise ValueError('[clusteval] >The combination cluster"%s", method="%s" is not implemented.' %(self.cluster, self.method))
 
