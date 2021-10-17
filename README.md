@@ -136,15 +136,8 @@ ce.scatter(X)
 
 
 ## Citation
-Please cite clusteval in your publications if this is useful for your research. Here is an example BibTeX entry:
-```BibTeX
-@misc{erdogant2019clusteval,
-  title={clusteval},
-  author={Erdogan Taskesen},
-  year={2019},
-  howpublished={\url{https://github.com/erdogant/clusteval}},
-}
-```
+Please cite clusteval in your publications if this is useful for your research (see right top for citation).
+
 ## TODO
 * Use ARI when the ground truth clustering has large equal sized clusters
 * Usa AMI when the ground truth clustering is unbalanced and there exist small clusters
