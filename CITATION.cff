@@ -1,0 +1,22 @@
+# YAML 1.2
+---
+authors: 
+  -
+    family-names: Taskesen
+    given-names: Erdogan
+    orcid: "https://orcid.org/0000-0002-3430-9618"
+cff-version: "1.1.0"
+date-released: 2020-09-01
+keywords: 
+  - "Python"
+  - "Clustering"
+  - "Validation"
+  - "Dbindex"
+  - "Silhouette method"
+  - "Unsupervised"
+license: "MIT"
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/erdogant/clusteval"
+title: "Clusteval provides methods for unsupervised cluster validation."
+version: "0.1.0"
+...
