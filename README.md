@@ -3,7 +3,7 @@
 [![Python](https://img.shields.io/pypi/pyversions/clusteval)](https://img.shields.io/pypi/pyversions/clusteval)
 [![PyPI Version](https://img.shields.io/pypi/v/clusteval)](https://pypi.org/project/clusteval/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/clusteval/blob/master/LICENSE)
-[![BuyMeCoffee](https://img.shields.io/badge/buymea-coffee-green.svg)](https://www.buymeacoffee.com/erdogant)
+[![BuyMeCoffee](https://img.shields.io/badge/buymea-coffee-brown.svg)](https://www.buymeacoffee.com/erdogant)
 [![Github Forks](https://img.shields.io/github/forks/erdogant/clusteval.svg)](https://github.com/erdogant/clusteval/network)
 [![GitHub Open Issues](https://img.shields.io/github/issues/erdogant/clusteval.svg)](https://github.com/erdogant/clusteval/issues)
 [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
