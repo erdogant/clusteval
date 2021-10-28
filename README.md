@@ -146,6 +146,13 @@ Please cite clusteval in your publications if this is useful for your research (
 * https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_measures.html#sphx-glr-auto-examples-cluster-plot-adjusted-for-chance-measures-py
 
 
+Add images to the clustering:
+* https://github.com/idealo/imagededup
+* https://towardsdatascience.com/how-to-cluster-images-based-on-visual-similarity-cd6e7209fe34
+* https://github.com/facebookresearch/deepcluster
+* https://towardsdatascience.com/pca-on-hyperspectral-data-99c9c5178385
+* https://machinelearningmastery.com/face-recognition-using-principal-component-analysis/
+
 ### Maintainer
 * Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
 * Contributions are welcome.
