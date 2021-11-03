@@ -106,7 +106,7 @@ ce.dendrogram()
 ## Cluster validation using dbscan
 ```python
 # Determine the optimal number of clusters using dbscan and silhoutte
-ce = clusteval(method='dbscan')
+ce = clusteval(cluster='dbscan')
 ce.fit(X)
 ce.plot()
 ce.scatter(X)
@@ -125,7 +125,7 @@ pip install hdbscan
 
 ```python
 # Determine the optimal number of clusters
-ce = clusteval(method='hdbscan')
+ce = clusteval(cluster='hdbscan')
 ce.plot()
 ce.scatter(X)
 ```
