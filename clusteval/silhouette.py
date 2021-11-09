@@ -147,7 +147,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         print('sillclust: %s' %(str(sillclust)))
         print('clustlabx: %s' %(str(clustlabx)))
 
-    if len(Iloc)>0:
+    if sum(Iloc)>0:
         # Get only clusters of interest
         silscores = silscores[Iloc]
         sillclust = sillclust[Iloc]
@@ -157,6 +157,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         clustlabx = clustlabx[idx, :] - 1
     else:
         if verbose>=3: print('[clusteval] >No clusters detected.')
+        clustlabx = np.zeros(clustlabx.shape[1]).astype(int)
 
     # Store results
     results = {}
@@ -239,8 +240,8 @@ def scatter(labx, X=None, figsize=(15, 8), verbose=3):
     if isinstance(labx, dict):
         labx = labx.get('labx', None)
     # Check labx
-    if labx is None:
-        if verbose>=3: print('[clusteval] >Error: No labels provided.')
+    if (labx is None) or (len(np.unique(labx))==1):
+        if verbose>=3: print('[clusteval] >Error: No valid labels provided.')
         return None
 
     # Plot silhouette samples plot

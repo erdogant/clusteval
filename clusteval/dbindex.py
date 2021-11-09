@@ -127,7 +127,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     Iloc = I1 & I2 & I3
 
     # Get only clusters of interest
-    if len(Iloc)>0:
+    if sum(Iloc)>0:
         scores = scores[Iloc]
         dbclust = dbclust[Iloc]
         clustlabx = clustlabx[Iloc, :]
@@ -136,6 +136,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         clustlabx = clustlabx[idx, :] - 1
     else:
         if verbose>=3: print('[clusteval] >No clusters detected.')
+        clustlabx = np.zeros(clustlabx.shape[1]).astype(int)
 
     # Store results
     results = {}
