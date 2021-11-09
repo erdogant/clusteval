@@ -136,7 +136,10 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         clustlabx = clustlabx[idx, :] - 1
     else:
         if verbose>=3: print('[clusteval] >No clusters detected.')
-        clustlabx = np.zeros(clustlabx.shape[1]).astype(int)
+        if len(clustlabx.shape)>1:
+            clustlabx = np.zeros(clustlabx.shape[1]).astype(int)
+        else:
+            clustlabx = [0]
 
     # Store results
     results = {}
