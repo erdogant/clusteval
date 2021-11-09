@@ -3,12 +3,13 @@
 [![Python](https://img.shields.io/pypi/pyversions/clusteval)](https://img.shields.io/pypi/pyversions/clusteval)
 [![PyPI Version](https://img.shields.io/pypi/v/clusteval)](https://pypi.org/project/clusteval/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/erdogant/clusteval/blob/master/LICENSE)
-[![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)
+[![BuyMeCoffee](https://img.shields.io/badge/buymea-coffee-yellow.svg)](https://www.buymeacoffee.com/erdogant)
 [![Github Forks](https://img.shields.io/github/forks/erdogant/clusteval.svg)](https://github.com/erdogant/clusteval/network)
 [![GitHub Open Issues](https://img.shields.io/github/issues/erdogant/clusteval.svg)](https://github.com/erdogant/clusteval/issues)
 [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Downloads](https://pepy.tech/badge/clusteval/month)](https://pepy.tech/project/clusteval)
 [![Downloads](https://pepy.tech/badge/clusteval)](https://pepy.tech/project/clusteval)
+<!---[![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)-->
 
 * ``clusteval`` is Python package for unsupervised cluster evaluation.
 Three methods are implemented that can be used to evalute clusterings; silhouette, dbindex, and derivative
@@ -144,6 +145,13 @@ Please cite clusteval in your publications if this is useful for your research (
 * https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html
 * https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_measures.html#sphx-glr-auto-examples-cluster-plot-adjusted-for-chance-measures-py
 
+
+Add images to the clustering:
+* https://github.com/idealo/imagededup
+* https://towardsdatascience.com/how-to-cluster-images-based-on-visual-similarity-cd6e7209fe34
+* https://github.com/facebookresearch/deepcluster
+* https://towardsdatascience.com/pca-on-hyperspectral-data-99c9c5178385
+* https://machinelearningmastery.com/face-recognition-using-principal-component-analysis/
 
 ### Maintainer
 * Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
