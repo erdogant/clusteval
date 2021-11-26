@@ -1,25 +1,37 @@
 # EXAMPLE
 from sklearn.datasets import make_blobs
-import clusteval
-print(clusteval.__version__)
-print(dir(clusteval))
+# import clusteval
+# print(clusteval.__version__)
+# print(dir(clusteval))
 
 from clusteval import clusteval
 
 # %%
+import numpy as np
 from sklearn.datasets import make_blobs
-
 from clusteval import clusteval
-ce = clusteval(cluster='dbscan')
-X, labels_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
 
-# Import library
-from clusteval import clusteval
-# Set the method
-ce = clusteval(cluster='hdbscan')
+# X, y = make_blobs(n_samples=500, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
+
+X, labx = make_blobs(n_samples=200, n_features=2, centers=2, random_state=1)
+c = np.random.multivariate_normal([40, 40], [[20, 1], [1, 30]], size=[200,])
+d = np.random.multivariate_normal([80, 80], [[30, 1], [1, 30]], size=[200,])
+e = np.random.multivariate_normal([0, 100], [[200, 1], [1, 100]], size=[200,])
+X = np.concatenate((X, c, d, e),)
+
+
 # Evaluate
+# ce = clusteval(cluster='dbscan', params_dbscan={'epsres' :100, 'norm':True})
+ce = clusteval(cluster='dbscan')
 results = ce.fit(X)
 ce.plot()
+ce.scatter(X)
+
+# Set the method
+# ce = clusteval(cluster='hdbscan')
+# results = ce.fit(X)
+# ce.plot()
+# ce.scatter(X)
 
 # %% Check
 from sklearn.datasets import make_blobs
