@@ -12,7 +12,7 @@
 <!---[![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)-->
 
 * ``clusteval`` is Python package for unsupervised cluster evaluation.
-Three methods are implemented that can be used to evalute clusterings; silhouette, dbindex, and derivative
+Three evaluation methods are implemented that can be used to evalute clusterings; silhouette, dbindex, and derivative
 Four clustering methods can be used: agglomerative, kmeans, dbscan and hdbscan.
 
 

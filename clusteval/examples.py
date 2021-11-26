@@ -192,20 +192,38 @@ for i in zip(results['labx'], results_dendro['labx']):
 # %% Directly use the dbindex method
 import clusteval
 from sklearn.datasets import make_blobs
-X, labels_true = make_blobs(n_samples=750, centers=6, n_features=10)
+import matplotlib.pyplot as plt
+X, labels_true = make_blobs(n_samples=750, centers=4, n_features=10)
+
+
+X, labx = make_blobs(n_samples=200, n_features=2, centers=2, random_state=1)
+c = np.random.multivariate_normal([40, 40], [[20, 1], [1, 30]], size=[200,])
+d = np.random.multivariate_normal([80, 80], [[30, 1], [1, 30]], size=[200,])
+e = np.random.multivariate_normal([0, 100], [[200, 1], [1, 100]], size=[200,])
+X = np.concatenate((X, c, d, e),)
+
+
+plt.figure()
+fig, axs = plt.subplots(2,4, figsize=(25,10))
 
 # dbindex
 results = clusteval.dbindex.fit(X)
-fig,ax = clusteval.dbindex.plot(results)
+_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], visible=False)
+axs[1][0].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][0].grid(True)
 
 # silhouette
 results = clusteval.silhouette.fit(X)
-fig,ax = clusteval.silhouette.plot(results)
+_ = clusteval.silhouette.plot(results,title='silhouette', ax=axs[0][1], visible=False)
+axs[1][1].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][1].grid(True)
 
 # derivative
 results = clusteval.derivative.fit(X)
-fig,ax = clusteval.derivative.plot(results)
+_ = clusteval.derivative.plot(results,title='derivative', ax=axs[0][2], visible=False)
+axs[1][2].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][2].grid(True)
 
 # dbscan
 results = clusteval.dbscan.fit(X)
-fig,ax1,ax2 = clusteval.dbscan.plot(results)
+_ = clusteval.dbscan.plot(results,title='dbscan', ax=axs[0][3], visible=False)
+axs[1][3].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
+
+plt.show()

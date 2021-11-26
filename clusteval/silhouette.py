@@ -19,14 +19,14 @@ from sklearn.metrics import silhouette_score, silhouette_samples, silhouette_sco
 
 # %% Main
 def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, savemem=False, verbose=3):
-    """This function return the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.
+    """This function return the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering evaluate.
 
     Parameters
     ----------
     X : Numpy-array,
         Where rows is features and colums are samples.
     cluster : str, (default: 'agglomerative')
-        Clustering method type for clustering.
+        Clustering evaluation type for clustering.
             * 'agglomerative'
             * 'kmeans'
     metric : str, (default: 'euclidean').
@@ -47,9 +47,9 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
 
     Returns
     -------
-    dict. with various keys. Note that the underneath keys can change based on the used methodtype.
-    method: str
-        Method name that is used for cluster evaluation.
+    dict. with various keys. Note that the underneath keys can change based on the used evaluatetype.
+    evaluate: str
+        evaluate name that is used for cluster evaluation.
     score: pd.DataFrame()
         The scoring values per clusters.
     labx: list
@@ -101,7 +101,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     if Param['cluster']=='kmeans':
         if Param['savemem']:
             kmeansmodel = MiniBatchKMeans
-            if Param['verbose']>=3: print('[clusteval] >Save memory enabled for kmeans with method silhouette.')
+            if Param['verbose']>=3: print('[clusteval] >Save memory enabled for kmeans with evaluation silhouette.')
         else:
             kmeansmodel = KMeans
 
@@ -164,7 +164,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
 
     # Store results
     results = {}
-    results['method']='silhouette'
+    results['evaluate']='silhouette'
     results['score'] = pd.DataFrame(np.array([sillclust, silscores]).T, columns=['clusters', 'score'])
     results['score']['clusters'] = results['score']['clusters'].astype(int)
     results['labx'] = clustlabx
@@ -177,7 +177,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     return(results)
 
 # %% plot
-def plot(results, figsize=(15,8)):
+def plot(results, title='Silhouette vs. nr.clusters', figsize=(15, 8), ax=None, visible=True):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -193,27 +193,30 @@ def plot(results, figsize=(15,8)):
         Figure and axis of the figure.
 
     """
+    fig=None
     idx = np.argmax(results['fig']['silscores'])
     # Make figure
-    fig, ax1 = plt.subplots(figsize=figsize)
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
     # Plot
-    ax1.plot(results['fig']['sillclust'], results['fig']['silscores'], color='k')
+    ax.plot(results['fig']['sillclust'], results['fig']['silscores'], color='k')
     # Plot optimal cut
-    ax1.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r', linestyle="--")
+    ax.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r', linestyle="--")
     # Set fontsizes
     plt.rc('axes', titlesize=14)  # fontsize of the axes title
     plt.rc('xtick', labelsize=10)  # fontsize of the axes title
     plt.rc('ytick', labelsize=10)  # fontsize of the axes title
     plt.rc('font', size=10)
     # Set labels
-    ax1.set_xticks(results['fig']['clustcutt'])
-    ax1.set_xlabel('#Clusters')
-    ax1.set_ylabel('Score')
-    ax1.set_title("silhouette score versus number of clusters")
-    ax1.grid(color='grey', linestyle='--', linewidth=0.2)
-    plt.show()
+    ax.set_xticks(results['fig']['clustcutt'])
+    ax.set_xlabel('#Clusters')
+    ax.set_ylabel('Score')
+    ax.set_title(title)
+    ax.grid(color='grey', linestyle='--', linewidth=0.2)
+    if visible:
+        plt.show()
     # Return
-    return(fig, ax1)
+    return(fig, ax)
 
 
 # %% Scatter data

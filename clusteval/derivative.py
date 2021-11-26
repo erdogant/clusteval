@@ -19,6 +19,8 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     Description
     -----------
     This function return the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.
+    The derivative or inconsistence method is one of the defaults for the fcluster() function in scipy.
+    It compares each cluster merge's height h to the average avg and normalizing it by the standard deviation std formed over the depth previous levels.
 
     Parameters
     ----------
@@ -130,7 +132,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
 
 
 # %% Plot
-def plot(results, figsize=(15,8), verbose=3):
+def plot(results, title='derivative vs. nr.clusters', figsize=(15,8), ax=None, visible=True, verbose=3):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -148,28 +150,31 @@ def plot(results, figsize=(15,8), verbose=3):
         Figure and axis of the figure.
 
     """
+    fig=None
     idxs = np.arange(1, len(results['fig']['last_rev']) + 1)
     k = results['fig']['acceleration_rev'].argmax() + 2  # if idx 0 is the max of this we want 2 clusters
 
     # Make figure
-    [fig, ax1] = plt.subplots(figsize=figsize)
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
     # Plot
-    plt.plot(idxs, results['fig']['last_rev'])
-    plt.plot(idxs[:-2] + 1, results['fig']['acceleration_rev'])
+    ax.plot(idxs, results['fig']['last_rev'])
+    ax.plot(idxs[:-2] + 1, results['fig']['acceleration_rev'])
 
     # Plot optimal cut
-    ax1.axvline(x=k, ymin=0, linewidth=2, color='r', linestyle="--")
+    ax.axvline(x=k, ymin=0, linewidth=2, color='r', linestyle="--")
     # Set fontsizes
     plt.rc('axes', titlesize=14)     # fontsize of the axes title
     plt.rc('xtick', labelsize=10)     # fontsize of the axes title
     plt.rc('ytick', labelsize=10)     # fontsize of the axes title
     plt.rc('font', size=10)
     # Set labels
-    ax1.set_xticks(np.arange(0, len(idxs)))
-    ax1.set_xlabel('#Clusters')
-    ax1.set_ylabel('Score')
-    ax1.set_title("Derivatives versus number of clusters")
-    ax1.grid(color='grey', linestyle='--', linewidth=0.2)
-    plt.show()
+    ax.set_xticks(np.arange(0, len(idxs)))
+    ax.set_xlabel('#Clusters')
+    ax.set_ylabel('Score')
+    ax.set_title(title)
+    ax.grid(color='grey', linestyle='--', linewidth=0.2)
+    if visible:
+        plt.show()
     # Return
-    return(fig, ax1)
+    return(fig, ax)

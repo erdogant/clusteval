@@ -2,6 +2,10 @@ from clusteval.clusteval import clusteval
 
 from clusteval.clusteval import (
     import_example,
+    dbindex,
+    silhouette,
+    derivative,
+    dbscan,
     )
 
 
