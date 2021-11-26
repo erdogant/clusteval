@@ -16,7 +16,7 @@ import clusteval.silhouette as silhouette
 
 
 # %% Main function
-def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=True, n_jobs=-1, min_clust=2, max_clust=25, epsres=100, verbose=3):
+def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1, min_clust=2, max_clust=25, epsres=50, verbose=3):
     """Density Based clustering.
 
     Parameters
