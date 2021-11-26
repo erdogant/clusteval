@@ -26,7 +26,7 @@ import os
 class clusteval:
     """clusteval - Cluster evaluation."""
 
-    def __init__(self, cluster='agglomerative', method='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, savemem=False, verbose=3):
+    def __init__(self, cluster='agglomerative', method='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, savemem=False, verbose=3, params_dbscan={'eps':None, 'epsres':50, 'min_samples':0.01, 'norm':False, 'n_jobs':-1}):
         """Initialize clusteval with user-defined parameters.
 
         Description
@@ -106,6 +106,11 @@ class clusteval:
         if not np.any(np.isin(method, ['silhouette', 'dbindex', 'derivative'])): raise ValueError("method has incorrect input argument [%s]." %(method))
         if not np.any(np.isin(cluster, ['agglomerative', 'kmeans', 'dbscan', 'hdbscan'])): raise ValueError("cluster has incorrect input argument [%s]." %(cluster))
 
+        # Set parameters for dbscan
+        dbscan_defaults = {'metric':metric, 'min_clust':min_clust, 'max_clust':max_clust, 'eps':None, 'epsres':50, 'min_samples':0.01, 'norm':False, 'n_jobs':-1,'verbose':verbose}
+        params_dbscan   = {**dbscan_defaults, **params_dbscan}
+        self.params_dbscan = params_dbscan
+
         # Store in object
         self.method = method
         self.cluster = cluster
@@ -157,7 +162,7 @@ class clusteval:
             elif self.method=='derivative':
                 self.results = derivative.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, verbose=self.verbose)
         elif (self.cluster=='dbscan') and (self.method=='silhouette'):
-            self.results = dbscan.fit(X, eps=None, epsres=50, min_samples=0.01, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, max_clust=self.max_clust, verbose=self.verbose)
+            self.results = dbscan.fit(X, eps=self.params_dbscan['eps'], epsres=self.params_dbscan['epsres'], min_samples=self.params_dbscan['min_samples'], metric=self.metric, norm=self.params_dbscan['norm'], n_jobs=self.params_dbscan['n_jobs'], min_clust=self.min_clust, max_clust=self.max_clust, verbose=self.verbose)
         elif self.cluster=='hdbscan':
             try:
                 import clusteval.hdbscan as hdbscan
