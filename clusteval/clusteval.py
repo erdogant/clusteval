@@ -5,7 +5,6 @@
 # Licence     : MIT
 # Respect the autor and leave this here
 # -----------------------------------------------
-
 import clusteval.dbindex as dbindex
 import clusteval.silhouette as silhouette
 import clusteval.derivative as derivative
