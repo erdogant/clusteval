@@ -45,7 +45,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     Returns
     -------
     dict. with various keys. Note that the underneath keys can change based on the used methodtype.
-    method: str
+    evaluate: str
         Method name that is used for cluster evaluation.
     score: None
         Nothing in here but incuded for consistency
@@ -80,7 +80,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     if Param['cluster']=='kmeans':
         if verbose>=3: print('[clusteval] >Does not work with Kmeans! <return>')
         results = {}
-        results['method']='derivative'
+        results['evaluate']='derivative'
         results['labx'] = None
         results['score'] = None
         results['fig'] = {}
@@ -119,7 +119,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
 
     # Store results
     results = {}
-    results['method']='derivative'
+    results['evaluate']='derivative'
     results['labx'] = clustlabx
     results['score'] = None
     results['fig'] = {}

@@ -95,7 +95,7 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1
         [eps, sillclust, silscores, silllabx] = _optimize_eps(X, eps, Param, verbose=verbose)
         # Store results
         idx = np.argmax(silscores)
-        results['method']='dbscan'
+        results['evaluate']='dbscan'
         results['labx'] = silllabx[idx, :]
         results['fig'] = {}
         results['fig']['eps'] = eps
@@ -155,7 +155,7 @@ def _optimize_eps(X, eps, Param, verbose=3):
 
 
 # %% Plot
-def plot(results, figsize=(15, 8), verbose=3):
+def plot(results, title='dbscan vs. nr.clusters', figsize=(15, 8), verbose=3, ax=None, visible=True):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -173,16 +173,19 @@ def plot(results, figsize=(15, 8), verbose=3):
         Figure and axis of the figure.
 
     """
+    fig=None
     # Setup figure properties
-    fig, ax1 = plt.subplots(figsize=figsize)
-    ax2 = ax1.twinx()
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
+    ax2 = ax.twinx()
 
     # Make figure 1
     idx = results['fig']['idx']
-    ax1.plot(results['fig']['eps'], results['fig']['silscores'], color='k')
-    ax1.set_xlabel('eps')
-    ax1.set_ylabel('Silhouette score')
-    ax1.grid(color='grey', linestyle='--', linewidth=0.2)
+    ax.plot(results['fig']['eps'], results['fig']['silscores'], color='k')
+    ax.set_xlabel('eps')
+    ax.set_ylabel('Silhouette score')
+    ax.set_title(title)
+    ax.grid(color='grey', linestyle='--', linewidth=0.2)
 
     # Make figure 2
     ax2.plot(results['fig']['eps'], results['fig']['sillclust'], color='b')
@@ -190,6 +193,8 @@ def plot(results, figsize=(15, 8), verbose=3):
     ax2.grid(color='grey', linestyle='--', linewidth=0.2)
     # Plot vertical line To stress the cut-off point
     ax2.axvline(x=results['fig']['eps'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r')
-    plt.show()
+
+    if visible:
+        plt.show()
     # Return
-    return (fig, (ax1, ax2))
+    return (fig, (ax, ax2))

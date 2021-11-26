@@ -26,12 +26,12 @@ import os
 class clusteval:
     """clusteval - Cluster evaluation."""
 
-    def __init__(self, cluster='agglomerative', method='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, savemem=False, verbose=3, params_dbscan={'eps':None, 'epsres':50, 'min_samples':0.01, 'norm':False, 'n_jobs':-1}):
+    def __init__(self, cluster='agglomerative', evaluate='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, savemem=False, verbose=3, params_dbscan={'eps':None, 'epsres':50, 'min_samples':0.01, 'norm':False, 'n_jobs':-1}):
         """Initialize clusteval with user-defined parameters.
 
         Description
         -----------
-        clusteval is a python package that provides various methods for unsupervised cluster validation.
+        clusteval is a python package that provides various evaluation approaches to measure the goodness of the unsupervised clustering.
 
         Parameters
         ----------
@@ -42,8 +42,8 @@ class clusteval:
                 * 'dbscan'
                 * 'hdbscan'
                 * 'optics' # TODO
-        method : str, (default: 'silhouette')
-            Method type for cluster validation.
+        evaluate : str, (default: 'silhouette')
+            Evaluation method for cluster validation.
                 * 'silhouette'
                 * 'dbindex'
                 * 'derivative'
@@ -103,7 +103,7 @@ class clusteval:
         if ((max_clust is None) or (max_clust<min_clust)):
             max_clust=min_clust + 1
         
-        if not np.any(np.isin(method, ['silhouette', 'dbindex', 'derivative'])): raise ValueError("method has incorrect input argument [%s]." %(method))
+        if not np.any(np.isin(evaluate, ['silhouette', 'dbindex', 'derivative'])): raise ValueError("evaluate has incorrect input argument [%s]." %(evaluate))
         if not np.any(np.isin(cluster, ['agglomerative', 'kmeans', 'dbscan', 'hdbscan'])): raise ValueError("cluster has incorrect input argument [%s]." %(cluster))
 
         # Set parameters for dbscan
@@ -112,7 +112,7 @@ class clusteval:
         self.params_dbscan = params_dbscan
 
         # Store in object
-        self.method = method
+        self.evaluate = evaluate
         self.cluster = cluster
         self.metric = metric
         self.linkage = linkage
@@ -132,11 +132,11 @@ class clusteval:
 
         Returns
         -------
-        dict. with various keys. Note that the underneath keys can change based on the used methodtype.
-            method: str
-                Method name that is used for cluster evaluation.
+        dict. with various keys. Note that the underneath keys can change based on the used evaluation method.
+            evaluate: str
+                evaluate name that is used for cluster evaluation.
             score: pd.DataFrame()
-                The scoring values per clusters. The methods [silhouette, dbindex] provide this information.
+                The scoring values per clusters [silhouette, dbindex] provide this information.
             labx: list
                 Cluster labels.
             fig: list
@@ -155,13 +155,13 @@ class clusteval:
 
         # Choosing method
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
-            if self.method=='silhouette':
+            if self.evaluate=='silhouette':
                 self.results = silhouette.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, savemem=self.savemem, verbose=self.verbose)
-            elif self.method=='dbindex':
+            elif self.evaluate=='dbindex':
                 self.results = dbindex.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, savemem=self.savemem, verbose=self.verbose)
-            elif self.method=='derivative':
+            elif self.evaluate=='derivative':
                 self.results = derivative.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, verbose=self.verbose)
-        elif (self.cluster=='dbscan') and (self.method=='silhouette'):
+        elif (self.cluster=='dbscan') and (self.evaluate=='silhouette'):
             self.results = dbscan.fit(X, eps=self.params_dbscan['eps'], epsres=self.params_dbscan['epsres'], min_samples=self.params_dbscan['min_samples'], metric=self.metric, norm=self.params_dbscan['norm'], n_jobs=self.params_dbscan['n_jobs'], min_clust=self.min_clust, max_clust=self.max_clust, verbose=self.verbose)
         elif self.cluster=='hdbscan':
             try:
@@ -170,7 +170,7 @@ class clusteval:
                 raise ValueError('[clusteval] >hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
             self.results = hdbscan.fit(X, min_samples=None, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, verbose=self.verbose)
         else:
-            raise ValueError('[clusteval] >The combination cluster"%s", method="%s" is not implemented.' %(self.cluster, self.method))
+            raise ValueError('[clusteval] >The combination cluster"%s", evaluate="%s" is not implemented.' %(self.cluster, self.evaluate))
 
         # Compute the dendrogram threshold
         max_d, max_d_lower, max_d_upper = None, None, None
@@ -212,11 +212,11 @@ class clusteval:
             return None
 
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
-            if self.method=='silhouette':
+            if self.evaluate=='silhouette':
                 fig, ax = silhouette.plot(self.results, figsize=figsize)
-            elif self.method=='dbindex':
+            elif self.evaluate=='dbindex':
                 fig, ax = dbindex.plot(self.results, figsize=figsize)
-            elif self.method=='derivative':
+            elif self.evaluate=='derivative':
                 fig, ax = derivative.plot(self.results, figsize=figsize)
         elif self.cluster=='dbscan':
             fig, ax = dbscan.plot(self.results, figsize=figsize)

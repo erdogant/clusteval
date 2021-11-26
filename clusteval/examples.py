@@ -27,7 +27,7 @@ results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
 
-# Set the method
+# Set the evaluation method
 # ce = clusteval(cluster='hdbscan')
 # results = ce.fit(X)
 # ce.plot()
@@ -48,8 +48,8 @@ cluster_labels = results['labx']
 import clusteval
 df = clusteval.import_example()
 del df['PassengerId']
-import df2onehot
-dfhot = df2onehot.df2onehot(df, excl_background='0.0')['onehot']
+from df2onehot import df2onehot
+dfhot = df2onehot(df, excl_background='0.0')['onehot']
 X = dfhot.values
 
 from clusteval import clusteval
@@ -109,9 +109,9 @@ X, labels_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], c
 # X, labels_true = make_blobs(n_samples=750, centers=6, n_features=10)
 
 # %% Silhouette
-# ce = clusteval(method='silhouette', metric='kmeans', savemem=True)
+# ce = clusteval(evaluate='silhouette', metric='kmeans', savemem=True)
 from clusteval import clusteval
-ce = clusteval(method='silhouette', verbose=3)
+ce = clusteval(evaluate='silhouette', verbose=3)
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
@@ -128,7 +128,7 @@ results['order_rows']
 
 # %% Silhouette
 from clusteval import clusteval
-ce = clusteval(method='silhouette')
+ce = clusteval(evaluate='silhouette')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
@@ -140,7 +140,7 @@ for i in zip(results['labx'], results_dendro['labx']):
 
 # %% dbindex
 from clusteval import clusteval
-ce = clusteval(method='dbindex')
+ce = clusteval(evaluate='dbindex')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
@@ -154,7 +154,7 @@ for i in zip(results['labx'], results_dendro['labx']):
 
 # %% derivative
 from clusteval import clusteval
-ce = clusteval(method='derivative')
+ce = clusteval(evaluate='derivative')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)

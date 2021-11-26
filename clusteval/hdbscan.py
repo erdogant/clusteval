@@ -92,7 +92,7 @@ def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=
     model.fit(X)
 
     results = {}
-    results['method'] ='hdbscan'
+    results['evaluate'] ='hdbscan'
     results['labx'] = model.labels_  # Labels
     results['p'] = model.probabilities_  # The strength with which each sample is a member of its assigned cluster. Noise points have probability zero; points in clusters have values assigned proportional to the degree that they persist as part of the cluster.
     results['cluster_persistence'] = model.cluster_persistence_  # A score of how persistent each cluster is. A score of 1.0 represents a perfectly stable cluster that persists over all distance scales, while a score of 0.0 represents a perfectly ephemeral cluster. These scores can be guage the relative coherence of the clusters resultsput by the algorithm.

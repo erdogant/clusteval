@@ -62,7 +62,7 @@ X, labx_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.
 ```python
 # Determine the optimal number of clusters
 
-ce = clusteval(method='silhouette')
+ce = clusteval(evaluate='silhouette')
 ce.fit(X)
 ce.plot()
 ce.dendrogram()
@@ -77,7 +77,7 @@ ce.scatter(X)
 ## Cluster validation using davies-boulin index
 ```python
 # Determine the optimal number of clusters
-ce = clusteval(method='dbindex')
+ce = clusteval(evaluate='dbindex')
 ce.fit(X)
 ce.plot()
 ce.scatter(X)
@@ -88,10 +88,10 @@ ce.dendrogram()
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png" width="600" />
 </p>
 
-## Cluster validation using derivative method
+## Cluster validation using derivative evaluation method
 ```python
 # Determine the optimal number of clusters
-ce = clusteval(method='derivative')
+ce = clusteval(evaluate='derivative')
 ce.fit(X)
 ce.plot()
 ce.scatter(X)

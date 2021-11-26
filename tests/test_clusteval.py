@@ -7,43 +7,43 @@ import numpy as np
 # %%
 def test_fit():
     X, y_true = make_blobs(n_samples=500, centers=6, n_features=10)
-    # ce = clusteval(method='agglomerative', cluster=cluster, metric=metric, linkage=linkage, min_clust=min_clust, max_clust=max_clust, verbose=3)
+    # ce = clusteval(evaluate='agglomerative', cluster=cluster, metric=metric, linkage=linkage, min_clust=min_clust, max_clust=max_clust, verbose=3)
     # results = ce.fit(X)
     # print('Clusters: %s' %(str(np.unique(results['labx']))))
 
     # X, y_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
     # Set all parameters to be evaluated
     clusters = ['agglomerative', 'kmeans', 'dbscan']
-    methods = ['silhouette', 'dbindex', 'derivative']
+    evaluates = ['silhouette', 'dbindex', 'derivative']
     metrics = ['euclidean', 'hamming']
     linkages = ['ward', 'single', 'complete']
     min_clusts = [1, 2, 10]
     max_clusts = [1, 10, 2]
 
     # Evaluate across all paramters
-    out = parameter_gridtest(X, y_true, clusters, methods, metrics, linkages, min_clusts, max_clusts)
+    out = parameter_gridtest(X, y_true, clusters, evaluates, metrics, linkages, min_clusts, max_clusts)
 
 # %%
-def parameter_gridtest(X, y_true, clusters, methods, metrics, linkages, min_clusts, max_clusts):
+def parameter_gridtest(X, y_true, clusters, evaluates, metrics, linkages, min_clusts, max_clusts):
     random_state = 42
     out = []
     count = 0
 
     for cluster in clusters:
-        for method in methods:
+        for evaluate in evaluates:
             for metric in metrics:
                 for linkage in linkages:
                     for min_clust in min_clusts:
                         for max_clust in max_clusts:
                             print(cluster)
-                            print(method)
+                            print(evaluate)
                             print(metric)
                             print(linkage)
                             print(min_clust)
                             print(max_clust)
 
                             # cluster='agglomerative'
-                            # method='derivative'
+                            # evaluate='derivative'
                             # metric='euclidean'
                             # linkage='complete'
                             # min_clust=1
@@ -51,7 +51,7 @@ def parameter_gridtest(X, y_true, clusters, methods, metrics, linkages, min_clus
 
                             try:
                                 status = 'OK'
-                                ce = clusteval(method=method, cluster=cluster, metric=metric, linkage=linkage, min_clust=min_clust, max_clust=max_clust, verbose=3)
+                                ce = clusteval(evaluate=evaluate, cluster=cluster, metric=metric, linkage=linkage, min_clust=min_clust, max_clust=max_clust, verbose=3)
                                 results = ce.fit(X)
                                 # print('Clusters: %s' %(str(np.unique(results['labx']))))
                                 # assert ce.plot()

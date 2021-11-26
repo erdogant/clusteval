@@ -143,7 +143,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
 
     # Store results
     results = {}
-    results['method'] = 'dbindex'
+    results['evaluate'] = 'dbindex'
     results['score'] = pd.DataFrame(np.array([dbclust, scores]).T, columns=['clusters', 'score'])
     results['score'].clusters = results['score'].clusters.astype(int)
     results['labx'] = clustlabx
@@ -177,7 +177,7 @@ def _dbindex_score(X, labels):
 
 
 # %% plot
-def plot(results, figsize=(15, 8)):
+def plot(results, title='Davies Bouldin index vs. nr.clusters', figsize=(15, 8), ax=None, visible=True):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -194,23 +194,26 @@ def plot(results, figsize=(15, 8)):
 
     """
     idx = np.argmin(results['fig']['scores'])
+    fig=None
     # Make figure
-    [fig, ax1] = plt.subplots(figsize=figsize)
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize)
     # Plot
-    ax1.plot(results['fig']['dbclust'], results['fig']['scores'], color='k')
+    ax.plot(results['fig']['dbclust'], results['fig']['scores'], color='k')
     # Plot optimal cut
-    ax1.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['dbclust'][idx], linewidth=2, color='r', linestyle="--")
+    ax.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['dbclust'][idx], linewidth=2, color='r', linestyle="--")
     # Set fontsizes
     plt.rc('axes', titlesize=14)     # fontsize of the axes title
     plt.rc('xtick', labelsize=10)     # fontsize of the axes title
     plt.rc('ytick', labelsize=10)     # fontsize of the axes title
     plt.rc('font', size=10)
     # Set labels
-    ax1.set_xticks(results['fig']['clustcutt'])
-    ax1.set_xlabel('#Clusters')
-    ax1.set_ylabel('Score')
-    ax1.set_title("Davies Bouldin index versus number of clusters")
-    ax1.grid(color='grey', linestyle='--', linewidth=0.2)
-    plt.show()
+    ax.set_xticks(results['fig']['clustcutt'])
+    ax.set_xlabel('#Clusters')
+    ax.set_ylabel('Score')
+    ax.set_title(title)
+    ax.grid(color='grey', linestyle='--', linewidth=0.2)
+    if visible:
+        plt.show()
     # Return
-    return(fig, ax1)
+    return(fig, ax)
