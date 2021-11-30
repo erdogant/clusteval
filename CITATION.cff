@@ -17,6 +17,6 @@ keywords:
 license: "MIT"
 message: "If you use this software, please cite it using these metadata."
 repository-code: "https://github.com/erdogant/clusteval"
-title: "Clusteval provides methods for unsupervised cluster validation."
+title: "clusteval is a python package for unsupervised cluster validation."
 version: "0.1.0"
 ...
