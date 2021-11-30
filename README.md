@@ -9,6 +9,7 @@
 [![Project Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Downloads](https://pepy.tech/badge/clusteval/month)](https://pepy.tech/project/clusteval)
 [![Downloads](https://pepy.tech/badge/clusteval)](https://pepy.tech/project/clusteval)
+[![DOI](https://zenodo.org/badge/232915924.svg)](https://zenodo.org/badge/latestdoi/232915924)
 <!---[![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)-->
 
 * ``clusteval`` is Python package for unsupervised cluster evaluation.
@@ -139,14 +140,11 @@ ce.scatter(X)
 ## Citation
 Please cite clusteval in your publications if this is useful for your research (see right top for citation).
 
-## TODO
+## Other interesting techniques/blogs
 * Use ARI when the ground truth clustering has large equal sized clusters
 * Usa AMI when the ground truth clustering is unbalanced and there exist small clusters
 * https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html
 * https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_measures.html#sphx-glr-auto-examples-cluster-plot-adjusted-for-chance-measures-py
-
-
-Add images to the clustering:
 * https://github.com/idealo/imagededup
 * https://towardsdatascience.com/how-to-cluster-images-based-on-visual-similarity-cd6e7209fe34
 * https://github.com/facebookresearch/deepcluster
