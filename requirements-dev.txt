@@ -3,4 +3,4 @@ rst2pdf
 sphinx
 pytest
 git+git://github.com/SuperKogito/sphinxcontrib-pdfembed
-spyder‑kernels==2.0.*
+spyder-kernels==2.2.*

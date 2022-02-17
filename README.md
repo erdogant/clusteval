@@ -16,24 +16,11 @@
 Three evaluation methods are implemented that can be used to evalute clusterings; silhouette, dbindex, and derivative
 Four clustering methods can be used: agglomerative, kmeans, dbscan and hdbscan.
 
-
-## Contents
-- [Installation](#-installation)
-- [Requirements](#-Requirements)
-- [Quick Start](#-quick-start)
-- [Contribute](#-contribute)
-- [Citation](#-citation)
+# 
+**Star this repo if you like it! ⭐️**
+#
 
 ## Installation
-* Install clusteval from PyPI (recommended). clusteval is compatible with Python 3.6+ and runs on Linux, MacOS X and Windows. 
-* It is distributed under the MIT license.
-
-* A new environment can be created as following:
-
-```python
-conda create -n env_clusteval python=3.6
-conda activate env_clusteval
-```
 
 ```bash
 pip install clusteval
