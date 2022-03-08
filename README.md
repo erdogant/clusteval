@@ -12,9 +12,8 @@
 [![DOI](https://zenodo.org/badge/232915924.svg)](https://zenodo.org/badge/latestdoi/232915924)
 <!---[![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)-->
 
-* ``clusteval`` is Python package for unsupervised cluster evaluation.
-Three evaluation methods are implemented that can be used to evalute clusterings; silhouette, dbindex, and derivative
-Four clustering methods can be used: agglomerative, kmeans, dbscan and hdbscan.
+``clusteval`` is a python package that is developed to evaluate detected clusters and return the cluster labels that have most optimal **clustering tendency**, **Number of clusters** and **clustering quality**. Multiple evaluation strategies are implemented for the evaluation; **silhouette**, **dbindex**, and **derivative**, and four clustering methods can be used: **agglomerative**, **kmeans**, **dbscan** and **hdbscan**.
+
 
 # 
 **Star this repo if you like it! ⭐️**
