@@ -47,7 +47,7 @@ Content
   :maxdepth: 1
   :caption: Plots
 
-  plots
+  Plots
 
 
 .. toctree::
