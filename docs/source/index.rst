@@ -52,17 +52,17 @@ Content
 
 .. toctree::
   :maxdepth: 1
-  :caption: Save and Load
-
-  Save and Load
-  
-
-.. toctree::
-  :maxdepth: 1
   :caption: Examples
 
   Examples
 
+
+.. toctree::
+  :maxdepth: 1
+  :caption: Save and Load
+
+  Save and Load
+  
 
 .. toctree::
   :maxdepth: 1

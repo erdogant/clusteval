@@ -21,7 +21,7 @@ Install requried libraries
 	from sklearn.datasets import make_blobs
 	
 	# Generate random data
-	X, labx_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
+	X, _ = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
 	
 	# Scatter samples
 	scatterd(X[:,0], X[:,1],label=y, figsize=(6,6));
@@ -236,6 +236,7 @@ Let's generate 5 groups of samples, each with 200 but with different standard de
 	# Import libraries
 	from sklearn.datasets import make_blobs
 	import matplotlib.pyplot as plt
+	import numpy as np
 	
 	# Create random blobs
 	X, y = make_blobs(n_samples=200, n_features=2, centers=2, random_state=1)
@@ -333,7 +334,7 @@ The silhouette method detects an optimum of 4 clusters. The scatterplot shows th
 DBindex method
 *********************
 
-The DBindex method finds 4 cluster scores lowers gradually and stops at 22 clusters. This limit is almost at the maximum search space by default. The search space can be altered using ``min_clust`` and ``max_clust`` in the function function :func:`clusteval.clusteval.clusteval.fit.
+The DBindex method finds 4 cluster scores lowers gradually and stops at 22 clusters. This is (almost) the maximum default search space. The search space can be altered using ``min_clust`` and ``max_clust`` in the function function :func:`clusteval.clusteval.clusteval.fit. It is recommended to set ``max_clust=10`` for find the local optimal minima.
 
 
 .. code:: python
@@ -364,6 +365,36 @@ The DBindex method finds 4 cluster scores lowers gradually and stops at 22 clust
    | |figC8|  | |figC10| |
    +----------+----------+
    |       |figC9|       |
+   +----------+----------+
+
+
+Set the ``max_clust=10`` for find the local optimal minima.
+
+.. code:: python
+
+	# Intialize model
+	ce = clusteval(cluster='agglomerative', evaluate='dbindex', max_clust=10)
+
+	# Cluster evaluation
+	results = ce.fit(X)
+
+	# Make plots
+	ce.plot()
+	ce.scatter(X)
+	ce.dendrogram()
+
+
+.. |figC11| image:: ../figs/random_agglomerative_dbindex_4.png
+.. |figC12| image:: ../figs/random_agglomerative_dbindex_5.png
+.. |figC13| image:: ../figs/random_agglomerative_dbindex_6.png
+
+.. table:: 
+   :align: center
+
+   +----------+----------+
+   | |figC11| | |figC12| |
+   +----------+----------+
+   |       |figC13|      |
    +----------+----------+
 
 
@@ -434,9 +465,9 @@ Install the library first because this approach is not installed by default in `
 	ce.scatter(X)
 
 
-.. |figCE9| image:: ../figs/medium_clusters_hdbscan.png
-.. |figCE10| image:: ../figs/medium_clusters_hdbscan2.png
-.. |figCE11| image:: ../figs/medium_clusters_hdbscan_sil.png
+.. |figCE9| image:: ../figs/circular_cluster_hdbscan.png
+.. |figCE10| image:: ../figs/circular_cluster_hdbscan2.png
+.. |figCE11| image:: ../figs/circular_cluster_hdbscan3.png
 
 
 .. table:: Left: the DBindex cluster evaluation. Right: The tSNE plot coloured based on the cluster-labels.

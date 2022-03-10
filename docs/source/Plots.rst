@@ -95,11 +95,16 @@ Only the **dbscan** method was not able to identify the six clusters but detecte
 .. table:: Method vs. number of clusters
    :align: center
 
-   +----------+----------+
-   | |figP6|  | |figP7|  |
-   +----------+----------+
-   | |figP8|  | |figP9|  |
-   +----------+----------+
+   +----------+
+   | |figP6|  |
+   +----------+
+   | |figP7|  |
+   +----------+
+   | |figP8|  |
+   +----------+
+   | |figP9|  |
+   +----------+
+
 
 Dendrogram
 #################
