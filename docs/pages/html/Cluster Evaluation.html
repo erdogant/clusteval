@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to choose the cluster evaluation method? &mdash; clusteval clusteval documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Saving" href="Save%20and%20Load.html" />
+    <link rel="prev" title="Installation" href="Installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> clusteval
+          </a>
+              <div class="version">
+                2.1.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Background</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html#aim">Aim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html#quickstart">Quickstart</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evaluation Methods</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to choose the cluster evaluation method?</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#distance-metric">Distance Metric</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linkage-types">Linkage types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#derivative-method">Derivative method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#silhouette-method">Silhouette method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#dbindex-method">DBindex method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#dbscan">DBSCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#hdbscan">HDBSCAN</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Save and Load</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Save%20and%20Load.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Save%20and%20Load.html#loading">Loading</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Easy clusters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html#snake-clusters">Snake clusters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html#density-different-clusters">Density Different Clusters</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Sponsor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#blog">Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clusteval.clusteval.html">API References</a></li>
+</ul>
+
+    <a href= "genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">clusteval</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>How to choose the cluster evaluation method?</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Cluster Evaluation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-to-choose-the-cluster-evaluation-method">
+<h1>How to choose the cluster evaluation method?<a class="headerlink" href="#how-to-choose-the-cluster-evaluation-method" title="Permalink to this headline"></a></h1>
+<p>With unsupervised clustering, we aim to determine “natural” or “data-driven” groups in the data without using apriori knowledge about labels or categories. The challenge of using different unsupervised clustering methods is that it will result in different partitioning of the samples and thus different groupings since each method implicitly impose a structure on the data.</p>
+<p>Note that there is no golden rule to define the optimal number of clusters. It requires investigation, and backtesting.</p>
+<p>The implemented cluster evaluation methods works pretty well in certain scenarios <em>but</em> it requires to <strong>understand the mathematical properties of the used method so that it matches with the statistical properties of the data.</strong> Decide which distance metric fits best to your data and aim. As an example, <em>DBscan</em> in combination with the <em>Silhouette evaluation</em> can detect clusters with different densities and shapes while <em>k-means</em> assumes that clusters are <em>convex shaped</em>.</p>
+<section id="distance-metric">
+<h2>Distance Metric<a class="headerlink" href="#distance-metric" title="Permalink to this headline"></a></h2>
+<p><strong>What is a “good” clustering?</strong> Intuitively we may describe it as a group of samples (aka the images) that are cluttered together. However, it is better to describe clusters with <strong>the distances between the samples</strong>. The most well-known distance metric is the <strong>Euclidean distance</strong>. Although it is set as the default metric in many methods, it is not always the best choice. A schematic overview of various distance metrics is depicted in the underneath Figure.</p>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Distance metrics</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figC11" src="_images/distance_metrics.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="linkage-types">
+<h2>Linkage types<a class="headerlink" href="#linkage-types" title="Permalink to this headline"></a></h2>
+<p>The process of hierarchical clustering involves an approach of grouping samples into a larger cluster. In this process, the distances between two sub-clusters need to be computed for which the different types of linkages describe how the clusters are connected.</p>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Distance metrics</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figC12" src="_images/linkage_types.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>Briefly, Single linkage between two clusters is the proximity between their two closest samples. It produces a long chain and is therefore ideal to cluster spherical data but also for outlier detection. Complete linkage between two clusters is the proximity between their two most distant samples. Intuitively, the two most distant samples cannot be much more dissimilar than other quite dissimilar pairs. It forces clusters to be spherical and have often “compact” contours by their borders, but they are not necessarily compact inside. Average linkage between two clusters is the arithmetic mean of all the proximities between the objects of one, on one side, and the objects of the other, on the other side. Centroid linkage is the proximity between the geometric centroids of the clusters. Choose the metric and linkage type carefully because it directly affects the final clustering results. With this in mind, we can start preprocessing the images.</p>
+</section>
+</section>
+<section id="derivative-method">
+<h1>Derivative method<a class="headerlink" href="#derivative-method" title="Permalink to this headline"></a></h1>
+<p>The <strong>derivative” method</strong> is build on <code class="docutils literal notranslate"><span class="pre">fcluster()</span></code> from <code class="docutils literal notranslate"><span class="pre">scipy</span></code>. For evaluation, this method compares each cluster merge’s <strong>height h</strong> to the average avg and normalizing it by the standard deviation std formed over the depth previous levels. Finally, the <strong>derivative” method</strong> returns the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.</p>
+<p>Let’s demonstrate this using the previously randomly generated samples.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;agglomerative&#39;</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;derivative&#39;</span><span class="p">)</span>
+
+<span class="c1"># Cluster evaluation</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># The clustering label can be found in:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">])</span>
+
+<span class="c1"># Make plots</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="silhouette-method">
+<h1>Silhouette method<a class="headerlink" href="#silhouette-method" title="Permalink to this headline"></a></h1>
+<p>The silhouette value is a measure of how similar a sample is to its own cluster (cohesion) compared to other clusters (separation). The scores ranges between [−1, 1], where a high value indicates that the object is well matched to its own cluster and poorly matched to neighboring clusters. <strong>Thus higher scores are better.</strong> In contrast to the DBindex, the Silhouette score is a sample-wise measure, i.e., measures the average similarity of the samples within a cluster and their distance to the other objects in the other clusters. The silhouette score can be used in combination with any distance metric.</p>
+<p>The silhouette approach is thus a sample-wise approach, which means that for each sample, a silhouette score is computed and if most samples have a high value, then the clustering configuration is appropriate. If many points have a low or negative value, then the clustering configuration may have too many or too few clusters. <strong>The silhouette can be calculated with any distance metric, such as the Euclidean distance or the Manhattan distance</strong>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;agglomerative&#39;</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">)</span>
+
+<span class="c1"># Cluster evaluation</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># The clustering label can be found in:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">])</span>
+
+<span class="c1"># Make plots</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="dbindex-method">
+<h1>DBindex method<a class="headerlink" href="#dbindex-method" title="Permalink to this headline"></a></h1>
+<p>Davies–Bouldin index (dbindex): Intuitively it can be described as a measure of the within-cluster distances, and between cluster distances. The score is bounded between [0, 1], lower is better. Note that, since it measures the distance between clusters centroids it is restricted to using the Euclidean distances. The lower the value, the tighter the clusters and the seperation between clusters.</p>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">The DB index for k number of clusters is defined as :</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figCE2" src="_images/dbindex_eq1.png" /></p></td>
+<td><p><img alt="figCE3" src="_images/dbindex_eq2.jpg" /></p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;agglomerative&#39;</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;dbindex&#39;</span><span class="p">)</span>
+
+<span class="c1"># Cluster evaluation</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># The clustering label can be found in:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">])</span>
+
+<span class="c1"># Make plots</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="dbscan">
+<h1>DBSCAN<a class="headerlink" href="#dbscan" title="Permalink to this headline"></a></h1>
+<p><strong>Density-Based Spatial Clustering of Applications with Noise</strong> is an clustering approach that finds core samples of high density and expands clusters from them. This works especially good when having samples which contains clusters of similar density.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;dbscan&#39;</span><span class="p">)</span>
+
+<span class="c1"># Parameters can be changed for dbscan:</span>
+<span class="c1"># ce = clusteval(cluster=&#39;dbscan&#39;, params_dbscan={&#39;epsres&#39; :100, &#39;norm&#39;:True})</span>
+
+<span class="c1"># Cluster evaluation</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># The clustering label can be found in:</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">])</span>
+
+<span class="c1"># Make plots</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="hdbscan">
+<h1>HDBSCAN<a class="headerlink" href="#hdbscan" title="Permalink to this headline"></a></h1>
+<p>Let’s evaluate the results using <strong>hdbscan</strong>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install hdbscan
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Determine the optimal number of clusters</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;hdbscan&#39;</span><span class="p">)</span>
+
+<span class="c1"># Make plots</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<hr>
+<center>
+        <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+</center>
+<hr></section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Save%20and%20Load.html" class="btn btn-neutral float-right" title="Saving" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Erdogan Taskesen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

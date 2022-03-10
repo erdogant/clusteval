@@ -15,3 +15,4 @@ rm -rf clusteval/data/*.names
 rm -rf *.js
 rm -rf *.html
 rm -rf *.css
+rm -rf *.pkl
