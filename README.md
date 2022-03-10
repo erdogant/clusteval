@@ -10,6 +10,7 @@
 [![Downloads](https://pepy.tech/badge/clusteval/month)](https://pepy.tech/project/clusteval)
 [![Downloads](https://pepy.tech/badge/clusteval)](https://pepy.tech/project/clusteval)
 [![DOI](https://zenodo.org/badge/232915924.svg)](https://zenodo.org/badge/latestdoi/232915924)
+[![Sphinx](https://img.shields.io/badge/Sphinx-Docs-Green)](https://erdogant.github.io/clusteval/)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://erdogant.github.io/clusteval/pages/html/Documentation.html#colab-notebook)
 <!---[![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)-->
 
