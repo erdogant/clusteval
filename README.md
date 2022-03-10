@@ -18,110 +18,135 @@
 
 
 # 
-**Star this repo if you like it! ⭐️**
-#
+**⭐️ Star this repo if you like it ⭐️**
+# 
 
-## Installation
+### Blogs
 
+Read the blog to get a structured overview how you can use ``clusteval``.
+* [Medium Blog: A step-by-step guide for clustering images](https://towardsdatascience.com/a-step-by-step-guide-for-clustering-images-4b45f9906128)
+
+In case you want to detect identical images, you can also use hash functionalities.
+* [Medium Blog: Detection of Duplicate Images Using Image Hash Functions](https://towardsdatascience.com/detection-of-duplicate-images-using-image-hash-functions-4d9c53f04a75)
+
+# 
+
+
+### [Documentation pages](https://erdogant.github.io/clusteval/)
+
+On the [documentation pages](https://erdogant.github.io/clusteval/) you can find detailed information about the working of the ``clusteval`` with many examples. 
+
+# 
+
+### Installation
+
+##### It is advisable to create a new environment (e.g. with Conda). 
+```bash
+conda create -n env_clusteval python=3.8
+conda activate clusteval
+```
+
+##### Install from PyPI
 ```bash
 pip install clusteval
 ```
 
-
-* Beta version can be installed from the GitHub source:
-```bash
-git clone https://github.com/erdogant/clusteval
-cd clusteval
-pip install -U .
-```  
-
-## Import clusteval package
+##### Import library
 ```python
 from clusteval import clusteval
 ```
 
-## Create example data set
-```python
-# Generate random data
-from sklearn.datasets import make_blobs
-X, labx_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
-```
+<hr>
 
-## Cluster validation using Silhouette score
-```python
-# Determine the optimal number of clusters
+### Examples
+A structured overview of all examples are now available on the [documentation pages](https://erdogant.github.io/clusteval/).
 
-ce = clusteval(evaluate='silhouette')
-ce.fit(X)
-ce.plot()
-ce.dendrogram()
-ce.scatter(X)
-```
-<p align="center">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png" width="600" />
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/dendrogram.png" width="600" />
+<hr>
+
+
+* [Example: Cluster validation using Silhouette score](https://erdogant.github.io/clusteval/pages/html/Examples.html#cluster-evaluation)
+
+<p align="left">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#cluster-evaluation">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1b_sil.png" width="600" />
+  </a>
 </p>
 
-## Cluster validation using davies-boulin index
-```python
-# Determine the optimal number of clusters
-ce = clusteval(evaluate='dbindex')
-ce.fit(X)
-ce.plot()
-ce.scatter(X)
-ce.dendrogram()
-```
 
-<p align="center">
+#
+
+* [Example: Determine the optimal number of clusters](https://erdogant.github.io/clusteval/pages/html/Plots.html#plot)
+
+<p align="left">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Plots.html#plot">
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png" width="600" />
+  </a>
+</p>
+
+#
+
+* [Example: Plot the dendrogram](https://erdogant.github.io/clusteval/pages/html/Plots.html#dendrogram)
+
+<p align="left">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Plots.html#dendrogram">
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/dendrogram.png" width="600" />
+  </a>
+</p>
+
+#
+
+* [Example: Cluster validation using davies-boulin index](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method)
+
+<p align="left">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method">
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/dendrogram.png" width="600" />
+  </a>
+</p>
+
+#
+
+* [Example: Cluster validation using davies-boulin index](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method)
+
+<p align="left">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png" width="600" />
+  </a>
 </p>
 
-## Cluster validation using derivative evaluation method
-```python
-# Determine the optimal number of clusters
-ce = clusteval(evaluate='derivative')
-ce.fit(X)
-ce.plot()
-ce.scatter(X)
-ce.dendrogram()
-```
+#
 
-<p align="center">
+* [Example: Cluster validation using derivative evaluation method](https://erdogant.github.io/clusteval/pages/html/Examples.html#derivative-method)
+
+<p align="left">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#derivative-method">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig3_der.png" width="600" />
+  </a>
 </p>
 
+#
 
-## Cluster validation using dbscan
-```python
-# Determine the optimal number of clusters using dbscan and silhoutte
-ce = clusteval(cluster='dbscan')
-ce.fit(X)
-ce.plot()
-ce.scatter(X)
-ce.dendrogram()
-```
 
-<p align="center">
+* [Example: Cluster validation using dbscan](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan)
+
+<p align="left">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig5_dbscan.png" width="600" />
+  </a>
 </p>
 
-## Cluster validation using hdbscan
-To run hdbscan, it requires an installation. This library is not included in the ``clusteval`` setup file because it frequently gives installation issues.
-```bash
-pip install hdbscan
-```
+#
 
-```python
-# Determine the optimal number of clusters
-ce = clusteval(cluster='hdbscan')
-ce.plot()
-ce.scatter(X)
-```
-<p align="center">
+* [Example: Cluster validation using hdbscan](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan)
+
+<p align="left">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4a_hdbscan.png" width="600" />
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4b_hdbscan.png" width="600" />
+  </a>
 </p>
+
+
+
 
 
 
