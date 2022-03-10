@@ -6,23 +6,46 @@ from sklearn.datasets import make_blobs
 
 from clusteval import clusteval
 
+
+# %%
+import numpy as np
+from sklearn.datasets import make_blobs
+import matplotlib.pyplot as plt
+from clusteval import clusteval
+
+X, y = make_blobs(n_samples=600, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4, random_state=0)
+# plt.figure(figsize=(15, 10));plt.scatter(X[:,0], X[:,1], c=y);plt.grid(True);plt.xlabel('Feature 1');plt.ylabel('Feature 2')
+# plt.figure(figsize=(15, 10));plt.scatter(X[:,0], X[:,1], c='k');plt.grid(True);plt.xlabel('Feature 1');plt.ylabel('Feature 2')
+
+# ce = clusteval(cluster='dbscan')
+# ce = clusteval(cluster='kmeans')
+ce = clusteval(cluster='agglomerative', evaluate='derivative')
+results = ce.fit(X)
+ce.plot()
+ce.scatter(X, dot_size=100)
+
+
+
 # %%
 import numpy as np
 from sklearn.datasets import make_blobs
 from clusteval import clusteval
 
-# X, y = make_blobs(n_samples=500, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
-
-X, labx = make_blobs(n_samples=200, n_features=2, centers=2, random_state=1)
+X, y = make_blobs(n_samples=200, n_features=2, centers=2, random_state=1)
 c = np.random.multivariate_normal([40, 40], [[20, 1], [1, 30]], size=[200,])
 d = np.random.multivariate_normal([80, 80], [[30, 1], [1, 30]], size=[200,])
 e = np.random.multivariate_normal([0, 100], [[200, 1], [1, 100]], size=[200,])
 X = np.concatenate((X, c, d, e),)
+y = np.concatenate((y, len(c)*[2], len(c)*[3], len(c)*[4]),)
 
+plt.figure(figsize=(15, 10));plt.scatter(X[:,0], X[:,1], c=y);plt.grid(True);plt.xlabel('Feature 1');plt.ylabel('Feature 2')
 
 # Evaluate
 # ce = clusteval(cluster='dbscan', params_dbscan={'epsres' :100, 'norm':True})
-ce = clusteval(cluster='dbscan')
+# ce = clusteval(cluster='dbscan')
+# ce = clusteval(cluster='kmeans')
+
+ce = clusteval(cluster='agglomerative', evaluate='dbindex')
 results = ce.fit(X)
 ce.plot()
 ce.scatter(X)
@@ -213,17 +236,17 @@ axs[1][0].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][0].grid(True)
 
 # silhouette
 results = clusteval.silhouette.fit(X)
-_ = clusteval.silhouette.plot(results,title='silhouette', ax=axs[0][1], visible=False)
+_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], visible=False)
 axs[1][1].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][1].grid(True)
 
 # derivative
 results = clusteval.derivative.fit(X)
-_ = clusteval.derivative.plot(results,title='derivative', ax=axs[0][2], visible=False)
+_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], visible=False)
 axs[1][2].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][2].grid(True)
 
 # dbscan
 results = clusteval.dbscan.fit(X)
-_ = clusteval.dbscan.plot(results,title='dbscan', ax=axs[0][3], visible=False)
+_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], visible=False)
 axs[1][3].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
 
 plt.show()

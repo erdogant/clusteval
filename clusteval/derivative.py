@@ -18,7 +18,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
 
     Description
     -----------
-    This function return the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.
+    This function returns the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.
     The derivative or inconsistence method is one of the defaults for the fcluster() function in scipy.
     It compares each cluster merge's height h to the average avg and normalizing it by the standard deviation std formed over the depth previous levels.
 

@@ -10,6 +10,7 @@ import clusteval.silhouette as silhouette
 import clusteval.derivative as derivative
 import clusteval.dbscan as dbscan
 from clusteval.plot_dendrogram import plot_dendrogram
+import pypickle
 
 import pandas as pd
 import numpy as np
@@ -344,6 +345,64 @@ class clusteval:
         results['max_d_upper'] = max_d_upper
         results['ax'] = ax
         return results
+
+    def save(self, filepath='clusteval.pkl', overwrite=False):
+        """Save model in pickle file.
+
+        Parameters
+        ----------
+        filepath : str, (default: 'clusteval.pkl')
+            Pathname to store pickle files.
+        overwrite : bool, (default=False)
+            Overwite file if exists.
+        verbose : int, optional
+            Show message. A higher number gives more informatie. The default is 3.
+
+        Returns
+        -------
+        bool : [True, False]
+            Status whether the file is saved.
+
+        """
+        if (filepath is None) or (filepath==''):
+            filepath = 'clusteval.pkl'
+        if filepath[-4:] != '.pkl':
+            filepath = filepath + '.pkl'
+        # Store data
+        storedata = {}
+        storedata['results'] = self.results
+        # Save
+        status = pypickle.save(filepath, storedata, overwrite=overwrite, verbose=3)
+        # return
+        return status
+
+    def load(self, filepath='clusteval.pkl', verbose=3):
+        """Restore previous results.
+
+        Parameters
+        ----------
+        filepath : str
+            Pathname to stored pickle files.
+        verbose : int, optional
+            Show message. A higher number gives more information. The default is 3.
+
+        Returns
+        -------
+        Object.
+
+        """
+        if (filepath is None) or (filepath==''):
+            filepath = 'clusteval.pkl'
+        if filepath[-4:]!='.pkl':
+            filepath = filepath + '.pkl'
+
+        # Load
+        storedata = pypickle.load(filepath, verbose=verbose)
+
+        # Restore the data in self
+        if storedata is not None:
+            self.results = storedata['results']
+            return self.results
 
     def import_example(self, data='titanic', url=None, sep=',', verbose=3):
         """Import example dataset from github source.
