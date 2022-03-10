@@ -93,6 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#silhouette-method">Silhouette Method</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dbindex-method">DBindex method</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dbscan">DBSCAN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hdbscan">HDBSCAN</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#comparison-methods">Comparison methods</a></li>
 </ul>
 </li>
@@ -499,6 +500,38 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </tbody>
 </table>
 </section>
+<section id="hdbscan">
+<h2>HDBSCAN<a class="headerlink" href="#hdbscan" title="Permalink to this headline"></a></h2>
+<p>Install the library first because this approach is not installed by default in <code class="docutils literal notranslate"><span class="pre">clusteval</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install hdbscan
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;hdbscan&#39;</span><span class="p">)</span>
+
+<span class="c1"># Cluster evaluation</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Make plots</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id7">
+<caption><span class="caption-text">Left: the DBindex cluster evaluation. Right: The tSNE plot coloured based on the cluster-labels.</span><a class="headerlink" href="#id7" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figCE9" src="_images/random_comparison_methods.png" /></p></td>
+<td><p><img alt="figCE10" src="_images/medium_clusters_hdbscan2.png" /></p></td>
+</tr>
+<tr class="row-even"><td colspan="2"><p><img alt="figCE11" src="_images/medium_clusters_hdbscan_sil.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="comparison-methods">
 <h2>Comparison methods<a class="headerlink" href="#comparison-methods" title="Permalink to this headline"></a></h2>
 <p>A comparison of all four methods when using <strong>kemans</strong> is as shown underneath. The best approach is <code class="docutils literal notranslate"><span class="pre">dbscan</span></code> in case of having various density groups.</p>
@@ -531,8 +564,8 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<table class="docutils align-center" id="id7">
-<caption><span class="caption-text">Comparison of all methods.</span><a class="headerlink" href="#id7" title="Permalink to this table"></a></caption>
+<table class="docutils align-center" id="id8">
+<caption><span class="caption-text">Comparison of all methods.</span><a class="headerlink" href="#id8" title="Permalink to this table"></a></caption>
 <colgroup>
 <col style="width: 100%" />
 </colgroup>

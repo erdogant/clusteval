@@ -411,6 +411,45 @@ The ``eps`` parameter is gridsearched together with a varying number of clusters
 
 
 
+HDBSCAN
+***********
+
+Install the library first because this approach is not installed by default in ``clusteval``. 
+
+.. code:: bash
+
+	pip install hdbscan
+
+
+.. code:: python
+
+	# Intialize model
+	ce = clusteval(cluster='hdbscan')
+
+	# Cluster evaluation
+	results = ce.fit(X)
+
+	# Make plots
+	ce.plot()
+	ce.scatter(X)
+
+
+.. |figCE9| image:: ../figs/medium_clusters_hdbscan.png
+.. |figCE10| image:: ../figs/medium_clusters_hdbscan2.png
+.. |figCE11| image:: ../figs/medium_clusters_hdbscan_sil.png
+
+
+.. table:: Left: the DBindex cluster evaluation. Right: The tSNE plot coloured based on the cluster-labels.
+   :align: center
+
+   +----------+----------+
+   | |figCE9| | |figCE10||
+   +----------+----------+
+   |      |figCE11|      |
+   +----------+----------+
+
+
+
 Comparison methods
 **********************
 
