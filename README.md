@@ -10,11 +10,11 @@
 [![Downloads](https://pepy.tech/badge/clusteval/month)](https://pepy.tech/project/clusteval)
 [![Downloads](https://pepy.tech/badge/clusteval)](https://pepy.tech/project/clusteval)
 [![DOI](https://zenodo.org/badge/232915924.svg)](https://zenodo.org/badge/latestdoi/232915924)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://erdogant.github.io/clusteval/pages/html/Documentation.html#colab-notebook)
 <!---[![Coffee](https://img.shields.io/badge/coffee-black-grey.svg)](https://erdogant.github.io/donate/?currency=USD&amount=5)-->
 
-* ``clusteval`` is Python package for unsupervised cluster evaluation.
-Three evaluation methods are implemented that can be used to evalute clusterings; silhouette, dbindex, and derivative
-Four clustering methods can be used: agglomerative, kmeans, dbscan and hdbscan.
+``clusteval`` is a python package that is developed to evaluate detected clusters and return the cluster labels that have most optimal **clustering tendency**, **Number of clusters** and **clustering quality**. Multiple evaluation strategies are implemented for the evaluation; **silhouette**, **dbindex**, and **derivative**, and four clustering methods can be used: **agglomerative**, **kmeans**, **dbscan** and **hdbscan**.
+
 
 # 
 **Star this repo if you like it! ⭐️**
