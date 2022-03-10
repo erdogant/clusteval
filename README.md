@@ -136,10 +136,10 @@ A structured overview of all examples are now available on the [documentation pa
 
 #
 
-* [Example: Cluster validation using hdbscan](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan)
+* [Example: Cluster validation using hdbscan](https://erdogant.github.io/clusteval/pages/html/Examples.html#hdbscan)
 
 <p align="left">
-  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#hdbscan">
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4a_hdbscan.png" width="600" />
   <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4b_hdbscan.png" width="600" />
   </a>
