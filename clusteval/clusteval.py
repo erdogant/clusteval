@@ -193,7 +193,7 @@ class clusteval:
         return self.results
 
     # Plot
-    def plot(self, figsize=(15, 8)):
+    def plot(self, title=None, figsize=(15, 8)):
         """Make a plot.
 
         Parameters
@@ -217,7 +217,7 @@ class clusteval:
             elif self.evaluate=='dbindex':
                 fig, ax = dbindex.plot(self.results, figsize=figsize)
             elif self.evaluate=='derivative':
-                fig, ax = derivative.plot(self.results, figsize=figsize)
+                fig, ax = derivative.plot(self.results, title=title, figsize=figsize)
         elif self.cluster=='dbscan':
             fig, ax = dbscan.plot(self.results, figsize=figsize)
         elif self.cluster=='hdbscan':
@@ -227,13 +227,15 @@ class clusteval:
         return fig, ax
 
     # Plot
-    def scatter(self, X, figsize=(15, 8)):
+    def scatter(self, X, dot_size=50, figsize=(15, 8)):
         """Make a plot.
 
         Parameters
         ----------
         X : array-like, (default: None)
             Input dataset used in the .fit() funciton. Some plots will be more extensive if the input data is also provided.
+        dot_size : int, (default: 50)
+            Size of the dot in the scatterplot
         figsize : tuple, (default: (15,8).
             Size of the figure (height,width).
 
@@ -246,7 +248,7 @@ class clusteval:
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
             return None
         # Make scatter
-        silhouette.scatter(self.results, X=X, figsize=figsize)
+        silhouette.scatter(self.results, X=X, dot_size=dot_size, figsize=figsize)
 
     # Plot dendrogram
     def dendrogram(self, X=None, labels=None, leaf_rotation=90, leaf_font_size=12, orientation='top', show_contracted=True, max_d=None, showfig=True, metric=None, linkage=None, truncate_mode=None, figsize=(15, 10)):

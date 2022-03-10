@@ -220,15 +220,17 @@ def plot(results, title='Silhouette vs. nr.clusters', figsize=(15, 8), ax=None, 
 
 
 # %% Scatter data
-def scatter(labx, X=None, figsize=(15, 8), verbose=3):
+def scatter(y, X=None, dot_size=50, figsize=(15, 8), verbose=3):
     """Make scatter for the cluster labels with the samples.
 
     Parameters
     ----------
-    labx: list
+    y: list
         Cluster labels for the samples in X (some order).
     X : Numpy-array,
         Where rows is features and colums are samples. The first two columns of the matrix are used for plotting. Note that it is also possible provide tSNE coordinates for a better representation of the data.
+    dot_size : int, (default: 50)
+        Size of the dot in the scatterplot
     figsize : tuple, (default: (15,8))
         Figure size, (heigh,width).
 

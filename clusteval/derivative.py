@@ -132,7 +132,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
 
 
 # %% Plot
-def plot(results, title='derivative vs. nr.clusters', figsize=(15,8), ax=None, visible=True, verbose=3):
+def plot(results, title=None, figsize=(15,8), ax=None, visible=True, verbose=3):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -151,6 +151,7 @@ def plot(results, title='derivative vs. nr.clusters', figsize=(15,8), ax=None, v
 
     """
     fig=None
+    if title is None: title='derivative vs. nr.clusters'
     idxs = np.arange(1, len(results['fig']['last_rev']) + 1)
     k = results['fig']['acceleration_rev'].argmax() + 2  # if idx 0 is the max of this we want 2 clusters
 
