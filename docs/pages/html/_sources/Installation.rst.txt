@@ -12,7 +12,7 @@ If desired, install ``clusteval`` from an isolated Python environment using cond
     conda activate env_clusteval
 
 
-Pypi
+Pypi (recommended)
 **********************
 
 .. code-block:: console

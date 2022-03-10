@@ -220,7 +220,7 @@ As can be seen, the inner circle is detected as one cluster but the outside circ
 
 
 
-Density Different Clusters
+Different Density Clusters
 ################################################
 
 Many cluster evaluation methods can easily determine the optimal number of clusters when clusters are evenly distributed for which the groups of samples have similar density. Here I will generate groups of samples with various densities to demontrate the performance of the cluster evaluation methods.

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate data &mdash; clusteval clusteval documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> clusteval
+          </a>
+              <div class="version">
+                2.1.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+    
+              <p class="caption" role="heading"><span class="caption-text">Background</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html#aim">Aim</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Abstract.html#quickstart">Quickstart</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html#uninstalling">Uninstalling</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Evaluation Methods</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Cluster%20Evaluation.html">How to choose the cluster evaluation method?</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Cluster%20Evaluation.html#derivative-method">Derivative method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Cluster%20Evaluation.html#silhouette-method">Silhouette method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Cluster%20Evaluation.html#dbindex-method">DBindex method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Cluster%20Evaluation.html#dbscan">DBSCAN</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Cluster%20Evaluation.html#hdbscan">HDBSCAN</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Save and Load</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Save%20and%20Load.html">Saving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Save%20and%20Load.html#loading">Loading</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html">Easy clusters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html#snake-clusters">Snake clusters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html#different-density-clusters">Different Density Clusters</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html">Sponsor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#blog">Blog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clusteval.clusteval.html">API References</a></li>
+</ul>
+
+    <a href= "genindex.html">Index</a>
+  
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">clusteval</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Generate data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Plots.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generate-data">
+<h1>Generate data<a class="headerlink" href="#generate-data" title="Permalink to this headline"></a></h1>
+<p>Install requried libraries</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
+pip install sklearn
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Imports</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
+
+<span class="c1"># Generate random data</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">750</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Scatter samples</span>
+<span class="n">scatterd</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id1">
+<caption><span class="caption-text">Six circular clusters</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figP1" src="_images/medium_clusters.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="plot">
+<h1>Plot<a class="headerlink" href="#plot" title="Permalink to this headline"></a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import</span>
+<span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
+
+<span class="c1"># Silhouette cluster evaluation.</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">)</span>
+
+<span class="c1"># In case of using dbindex, it is best to clip the maximum number of clusters to avoid finding local minima.</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;dbindex&#39;</span><span class="p">,</span> <span class="n">max_clust</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Derivative method.</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;derivative&#39;</span><span class="p">)</span>
+
+<span class="c1"># DBscan method.</span>
+<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;dbscan&#39;</span><span class="p">)</span>
+
+<span class="c1"># Fit</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id2">
+<caption><span class="caption-text">Method vs. number of clusters</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figP2" src="_images/medium_clusters_sil.png" /></p></td>
+<td><p><img alt="figP3" src="_images/medium_clusters_dbindex.png" /></p></td>
+<td><p><img alt="figP4" src="_images/medium_clusters_der.png" /></p></td>
+<td><p><img alt="figP5" src="_images/medium_clusters_dbscan.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="scatterplot">
+<h1>Scatterplot<a class="headerlink" href="#scatterplot" title="Permalink to this headline"></a></h1>
+<p>The scatter plots for the methods <strong>silhouette</strong> and <strong>dbindex</strong> were identical. Small differences were seen for the <strong>derivative</strong> method.
+Only the <strong>dbscan</strong> method was not able to identify the six clusters but detected five instead.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+<table class="docutils align-center" id="id3">
+<caption><span class="caption-text">Method vs. number of clusters</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figP6" src="_images/medium_clusters_sil_scatter.png" /></p></td>
+<td><p><img alt="figP7" src="_images/medium_clusters_sil_scatter.png" /></p></td>
+<td><p><img alt="figP8" src="_images/medium_clusters_der_scatter.png" /></p></td>
+<td><p><img alt="figP9" src="_images/medium_clusters_dbscan_scatter.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="dendrogram">
+<h1>Dendrogram<a class="headerlink" href="#dendrogram" title="Permalink to this headline"></a></h1>
+<section id="hierarchical-tree-plot">
+<h2>Hierarchical tree plot<a class="headerlink" href="#hierarchical-tree-plot" title="Permalink to this headline"></a></h2>
+<p>To furter investigate the clustering results, a dendrogram can be created.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">()</span>
+</pre></div>
+</div>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figP10" src="_images/medium_clusters_sil_dendrogram.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="change-the-cut-threshold">
+<h2>Change the cut threshold<a class="headerlink" href="#change-the-cut-threshold" title="Permalink to this headline"></a></h2>
+<p>The dendrogram function can now also be used to create differents cuts in the hierarchical clustering and retrieve the associated cluster labels. Let’s cut the tree at level 60</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the dendrogram and make the cut at distance height 60</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">max_d</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
+
+<span class="c1"># Cluster labels for this particular cut</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figP11" src="_images/medium_clusters_sil_dendrogram_60.png" /></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="orientation">
+<h2>Orientation<a class="headerlink" href="#orientation" title="Permalink to this headline"></a></h2>
+<p>Change various parameters, such as orientation, leaf rotation, and the font size.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the dendrogram</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">leaf_rotation</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">leaf_font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">))</span>
+</pre></div>
+</div>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><img alt="figP12" src="_images/medium_clusters_sil_dendrogram_orientation.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<center>
+        <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+</center>
+<hr></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Erdogan Taskesen.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

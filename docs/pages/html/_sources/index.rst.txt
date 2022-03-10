@@ -42,6 +42,14 @@ Content
 
   Cluster Evaluation
 
+
+.. toctree::
+  :maxdepth: 1
+  :caption: Plots
+
+  plots
+
+
 .. toctree::
   :maxdepth: 1
   :caption: Save and Load
