@@ -465,16 +465,16 @@ Install the library first because this approach is not installed by default in `
 	ce.scatter(X)
 
 
-.. |figCE9| image:: ../figs/circular_cluster_hdbscan.png
+.. |figCE12| image:: ../figs/circular_cluster_hdbscan.png
 .. |figCE10| image:: ../figs/circular_cluster_hdbscan2.png
 .. |figCE11| image:: ../figs/circular_cluster_hdbscan3.png
 
 
-.. table:: Left: the DBindex cluster evaluation. Right: The tSNE plot coloured based on the cluster-labels.
+.. table:: 
    :align: center
 
    +----------+----------+
-   | |figCE9| | |figCE10||
+   | |figCE12|| |figCE10||
    +----------+----------+
    |      |figCE11|      |
    +----------+----------+
