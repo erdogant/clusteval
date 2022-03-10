@@ -244,22 +244,22 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), verbose=3):
         if verbose>=2: print('[clusteval] >Warning: Input data X is required for the scatterplot.')
         return None
 
-    # Label
-    if isinstance(labx, dict):
-        labx = labx.get('labx', None)
-    # Check labx
-    if (labx is None) or (len(np.unique(labx))==1):
+    # Extract label from dict
+    if isinstance(y, dict):
+        y = y.get('labx', None)
+    # Check y
+    if (y is None) or (len(np.unique(y))==1):
         if verbose>=3: print('[clusteval] >Error: No valid labels provided.')
         return None
 
     # Plot silhouette samples plot
-    # n_clusters = len(np.unique(labx))
-    n_clusters = len(set(labx)) - (1 if -1 in labx else 0)
-    silhouette_avg = silhouette_score(X, labx)
+    # n_clusters = len(np.unique(y))
+    n_clusters = len(set(y)) - (1 if -1 in y else 0)
+    silhouette_avg = silhouette_score(X, y)
     if verbose>=3: print('[clusteval] >Estimated number of n_clusters: %d, average silhouette_score=%.3f' %(n_clusters, silhouette_avg))
 
     # Compute the silhouette scores for each sample
-    sample_silhouette_values = silhouette_samples(X, labx)
+    sample_silhouette_values = silhouette_samples(X, y)
 
     # Create a subplot with 1 row and 2 columns
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
@@ -269,13 +269,13 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), verbose=3):
     # plots of individual clusters, to demarcate them clearly.
     ax1.set_ylim([0, len(X) + (n_clusters + 1) * 10])
     y_lower = 10
-    uiclust = np.unique(labx)
+    uiclust = np.unique(y)
 
     # Make 1st plot
     for i in range(0, len(uiclust)):
         # Aggregate the silhouette scores for samples belonging to
         # cluster i, and sort them
-        ith_cluster_silhouette_values = sample_silhouette_values[labx == uiclust[i]]
+        ith_cluster_silhouette_values = sample_silhouette_values[y == uiclust[i]]
         ith_cluster_silhouette_values.sort()
 
         size_cluster_i = ith_cluster_silhouette_values.shape[0]
@@ -299,8 +299,8 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), verbose=3):
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
 
     # 2nd Plot showing the actual clusters formed
-    color = cm.Set2(labx.astype(float) / n_clusters)
-    ax2.scatter(X[:, 0], X[:, 1], marker='.', s=30, lw=0, alpha=0.8, c=color, edgecolor='k')
+    color = cm.Set2(y.astype(float) / n_clusters)
+    ax2.scatter(X[:, 0], X[:, 1], marker='.', s=dot_size, lw=0, alpha=0.8, c=color, edgecolor='k')
     ax2.grid(color='grey', linestyle='--', linewidth=0.2)
     ax2.set_title("Estimated cluster labels")
     ax2.set_xlabel("1st feature")
