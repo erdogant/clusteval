@@ -77,8 +77,7 @@ Plot
 Scatterplot
 ################################################
 
-The scatter plots for the methods **silhouette** and **dbindex** were identical. Small differences were seen for the **derivative** method.
-Only the **dbscan** method was not able to identify the six clusters but detected five instead.
+The scatter plots for the methods **silhouette** and **dbindex** were identical. Small differences were seen for the **derivative** method. Only the **dbscan** method was not able to identify the six clusters but detected five instead.
 
 .. code:: python
 
@@ -87,22 +86,13 @@ Only the **dbscan** method was not able to identify the six clusters but detecte
 
 
 .. |figP6| image:: ../figs/medium_clusters_sil_scatter.png
-.. |figP7| image:: ../figs/medium_clusters_sil_scatter.png
-.. |figP8| image:: ../figs/medium_clusters_der_scatter.png
-.. |figP9| image:: ../figs/medium_clusters_dbscan_scatter.png
 
 
-.. table:: Method vs. number of clusters
+.. table:: Method vs. number of clusters for the silhouette method.
    :align: center
 
    +----------+
    | |figP6|  |
-   +----------+
-   | |figP7|  |
-   +----------+
-   | |figP8|  |
-   +----------+
-   | |figP9|  |
    +----------+
 
 
