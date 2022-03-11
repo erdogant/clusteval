@@ -1,11 +1,7 @@
 clusteval's documentation!
 ============================
 
-``clusteval`` is a python package for unsupervised cluster evaluation. Three evaluation methods are implemented that can be used to evalute clusterings for four clustering methods: *agglomerative*, *kmeans*, *dbscan* and *hdbscan*.
-
-	* Silhouette
-	* DBindex
-	* Derivative 
+``clusteval`` is a python package for unsupervised cluster evaluation. Three evaluation methods, **Silhouette**, **DBindex**, and **Derivative** are implemented that can be used to evalute clusterings for four clustering methods *agglomerative*, *kmeans*, *dbscan* and *hdbscan*.
 
 
 .. note::

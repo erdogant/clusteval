@@ -8,6 +8,7 @@ Install requried libraries
 	pip install scatterd
 	pip install sklearn
 
+Generate Data.
 
 .. code:: python
 
@@ -34,6 +35,8 @@ Install requried libraries
 Plot
 ######################################
 
+The plot functionality is to plot score of the cluster evaluation method versus the number of clusters.
+For demonstration, the clusters are evaluated using four cluster evaluation methods. It can be seen that all methods were able to detect the expected six clusters.
 
 .. code:: python
 
@@ -77,7 +80,7 @@ Plot
 Scatterplot
 ################################################
 
-The scatter plots for the methods **silhouette** and **dbindex** were identical. Small differences were seen for the **derivative** method. Only the **dbscan** method was not able to identify the six clusters but detected five instead.
+The aim of the scatterplot is to scatter the samples with the **silhouette** coefficient values. Note that for the scatterplot, only the first two features can be used. 
 
 .. code:: python
 
@@ -118,8 +121,8 @@ To furter investigate the clustering results, a dendrogram can be created.
    | |figP10| |
    +----------+
 
-Change the cut threshold
-***************************
+Change the cut-off threshold
+*****************************
 
 The dendrogram function can now also be used to create differents cuts in the hierarchical clustering and retrieve the associated cluster labels. Let's cut the tree at level 60
 
