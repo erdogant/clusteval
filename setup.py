@@ -22,7 +22,7 @@ setuptools.setup(
      description="clusteval is a python package that provides various methods for unsupervised cluster validation.",
      long_description=long_description,
      long_description_content_type="text/markdown",
-     url="https://github.com/erdogant/clusteval",
+     url="https://erdogant.github.io/clusteval",
      download_url = 'https://github.com/erdogant/clusteval/archive/'+new_version+'.tar.gz',
      packages=setuptools.find_packages(), # Searches throughout all dirs for files to include
      include_package_data=True, # Must be true to include files depicted in MANIFEST.in
