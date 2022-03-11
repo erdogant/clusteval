@@ -334,7 +334,7 @@ The silhouette method detects an optimum of 4 clusters. The scatterplot shows th
 DBindex method
 *********************
 
-The DBindex method finds 4 cluster scores lowers gradually and stops at 22 clusters. This is (almost) the maximum default search space. The search space can be altered using ``min_clust`` and ``max_clust`` in the function function :func:`clusteval.clusteval.clusteval.fit. It is recommended to set ``max_clust=10`` for find the local optimal minima.
+The DBindex method finds 4 cluster scores lowers gradually and stops at 22 clusters. This is (almost) the maximum default search space. The search space can be altered using ``min_clust`` and ``max_clust`` in the function function :func:`clusteval.clusteval.clusteval.fit`. It is recommended to set ``max_clust=10`` to find the local minima.
 
 
 .. code:: python

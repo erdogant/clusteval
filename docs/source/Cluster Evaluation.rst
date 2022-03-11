@@ -103,10 +103,10 @@ The silhouette method is a measure of how similar a sample is to its own cluster
 In contrast to the DBindex, the Silhouette score is a sample-wise measure, i.e., measures the average similarity of the samples within a cluster and their distance to the other objects in the other clusters. The silhouette method is independent of the distance metrics which makes it an attractive and versatile method to use.
 
 .. note::
-	Independent of the distance metrics.
-
-.. note::
 	Higher scores are better.
+
+.. tip::
+	Independent of the distance metrics.
 
 
 .. code:: python
@@ -138,11 +138,11 @@ DBindex score
 
 **Davies–Bouldin index** can intuitively be described as a measure of the ratio between within-cluster distances, and between cluster distances. The score is bounded between [0, 1]. The lower the value, the tighter the clusters and the seperation between clusters.
 
+.. note::
+	Lower scores are better. However, it overshoots frequently. Use the "min_d" and "max_d" parameter to tune for the number of clusters.
+
 .. Warning::
 	Since it measures the distance between clusters centroids it is restricted to using the Euclidean distances. 
-
-.. note::
-	Lower scores are better.
 
 
 .. |figCE2| image:: ../figs/dbindex_eq1.png
