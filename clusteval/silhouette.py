@@ -220,7 +220,7 @@ def plot(results, title='Silhouette vs. nr.clusters', figsize=(15, 8), ax=None, 
 
 
 # %% Scatter data
-def scatter(y, X=None, dot_size=50, figsize=(15, 8), verbose=3):
+def scatter(y, X=None, dot_size=50, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, verbose=3):
     """Make scatter for the cluster labels with the samples.
 
     Parameters
@@ -231,6 +231,16 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), verbose=3):
         Where rows is features and colums are samples. The first two columns of the matrix are used for plotting. Note that it is also possible provide tSNE coordinates for a better representation of the data.
     dot_size : int, (default: 50)
         Size of the dot in the scatterplot
+    savefig : dict.
+        https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
+        {'dpi':'figure',
+        'format':None,
+        'metadata':None,
+        'bbox_inches': None,
+        'pad_inches':0.1,
+        'facecolor':'auto',
+        'edgecolor':'auto',
+        'backend':None}
     figsize : tuple, (default: (15,8))
         Figure size, (heigh,width).
 
@@ -240,6 +250,7 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), verbose=3):
         Figure and axis of the figure.
 
     """
+    fig, ax1, ax2 = None, None, None
     if X is None:
         if verbose>=2: print('[clusteval] >Warning: Input data X is required for the scatterplot.')
         return None
@@ -308,5 +319,11 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), verbose=3):
     # General title
     plt.suptitle(("Silhouette analysis results in n_clusters = %d" %(n_clusters)), fontsize=14, fontweight='bold')
     plt.show()
+
+    # Save figure
+    if (savefig['fname'] is not None) and (fig is not None):
+        if verbose>=3: print('[clusteval] >Saving silhouetteplot to [%s]' %(savefig['fname']))
+        fig.savefig(**savefig)
+
     # Return
     return(fig, ax1, ax2)

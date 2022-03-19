@@ -77,9 +77,7 @@ def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=
     Param['n_jobs'] = n_jobs
     Param['norm'] = norm
     Param['gen_min_span_tree'] = False
-    
-    
-    
+
     Param['min_samples'] = None if min_samples is None else (int(np.floor(min_samples * X.shape[0])))  # Set max. outliers
     # if verbose>=3: print('[clusteval] >Fit using hdbscan.')
 
@@ -113,7 +111,7 @@ def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=
 
 
 # %% Plot
-def plot(results, figsize=(15, 8), verbose=3):
+def plot(results, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, verbose=3):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -122,6 +120,16 @@ def plot(results, figsize=(15, 8), verbose=3):
         Dictionary that is the output of the .fit() function.
     figsize : tuple, (default: (15,8))
         Figure size, (heigh,width).
+    savefig : dict.
+        https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
+        {'dpi':'figure',
+        'format':None,
+        'metadata':None,
+        'bbox_inches': None,
+        'pad_inches':0.1,
+        'facecolor':'auto',
+        'edgecolor':'auto',
+        'backend':None}
     verbose : int, optional (default: 3)
         Print message to screen [1-5]. The larger the number, the more information.
 
@@ -131,16 +139,38 @@ def plot(results, figsize=(15, 8), verbose=3):
         Figure and axis of the figure.
 
     """
+    fname = savefig['fname']
+    # Model
     model = results['model']
-    if results['min_clust']==True:
-        plt.subplots(figsize=figsize)
-        model.minimum_spanning_tree_.plot(edge_cmap='viridis', edge_alpha=0.6, node_size=80, edge_linewidth=2)
+    # if results['min_clust']:
+        # model.minimum_spanning_tree_.plot(edge_cmap='viridis', edge_alpha=0.6, node_size=80, edge_linewidth=2)
 
-    plt.subplots(figsize=figsize)
+    fig1, ax1 = plt.subplots(figsize=figsize)
     model.single_linkage_tree_.plot(cmap='viridis', colorbar=True)
 
-    plt.subplots(figsize=figsize)
+    fig2, ax2 = plt.subplots(figsize=figsize)
     model.condensed_tree_.plot()
 
-    plt.subplots(figsize=figsize)
+    fig3, ax3 = plt.subplots(figsize=figsize)
     model.condensed_tree_.plot(select_clusters=True, selection_palette=sns.color_palette())
+
+    # Save figure
+    if (fname is not None) and (fig1 is not None):
+        savefig['fname'] = fname + '_linkage_tree'
+        if verbose>=3: print('[clusteval] >Saving linkage_tree: [%s]' %(savefig['fname']))
+        fig1.savefig(**savefig)
+
+    # Save figure
+    if (fname is not None) and (fig2 is not None):
+        savefig['fname'] = fname + '_condensed_tree'
+        if verbose>=3: print('[clusteval] >Saving condensed_tree_: [%s]' %(savefig['fname']))
+        fig2.savefig(**savefig)
+
+    # Save figure
+    if (fname is not None) and (fig3 is not None):
+        savefig['fname'] = fname + '_linkage_tree_focus'
+        if verbose>=3: print('[clusteval] >Saving condensed_tree with focus: [%s]' %(savefig['fname']))
+        fig3.savefig(**savefig)
+
+    # Return
+    return ((fig1, fig2, fig3), (ax1, ax2, ax3))

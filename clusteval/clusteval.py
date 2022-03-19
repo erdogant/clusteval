@@ -103,13 +103,13 @@ class clusteval:
             min_clust=2
         if ((max_clust is None) or (max_clust<min_clust)):
             max_clust=min_clust + 1
-        
+
         if not np.any(np.isin(evaluate, ['silhouette', 'dbindex', 'derivative'])): raise ValueError("evaluate has incorrect input argument [%s]." %(evaluate))
         if not np.any(np.isin(cluster, ['agglomerative', 'kmeans', 'dbscan', 'hdbscan'])): raise ValueError("cluster has incorrect input argument [%s]." %(cluster))
 
         # Set parameters for dbscan
-        dbscan_defaults = {'metric':metric, 'min_clust':min_clust, 'max_clust':max_clust, 'eps':None, 'epsres':50, 'min_samples':0.01, 'norm':False, 'n_jobs':-1,'verbose':verbose}
-        params_dbscan   = {**dbscan_defaults, **params_dbscan}
+        dbscan_defaults = {'metric': metric, 'min_clust': min_clust, 'max_clust': max_clust, 'eps': None, 'epsres': 50, 'min_samples': 0.01, 'norm': False, 'n_jobs': -1, 'verbose': verbose}
+        params_dbscan = {**dbscan_defaults, **params_dbscan}
         self.params_dbscan = params_dbscan
 
         # Store in object
@@ -184,7 +184,6 @@ class clusteval:
         if self.results['labx'] is not None:
             if self.verbose>=3: print('[clusteval] >Optimal number clusters detected: [%.0d].' %(len(np.unique(self.results['labx']))))
 
-
         self.results['max_d'] = max_d
         self.results['max_d_lower'] = max_d_lower
         self.results['max_d_upper'] = max_d_upper
@@ -194,17 +193,29 @@ class clusteval:
         return self.results
 
     # Plot
-    def plot(self, title=None, figsize=(15, 8)):
+    def plot(self, title=None, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, verbose=3):
         """Make a plot.
 
         Parameters
         ----------
         figsize : tuple, (default: (15, 8).
             Size of the figure (height,width).
+        savefig : dict.
+            https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
+            {'dpi':'figure',
+            'format':None,
+            'metadata':None,
+            'bbox_inches': None,
+            'pad_inches':0.1,
+            'facecolor':'auto',
+            'edgecolor':'auto',
+            'backend':None}
+        verbose : int, optional (default: 3)
+            Print message to screen [1-5]. The larger the number, the more information.
 
         Returns
         -------
-        None.
+        tuple: (fig, ax)
 
         """
         fig, ax = None, None
@@ -223,12 +234,18 @@ class clusteval:
             fig, ax = dbscan.plot(self.results, figsize=figsize)
         elif self.cluster=='hdbscan':
             import clusteval.hdbscan as hdbscan
-            hdbscan.plot(self.results, figsize=figsize)
+            fig, ax = hdbscan.plot(self.results, figsize=figsize, savefig=savefig)
+
+        # Save figure
+        if (savefig['fname'] is not None) and (fig is not None) and (self.cluster!='hdbscan'):
+            if verbose>=3: print('[clusteval] >Saving plot: [%s]' %(savefig['fname']))
+            fig.savefig(**savefig)
+
         # Return
         return fig, ax
 
     # Plot
-    def scatter(self, X, dot_size=50, figsize=(15, 8)):
+    def scatter(self, X, dot_size=75, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, verbose=3):
         """Make a plot.
 
         Parameters
@@ -239,6 +256,18 @@ class clusteval:
             Size of the dot in the scatterplot
         figsize : tuple, (default: (15,8).
             Size of the figure (height,width).
+        savefig : dict.
+            https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
+            {'dpi':'figure',
+            'format':None,
+            'metadata':None,
+            'bbox_inches': None,
+            'pad_inches':0.1,
+            'facecolor':'auto',
+            'edgecolor':'auto',
+            'backend':None}
+        verbose : int, optional (default: 3)
+            Print message to screen [1-5]. The larger the number, the more information.
 
         Returns
         -------
@@ -248,11 +277,13 @@ class clusteval:
         if (self.results is None) or (self.results['labx'] is None):
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
             return None
-        # Make scatter
-        silhouette.scatter(self.results, X=X, dot_size=dot_size, figsize=figsize)
+        # Make scatterplot
+        fig, ax1, ax2 = silhouette.scatter(self.results, X=X, dot_size=dot_size, figsize=figsize, savefig=savefig)
+        # Return
+        return (fig, ax1, ax2)
 
     # Plot dendrogram
-    def dendrogram(self, X=None, labels=None, leaf_rotation=90, leaf_font_size=12, orientation='top', show_contracted=True, max_d=None, showfig=True, metric=None, linkage=None, truncate_mode=None, figsize=(15, 10)):
+    def dendrogram(self, X=None, labels=None, leaf_rotation=90, leaf_font_size=12, orientation='top', show_contracted=True, max_d=None, showfig=True, metric=None, linkage=None, truncate_mode=None, figsize=(15, 10), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, verbose=3):
         """Plot Dendrogram.
 
         Parameters
@@ -282,6 +313,18 @@ class clusteval:
             Truncation is used to condense the dendrogram, which can be based on: 'level', 'lastp' or None
         figsize : tuple, (default: (15, 10).
             Size of the figure (height,width).
+        savefig : dict.
+            https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
+            {'dpi':'figure',
+            'format':None,
+            'metadata':None,
+            'bbox_inches': None,
+            'pad_inches':0.1,
+            'facecolor':'auto',
+            'edgecolor':'auto',
+            'backend':None}
+        verbose : int, optional (default: 3)
+            Print message to screen [1-5]. The larger the number, the more information.
 
         Returns
         -------
@@ -293,6 +336,7 @@ class clusteval:
             * max_d_upper : float : maximum distance upperbound
 
         """
+        fig, ax = None, None
         if (self.results is None) or (self.results['labx'] is None):
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
             return None
@@ -344,6 +388,12 @@ class clusteval:
         results['max_d_lower'] = max_d_lower
         results['max_d_upper'] = max_d_upper
         results['ax'] = ax
+
+        # Save figure
+        if (savefig['fname'] is not None) and (fig is not None):
+            if verbose>=3: print('[clusteval] >Saving dendrogram: [%s]' %(savefig['fname']))
+            fig.savefig(**savefig)
+
         return results
 
     def save(self, filepath='clusteval.pkl', overwrite=False):

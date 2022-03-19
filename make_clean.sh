@@ -16,3 +16,10 @@ rm -rf *.js
 rm -rf *.html
 rm -rf *.css
 rm -rf *.pkl
+rm -rf *.png
+rm -rf *.pdf
+rm -rf *.jpg
+rm -rf *.jpeg
+
+
+

@@ -1,5 +1,6 @@
 # EXAMPLE
 from sklearn.datasets import make_blobs
+import matplotlib.pyplot as plt
 # import clusteval
 # print(clusteval.__version__)
 # print(dir(clusteval))
@@ -17,12 +18,14 @@ X, y = make_blobs(n_samples=600, centers=[[1, 1], [-1, -1], [1, -1]], cluster_st
 # plt.figure(figsize=(15, 10));plt.scatter(X[:,0], X[:,1], c=y);plt.grid(True);plt.xlabel('Feature 1');plt.ylabel('Feature 2')
 # plt.figure(figsize=(15, 10));plt.scatter(X[:,0], X[:,1], c='k');plt.grid(True);plt.xlabel('Feature 1');plt.ylabel('Feature 2')
 
-# ce = clusteval(cluster='dbscan')
+# ce = clusteval(cluster='hdbscan')
 # ce = clusteval(cluster='kmeans')
 ce = clusteval(cluster='agglomerative', evaluate='derivative')
 results = ce.fit(X)
-ce.plot()
-ce.scatter(X, dot_size=100)
+
+ce.plot(savefig={'fname':'test_plot.png'})
+ce.scatter(X, dot_size=100, savefig={'fname':'test_scatter.png'})
+ce.dendrogram(savefig={'fname':'test_dendrogram.png'})
 
 
 
@@ -198,19 +201,19 @@ ce.plot()
 ce.scatter(X)
 results_dendro = ce.dendrogram()
 
-for i in zip(results['labx'], results_dendro['labx']):
-    assert np.all(np.logical_and(np.where(results['labx']==i[0])[0]+1, np.where(results_dendro['labx']==i[1])[0]+1))
+# for i in zip(results['labx'], results_dendro['labx']):
+#     assert np.all(np.logical_and(np.where(results['labx']==i[0])[0]+1, np.where(results_dendro['labx']==i[1])[0]+1))
 
 # %% hdbscan
 from clusteval import clusteval
 ce = clusteval(cluster='hdbscan')
 results = ce.fit(X)
-ce.plot()
+ce.plot(savefig={'fname':'hdbscan'})
 ce.scatter(X)
-results_dendro = ce.dendrogram(figsize=(15,8), orientation='top')
+results_dendro = ce.dendrogram(figsize=(15, 8), orientation='top')
 
-for i in zip(results['labx'], results_dendro['labx']):
-    assert np.all(np.logical_and(np.where(results['labx']==i[0])[0]+1, np.where(results_dendro['labx']==i[1])[0]+1))
+# for i in zip(results['labx'], results_dendro['labx']):
+#     assert np.all(np.logical_and(np.where(results['labx']==i[0])[0]+1, np.where(results_dendro['labx']==i[1])[0]+1))
 
 # %% Directly use the dbindex method
 import clusteval
