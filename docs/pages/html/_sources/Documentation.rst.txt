@@ -35,7 +35,8 @@ Colab Notebook
 Citing
 #########
 
-The bibtex can be found in the right side menu at the `github page <https://github.com/erdogant/clusteval/>`_.
+.. note::
+	Bibtex can be found at the right side at the `github page <https://github.com/erdogant/clusteval/>`_.
 
 
 .. raw:: html
