@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -31,7 +32,7 @@
             <a href="index.html" class="icon icon-home"> clusteval
           </a>
               <div class="version">
-                2.1.2
+                2.1.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -90,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#blog">Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clusteval.clusteval.html">API References</a></li>
 </ul>
@@ -121,7 +123,7 @@
            <div itemprop="articleBody">
              
   <section id="how-to-choose-the-cluster-evaluation-method">
-<h1>How to choose the cluster evaluation method?<a class="headerlink" href="#how-to-choose-the-cluster-evaluation-method" title="Permalink to this headline"></a></h1>
+<h1>How to choose the cluster evaluation method?<a class="headerlink" href="#how-to-choose-the-cluster-evaluation-method" title="Permalink to this heading"></a></h1>
 <p>With unsupervised clustering we aim to determine “natural” or “data-driven” groups in the data without using apriori knowledge about labels or categories. The challenge of using different unsupervised clustering methods is that it will result in different partitioning of the samples and thus different groupings since each method implicitly impose a structure on the data.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -136,7 +138,7 @@
 </div></blockquote>
 <p>As an example: <em>DBScan</em> in combination with the <em>Silhouette evaluation</em> can detect clusters with different densities and shapes while <em>k-means</em> assumes that clusters are <em>convex shaped</em>. Or in other words, when using kmeans, you will always find convex shaped clustes!</p>
 <section id="distance-metric">
-<h2>Distance Metric<a class="headerlink" href="#distance-metric" title="Permalink to this headline"></a></h2>
+<h2>Distance Metric<a class="headerlink" href="#distance-metric" title="Permalink to this heading"></a></h2>
 <p><strong>What is a “good” clustering?</strong> Intuitively we may describe it as a group of samples that are cluttered together. However, it is better to describe clusters with <strong>the distances between the samples</strong>. The most well-known distance metric is the <strong>Euclidean distance</strong>. Although it is set as the default metric in many methods, it is not always the best choice. As an example, in case your dataset is boolean, then it is more wise to use a distance metric such as the hamming distance. Or in other words, use the metric that fits best by the statistical properties of your data.</p>
 <table class="docutils align-center" id="id1">
 <caption><span class="caption-text">Schematic overview of various distance metrics</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
@@ -150,7 +152,7 @@
 </table>
 </section>
 <section id="linkage-types">
-<h2>Linkage types<a class="headerlink" href="#linkage-types" title="Permalink to this headline"></a></h2>
+<h2>Linkage types<a class="headerlink" href="#linkage-types" title="Permalink to this heading"></a></h2>
 <p>The process of hierarchical clustering involves an approach of grouping samples into a larger cluster. In this process, the distances between two sub-clusters need to be computed for which the different types of linkages describe how the clusters are connected. The most commonly used linkage type is <strong>complete linkage</strong>. Due to the nature of connecting groups, it can handle noisy data. However, if you aim to determine <strong>outliers</strong> or <strong>snake-like clusters</strong>, the <strong>single linkage</strong> is what you need.</p>
 <table class="docutils align-center" id="id2">
 <caption><span class="caption-text">Linkage types.</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
@@ -182,7 +184,7 @@
 </section>
 </section>
 <section id="derivative-method">
-<h1>Derivative method<a class="headerlink" href="#derivative-method" title="Permalink to this headline"></a></h1>
+<h1>Derivative method<a class="headerlink" href="#derivative-method" title="Permalink to this heading"></a></h1>
 <p>The <strong>derivative” method</strong> is build on <code class="docutils literal notranslate"><span class="pre">fcluster()</span></code> from <code class="docutils literal notranslate"><span class="pre">scipy</span></code>. In <code class="docutils literal notranslate"><span class="pre">clusteval</span></code>, it compares each cluster merge’s <strong>height</strong> to the average avg and normalizing it by the <strong>standard deviation</strong> formed over the depth previous levels. Finally, the <strong>derivative” method</strong> returns the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.</p>
 <p>Let’s demonstrate this using the previously randomly generated samples.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Libraries</span>
@@ -208,7 +210,7 @@
 </div>
 </section>
 <section id="silhouette-score">
-<h1>Silhouette score<a class="headerlink" href="#silhouette-score" title="Permalink to this headline"></a></h1>
+<h1>Silhouette score<a class="headerlink" href="#silhouette-score" title="Permalink to this heading"></a></h1>
 <p>The silhouette method is a measure of how similar a sample is to its own cluster (<em>cohesion</em>) compared to other clusters (<em>separation</em>). The scores ranges between [−1, 1], where a high value indicates that the object is well matched to its own cluster and poorly matched to neighboring clusters. It is a <strong>sample-wise approach</strong>, which means that for each sample, a silhouette score is computed and if most samples have a high value, then the clustering configuration is appropriate. If many points have a low or negative value, then the clustering configuration may have too many or too few clusters.</p>
 <p>In contrast to the DBindex, the Silhouette score is a sample-wise measure, i.e., measures the average similarity of the samples within a cluster and their distance to the other objects in the other clusters. The silhouette method is independent of the distance metrics which makes it an attractive and versatile method to use.</p>
 <div class="admonition note">
@@ -242,7 +244,7 @@
 </div>
 </section>
 <section id="dbindex-score">
-<h1>DBindex score<a class="headerlink" href="#dbindex-score" title="Permalink to this headline"></a></h1>
+<h1>DBindex score<a class="headerlink" href="#dbindex-score" title="Permalink to this heading"></a></h1>
 <p><strong>Davies–Bouldin index</strong> can intuitively be described as a measure of the ratio between within-cluster distances, and between cluster distances. The score is bounded between [0, 1]. The lower the value, the tighter the clusters and the seperation between clusters.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -288,7 +290,7 @@
 </div>
 </section>
 <section id="dbscan">
-<h1>DBscan<a class="headerlink" href="#dbscan" title="Permalink to this headline"></a></h1>
+<h1>DBscan<a class="headerlink" href="#dbscan" title="Permalink to this heading"></a></h1>
 <p><strong>Density-Based Spatial Clustering of Applications with Noise</strong> is an clustering approach that finds core samples of high density and expands clusters from them. This works especially good when having samples which contains clusters of similar density.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Libraries</span>
 <span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
@@ -316,7 +318,7 @@
 </div>
 </section>
 <section id="hdbscan">
-<h1>HDBscan<a class="headerlink" href="#hdbscan" title="Permalink to this headline"></a></h1>
+<h1>HDBscan<a class="headerlink" href="#hdbscan" title="Permalink to this heading"></a></h1>
 <p><strong>Hierarchical Density-Based Spatial Clustering of Applications with Noise</strong> is an extention of the <strong>DBscan</strong> method which hierarchically finds core samples of high density and expands clusters from them.</p>
 <p>Let’s evaluate the results using <strong>hdbscan</strong>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install hdbscan

@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -31,7 +32,7 @@
             <a href="index.html" class="icon icon-home"> clusteval
           </a>
               <div class="version">
-                2.1.2
+                2.1.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -86,6 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#blog">Blog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#github">Github</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
 <li class="toctree-l1"><a class="reference internal" href="clusteval.clusteval.html">API References</a></li>
 </ul>
@@ -117,11 +119,11 @@
            <div itemprop="articleBody">
              
   <section id="background">
-<h1>Background<a class="headerlink" href="#background" title="Permalink to this headline"></a></h1>
+<h1>Background<a class="headerlink" href="#background" title="Permalink to this heading"></a></h1>
 <p>Clustering is an unsupervised machine learning approach where the aim i to determine “natural” or “data-driven” groups in the data without using apriori knowledge about labels or categories. The challenges in unsupervised clustering is that it always produces a partitioning of the samples since each clustering method implicitly impose a structure on the data. The question is: What is a “good” clustering? We need to evaluate the results based on the <strong>clustering tendency</strong>, <strong>number of clusters</strong> and the <strong>clustering quality</strong>.</p>
 </section>
 <section id="aim">
-<h1>Aim<a class="headerlink" href="#aim" title="Permalink to this headline"></a></h1>
+<h1>Aim<a class="headerlink" href="#aim" title="Permalink to this heading"></a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">clusteval</span></code> is a Python package that is developed to evaluate the <strong>clustering tendency</strong>, <strong>number of clusters</strong> and <strong>clustering quality</strong>. <code class="docutils literal notranslate"><span class="pre">clusteval</span></code> returns the cluster labels for the optimal number of cluster that produces the best partitioning of the samples. The following evaluation strategies are implemented: <strong>silhouette</strong>, <strong>dbindex</strong>, and <strong>derivative</strong> which can be used in combination with <strong>agglomerative</strong> and <strong>kmeans</strong> clustering. In addition <strong>dbscan</strong> and <strong>hdbscan</strong> is implemented for which an internal gridsearch scheme will determine the best partitioning.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -129,7 +131,7 @@
 </div>
 </section>
 <section id="quickstart">
-<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline"></a></h1>
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h1>
 <p>A quick example how to learn a model on a given dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Required library</span>
 <span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>

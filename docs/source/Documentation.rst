@@ -1,14 +1,8 @@
 Sponsor
 ############
 
+.. include:: sponsor.rst
 
-.. tip::
-	If you like this project, **Star** this repo at the github page and become a **sponsor**!
-	Read more why this is important on my sponsor page. The **sponsor button** will direct you to the sponsor github page.
-
-.. raw:: html
-
-	<iframe src="https://github.com/sponsors/erdogant/button" title="Sponsor erdogant" height="35" width="116" style="border: 0;"></iframe>
 
 
 Blog
@@ -37,6 +31,11 @@ Colab Notebook
 
 .. _Colab notebook: https://colab.research.google.com/github/erdogant/clusteval/blob/master/notebooks/clusteval.ipynb
 
+
+Citing
+#########
+
+The bibtex can be found in the right side menu at the `github page <https://github.com/erdogant/clusteval/>`_.
 
 
 .. raw:: html
