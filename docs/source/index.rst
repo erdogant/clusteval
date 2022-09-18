@@ -15,9 +15,10 @@ clusteval's documentation!
 .. figure:: ../figs/cluster.png
 
 
-Star is important
-======================
-If you ❤️ this project, **star** this repo at the `github page <https://github.com/erdogant/clusteval/>`_!
+
+You contribution is important
+==============================
+If you ❤️ this project, **star** this repo at the `github page <https://github.com/erdogant/clusteval/>`_ and have a look at the `sponser page <https://github.com/erdogant/clusteval/pages/html/Documentation.html>`_!
 
 
 Github

@@ -15,7 +15,6 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -124,7 +123,7 @@
            <div itemprop="articleBody">
              
   <section id="generate-data">
-<h1>Generate data<a class="headerlink" href="#generate-data" title="Permalink to this heading"></a></h1>
+<h1>Generate data<a class="headerlink" href="#generate-data" title="Permalink to this headline"></a></h1>
 <p>Install requried libraries</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
 pip install sklearn
@@ -153,7 +152,7 @@ pip install sklearn
 </table>
 </section>
 <section id="plot">
-<h1>Plot<a class="headerlink" href="#plot" title="Permalink to this heading"></a></h1>
+<h1>Plot<a class="headerlink" href="#plot" title="Permalink to this headline"></a></h1>
 <p>The plot functionality is to plot score of the cluster evaluation method versus the number of clusters.
 For demonstration, the clusters are evaluated using four cluster evaluation methods. It can be seen that all methods were able to detect the expected six clusters.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import</span>
@@ -195,7 +194,7 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </table>
 </section>
 <section id="scatterplot">
-<h1>Scatterplot<a class="headerlink" href="#scatterplot" title="Permalink to this heading"></a></h1>
+<h1>Scatterplot<a class="headerlink" href="#scatterplot" title="Permalink to this headline"></a></h1>
 <p>The aim of the scatterplot is to scatter the samples with the <strong>silhouette</strong> coefficient values. Note that for the scatterplot, only the first two features can be used.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot</span>
 <span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
@@ -213,9 +212,9 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </table>
 </section>
 <section id="dendrogram">
-<h1>Dendrogram<a class="headerlink" href="#dendrogram" title="Permalink to this heading"></a></h1>
+<h1>Dendrogram<a class="headerlink" href="#dendrogram" title="Permalink to this headline"></a></h1>
 <section id="hierarchical-tree-plot">
-<h2>Hierarchical tree plot<a class="headerlink" href="#hierarchical-tree-plot" title="Permalink to this heading"></a></h2>
+<h2>Hierarchical tree plot<a class="headerlink" href="#hierarchical-tree-plot" title="Permalink to this headline"></a></h2>
 <p>To furter investigate the clustering results, a dendrogram can be created.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">()</span>
 </pre></div>
@@ -231,7 +230,7 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </table>
 </section>
 <section id="change-the-cut-off-threshold">
-<h2>Change the cut-off threshold<a class="headerlink" href="#change-the-cut-off-threshold" title="Permalink to this heading"></a></h2>
+<h2>Change the cut-off threshold<a class="headerlink" href="#change-the-cut-off-threshold" title="Permalink to this headline"></a></h2>
 <p>The dendrogram function can now also be used to create differents cuts in the hierarchical clustering and retrieve the associated cluster labels. Let’s cut the tree at level 60</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the dendrogram and make the cut at distance height 60</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">max_d</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
@@ -251,7 +250,7 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </table>
 </section>
 <section id="orientation">
-<h2>Orientation<a class="headerlink" href="#orientation" title="Permalink to this heading"></a></h2>
+<h2>Orientation<a class="headerlink" href="#orientation" title="Permalink to this headline"></a></h2>
 <p>Change various parameters, such as orientation, leaf rotation, and the font size.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the dendrogram</span>
 <span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">leaf_rotation</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">leaf_font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">))</span>
