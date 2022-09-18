@@ -18,7 +18,7 @@ clusteval's documentation!
 
 You contribution is important
 ==============================
-If you ❤️ this project, **star** this repo at the `github page <https://github.com/erdogant/clusteval/>`_ and have a look at the `sponser page <https://github.com/erdogant/clusteval/pages/html/Documentation.html>`_!
+If you ❤️ this project, **star** this repo at the `github page <https://github.com/erdogant/clusteval/>`_ and have a look at the `sponser page <https://erdogant.github.io/clusteval/pages/html/Documentation.html>`_!
 
 
 Github
@@ -80,7 +80,6 @@ Content
   Coding quality
   clusteval.clusteval
 
-* :ref:`genindex`
 
 
 
