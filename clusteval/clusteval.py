@@ -2,7 +2,7 @@
 # Name        : clusteval.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
-# Licence     : MIT
+# Licence     : See LICENSE
 # Respect the autor and leave this here
 # -----------------------------------------------
 import clusteval.dbindex as dbindex
@@ -25,80 +25,80 @@ import os
 
 # %% Class
 class clusteval:
-    """clusteval - Cluster evaluation."""
+    """Cluster evaluation.
 
-    def __init__(self, cluster='agglomerative', evaluate='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, savemem=False, verbose=3, params_dbscan={'eps':None, 'epsres':50, 'min_samples':0.01, 'norm':False, 'n_jobs':-1}):
-        """Initialize clusteval with user-defined parameters.
+    Description
+    -----------
+    clusteval is a python package that provides various evaluation approaches to measure the goodness of the unsupervised clustering.
 
-        Description
-        -----------
-        clusteval is a python package that provides various evaluation approaches to measure the goodness of the unsupervised clustering.
+    Parameters
+    ----------
+    cluster : str, (default: 'agglomerative')
+        Type of clustering.
+            * 'agglomerative'
+            * 'kmeans'
+            * 'dbscan'
+            * 'hdbscan'
+            * 'optics' # TODO
+    evaluate : str, (default: 'silhouette')
+        Evaluation method for cluster validation.
+            * 'silhouette'
+            * 'dbindex'
+            * 'derivative'
+    metric : str, (default: 'euclidean').
+        Distance measures. All metrics from sklearn can be used such as:
+            * 'euclidean'
+            * 'hamming'
+            * 'braycurtis', 'canberra', 'chebyshev', 'cityblock', 'correlation', 'cosine', 'dice', 'euclidean', 'hamming', 'jaccard', 'jensenshannon', 'kulsinski', 'mahalanobis', 'matching', 'minkowski', 'rogerstanimoto', 'russellrao', 'seuclidean', 'sokalmichener', 'sokalsneath', 'sqeuclidean', 'yule'
+    linkage : str, (default: 'ward')
+        Linkage type for the clustering.
+            * 'ward'
+            * 'single'
+            * 'complete'
+            * 'average'
+            * 'weighted'
+            * 'centroid'
+            * 'median'
+    min_clust : int, (default: 2)
+        Number of clusters that is evaluated greater or equals to min_clust.
+    max_clust : int, (default: 25)
+        Number of clusters that is evaluated smaller or equals to max_clust.
+    savemem : bool, (default: False)
+        Save memmory when working with large datasets. Note that htis option only in case of KMeans.
+    verbose : int, optional (default: 3)
+        Print message to screen [1-5]. The larger the number, the more information.
 
-        Parameters
-        ----------
-        cluster : str, (default: 'agglomerative')
-            Type of clustering.
-                * 'agglomerative'
-                * 'kmeans'
-                * 'dbscan'
-                * 'hdbscan'
-                * 'optics' # TODO
-        evaluate : str, (default: 'silhouette')
-            Evaluation method for cluster validation.
-                * 'silhouette'
-                * 'dbindex'
-                * 'derivative'
-        metric : str, (default: 'euclidean').
-            Distance measures. All metrics from sklearn can be used such as:
-                * 'euclidean'
-                * 'hamming'
-                * 'braycurtis', 'canberra', 'chebyshev', 'cityblock', 'correlation', 'cosine', 'dice', 'euclidean', 'hamming', 'jaccard', 'jensenshannon', 'kulsinski', 'mahalanobis', 'matching', 'minkowski', 'rogerstanimoto', 'russellrao', 'seuclidean', 'sokalmichener', 'sokalsneath', 'sqeuclidean', 'yule'
-        linkage : str, (default: 'ward')
-            Linkage type for the clustering.
-                * 'ward'
-                * 'single'
-                * 'complete'
-                * 'average'
-                * 'weighted'
-                * 'centroid'
-                * 'median'
-        min_clust : int, (default: 2)
-            Number of clusters that is evaluated greater or equals to min_clust.
-        max_clust : int, (default: 25)
-            Number of clusters that is evaluated smaller or equals to max_clust.
-        savemem : bool, (default: False)
-            Save memmory when working with large datasets. Note that htis option only in case of KMeans.
-        verbose : int, optional (default: 3)
-            Print message to screen [1-5]. The larger the number, the more information.
+    Returns
+    -------
+    dict : dictionary with keys:
 
-        Returns
-        -------
-        dict : The output is a dictionary containing the following keys:
+    Examples
+    --------
+    >>> # Import library
+    >>> from clusteval import clusteval
+    >>> # Initialize clusteval with default parameters
+    >>> ce = clusteval()
+    >>>
+    >>> # Generate random data
+    >>> from sklearn.datasets import make_blobs
+    >>> X, labels_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
+    >>>
+    >>> # Fit best clusters
+    >>> results = ce.fit(X)
+    >>>
+    >>> # Make plot
+    >>> ce.plot()
+    >>>
+    >>> # Scatter plot
+    >>> ce.scatter(X)
+    >>>
+    >>> # Dendrogram
+    >>> ce.dendrogram()
 
-        Examples
-        --------
-        >>> # Import library
-        >>> from clusteval import clusteval
-        >>> # Initialize clusteval with default parameters
-        >>> ce = clusteval()
-        >>>
-        >>> # Generate random data
-        >>> from sklearn.datasets import make_blobs
-        >>> X, labels_true = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
-        >>>
-        >>> # Fit best clusters
-        >>> results = ce.fit(X)
-        >>>
-        >>> # Make plot
-        >>> ce.plot()
-        >>>
-        >>> # Scatter plot
-        >>> ce.scatter(X)
-        >>>
-        >>> # Dendrogram
-        >>> ce.dendrogram()
+    """
 
-        """
+    def __init__(self, cluster='agglomerative', evaluate='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, savemem=False, verbose=3, params_dbscan={'eps': None, 'epsres': 50, 'min_samples': 0.01, 'norm': False, 'n_jobs': -1}):
+        """Initialize clusteval with user-defined parameters."""
         if ((min_clust is None) or (min_clust<2)):
             min_clust=2
         if ((max_clust is None) or (max_clust<min_clust)):
