@@ -4,6 +4,6 @@ pandas
 tqdm
 seaborn
 hdbscan
-sklearn
+scikit-learn
 wget
 pypickle

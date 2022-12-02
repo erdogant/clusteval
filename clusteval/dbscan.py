@@ -92,7 +92,7 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1
     if Param['eps'] is None:
         if Param['verbose']>=3: print('[clusteval] >Gridsearch across epsilon..')
         # Optimize
-        [eps, sillclust, silscores, silllabx] = _optimize_eps(X, eps, Param, verbose=verbose)
+        eps, sillclust, silscores, silllabx = _optimize_eps(X, eps, Param, verbose=verbose)
         # Store results
         idx = np.argmax(silscores)
         results['evaluate']='dbscan'
@@ -151,7 +151,7 @@ def _optimize_eps(X, eps, Param, verbose=3):
     eps = eps[Iloc]
     silllabx = silllabx[Iloc, :]
     # Return
-    return(eps, sillclust, silscores, silllabx)
+    return eps, sillclust, silscores, silllabx
 
 
 # %% Plot
