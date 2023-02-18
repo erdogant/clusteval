@@ -1,15 +1,17 @@
 clusteval's documentation!
 ============================
 
+|python| |pypi| |docs| |stars| |LOC| |downloads_month| |downloads_total| |license| |forks| |open issues| |project status| |medium| |colab| |DOI| |repo-size| |donate|
+
+.. include:: add_top.add
+
+
 .. _schematic_overview:
 
 .. figure:: ../figs/cluster.png
 
 
-|python| |pypi| |docs| |stars| |LOC| |downloads_month| |downloads_total| |license| |forks| |open issues| |project status| |medium| |colab| |DOI| |repo-size| |donate|
-
-.. include:: add_top.add
-
+-----------------------------------
 
 ``clusteval`` is a python package for unsupervised cluster evaluation. Three evaluation methods, **Silhouette**, **DBindex**, and **Derivative** are implemented that can be used to evalute clusterings for four clustering methods *agglomerative*, *kmeans*, *dbscan* and *hdbscan*.
 
@@ -22,14 +24,18 @@ clusteval's documentation!
 
 
 
-You contribution is important
-==============================
-If you ❤️ this project, **star** this repo at the `github page <https://github.com/erdogant/clusteval/>`_ and have a look at the `sponser page <https://erdogant.github.io/clusteval/pages/html/Documentation.html>`_!
+-----------------------------------
 
+.. note::
+	**Your ❤️ is important to keep maintaining this package.** You can `support <https://erdogant.github.io/clusteval/pages/html/Documentation.html>`_ in various ways, have a look at the `sponser page <https://erdogant.github.io/clusteval/pages/html/Documentation.html>`_.
+	Report bugs, issues and feature extensions at `github <https://github.com/erdogant/clusteval/>`_ page.
 
-Github
-======
-Please report bugs, issues and feature extensions at `github <https://github.com/erdogant/clusteval/>`_.
+	.. code-block:: console
+
+	   pip install clusteval
+
+-----------------------------------
+
 
 
 
