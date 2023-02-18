@@ -1,6 +1,16 @@
 clusteval's documentation!
 ============================
 
+.. _schematic_overview:
+
+.. figure:: ../figs/cluster.png
+
+
+|python| |pypi| |docs| |stars| |LOC| |downloads_month| |downloads_total| |license| |forks| |open issues| |project status| |medium| |colab| |DOI| |repo-size| |donate|
+
+.. include:: add_top.add
+
+
 ``clusteval`` is a python package for unsupervised cluster evaluation. Three evaluation methods, **Silhouette**, **DBindex**, and **Derivative** are implemented that can be used to evalute clusterings for four clustering methods *agglomerative*, *kmeans*, *dbscan* and *hdbscan*.
 
 
@@ -9,10 +19,6 @@ clusteval's documentation!
 
 .. note::
 	`Medium Blog: Detection of Duplicate Images Using Image Hash Functions <https://towardsdatascience.com/detection-of-duplicate-images-using-image-hash-functions-4d9c53f04a75>`_
-
-.. _schematic_overview:
-
-.. figure:: ../figs/cluster.png
 
 
 
@@ -91,11 +97,69 @@ Indices and tables
 * :ref:`search`
 
 
-.. raw:: html
+.. |python| image:: https://img.shields.io/pypi/pyversions/clusteval.svg
+    :alt: |Python
+    :target: https://erdogant.github.io/clusteval/
 
-	<hr>
-	<center>
-		<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
-	</center>
-	<hr>
+.. |pypi| image:: https://img.shields.io/pypi/v/clusteval.svg
+    :alt: |Python Version
+    :target: https://pypi.org/project/clusteval/
 
+.. |docs| image:: https://img.shields.io/badge/Sphinx-Docs-blue.svg
+    :alt: Sphinx documentation
+    :target: https://erdogant.github.io/clusteval/
+
+.. |stars| image:: https://img.shields.io/github/stars/erdogant/clusteval
+    :alt: Stars
+    :target: https://img.shields.io/github/stars/erdogant/clusteval
+
+.. |LOC| image:: https://sloc.xyz/github/erdogant/clusteval/?category=code
+    :alt: lines of code
+    :target: https://github.com/erdogant/clusteval
+
+.. |downloads_month| image:: https://static.pepy.tech/personalized-badge/clusteval?period=month&units=international_system&left_color=grey&right_color=brightgreen&left_text=PyPI%20downloads/month
+    :alt: Downloads per month
+    :target: https://pepy.tech/project/clusteval
+
+.. |downloads_total| image:: https://static.pepy.tech/personalized-badge/clusteval?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=Downloads
+    :alt: Downloads in total
+    :target: https://pepy.tech/project/clusteval
+
+.. |license| image:: https://img.shields.io/badge/license-MIT-green.svg
+    :alt: License
+    :target: https://github.com/erdogant/clusteval/blob/master/LICENSE
+
+.. |forks| image:: https://img.shields.io/github/forks/erdogant/clusteval.svg
+    :alt: Github Forks
+    :target: https://github.com/erdogant/clusteval/network
+
+.. |open issues| image:: https://img.shields.io/github/issues/erdogant/clusteval.svg
+    :alt: Open Issues
+    :target: https://github.com/erdogant/clusteval/issues
+
+.. |project status| image:: http://www.repostatus.org/badges/latest/active.svg
+    :alt: Project Status
+    :target: http://www.repostatus.org/#active
+
+.. |medium| image:: https://img.shields.io/badge/Medium-Blog-green.svg
+    :alt: Medium Blog
+    :target: https://erdogant.github.io/clusteval/pages/html/Documentation.html#medium-blog
+
+.. |donate| image:: https://img.shields.io/badge/Support%20this%20project-grey.svg?logo=github%20sponsors
+    :alt: donate
+    :target: https://erdogant.github.io/clusteval/pages/html/Documentation.html#
+
+.. |colab| image:: https://colab.research.google.com/assets/colab-badge.svg
+    :alt: Colab example
+    :target: https://erdogant.github.io/clusteval/pages/html/Documentation.html#colab-notebook
+
+.. |DOI| image:: https://zenodo.org/badge/232915924.svg
+    :alt: Cite
+    :target: https://zenodo.org/badge/latestdoi/232915924
+
+.. |repo-size| image:: https://img.shields.io/github/repo-size/erdogant/clusteval
+    :alt: repo-size
+    :target: https://img.shields.io/github/repo-size/erdogant/clusteval
+
+
+.. include:: add_bottom.add

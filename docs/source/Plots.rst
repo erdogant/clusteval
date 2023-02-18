@@ -1,3 +1,5 @@
+.. include:: add_top.add
+
 Generate data
 ####################
 
@@ -170,10 +172,5 @@ Change various parameters, such as orientation, leaf rotation, and the font size
 
 
 
-.. raw:: html
 
-	<hr>
-	<center>
-		<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
-	</center>
-	<hr>
+.. include:: add_bottom.add

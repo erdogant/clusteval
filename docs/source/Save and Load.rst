@@ -1,3 +1,5 @@
+.. include:: add_top.add
+
 Saving
 ##########
 
@@ -29,10 +31,4 @@ Loading a learned model can be done using the function :func:`clusteval.clusteva
 
 
 
-.. raw:: html
-
-	<hr>
-	<center>
-		<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
-	</center>
-	<hr>
+.. include:: add_bottom.add

@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -30,7 +31,7 @@
             <a href="#" class="icon icon-home"> clusteval
           </a>
               <div class="version">
-                2.1.3
+                2.1.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -87,7 +88,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clusteval.clusteval.html">API References</a></li>
 </ul>
 
     <a href= "genindex.html">Index</a>
@@ -117,8 +117,18 @@
            <div itemprop="articleBody">
              
   <section id="clusteval-s-documentation">
-<h1>clusteval’s documentation!<a class="headerlink" href="#clusteval-s-documentation" title="Permalink to this headline"></a></h1>
-<p><code class="docutils literal notranslate"><span class="pre">clusteval</span></code> is a python package for unsupervised cluster evaluation. Three evaluation methods, <strong>Silhouette</strong>, <strong>DBindex</strong>, and <strong>Derivative</strong> are implemented that can be used to evalute clusterings for four clustering methods <em>agglomerative</em>, <em>kmeans</em>, <em>dbscan</em> and <em>hdbscan</em>.</p>
+<h1>clusteval’s documentation!<a class="headerlink" href="#clusteval-s-documentation" title="Permalink to this heading"></a></h1>
+<figure class="align-default" id="schematic-overview">
+<img alt="_images/cluster.png" src="_images/cluster.png" />
+</figure>
+<p><a class="reference external" href="https://erdogant.github.io/clusteval/"><img alt="|Python" src="https://img.shields.io/pypi/pyversions/clusteval.svg" /></a> <a class="reference external" href="https://pypi.org/project/clusteval/"><img alt="|Python Version" src="https://img.shields.io/pypi/v/clusteval.svg" /></a> <a class="reference external" href="https://erdogant.github.io/clusteval/"><img alt="Sphinx documentation" src="https://img.shields.io/badge/Sphinx-Docs-blue.svg" /></a> <a class="reference external" href="https://img.shields.io/github/stars/erdogant/clusteval"><img alt="Stars" src="https://img.shields.io/github/stars/erdogant/clusteval" /></a> <a class="reference external" href="https://github.com/erdogant/clusteval"><img alt="lines of code" src="https://sloc.xyz/github/erdogant/clusteval/?category=code" /></a> <a class="reference external" href="https://pepy.tech/project/clusteval"><img alt="Downloads per month" src="https://static.pepy.tech/personalized-badge/clusteval?period=month&amp;units=international_system&amp;left_color=grey&amp;right_color=brightgreen&amp;left_text=PyPI%20downloads/month" /></a> <a class="reference external" href="https://pepy.tech/project/clusteval"><img alt="Downloads in total" src="https://static.pepy.tech/personalized-badge/clusteval?period=total&amp;units=international_system&amp;left_color=grey&amp;right_color=brightgreen&amp;left_text=Downloads" /></a> <a class="reference external" href="https://github.com/erdogant/clusteval/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-green.svg" /></a> <a class="reference external" href="https://github.com/erdogant/clusteval/network"><img alt="Github Forks" src="https://img.shields.io/github/forks/erdogant/clusteval.svg" /></a> <a class="reference external" href="https://github.com/erdogant/clusteval/issues"><img alt="Open Issues" src="https://img.shields.io/github/issues/erdogant/clusteval.svg" /></a> <a class="reference external" href="http://www.repostatus.org/#active"><img alt="Project Status" src="http://www.repostatus.org/badges/latest/active.svg" /></a> <a class="reference external" href="https://erdogant.github.io/clusteval/pages/html/Documentation.html#medium-blog"><img alt="Medium Blog" src="https://img.shields.io/badge/Medium-Blog-green.svg" /></a> <a class="reference external" href="https://erdogant.github.io/clusteval/pages/html/Documentation.html#colab-notebook"><img alt="Colab example" src="https://colab.research.google.com/assets/colab-badge.svg" /></a> <a class="reference external" href="https://zenodo.org/badge/latestdoi/232915924"><img alt="Cite" src="https://zenodo.org/badge/232915924.svg" /></a> <a class="reference external" href="https://img.shields.io/github/repo-size/erdogant/clusteval"><img alt="repo-size" src="https://img.shields.io/github/repo-size/erdogant/clusteval" /></a> <a class="reference external" href="https://erdogant.github.io/clusteval/pages/html/Documentation.html#"><img alt="donate" src="https://img.shields.io/badge/Support%20this%20project-grey.svg?logo=github%20sponsors" /></a></p>
+<hr>
+<center>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="text"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="text" data-ea-style="fixedfooter"></div>
+</center>
+<hr><p><code class="docutils literal notranslate"><span class="pre">clusteval</span></code> is a python package for unsupervised cluster evaluation. Three evaluation methods, <strong>Silhouette</strong>, <strong>DBindex</strong>, and <strong>Derivative</strong> are implemented that can be used to evalute clusterings for four clustering methods <em>agglomerative</em>, <em>kmeans</em>, <em>dbscan</em> and <em>hdbscan</em>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference external" href="https://towardsdatascience.com/a-step-by-step-guide-for-clustering-images-4b45f9906128">Medium Blog: A step-by-step guide for clustering images</a></p>
@@ -127,20 +137,17 @@
 <p class="admonition-title">Note</p>
 <p><a class="reference external" href="https://towardsdatascience.com/detection-of-duplicate-images-using-image-hash-functions-4d9c53f04a75">Medium Blog: Detection of Duplicate Images Using Image Hash Functions</a></p>
 </div>
-<figure class="align-default" id="schematic-overview">
-<img alt="_images/cluster.png" src="_images/cluster.png" />
-</figure>
 </section>
 <section id="you-contribution-is-important">
-<h1>You contribution is important<a class="headerlink" href="#you-contribution-is-important" title="Permalink to this headline"></a></h1>
+<h1>You contribution is important<a class="headerlink" href="#you-contribution-is-important" title="Permalink to this heading"></a></h1>
 <p>If you ❤️ this project, <strong>star</strong> this repo at the <a class="reference external" href="https://github.com/erdogant/clusteval/">github page</a> and have a look at the <a class="reference external" href="https://erdogant.github.io/clusteval/pages/html/Documentation.html">sponser page</a>!</p>
 </section>
 <section id="github">
-<h1>Github<a class="headerlink" href="#github" title="Permalink to this headline"></a></h1>
+<h1>Github<a class="headerlink" href="#github" title="Permalink to this heading"></a></h1>
 <p>Please report bugs, issues and feature extensions at <a class="reference external" href="https://github.com/erdogant/clusteval/">github</a>.</p>
 </section>
 <section id="content">
-<h1>Content<a class="headerlink" href="#content" title="Permalink to this headline"></a></h1>
+<h1>Content<a class="headerlink" href="#content" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Background</span></p>
 <ul>
@@ -200,12 +207,11 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clusteval.clusteval.html">API References</a></li>
 </ul>
 </div>
 </section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline"></a></h1>
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
 <ul class="simple">
 <li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
@@ -213,7 +219,10 @@
 </ul>
 <hr>
 <center>
-        <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="image" data-ea-style="stickybox"></div>
 </center>
 <hr></section>
 

@@ -15,6 +15,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -31,7 +32,7 @@
             <a href="index.html" class="icon icon-home"> clusteval
           </a>
               <div class="version">
-                2.1.3
+                2.1.4
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -106,7 +107,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
-<li class="toctree-l1"><a class="reference internal" href="clusteval.clusteval.html">API References</a></li>
 </ul>
 
     <a href= "genindex.html">Index</a>
@@ -135,11 +135,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="easy-clusters">
-<h1>Easy clusters<a class="headerlink" href="#easy-clusters" title="Permalink to this headline"></a></h1>
+  <hr>
+<center>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="text"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="text" data-ea-style="fixedfooter"></div>
+</center>
+<hr><section id="easy-clusters">
+<h1>Easy clusters<a class="headerlink" href="#easy-clusters" title="Permalink to this heading"></a></h1>
 <p>Let’s start with finding clusters using a very easy dataset.</p>
 <section id="generate-data">
-<h2>Generate data<a class="headerlink" href="#generate-data" title="Permalink to this headline"></a></h2>
+<h2>Generate data<a class="headerlink" href="#generate-data" title="Permalink to this heading"></a></h2>
 <p>Install requried libraries</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
 pip install sklearn
@@ -169,7 +175,7 @@ pip install sklearn
 </table>
 </section>
 <section id="cluster-evaluation">
-<h2>Cluster Evaluation<a class="headerlink" href="#cluster-evaluation" title="Permalink to this headline"></a></h2>
+<h2>Cluster Evaluation<a class="headerlink" href="#cluster-evaluation" title="Permalink to this heading"></a></h2>
 <p># Determine the optimal number of clusters</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import</span>
 <span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
@@ -201,7 +207,7 @@ pip install sklearn
 </table>
 </section>
 <section id="cluster-comparison">
-<h2>Cluster Comparison<a class="headerlink" href="#cluster-comparison" title="Permalink to this headline"></a></h2>
+<h2>Cluster Comparison<a class="headerlink" href="#cluster-comparison" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">clusteval</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
@@ -243,7 +249,7 @@ pip install sklearn
 </section>
 </section>
 <section id="snake-clusters">
-<h1>Snake clusters<a class="headerlink" href="#snake-clusters" title="Permalink to this headline"></a></h1>
+<h1>Snake clusters<a class="headerlink" href="#snake-clusters" title="Permalink to this heading"></a></h1>
 <p>The definition of a <strong>cluster</strong> depends on, among others, the <strong>aim</strong>. In this experiment I will evaluate the goodness of clusters when the aim is to find circular or snake clusters.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
 pip install sklearn
@@ -271,7 +277,7 @@ pip install sklearn
 </tbody>
 </table>
 <section id="ward-distance">
-<h2>Ward distance<a class="headerlink" href="#ward-distance" title="Permalink to this headline"></a></h2>
+<h2>Ward distance<a class="headerlink" href="#ward-distance" title="Permalink to this heading"></a></h2>
 <p>If we aim to determine snake clusters, it is best to use the <code class="docutils literal notranslate"><span class="pre">single</span></code> linkage type as it hierarchically connects samples with the closest group. For demonstration purposes, I will show what happens when a metric such as <code class="docutils literal notranslate"><span class="pre">ward</span></code> distance is used. Note that this metric uses the centroids to group samples.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
 <span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
@@ -301,7 +307,7 @@ pip install sklearn
 <p>As can be seen, the inner circle is detected as one cluster but the outside circle is devided into multiple smaller clusters.</p>
 </section>
 <section id="single-distance">
-<h2>Single distance<a class="headerlink" href="#single-distance" title="Permalink to this headline"></a></h2>
+<h2>Single distance<a class="headerlink" href="#single-distance" title="Permalink to this heading"></a></h2>
 <p>If the aim is to cluster samples that are in a <strong>snake pattern</strong>, it is best to use the <code class="docutils literal notranslate"><span class="pre">single</span></code> linkage type as it hierarchically connects samples to the closest group.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
 
@@ -331,10 +337,10 @@ pip install sklearn
 </section>
 </section>
 <section id="different-density-clusters">
-<h1>Different Density Clusters<a class="headerlink" href="#different-density-clusters" title="Permalink to this headline"></a></h1>
+<h1>Different Density Clusters<a class="headerlink" href="#different-density-clusters" title="Permalink to this heading"></a></h1>
 <p>Many cluster evaluation methods can easily determine the optimal number of clusters when clusters are evenly distributed for which the groups of samples have similar density. Here I will generate groups of samples with various densities to demontrate the performance of the cluster evaluation methods.</p>
 <section id="generate-dataset">
-<h2>Generate Dataset<a class="headerlink" href="#generate-dataset" title="Permalink to this headline"></a></h2>
+<h2>Generate Dataset<a class="headerlink" href="#generate-dataset" title="Permalink to this heading"></a></h2>
 <p>Let’s generate 5 groups of samples, each with 200 but with different standard deviations per cluster.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import libraries</span>
 <span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
@@ -372,7 +378,7 @@ pip install sklearn
 </table>
 </section>
 <section id="derivative-method">
-<h2>Derivative Method<a class="headerlink" href="#derivative-method" title="Permalink to this headline"></a></h2>
+<h2>Derivative Method<a class="headerlink" href="#derivative-method" title="Permalink to this heading"></a></h2>
 <p>The optimal number of clusters is 4 but the original dataet consits out of 5 clusters.
 When we scatter plot the samples with the etimated cluster labels, it can be seen that this approach has trouble in finding the correct labels for the smaller high density groups. Note that the results did not change in case of using the different clustering methods, such as ‘agglomerative’, and ‘kmeans’.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
@@ -402,7 +408,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </table>
 </section>
 <section id="silhouette-method">
-<h2>Silhouette Method<a class="headerlink" href="#silhouette-method" title="Permalink to this headline"></a></h2>
+<h2>Silhouette Method<a class="headerlink" href="#silhouette-method" title="Permalink to this heading"></a></h2>
 <p>The silhouette method detects an optimum of 4 clusters. The scatterplot shows that it has troubles in finding the high density clusters. Note that when using <code class="docutils literal notranslate"><span class="pre">cluster='agglomerative'</span></code>, similar results are detected.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
 <span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;agglomerative&#39;</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">)</span>
@@ -431,7 +437,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </table>
 </section>
 <section id="dbindex-method">
-<h2>DBindex method<a class="headerlink" href="#dbindex-method" title="Permalink to this headline"></a></h2>
+<h2>DBindex method<a class="headerlink" href="#dbindex-method" title="Permalink to this heading"></a></h2>
 <p>The DBindex method finds 4 cluster scores lowers gradually and stops at 22 clusters. This is (almost) the maximum default search space. The search space can be altered using <code class="docutils literal notranslate"><span class="pre">min_clust</span></code> and <code class="docutils literal notranslate"><span class="pre">max_clust</span></code> in the function function <a class="reference internal" href="clusteval.clusteval.html#clusteval.clusteval.clusteval.fit" title="clusteval.clusteval.clusteval.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">clusteval.clusteval.clusteval.fit()</span></code></a>. It is recommended to set <code class="docutils literal notranslate"><span class="pre">max_clust=10</span></code> to find the local minima.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
 <span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;agglomerative&#39;</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;dbindex&#39;</span><span class="p">)</span>
@@ -489,7 +495,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </table>
 </section>
 <section id="dbscan">
-<h2>DBSCAN<a class="headerlink" href="#dbscan" title="Permalink to this headline"></a></h2>
+<h2>DBSCAN<a class="headerlink" href="#dbscan" title="Permalink to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">eps</span></code> parameter is gridsearched together with a varying number of clusters. The global maximum is found at the expected 5 clusters. When we scatter the samples with the new cluster labels, it can be seen that this approach works pretty well. However, for the cluster with large deviation, many <strong>outliers</strong> are marked with the default parameters.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
 <span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;dbscan&#39;</span><span class="p">)</span>
@@ -529,7 +535,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </table>
 </section>
 <section id="hdbscan">
-<h2>HDBSCAN<a class="headerlink" href="#hdbscan" title="Permalink to this headline"></a></h2>
+<h2>HDBSCAN<a class="headerlink" href="#hdbscan" title="Permalink to this heading"></a></h2>
 <p>Install the library first because this approach is not installed by default in <code class="docutils literal notranslate"><span class="pre">clusteval</span></code>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install hdbscan
 </pre></div>
@@ -560,7 +566,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </table>
 </section>
 <section id="comparison-methods">
-<h2>Comparison methods<a class="headerlink" href="#comparison-methods" title="Permalink to this headline"></a></h2>
+<h2>Comparison methods<a class="headerlink" href="#comparison-methods" title="Permalink to this heading"></a></h2>
 <p>A comparison of all four methods when using <strong>kemans</strong> is as shown underneath. The best approach is <code class="docutils literal notranslate"><span class="pre">dbscan</span></code> in case of having various density groups.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">clusteval</span>
@@ -603,7 +609,10 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </table>
 <hr>
 <center>
-        <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CEADP27U&placement=erdogantgithubio" id="_carbonads_js"></script>
+        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
+        <!-- Show an image ad -->
+        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="image"></div> -->
+        <div data-ea-publisher="erdogantgithubio" data-ea-type="image" data-ea-style="stickybox"></div>
 </center>
 <hr></section>
 </section>
