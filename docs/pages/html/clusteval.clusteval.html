@@ -17,6 +17,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -88,7 +89,20 @@
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#colab-notebook">Colab Notebook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Documentation.html#citing">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Coding%20quality.html">Coding quality</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">API References</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API References</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#clusteval.clusteval.clusteval"><code class="docutils literal notranslate"><span class="pre">clusteval</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.dendrogram"><code class="docutils literal notranslate"><span class="pre">clusteval.dendrogram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.fit"><code class="docutils literal notranslate"><span class="pre">clusteval.fit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.import_example"><code class="docutils literal notranslate"><span class="pre">clusteval.import_example()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.load"><code class="docutils literal notranslate"><span class="pre">clusteval.load()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.plot"><code class="docutils literal notranslate"><span class="pre">clusteval.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.save"><code class="docutils literal notranslate"><span class="pre">clusteval.save()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.scatter"><code class="docutils literal notranslate"><span class="pre">clusteval.scatter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#clusteval.clusteval.import_example"><code class="docutils literal notranslate"><span class="pre">import_example()</span></code></a></li>
+</ul>
+</li>
 </ul>
 
     <a href= "genindex.html">Index</a>
@@ -117,75 +131,103 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <hr>
-<center>
-        <script async src="https://media.ethicalads.io/media/client/ethicalads.min.js"></script>
-        <div data-ea-publisher="erdogantgithubio" data-ea-type="text"></div>
-        <!-- <div data-ea-publisher="erdogantgithubio" data-ea-type="text" data-ea-style="fixedfooter"></div> -->
-</center>
-<hr><section id="module-clusteval.clusteval">
+  <section id="module-clusteval.clusteval">
 <span id="api-references"></span><h1>API References<a class="headerlink" href="#module-clusteval.clusteval" title="Permalink to this heading"></a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="clusteval.clusteval.clusteval">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clusteval.clusteval.</span></span><span class="sig-name descname"><span class="pre">clusteval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'agglomerative'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'silhouette'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'euclidean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linkage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_clust</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_clust</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savemem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_dbscan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'eps':</span> <span class="pre">None,</span> <span class="pre">'epsres':</span> <span class="pre">50,</span> <span class="pre">'min_samples':</span> <span class="pre">0.01,</span> <span class="pre">'n_jobs':</span> <span class="pre">-1,</span> <span class="pre">'norm':</span> <span class="pre">False}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval" title="Permalink to this definition"></a></dt>
 <dd><p>Cluster evaluation.</p>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading"></a></h2>
 <p>clusteval is a python package that provides various evaluation approaches to measure the goodness of the unsupervised clustering.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cluster</strong> (<em>str</em><em>, </em><em>(</em><em>default: 'agglomerative'</em><em>)</em>) – <dl class="simple">
-<dt>Type of clustering.</dt><dd><ul>
-<li><p>’agglomerative’</p></li>
-<li><p>’kmeans’</p></li>
-<li><p>’dbscan’</p></li>
-<li><p>’hdbscan’</p></li>
-<li><p>’optics’ # TODO</p></li>
+<dt class="field-odd">param cluster</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Type of clustering.</dt><dd><ul class="simple">
+<li><p>‘agglomerative’</p></li>
+<li><p>‘kmeans’</p></li>
+<li><p>‘dbscan’</p></li>
+<li><p>‘hdbscan’</p></li>
+<li><p>‘optics’ # TODO</p></li>
 </ul>
 </dd>
 </dl>
-</p></li>
-<li><p><strong>evaluate</strong> (<em>str</em><em>, </em><em>(</em><em>default: 'silhouette'</em><em>)</em>) – <dl class="simple">
-<dt>Evaluation method for cluster validation.</dt><dd><ul>
-<li><p>’silhouette’</p></li>
-<li><p>’dbindex’</p></li>
-<li><p>’derivative’</p></li>
+</dd>
+<dt class="field-even">type cluster</dt>
+<dd class="field-even"><p>str, (default: ‘agglomerative’)</p>
+</dd>
+<dt class="field-odd">param evaluate</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Evaluation method for cluster validation.</dt><dd><ul class="simple">
+<li><p>‘silhouette’</p></li>
+<li><p>‘dbindex’</p></li>
+<li><p>‘derivative’</p></li>
 </ul>
 </dd>
 </dl>
-</p></li>
-<li><p><strong>metric</strong> (<em>str</em><em>, </em><em>(</em><em>default: 'euclidean'</em><em>)</em><em>.</em>) – <dl class="simple">
-<dt>Distance measures. All metrics from sklearn can be used such as:</dt><dd><ul>
-<li><p>’euclidean’</p></li>
-<li><p>’hamming’</p></li>
-<li><p>’braycurtis’, ‘canberra’, ‘chebyshev’, ‘cityblock’, ‘correlation’, ‘cosine’, ‘dice’, ‘euclidean’, ‘hamming’, ‘jaccard’, ‘jensenshannon’, ‘kulsinski’, ‘mahalanobis’, ‘matching’, ‘minkowski’, ‘rogerstanimoto’, ‘russellrao’, ‘seuclidean’, ‘sokalmichener’, ‘sokalsneath’, ‘sqeuclidean’, ‘yule’</p></li>
+</dd>
+<dt class="field-even">type evaluate</dt>
+<dd class="field-even"><p>str, (default: ‘silhouette’)</p>
+</dd>
+<dt class="field-odd">param metric</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Distance measures. All metrics from sklearn can be used such as:</dt><dd><ul class="simple">
+<li><p>‘euclidean’</p></li>
+<li><p>‘hamming’</p></li>
+<li><p>‘braycurtis’, ‘canberra’, ‘chebyshev’, ‘cityblock’, ‘correlation’, ‘cosine’, ‘dice’, ‘euclidean’, ‘hamming’, ‘jaccard’, ‘jensenshannon’, ‘kulsinski’, ‘mahalanobis’, ‘matching’, ‘minkowski’, ‘rogerstanimoto’, ‘russellrao’, ‘seuclidean’, ‘sokalmichener’, ‘sokalsneath’, ‘sqeuclidean’, ‘yule’</p></li>
 </ul>
 </dd>
 </dl>
-</p></li>
-<li><p><strong>linkage</strong> (<em>str</em><em>, </em><em>(</em><em>default: 'ward'</em><em>)</em>) – <dl class="simple">
-<dt>Linkage type for the clustering.</dt><dd><ul>
-<li><p>’ward’</p></li>
-<li><p>’single’</p></li>
-<li><p>’complete’</p></li>
-<li><p>’average’</p></li>
-<li><p>’weighted’</p></li>
-<li><p>’centroid’</p></li>
-<li><p>’median’</p></li>
+</dd>
+<dt class="field-even">type metric</dt>
+<dd class="field-even"><p>str, (default: ‘euclidean’).</p>
+</dd>
+<dt class="field-odd">param linkage</dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Linkage type for the clustering.</dt><dd><ul class="simple">
+<li><p>‘ward’</p></li>
+<li><p>‘single’</p></li>
+<li><p>‘complete’</p></li>
+<li><p>‘average’</p></li>
+<li><p>‘weighted’</p></li>
+<li><p>‘centroid’</p></li>
+<li><p>‘median’</p></li>
 </ul>
 </dd>
 </dl>
-</p></li>
-<li><p><strong>min_clust</strong> (<em>int</em><em>, </em><em>(</em><em>default: 2</em><em>)</em>) – Number of clusters that is evaluated greater or equals to min_clust.</p></li>
-<li><p><strong>max_clust</strong> (<em>int</em><em>, </em><em>(</em><em>default: 25</em><em>)</em>) – Number of clusters that is evaluated smaller or equals to max_clust.</p></li>
-<li><p><strong>savemem</strong> (<em>bool</em><em>, </em><em>(</em><em>default: False</em><em>)</em>) – Save memmory when working with large datasets. Note that htis option only in case of KMeans.</p></li>
-<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>optional</em><em> (</em><em>default: 3</em><em>)</em>) – Print message to screen [1-5]. The larger the number, the more information.</p></li>
-</ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>dict</strong></p>
+<dt class="field-even">type linkage</dt>
+<dd class="field-even"><p>str, (default: ‘ward’)</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dictionary with keys:</p>
+<dt class="field-odd">param min_clust</dt>
+<dd class="field-odd"><p>Number of clusters that is evaluated greater or equals to min_clust.</p>
+</dd>
+<dt class="field-even">type min_clust</dt>
+<dd class="field-even"><p>int, (default: 2)</p>
+</dd>
+<dt class="field-odd">param max_clust</dt>
+<dd class="field-odd"><p>Number of clusters that is evaluated smaller or equals to max_clust.</p>
+</dd>
+<dt class="field-even">type max_clust</dt>
+<dd class="field-even"><p>int, (default: 25)</p>
+</dd>
+<dt class="field-odd">param savemem</dt>
+<dd class="field-odd"><p>Save memmory when working with large datasets. Note that htis option only in case of KMeans.</p>
+</dd>
+<dt class="field-even">type savemem</dt>
+<dd class="field-even"><p>bool, (default: False)</p>
+</dd>
+<dt class="field-odd">param verbose</dt>
+<dd class="field-odd"><p>Print message to screen [1-5]. The larger the number, the more information.</p>
+</dd>
+<dt class="field-even">type verbose</dt>
+<dd class="field-even"><p>int, optional (default: 3)</p>
+</dd>
+<dt class="field-odd">returns</dt>
+<dd class="field-odd"><p><strong>dict</strong></p>
+</dd>
+<dt class="field-even">rtype</dt>
+<dd class="field-even"><p>dictionary with keys:</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -291,22 +333,36 @@
 <dt class="sig sig-object py" id="clusteval.clusteval.clusteval.import_example">
 <span class="sig-name descname"><span class="pre">import_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'titanic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.import_example" title="Permalink to this definition"></a></dt>
 <dd><p>Import example dataset from github source.</p>
+<section id="id1">
+<h3>Description<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
 <p>Import one of the few datasets from github source or specify your own download url link.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>str</em>) – Name of datasets: ‘sprinkler’, ‘titanic’, ‘student’, ‘fifa’, ‘cancer’, ‘waterpump’, ‘retail’</p></li>
-<li><p><strong>url</strong> (<em>str</em>) – url link to to dataset.</p></li>
-<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>(</em><em>default: 3</em><em>)</em>) – Print message to screen.</p></li>
-</ul>
+<dt class="field-odd">param data</dt>
+<dd class="field-odd"><p>Name of datasets: ‘sprinkler’, ‘titanic’, ‘student’, ‘fifa’, ‘cancer’, ‘waterpump’, ‘retail’</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Dataset containing mixed features.</p>
+<dt class="field-even">type data</dt>
+<dd class="field-even"><p>str</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>pd.DataFrame()</p>
+<dt class="field-odd">param url</dt>
+<dd class="field-odd"><p>url link to to dataset.</p>
+</dd>
+<dt class="field-even">type url</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">param verbose</dt>
+<dd class="field-odd"><p>Print message to screen.</p>
+</dd>
+<dt class="field-even">type verbose</dt>
+<dd class="field-even"><p>int, (default: 3)</p>
+</dd>
+<dt class="field-odd">returns</dt>
+<dd class="field-odd"><p>Dataset containing mixed features.</p>
+</dd>
+<dt class="field-even">rtype</dt>
+<dd class="field-even"><p>pd.DataFrame()</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <dl class="py method">
@@ -404,28 +460,43 @@
 </dl>
 </dd></dl>
 
+</section>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="clusteval.clusteval.import_example">
 <span class="sig-prename descclassname"><span class="pre">clusteval.clusteval.</span></span><span class="sig-name descname"><span class="pre">import_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'titanic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.import_example" title="Permalink to this definition"></a></dt>
 <dd><p>Import example dataset from github source.</p>
+<section id="id2">
+<h2>Description<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <p>Import one of the few datasets from github source or specify your own download url link.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>str</em>) – Name of datasets: ‘sprinkler’, ‘titanic’, ‘student’, ‘fifa’, ‘cancer’, ‘waterpump’, ‘retail’</p></li>
-<li><p><strong>url</strong> (<em>str</em>) – url link to to dataset.</p></li>
-<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>(</em><em>default: 3</em><em>)</em>) – Print message to screen.</p></li>
-</ul>
+<dt class="field-odd">param data</dt>
+<dd class="field-odd"><p>Name of datasets: ‘sprinkler’, ‘titanic’, ‘student’, ‘fifa’, ‘cancer’, ‘waterpump’, ‘retail’</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Dataset containing mixed features.</p>
+<dt class="field-even">type data</dt>
+<dd class="field-even"><p>str</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>pd.DataFrame()</p>
+<dt class="field-odd">param url</dt>
+<dd class="field-odd"><p>url link to to dataset.</p>
+</dd>
+<dt class="field-even">type url</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">param verbose</dt>
+<dd class="field-odd"><p>Print message to screen.</p>
+</dd>
+<dt class="field-even">type verbose</dt>
+<dd class="field-even"><p>int, (default: 3)</p>
+</dd>
+<dt class="field-odd">returns</dt>
+<dd class="field-odd"><p>Dataset containing mixed features.</p>
+</dd>
+<dt class="field-even">rtype</dt>
+<dd class="field-even"><p>pd.DataFrame()</p>
 </dd>
 </dl>
+</section>
 </dd></dl>
 
 <hr>

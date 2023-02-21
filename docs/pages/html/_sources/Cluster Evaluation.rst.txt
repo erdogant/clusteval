@@ -1,5 +1,3 @@
-.. include:: add_top.add
-
 How to choose the cluster evaluation method?
 ########################################################
 
