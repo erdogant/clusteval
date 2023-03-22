@@ -90,13 +90,18 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1
     # Iterate over epsilon
     results = {}
     if Param['eps'] is None:
+        idx = None
+        labx = np.zeros(X.shape[0])
         if Param['verbose']>=3: print('[clusteval] >Gridsearch across epsilon..')
         # Optimize
         eps, sillclust, silscores, silllabx = _optimize_eps(X, eps, Param, verbose=verbose)
         # Store results
-        idx = np.argmax(silscores)
+        if len(silscores)>1:
+            idx = np.argmax(silscores)
+            labx = silllabx[idx, :]
+
+        results['labx'] = labx
         results['evaluate']='dbscan'
-        results['labx'] = silllabx[idx, :]
         results['fig'] = {}
         results['fig']['eps'] = eps
         results['fig']['silscores'] = silscores
@@ -126,7 +131,7 @@ def _optimize_eps(X, eps, Param, verbose=3):
     # Run over all Epsilons
     for i in tqdm(range(len(eps))):
         # DBSCAN
-        db = cluster.DBSCAN(eps=eps[i], metric=Param['metric'], min_samples=Param['min_samples'], n_jobs=Param['n_jobs']).fit(X)
+        db = cluster.DBSCAN(eps=eps[i], metric=Param['metric'], min_samples=int(Param['min_samples']), n_jobs=Param['n_jobs']).fit(X)
         # Get labx
         labx=db.labels_
 
