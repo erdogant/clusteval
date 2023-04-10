@@ -7,6 +7,14 @@ import unittest
 
 class TestCLUSTEVAL(unittest.TestCase):
 
+    def test_import_example(self):
+        cl = clusteval()
+        sizes = [(1000, 4), (891, 12), (649, 33), (128, 27), (4674, 9), (14850, 40), (999, 8)]
+        datasets = ['sprinkler', 'titanic', 'student', 'fifa', 'cancer', 'waterpump', 'retail']
+        for data, size in zip(datasets, sizes):
+            df = cl.import_example(data=data)
+            assert df.shape==size
+
     def test_fit(self):
         X, y_true = make_blobs(n_samples=500, centers=6, n_features=10)
         # X, y_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)

@@ -19,7 +19,8 @@ import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from scipy.cluster.hierarchy import fcluster
 # from cuml import DBSCAN
-import wget
+from urllib.parse import urlparse
+import requests
 import os
 
 
@@ -467,8 +468,10 @@ class clusteval:
             Name of datasets: 'sprinkler', 'titanic', 'student', 'fifa', 'cancer', 'waterpump', 'retail'
         url : str
             url link to to dataset.
-        verbose : int, (default: 3)
-            Print message to screen.
+        sep : str
+            Delimiter of the data set.
+        verbose : int, optional
+            Show message. A higher number gives more information. The default is 3.
 
         Returns
         -------
@@ -509,8 +512,11 @@ def import_example(data='titanic', url=None, sep=',', verbose=3):
         Name of datasets: 'sprinkler', 'titanic', 'student', 'fifa', 'cancer', 'waterpump', 'retail'
     url : str
         url link to to dataset.
-    verbose : int, (default: 3)
-        Print message to screen.
+    sep : str
+        Delimiter of the data set.
+    verbose : int, (default: 20)
+        Print progress to screen. The default is 3.
+        60: None, 40: Error, 30: Warn, 20: Info, 10: Debug
 
     Returns
     -------
@@ -533,26 +539,88 @@ def import_example(data='titanic', url=None, sep=',', verbose=3):
             url='https://erdogant.github.io/datasets/waterpump/waterpump_test.zip'
         elif data=='retail':
             url='https://erdogant.github.io/datasets/marketing_data_online_retail_small.zip'
-            sep=';'
+            sep = ';'
     else:
         data = wget.filename_from_url(url)
 
     if url is None:
-        if verbose>=3: print('[clusteval] >Nothing to download.')
+        if verbose>=3: print('Nothing to download.')
         return None
 
     curpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-    PATH_TO_DATA = os.path.join(curpath, wget.filename_from_url(url))
+    filename = os.path.basename(urlparse(url).path)
+    PATH_TO_DATA = os.path.join(curpath, filename)
     if not os.path.isdir(curpath):
         os.makedirs(curpath, exist_ok=True)
 
     # Check file exists.
     if not os.path.isfile(PATH_TO_DATA):
-        if verbose>=3: print('[clusteval] >Downloading [%s] dataset from github source..' %(data))
-        wget.download(url, curpath)
+        if verbose>=3: print('Downloading [%s] dataset from github source..' %(data))
+        wget.download(url, PATH_TO_DATA)
 
     # Import local dataset
-    if verbose>=3: print('[clusteval] >Import dataset [%s]' %(data))
+    if verbose>=3: print('Import dataset [%s]' %(data))
     df = pd.read_csv(PATH_TO_DATA, sep=sep)
     # Return
     return df
+
+
+# %% Retrieve files files.
+class wget:
+    """Retrieve file from url."""
+
+    def filename_from_url(url):
+        """Return filename."""
+        return os.path.basename(url)
+
+    def download(url, writepath):
+        """Download.
+
+        Parameters
+        ----------
+        url : str.
+            Internet source.
+        writepath : str.
+            Directory to write the file.
+
+        Returns
+        -------
+        None.
+
+        """
+        r = requests.get(url, stream=True)
+        with open(writepath, "wb") as fd:
+            for chunk in r.iter_content(chunk_size=1024):
+                fd.write(chunk)
+
+
+# %% Import example dataset from github.
+def load_example(data='breast'):
+    """Import example dataset from sklearn.
+
+    Parameters
+    ----------
+    'breast' : str, two-class
+    'titanic': str, two-class
+    'iris' : str, multi-class
+
+    Returns
+    -------
+    tuple containing dataset and response variable (X,y).
+
+    """
+
+    try:
+        from sklearn import datasets
+    except:
+        print('This requires: <pip install sklearn>')
+        return None, None
+
+    if data=='iris':
+        X, y = datasets.load_iris(return_X_y=True)
+    elif data=='breast':
+        X, y = datasets.load_breast_cancer(return_X_y=True)
+    elif data=='titanic':
+        X, y = datasets.fetch_openml("titanic", version=1, as_frame=True, return_X_y=True)
+
+    return X, y
