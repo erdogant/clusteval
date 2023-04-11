@@ -79,7 +79,7 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1
     Param['min_clust'] = min_clust
     Param['max_clust'] = max_clust
     Param['epsres'] = epsres  # Resolution of the epsilon to estimate % The higher the more detailed, the more time it costs to compute. Only for DBSCAN
-    Param['min_samples'] = np.floor(min_samples * X.shape[0])  # Set max. outliers
+    Param['min_samples'] = np.maximum(np.floor(min_samples * X.shape[0]), 1)  # Set max. outliers
     # if verbose>=3: print('[clusteval] >Fit using dbscan.')
 
     # Transform data
