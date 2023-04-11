@@ -13,13 +13,13 @@ else:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
-     install_requires=['pypickle','matplotlib','numpy','pandas','tqdm','seaborn','scikit-learn','wget'],
+     install_requires=['pypickle','matplotlib','numpy','pandas','tqdm','seaborn','scikit-learn'],
      python_requires='>=3',
      name='clusteval',
      version=new_version,
      author="Erdogan Taskesen",
      author_email="erdogant@gmail.com",
-     description="clusteval is a python package that provides various methods for unsupervised cluster validation.",
+     description="clusteval is a python package for unsupervised cluster validation.",
      long_description=long_description,
      long_description_content_type="text/markdown",
      url="https://erdogant.github.io/clusteval",
