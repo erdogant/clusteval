@@ -12,11 +12,12 @@ import matplotlib.pyplot as plt
 import sklearn.cluster as cluster
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
-import clusteval.silhouette as silhouette
+from clusteval.utils import init_logger, set_logger, disable_tqdm
+logger = init_logger()
 
 
 # %% Main function
-def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1, min_clust=2, max_clust=25, epsres=50, verbose=3):
+def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1, min_clust=2, max_clust=25, epsres=50, verbose='info'):
     """Density Based clustering.
 
     Parameters
@@ -80,11 +81,12 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1
     Param['max_clust'] = max_clust
     Param['epsres'] = epsres  # Resolution of the epsilon to estimate % The higher the more detailed, the more time it costs to compute. Only for DBSCAN
     Param['min_samples'] = np.maximum(np.floor(min_samples * X.shape[0]), 1)  # Set max. outliers
-    # if verbose>=3: print('[clusteval] >Fit using dbscan.')
+    set_logger(verbose=verbose)
+    # logger.info('Fit using dbscan.')
 
     # Transform data
     if Param['norm']:
-        if Param['verbose']>=3: print('[clusteval] >Normalize data (unit variance, zero-mean).')
+        logger.info('Normalize data (unit variance, zero-mean).')
         X = StandardScaler().fit_transform(X)
 
     # Iterate over epsilon
@@ -92,7 +94,7 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1
     if Param['eps'] is None:
         idx = None
         labx = np.zeros(X.shape[0])
-        if Param['verbose']>=3: print('[clusteval] >Gridsearch across epsilon..')
+        logger.info('Gridsearch across epsilon..')
         # Optimize
         eps, sillclust, silscores, silllabx = _optimize_eps(X, eps, Param, verbose=verbose)
         # Store results
@@ -120,7 +122,7 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1
 
 # %% optimize_eps
 def _optimize_eps(X, eps, Param, verbose=3):
-    if verbose>=3: print('[clusteval] >Evaluate using silhouette..')
+    logger.info('Evaluate using silhouette..')
 
     # Setup resolution
     eps = np.arange(0.1, 5, 1 / Param['epsres'])
@@ -129,7 +131,7 @@ def _optimize_eps(X, eps, Param, verbose=3):
     silllabx = []
 
     # Run over all Epsilons
-    for i in tqdm(range(len(eps))):
+    for i in tqdm(range(len(eps)), disable=disable_tqdm()):
         # DBSCAN
         db = cluster.DBSCAN(eps=eps[i], metric=Param['metric'], min_samples=int(Param['min_samples']), n_jobs=Param['n_jobs']).fit(X)
         # Get labx

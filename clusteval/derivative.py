@@ -10,10 +10,12 @@ import numpy as np
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as linkage_scipy
 import matplotlib.pyplot as plt
+from clusteval.utils import init_logger, set_logger
+logger = init_logger()
 
 
 # %% Main
-def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, verbose=3):
+def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, verbose='info'):
     """ Determine optimal number of clusters using dbindex.
 
     Description
@@ -77,10 +79,11 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     Param['min_clust'] = min_clust
     Param['max_clust'] = max_clust
 
-    if verbose>=3: print('[clusteval] >Evaluate using derivatives.')
+    set_logger(verbose=verbose)
+    logger.info('Evaluate using derivatives.')
 
     if Param['cluster']=='kmeans':
-        if verbose>=3: print('[clusteval] >Does not work with Kmeans! <return>')
+        logger.info('Does not work with Kmeans! <return>')
         results = {}
         results['evaluate']='derivative'
         results['labx'] = None
@@ -95,7 +98,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         Z = linkage_scipy(X, method=Param['linkage'], metric=Param['metric'])
 
     # Make all possible cluster-cut-offs
-    if Param['verbose']>=3: print('[clusteval] >Determining optimal clustering by derivatives..')
+    logger.info('Determining optimal clustering by derivatives..')
 
     # Run over all cluster cutoffs
     last = Z[-10:, 2]
@@ -111,7 +114,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     last_rev[Param['max_clust']:]=0
 
     k = acceleration_rev.argmax() + 2  # if idx 0 is the max of this we want 2 clusters
-    if Param['verbose']>=3: print('[clusteval] >Clusters: %d' %k)
+    logger.info('Clusters: %d' %k)
 
     # Now use the optimal cluster cut-off for the selection of clusters
     clustlabx = fcluster(Z, k, criterion='maxclust')

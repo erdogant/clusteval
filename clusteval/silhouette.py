@@ -14,11 +14,20 @@ import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
-from sklearn.metrics import silhouette_score, silhouette_samples, silhouette_score
-
+from sklearn.metrics import silhouette_samples, silhouette_score
+from clusteval.utils import init_logger, set_logger, disable_tqdm
+logger = init_logger()
 
 # %% Main
-def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, savemem=False, verbose=3):
+def fit(X,
+        cluster='agglomerative',
+        metric='euclidean',
+        linkage='ward',
+        min_clust=2,
+        max_clust=25,
+        Z=None,
+        savemem=False,
+        verbose='info'):
     """This function return the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering evaluate.
 
     Parameters
@@ -42,8 +51,6 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         Save memmory when working with large datasets. Note that htis option only in case of KMeans.
     Z : Object, (default: None).
         This will speed-up computation if you readily have Z. e.g., Z=linkage(X, method='ward', metric='euclidean').
-    verbose : int, optional (default: 3)
-        Print message to screen [1-5]. The larger the number, the more information is returned.
 
     Returns
     -------
@@ -88,20 +95,20 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     """
     # Make dictionary to store Parameters
     Param = {}
-    Param['verbose'] = verbose
     Param['cluster'] = cluster
     Param['metric'] = metric
     Param['linkage'] = linkage
     Param['min_clust'] = min_clust
     Param['max_clust'] = max_clust
     Param['savemem'] = savemem
-    if verbose>=3: print('[clusteval] >Evaluate using silhouette.')
+    set_logger(verbose=verbose)
+    logger.info('Evaluate using silhouette.')
 
     # Savemem for kmeans
     if Param['cluster']=='kmeans':
         if Param['savemem']:
             kmeansmodel = MiniBatchKMeans
-            if Param['verbose']>=3: print('[clusteval] >Save memory enabled for kmeans with evaluation silhouette.')
+            logger.info('Save memory enabled for kmeans with evaluation silhouette.')
         else:
             kmeansmodel = KMeans
 
@@ -116,7 +123,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     clustlabx = []
 
     # Run over all cluster cutoffs
-    for i in tqdm(range(len(clustcutt))):
+    for i in tqdm(range(len(clustcutt)), disable=disable_tqdm()):
         # Cut the dendrogram for i clusters
         if Param['cluster']=='kmeans':
             labx = kmeansmodel(n_clusters=clustcutt[i], verbose=0).fit(X).labels_
@@ -140,12 +147,11 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     I3 = sillclust<=Param['max_clust']
     Iloc = I1 & I2 & I3
 
-    if verbose>=5:
-        print(clustlabx)
-        print('Iloc: %s' %(str(Iloc)))
-        print('silscores: %s' %(str(silscores)))
-        print('sillclust: %s' %(str(sillclust)))
-        print('clustlabx: %s' %(str(clustlabx)))
+    logger.debug(clustlabx)
+    logger.debug('Iloc: %s' %(str(Iloc)))
+    logger.debug('silscores: %s' %(str(silscores)))
+    logger.debug('sillclust: %s' %(str(sillclust)))
+    logger.debug('clustlabx: %s' %(str(clustlabx)))
 
     if sum(Iloc)>0:
         # Get only clusters of interest
@@ -156,7 +162,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         idx = np.argmax(silscores)
         clustlabx = clustlabx[idx, :] - 1
     else:
-        if verbose>=3: print('[clusteval] >No clusters detected.')
+        logger.info('No clusters detected.')
         if len(clustlabx.shape)>1:
             clustlabx = np.zeros(clustlabx.shape[1]).astype(int)
         else:
@@ -174,7 +180,8 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     results['fig']['clustcutt'] = clustcutt
 
     # Return
-    return(results)
+    return results
+
 
 # %% plot
 def plot(results, title='Silhouette vs. nr.clusters', figsize=(15, 8), ax=None, visible=True):
@@ -216,11 +223,11 @@ def plot(results, title='Silhouette vs. nr.clusters', figsize=(15, 8), ax=None, 
     if visible:
         plt.show()
     # Return
-    return(fig, ax)
+    return fig, ax
 
 
 # %% Scatter data
-def scatter(y, X=None, dot_size=50, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, verbose=3):
+def scatter(y, X=None, dot_size=50, jitter=None, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}):
     """Make scatter for the cluster labels with the samples.
 
     Parameters
@@ -254,7 +261,7 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), savefig={'fname': None, for
     """
     fig, ax1, ax2 = None, None, None
     if X is None:
-        if verbose>=2: print('[clusteval] >Warning: Input data X is required for the scatterplot.')
+        logger.warning('Input data X is required for the scatterplot.')
         return None
 
     # Extract label from dict
@@ -262,7 +269,7 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), savefig={'fname': None, for
         y = y.get('labx', None)
     # Check y
     if (y is None) or (len(np.unique(y))==1):
-        if verbose>=3: print('[clusteval] >Error: No valid labels provided.')
+        logger.error('No valid labels provided.')
         return None
 
     # Add jitter
@@ -274,7 +281,7 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), savefig={'fname': None, for
     # n_clusters = len(np.unique(y))
     n_clusters = len(set(y)) - (1 if -1 in y else 0)
     silhouette_avg = silhouette_score(X, y)
-    if verbose>=3: print('[clusteval] >Estimated number of n_clusters: %d, average silhouette_score=%.3f' %(n_clusters, silhouette_avg))
+    logger.info('Estimated number of n_clusters: %d, average silhouette_score=%.3f' %(n_clusters, silhouette_avg))
 
     # Compute the silhouette scores for each sample
     sample_silhouette_values = silhouette_samples(X, y)
@@ -329,8 +336,8 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), savefig={'fname': None, for
 
     # Save figure
     if (savefig['fname'] is not None) and (fig is not None):
-        if verbose>=3: print('[clusteval] >Saving silhouetteplot to [%s]' %(savefig['fname']))
+        logger.info('Saving silhouetteplot to [%s]' %(savefig['fname']))
         fig.savefig(**savefig)
 
     # Return
-    return(fig, ax1, ax2)
+    return fig, ax1, ax2

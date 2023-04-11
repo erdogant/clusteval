@@ -16,7 +16,7 @@ class TestCLUSTEVAL(unittest.TestCase):
             assert df.shape==size
 
     def test_fit(self):
-        X, y_true = make_blobs(n_samples=500, centers=6, n_features=10)
+        X, y_true = make_blobs(n_samples=500, centers=6, n_features=10, random_state=1)
         # X, y_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
 
         # Set all parameters to be evaluated
@@ -50,7 +50,7 @@ def parameter_gridtest(X, y_true, clusters, evaluates, metrics, linkages, min_cl
                             print(max_clust)
 
                             # cluster='agglomerative'
-                            # evaluate='derivative'
+                            # evaluate='dbindex'
                             # metric='euclidean'
                             # linkage='complete'
                             # min_clust=1

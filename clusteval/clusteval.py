@@ -5,13 +5,15 @@
 # Licence     : See LICENSE
 # Respect the autor and leave this here
 # -----------------------------------------------
+
 import clusteval.dbindex as dbindex
 import clusteval.silhouette as silhouette
 import clusteval.derivative as derivative
 import clusteval.dbscan as dbscan
+from clusteval.utils import init_logger, set_logger
 from clusteval.plot_dendrogram import plot_dendrogram
-import pypickle
 
+import pypickle
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,10 +21,13 @@ import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from scipy.cluster.hierarchy import fcluster
 # from cuml import DBSCAN
+
 from urllib.parse import urlparse
+import logging
 import requests
 import os
 
+logger = init_logger()
 
 # %% Class
 class clusteval:
@@ -98,7 +103,7 @@ class clusteval:
 
     """
 
-    def __init__(self, cluster='agglomerative', evaluate='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, savemem=False, verbose=3, params_dbscan={'eps': None, 'epsres': 50, 'min_samples': 0.01, 'norm': False, 'n_jobs': -1}):
+    def __init__(self, cluster='agglomerative', evaluate='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, savemem=False, verbose='info', params_dbscan={'eps': None, 'epsres': 50, 'min_samples': 0.01, 'norm': False, 'n_jobs': -1}):
         """Initialize clusteval with user-defined parameters."""
         if ((min_clust is None) or (min_clust<2)):
             min_clust=2
@@ -122,6 +127,8 @@ class clusteval:
         self.max_clust = max_clust
         self.savemem = savemem
         self.verbose = verbose
+        # Set the logger
+        set_logger(verbose=verbose)
 
     # Fit
     def fit(self, X):
@@ -150,7 +157,7 @@ class clusteval:
         self.Z = []
 
         # Cluster using on metric/linkage
-        if self.verbose>=3: print('\n[clusteval] >Fit using %s with metric: %s, and linkage: %s' %(self.cluster, self.metric, self.linkage))
+        logger.info('Fit using %s with metric: %s, and linkage: %s' %(self.cluster, self.metric, self.linkage))
         # Compute linkages
         if self.cluster!='kmeans':
             self.Z = scipy_linkage(X, method=self.linkage, metric=self.metric)
@@ -169,26 +176,26 @@ class clusteval:
             try:
                 import clusteval.hdbscan as hdbscan
             except:
-                raise ValueError('[clusteval] >hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
+                raise ValueError('hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
             self.results = hdbscan.fit(X, min_samples=None, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, verbose=self.verbose)
         else:
-            raise ValueError('[clusteval] >The combination cluster"%s", evaluate="%s" is not implemented.' %(self.cluster, self.evaluate))
+            raise ValueError('The combination cluster"%s", evaluate="%s" is not implemented.' %(self.cluster, self.evaluate))
 
         # Compute the dendrogram threshold
         max_d, max_d_lower, max_d_upper = None, None, None
 
         # Compute the dendrogram threshold
         if (self.cluster!='kmeans') and hasattr(self, 'results') and (self.results['labx'] is not None) and (len(np.unique(self.results['labx']))>1):
-            # print(self.results['labx'])
+            # logger.info(self.results['labx'])
             max_d, max_d_lower, max_d_upper = _compute_dendrogram_threshold(self.Z, self.results['labx'], verbose=self.verbose)
 
         if self.results['labx'] is not None:
-            if self.verbose>=3: print('[clusteval] >Optimal number clusters detected: [%.0d].' %(len(np.unique(self.results['labx']))))
+            logger.info('Optimal number clusters detected: [%.0d].' %(len(np.unique(self.results['labx']))))
 
         self.results['max_d'] = max_d
         self.results['max_d_lower'] = max_d_lower
         self.results['max_d_upper'] = max_d_upper
-        if self.verbose>=3: print('[clusteval] >Fin.')
+        logger.info('Fin.')
 
         # Return
         return self.results
@@ -221,7 +228,7 @@ class clusteval:
         """
         if ax is None: fig = None
         if (self.results is None) or (self.results['labx'] is None):
-            if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
+            logger.info('No results to plot. Tip: try the .fit() function first.')
             return None
 
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
@@ -239,7 +246,7 @@ class clusteval:
 
         # Save figure
         if (savefig['fname'] is not None) and (fig is not None) and (self.cluster!='hdbscan'):
-            if verbose>=3: print('[clusteval] >Saving plot: [%s]' %(savefig['fname']))
+            logger.info('Saving plot: [%s]' %(savefig['fname']))
             fig.savefig(**savefig)
 
         # Return
@@ -283,7 +290,7 @@ class clusteval:
 
         """
         if (self.results is None) or (self.results['labx'] is None):
-            if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
+            logger.info('No results to plot. Tip: try the .fit() function first.')
             return None
         # Make scatterplot
         fig, ax1, ax2 = silhouette.scatter(self.results, X=X, dot_size=dot_size, figsize=figsize, jitter=jitter, savefig=savefig)
@@ -346,7 +353,7 @@ class clusteval:
         """
         fig, ax = None, None
         if (self.results is None) or (self.results['labx'] is None):
-            if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
+            logger.info('No results to plot. Tip: try the .fit() function first.')
             return None
 
         # Set parameters
@@ -355,23 +362,23 @@ class clusteval:
 
         # Check whether
         if (metric is not None) and (linkage is not None) and (X is not None):
-            if self.verbose>=2: print('[clusteval] >Compute dendrogram using metric=%s, linkage=%s' %(metric, linkage))
+            logger.warning('Compute dendrogram using metric=%s, linkage=%s' %(metric, linkage))
             Z = scipy_linkage(X, method=linkage, metric=metric)
         elif (metric is not None) and (linkage is not None) and (X is None):
-            if self.verbose>=2: print('[clusteval] >To compute the dendrogram, also provide the data: X=data <return>')
+            logger.warning('To compute the dendrogram, also provide the data: X=data <return>')
             return None
         elif (not hasattr(self, 'Z')):
             # Return if Z is not computed.
-            if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function (no kmeans) <return>')
+            logger.info('No results to plot. Tip: try the .fit() function (no kmeans) <return>')
             return None
         else:
-            if self.verbose>=3: print('[clusteval] >Plotting the dendrogram with optimized settings: metric=%s, linkage=%s, max_d=%.3f. Be patient now..' %(self.metric, self.linkage, self.results['max_d']))
+            logger.info('Plotting the dendrogram with optimized settings: metric=%s, linkage=%s, max_d=%.3f. Be patient now..' %(self.metric, self.linkage, self.results['max_d']))
             Z = self.Z
             metric = self.metric
             linkage = self.linkage
 
         if self.cluster=='kmeans':
-            if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function with metric that is different than kmeans <return>')
+            logger.info('No results to plot. Tip: try the .fit() function with metric that is different than kmeans <return>')
             return None
 
         if max_d is None:
@@ -386,7 +393,7 @@ class clusteval:
         results = plot_dendrogram(Z, labels=labels, leaf_rotation=leaf_rotation, leaf_font_size=leaf_font_size, orientation=orientation, show_contracted=show_contracted, annotate_above=annotate_above, max_d=max_d, truncate_mode=truncate_mode, ax=ax, no_plot=no_plot)
 
         # Compute cluster labels
-        if self.verbose>=3: print('[clusteval] >Compute cluster labels.')
+        logger.info('Compute cluster labels.')
         labx = fcluster(Z, max_d, criterion='distance')
 
         # Store results
@@ -399,7 +406,7 @@ class clusteval:
 
         # Save figure
         if (savefig['fname'] is not None) and (fig is not None):
-            if verbose>=3: print('[clusteval] >Saving dendrogram: [%s]' %(savefig['fname']))
+            logger.info('Saving dendrogram: [%s]' %(savefig['fname']))
             fig.savefig(**savefig)
 
         return results
@@ -495,7 +502,7 @@ class clusteval:
 
 # %% Compute dendrogram threshold
 def _compute_dendrogram_threshold(Z, labx, verbose=3):
-    if verbose>=3: print('[clusteval] >Compute dendrogram threshold.')
+    logger.info('Compute dendrogram threshold.')
     Iloc = np.isin(Z[:, 3], np.unique(labx, return_counts=True)[1])
     max_d_lower = np.max(Z[Iloc, 2])
     # Find the next level
@@ -563,7 +570,7 @@ def import_example(data='titanic', url=None, sep=',', verbose=3):
         data = wget.filename_from_url(url)
 
     if url is None:
-        if verbose>=3: print('Nothing to download.')
+        logger.info('Nothing to download.')
         return None
 
     curpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
@@ -574,11 +581,11 @@ def import_example(data='titanic', url=None, sep=',', verbose=3):
 
     # Check file exists.
     if not os.path.isfile(PATH_TO_DATA):
-        if verbose>=3: print('Downloading [%s] dataset from github source..' %(data))
+        logger.info('Downloading [%s] dataset from github source..' %(data))
         wget.download(url, PATH_TO_DATA)
 
     # Import local dataset
-    if verbose>=3: print('Import dataset [%s]' %(data))
+    logger.info('Import dataset [%s]' %(data))
     df = pd.read_csv(PATH_TO_DATA, sep=sep)
     # Return
     return df
@@ -611,53 +618,3 @@ class wget:
         with open(writepath, "wb") as fd:
             for chunk in r.iter_content(chunk_size=1024):
                 fd.write(chunk)
-
-
-# %%
-def set_logger(verbose: [str, int] = 'info'):
-    """Set the logger for verbosity messages.
-
-    Parameters
-    ----------
-    verbose : [str, int], default is 'info' or 20
-        Set the verbose messages using string or integer values.
-        * [0, 60, None, 'silent', 'off', 'no']: No message.
-        * [10, 'debug']: Messages from debug level and higher.
-        * [20, 'info']: Messages from info level and higher.
-        * [30, 'warning']: Messages from warning level and higher.
-        * [50, 'critical']: Messages from critical level and higher.
-
-    Returns
-    -------
-    None.
-
-    > # Set the logger to warning
-    > set_logger(verbose='warning')
-    > # Test with different messages
-    > logger.debug("Hello debug")
-    > logger.info("Hello info")
-    > logger.warning("Hello warning")
-    > logger.critical("Hello critical")
-
-    """
-    # Set 0 and None as no messages.
-    if (verbose==0) or (verbose is None):
-        verbose=60
-    # Convert str to levels
-    if isinstance(verbose, str):
-        levels = {'silent': 60,
-                  'off': 60,
-                  'no': 60,
-                  'debug': 10,
-                  'info': 20,
-                  'warning': 30,
-                  'critical': 50}
-        verbose = levels[verbose]
-
-    # Show examples
-    logger.setLevel(verbose)
-
-# %%
-def disable_tqdm():
-    """Set the logger for verbosity messages."""
-    return (True if (logger.getEffectiveLevel()>=30) else False)

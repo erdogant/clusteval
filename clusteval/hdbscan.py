@@ -12,10 +12,12 @@ from sklearn.preprocessing import StandardScaler
 import hdbscan as hdb
 import seaborn as sns
 import matplotlib.pyplot as plt
+from clusteval.utils import init_logger, set_logger
+logger = init_logger()
 
 
 # %% Main
-def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=-1, verbose=3):
+def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=-1, verbose='info'):
     """ Determine optimal number of clusters using dbindex.
 
     Description
@@ -77,9 +79,10 @@ def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=
     Param['n_jobs'] = n_jobs
     Param['norm'] = norm
     Param['gen_min_span_tree'] = False
-
     Param['min_samples'] = None if min_samples is None else (int(np.floor(min_samples * X.shape[0])))  # Set max. outliers
-    # if verbose>=3: print('[clusteval] >Fit using hdbscan.')
+
+    set_logger(verbose=verbose)
+    # logger.info('Fit using hdbscan.')
 
     # Transform X
     if Param['norm']:
@@ -100,14 +103,12 @@ def fit(X, metric='euclidean', min_clust=2, min_samples=None, norm=True, n_jobs=
     results['model'] = model
 
     # Some info
-    if verbose>=3:
-        n_clusters = len(set(results['labx'])) - (1 if -1 in results['labx'] else 0)
-        print('[clusteval] >Estimated number of clusters: %d' % n_clusters)
+    n_clusters = len(set(results['labx'])) - (1 if -1 in results['labx'] else 0)
+    logger.info('Estimated number of clusters: %d' % n_clusters)
+    if n_clusters!=X.shape[0] and n_clusters>1:
+        logger.info("Silhouette Coefficient: %0.3f" % metrics.silhouette_score(X, results['labx']))
 
-        if n_clusters!=X.shape[0] and n_clusters>1:
-            print("[clusteval] >Silhouette Coefficient: %0.3f" % metrics.silhouette_score(X, results['labx']))
-
-    return(results)
+    return results
 
 
 # %% Plot
@@ -157,19 +158,19 @@ def plot(results, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi '
     # Save figure
     if (fname is not None) and (fig1 is not None):
         savefig['fname'] = fname + '_linkage_tree'
-        if verbose>=3: print('[clusteval] >Saving linkage_tree: [%s]' %(savefig['fname']))
+        logger.info('Saving linkage_tree: [%s]' %(savefig['fname']))
         fig1.savefig(**savefig)
 
     # Save figure
     if (fname is not None) and (fig2 is not None):
         savefig['fname'] = fname + '_condensed_tree'
-        if verbose>=3: print('[clusteval] >Saving condensed_tree_: [%s]' %(savefig['fname']))
+        logger.info('Saving condensed_tree_: [%s]' %(savefig['fname']))
         fig2.savefig(**savefig)
 
     # Save figure
     if (fname is not None) and (fig3 is not None):
         savefig['fname'] = fname + '_linkage_tree_focus'
-        if verbose>=3: print('[clusteval] >Saving condensed_tree with focus: [%s]' %(savefig['fname']))
+        logger.info('Saving condensed_tree with focus: [%s]' %(savefig['fname']))
         fig3.savefig(**savefig)
 
     # Return

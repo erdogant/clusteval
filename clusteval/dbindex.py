@@ -14,10 +14,12 @@ from scipy.spatial.distance import euclidean
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
+from clusteval.utils import init_logger, set_logger, disable_tqdm
+logger = init_logger()
 
 
 # %% main
-def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, savemem=False, verbose=3):
+def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, Z=None, savemem=False, verbose='info'):
     """ Determine optimal number of clusters using dbindex.
 
     Description
@@ -81,13 +83,14 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     Param['min_clust'] = min_clust
     Param['max_clust'] = max_clust
     Param['savemem'] = savemem
-    if verbose>=3: print('[clusteval] >Evaluate using dbindex.')
+    set_logger(verbose=verbose)
+    logger.info('Evaluate using dbindex.')
 
     # Savemem for kmeans
     if Param['cluster']=='kmeans':
         if Param['savemem']:
             kmeansmodel=MiniBatchKMeans
-            print('[clusteval] >Save memory enabled for kmeans.')
+            logger.info('Save memory enabled for kmeans.')
         else:
             kmeansmodel=KMeans
 
@@ -102,7 +105,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     clustlabx = []
 
     # Run over all cluster cutoffs
-    for i in tqdm(range(len(clustcutt))):
+    for i in tqdm(range(len(clustcutt)), disable=disable_tqdm()):
         # Cut the dendrogram for i clusters
         if Param['cluster']=='kmeans':
             labx=kmeansmodel(n_clusters=clustcutt[i], verbose=0).fit(X).labels_
@@ -135,7 +138,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         idx = np.argmin(scores)
         clustlabx = clustlabx[idx, :] - 1
     else:
-        if verbose>=3: print('[clusteval] >No clusters detected.')
+        logger.info('No clusters detected.')
         if len(clustlabx.shape)>1:
             clustlabx = np.zeros(clustlabx.shape[1]).astype(int)
         else:
