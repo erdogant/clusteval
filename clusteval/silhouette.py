@@ -231,6 +231,8 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), savefig={'fname': None, for
         Where rows is features and colums are samples. The first two columns of the matrix are used for plotting. Note that it is also possible provide tSNE coordinates for a better representation of the data.
     dot_size : int, (default: 50)
         Size of the dot in the scatterplot
+    jitter : float, default: None
+        Add jitter to data points as random normal data. Values of 0.01 is usually good for one-hot data seperation.
     savefig : dict.
         https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
         {'dpi':'figure',
@@ -262,6 +264,11 @@ def scatter(y, X=None, dot_size=50, figsize=(15, 8), savefig={'fname': None, for
     if (y is None) or (len(np.unique(y))==1):
         if verbose>=3: print('[clusteval] >Error: No valid labels provided.')
         return None
+
+    # Add jitter
+    if jitter is not None:
+        X[:, 0] = X[:, 0] + np.random.normal(0, jitter, size=X.shape[0])
+        X[:, 1] = X[:, 1] + np.random.normal(0, jitter, size=X.shape[0])
 
     # Plot silhouette samples plot
     # n_clusters = len(np.unique(y))
