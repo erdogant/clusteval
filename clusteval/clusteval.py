@@ -194,7 +194,7 @@ class clusteval:
         return self.results
 
     # Plot
-    def plot(self, title=None, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, verbose=3):
+    def plot(self, title=None, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, ax=None, verbose=3):
         """Make a plot.
 
         Parameters
@@ -472,7 +472,7 @@ class clusteval:
         Parameters
         ----------
         data : str
-            Name of datasets: 'sprinkler', 'titanic', 'student', 'fifa', 'cancer', 'waterpump', 'retail'
+            Name of datasets: 'sprinkler', 'titanic', 'student', 'fifa', 'cancer', 'waterpump', 'retail', 'breast', 'iris'
         url : str
             url link to to dataset.
         sep : str
@@ -520,7 +520,7 @@ def import_example(data='titanic', url=None, sep=',', verbose=3):
     Parameters
     ----------
     data : str
-        Name of datasets: 'sprinkler', 'titanic', 'student', 'fifa', 'cancer', 'waterpump', 'retail'
+        Name of datasets: 'sprinkler', 'titanic', 'student', 'fifa', 'cancer', 'waterpump', 'retail', 'breast', 'iris'
     url : str
         url link to to dataset.
     sep : str
@@ -535,6 +535,8 @@ def import_example(data='titanic', url=None, sep=',', verbose=3):
         Dataset containing mixed features.
 
     """
+    from sklearn import datasets
+
     if url is None:
         if data=='sprinkler':
             url='https://erdogant.github.io/datasets/sprinkler.zip'
@@ -551,6 +553,12 @@ def import_example(data='titanic', url=None, sep=',', verbose=3):
         elif data=='retail':
             url='https://erdogant.github.io/datasets/marketing_data_online_retail_small.zip'
             sep = ';'
+        elif data=='iris':
+            X, y = datasets.load_iris(return_X_y=True)
+            return X, y
+        elif data=='breast':
+            X, y = datasets.load_breast_cancer(return_X_y=True)
+            return X, y
     else:
         data = wget.filename_from_url(url)
 
@@ -605,33 +613,51 @@ class wget:
                 fd.write(chunk)
 
 
-# %% Import example dataset from github.
-def load_example(data='breast'):
-    """Import example dataset from sklearn.
+# %%
+def set_logger(verbose: [str, int] = 'info'):
+    """Set the logger for verbosity messages.
 
     Parameters
     ----------
-    'breast' : str, two-class
-    'titanic': str, two-class
-    'iris' : str, multi-class
+    verbose : [str, int], default is 'info' or 20
+        Set the verbose messages using string or integer values.
+        * [0, 60, None, 'silent', 'off', 'no']: No message.
+        * [10, 'debug']: Messages from debug level and higher.
+        * [20, 'info']: Messages from info level and higher.
+        * [30, 'warning']: Messages from warning level and higher.
+        * [50, 'critical']: Messages from critical level and higher.
 
     Returns
     -------
-    tuple containing dataset and response variable (X,y).
+    None.
+
+    > # Set the logger to warning
+    > set_logger(verbose='warning')
+    > # Test with different messages
+    > logger.debug("Hello debug")
+    > logger.info("Hello info")
+    > logger.warning("Hello warning")
+    > logger.critical("Hello critical")
 
     """
+    # Set 0 and None as no messages.
+    if (verbose==0) or (verbose is None):
+        verbose=60
+    # Convert str to levels
+    if isinstance(verbose, str):
+        levels = {'silent': 60,
+                  'off': 60,
+                  'no': 60,
+                  'debug': 10,
+                  'info': 20,
+                  'warning': 30,
+                  'critical': 50}
+        verbose = levels[verbose]
 
-    try:
-        from sklearn import datasets
-    except:
-        print('This requires: <pip install sklearn>')
-        return None, None
+    # Show examples
+    logger.setLevel(verbose)
 
-    if data=='iris':
-        X, y = datasets.load_iris(return_X_y=True)
-    elif data=='breast':
-        X, y = datasets.load_breast_cancer(return_X_y=True)
-    elif data=='titanic':
-        X, y = datasets.fetch_openml("titanic", version=1, as_frame=True, return_X_y=True)
-
-    return X, y
+# %%
+def disable_tqdm():
+    """Set the logger for verbosity messages."""
+    return (True if (logger.getEffectiveLevel()>=30) else False)
