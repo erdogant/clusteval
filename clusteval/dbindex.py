@@ -105,7 +105,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     clustlabx = []
 
     # Run over all cluster cutoffs
-    for i in tqdm(range(len(clustcutt)), disable=disable_tqdm()):
+    for i in tqdm(range(len(clustcutt)), disable=disable_tqdm(), desc='[clusteval] >INFO'):
         # Cut the dendrogram for i clusters
         if Param['cluster']=='kmeans':
             labx=kmeansmodel(n_clusters=clustcutt[i], verbose=0).fit(X).labels_

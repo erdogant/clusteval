@@ -131,7 +131,7 @@ def _optimize_eps(X, eps, Param, verbose=3):
     silllabx = []
 
     # Run over all Epsilons
-    for i in tqdm(range(len(eps)), disable=disable_tqdm()):
+    for i in tqdm(range(len(eps)), disable=disable_tqdm(), desc='[clusteval] >INFO'):
         # DBSCAN
         db = cluster.DBSCAN(eps=eps[i], metric=Param['metric'], min_samples=int(Param['min_samples']), n_jobs=Param['n_jobs']).fit(X)
         # Get labx
