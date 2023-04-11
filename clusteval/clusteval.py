@@ -219,20 +219,20 @@ class clusteval:
         tuple: (fig, ax)
 
         """
-        fig, ax = None, None
+        if ax is None: fig = None
         if (self.results is None) or (self.results['labx'] is None):
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
             return None
 
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
             if self.evaluate=='silhouette':
-                fig, ax = silhouette.plot(self.results, figsize=figsize)
+                fig, ax = silhouette.plot(self.results, figsize=figsize, title=title, ax=ax)
             elif self.evaluate=='dbindex':
-                fig, ax = dbindex.plot(self.results, figsize=figsize)
+                fig, ax = dbindex.plot(self.results, figsize=figsize, title=title, ax=ax)
             elif self.evaluate=='derivative':
-                fig, ax = derivative.plot(self.results, title=title, figsize=figsize)
+                fig, ax = derivative.plot(self.results, title=title, figsize=figsize, ax=ax)
         elif self.cluster=='dbscan':
-            fig, ax = dbscan.plot(self.results, figsize=figsize)
+            fig, ax = dbscan.plot(self.results, figsize=figsize, title=title, ax=ax)
         elif self.cluster=='hdbscan':
             import clusteval.hdbscan as hdbscan
             fig, ax = hdbscan.plot(self.results, figsize=figsize, savefig=savefig)
@@ -246,7 +246,12 @@ class clusteval:
         return fig, ax
 
     # Plot
-    def scatter(self, X, dot_size=75, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, verbose=3):
+    def scatter(self, X,
+                dot_size=75,
+                jitter=None,
+                figsize=(15, 8),
+                savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
+                verbose=3):
         """Make a plot.
 
         Parameters
@@ -255,6 +260,8 @@ class clusteval:
             Input dataset used in the .fit() funciton. Some plots will be more extensive if the input data is also provided.
         dot_size : int, (default: 50)
             Size of the dot in the scatterplot
+        jitter : float, default: None
+            Add jitter to data points as random normal data. Values of 0.01 is usually good for one-hot data seperation.
         figsize : tuple, (default: (15,8).
             Size of the figure (height,width).
         savefig : dict.
@@ -279,9 +286,9 @@ class clusteval:
             if self.verbose>=3: print('[clusteval] >No results to plot. Tip: try the .fit() function first.')
             return None
         # Make scatterplot
-        fig, ax1, ax2 = silhouette.scatter(self.results, X=X, dot_size=dot_size, figsize=figsize, savefig=savefig)
+        fig, ax1, ax2 = silhouette.scatter(self.results, X=X, dot_size=dot_size, figsize=figsize, jitter=jitter, savefig=savefig)
         # Return
-        return (fig, ax1, ax2)
+        return fig, ax1, ax2
 
     # Plot dendrogram
     def dendrogram(self, X=None, labels=None, leaf_rotation=90, leaf_font_size=12, orientation='top', show_contracted=True, max_d=None, showfig=True, metric=None, linkage=None, truncate_mode=None, figsize=(15, 10), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, verbose=3):
@@ -477,6 +484,10 @@ class clusteval:
         -------
         pd.DataFrame()
             Dataset containing mixed features.
+        
+        References
+        ----------
+            * student: https://archive-beta.ics.uci.edu/dataset/320/student+performance
 
         """
         return import_example(data=data, url=url, sep=sep, verbose=verbose)
