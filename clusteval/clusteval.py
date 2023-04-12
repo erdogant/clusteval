@@ -1,10 +1,4 @@
-# -----------------------------------
-# Name        : clusteval.py
-# Author      : E.Taskesen
-# Contact     : erdogant@gmail.com
-# Licence     : See LICENSE
-# Respect the autor and leave this here
-# -----------------------------------------------
+"""clusteval is a python package to measure the goodness of the unsupervised clustering."""
 
 import clusteval.dbindex as dbindex
 import clusteval.silhouette as silhouette
@@ -12,30 +6,25 @@ import clusteval.derivative as derivative
 import clusteval.dbscan as dbscan
 from clusteval.utils import init_logger, set_logger
 from clusteval.plot_dendrogram import plot_dendrogram
-
 import pypickle
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from scipy.cluster.hierarchy import fcluster
-# from cuml import DBSCAN
-
 from urllib.parse import urlparse
-import logging
 import requests
 import os
 
 logger = init_logger()
 
+
 # %% Class
 class clusteval:
     """Cluster evaluation.
 
-    Description
-    -----------
-    clusteval is a python package that provides various evaluation approaches to measure the goodness of the unsupervised clustering.
+    clusteval is a python package that provides various evaluation approaches to
+    measure the goodness of the unsupervised clustering.
 
     Parameters
     ----------
@@ -55,7 +44,7 @@ class clusteval:
         Distance measures. All metrics from sklearn can be used such as:
             * 'euclidean'
             * 'hamming'
-            * 'braycurtis', 'canberra', 'chebyshev', 'cityblock', 'correlation', 'cosine', 'dice', 'euclidean', 'hamming', 'jaccard', 'jensenshannon', 'kulsinski', 'mahalanobis', 'matching', 'minkowski', 'rogerstanimoto', 'russellrao', 'seuclidean', 'sokalmichener', 'sokalsneath', 'sqeuclidean', 'yule'
+            * 'braycurtis', 'canberra', 'chebyshev', 'cityblock', 'correlation', 'cosine', 'dice', 'jaccard', 'jensenshannon', 'kulsinski', 'mahalanobis', 'matching', 'minkowski', 'rogerstanimoto', 'russellrao', 'seuclidean', 'sokalmichener', 'sokalsneath', 'sqeuclidean', 'yule'
     linkage : str, (default: 'ward')
         Linkage type for the clustering.
             * 'ward'
@@ -71,8 +60,9 @@ class clusteval:
         Number of clusters that is evaluated smaller or equals to max_clust.
     savemem : bool, (default: False)
         Save memmory when working with large datasets. Note that htis option only in case of KMeans.
-    verbose : int, optional (default: 3)
-        Print message to screen [1-5]. The larger the number, the more information.
+    verbose : int, (default: 'info')
+        Print progress to screen. The default is 'info'.
+        60: None, 40: Error, 30: Warn, 20: Info, 10: Debug
 
     Returns
     -------
@@ -201,7 +191,15 @@ class clusteval:
         return self.results
 
     # Plot
-    def plot(self, title=None, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, ax=None, verbose=3):
+    def plot(self,
+             title=None,
+             xlabel='Nr. clusters',
+             figsize=(15, 8),
+             savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
+             ax=None,
+             showfig=True,
+             verbose='info',
+             ):
         """Make a plot.
 
         Parameters
@@ -218,14 +216,18 @@ class clusteval:
             'facecolor':'auto',
             'edgecolor':'auto',
             'backend':None}
-        verbose : int, optional (default: 3)
-            Print message to screen [1-5]. The larger the number, the more information.
+        verbose : int, (default: 'info')
+            Print progress to screen. The default is 'info'.
+            60: None, 40: Error, 30: Warn, 20: Info, 10: Debug
 
         Returns
         -------
         tuple: (fig, ax)
 
         """
+        # Set the logger
+        set_logger(verbose=verbose)
+
         if ax is None: fig = None
         if (self.results is None) or (self.results['labx'] is None):
             logger.info('No results to plot. Tip: try the .fit() function first.')
@@ -233,13 +235,13 @@ class clusteval:
 
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
             if self.evaluate=='silhouette':
-                fig, ax = silhouette.plot(self.results, figsize=figsize, title=title, ax=ax)
+                fig, ax = silhouette.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ax=ax, showfig=showfig)
             elif self.evaluate=='dbindex':
-                fig, ax = dbindex.plot(self.results, figsize=figsize, title=title, ax=ax)
+                fig, ax = dbindex.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ax=ax, showfig=showfig)
             elif self.evaluate=='derivative':
-                fig, ax = derivative.plot(self.results, title=title, figsize=figsize, ax=ax)
+                fig, ax = derivative.plot(self.results, title=title, figsize=figsize, xlabel=xlabel, ax=ax, showfig=showfig)
         elif self.cluster=='dbscan':
-            fig, ax = dbscan.plot(self.results, figsize=figsize, title=title, ax=ax)
+            fig, ax = dbscan.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ax=ax, showfig=showfig)
         elif self.cluster=='hdbscan':
             import clusteval.hdbscan as hdbscan
             fig, ax = hdbscan.plot(self.results, figsize=figsize, savefig=savefig)
@@ -258,7 +260,7 @@ class clusteval:
                 jitter=None,
                 figsize=(15, 8),
                 savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
-                verbose=3):
+                ):
         """Make a plot.
 
         Parameters
@@ -281,8 +283,6 @@ class clusteval:
             'facecolor':'auto',
             'edgecolor':'auto',
             'backend':None}
-        verbose : int, optional (default: 3)
-            Print message to screen [1-5]. The larger the number, the more information.
 
         Returns
         -------
@@ -338,8 +338,6 @@ class clusteval:
             'facecolor':'auto',
             'edgecolor':'auto',
             'backend':None}
-        verbose : int, optional (default: 3)
-            Print message to screen [1-5]. The larger the number, the more information.
 
         Returns
         -------
@@ -420,8 +418,6 @@ class clusteval:
             Pathname to store pickle files.
         overwrite : bool, (default=False)
             Overwite file if exists.
-        verbose : int, optional
-            Show message. A higher number gives more informatie. The default is 3.
 
         Returns
         -------
@@ -441,15 +437,13 @@ class clusteval:
         # return
         return status
 
-    def load(self, filepath='clusteval.pkl', verbose=3):
+    def load(self, filepath='clusteval.pkl'):
         """Restore previous results.
 
         Parameters
         ----------
         filepath : str
             Pathname to stored pickle files.
-        verbose : int, optional
-            Show message. A higher number gives more information. The default is 3.
 
         Returns
         -------
@@ -462,18 +456,16 @@ class clusteval:
             filepath = filepath + '.pkl'
 
         # Load
-        storedata = pypickle.load(filepath, verbose=verbose)
+        storedata = pypickle.load(filepath, verbose=3)
 
         # Restore the data in self
         if storedata is not None:
             self.results = storedata['results']
             return self.results
 
-    def import_example(self, data='titanic', url=None, sep=',', verbose=3):
+    def import_example(self, data='titanic', url=None, sep=','):
         """Import example dataset from github source.
 
-        Description
-        -----------
         Import one of the few datasets from github source or specify your own download url link.
 
         Parameters
@@ -484,44 +476,43 @@ class clusteval:
             url link to to dataset.
         sep : str
             Delimiter of the data set.
-        verbose : int, optional
-            Show message. A higher number gives more information. The default is 3.
 
         Returns
         -------
         pd.DataFrame()
             Dataset containing mixed features.
-        
+
         References
         ----------
             * student: https://archive-beta.ics.uci.edu/dataset/320/student+performance
 
         """
-        return import_example(data=data, url=url, sep=sep, verbose=verbose)
+        return import_example(data=data, url=url, sep=sep, logger=logger)
 
 
 # %% Compute dendrogram threshold
 def _compute_dendrogram_threshold(Z, labx, verbose=3):
     logger.info('Compute dendrogram threshold.')
+    max_d, max_d_lower, max_d_upper = 0, 0, 0
     Iloc = np.isin(Z[:, 3], np.unique(labx, return_counts=True)[1])
-    max_d_lower = np.max(Z[Iloc, 2])
-    # Find the next level
-    if np.any(Z[:, 2] > max_d_lower):
-        max_d_upper = Z[np.where(Z[:, 2] > max_d_lower)[0][0], 2]
-    else:
-        max_d_upper = np.sort(Z[Iloc, 2])[-2]
-    # Average the max_d between the start and stop level
-    max_d = max_d_lower + ((max_d_upper - max_d_lower) / 2)
+
+    if np.any(Iloc):
+        max_d_lower = np.max(Z[Iloc, 2])
+        # Find the next level
+        if np.any(Z[:, 2] > max_d_lower):
+            max_d_upper = Z[np.where(Z[:, 2] > max_d_lower)[0][0], 2]
+        else:
+            max_d_upper = np.sort(Z[Iloc, 2])[-2]
+        # Average the max_d between the start and stop level
+        max_d = max_d_lower + ((max_d_upper - max_d_lower) / 2)
     # Return
     return max_d, max_d_lower, max_d_upper
 
 
 # %% Import example dataset from github.
-def import_example(data='titanic', url=None, sep=',', verbose=3):
+def import_example(data='titanic', url=None, sep=',', logger=None):
     """Import example dataset from github source.
 
-    Description
-    -----------
     Import one of the few datasets from github source or specify your own download url link.
 
     Parameters

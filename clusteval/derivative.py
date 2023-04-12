@@ -80,7 +80,8 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     Param['max_clust'] = max_clust
 
     set_logger(verbose=verbose)
-    logger.info('Evaluate using derivatives.')
+    # Make all possible cluster-cut-offs
+    logger.info('Evaluate clustering using derivatives method')
 
     if Param['cluster']=='kmeans':
         logger.info('Does not work with Kmeans! <return>')
@@ -96,9 +97,6 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     # Cluster hierarchical using on metric/linkage
     if Z is None:
         Z = linkage_scipy(X, method=Param['linkage'], metric=Param['metric'])
-
-    # Make all possible cluster-cut-offs
-    logger.info('Determining optimal clustering by derivatives..')
 
     # Run over all cluster cutoffs
     last = Z[-10:, 2]

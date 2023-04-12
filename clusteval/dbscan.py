@@ -162,7 +162,7 @@ def _optimize_eps(X, eps, Param, verbose=3):
 
 
 # %% Plot
-def plot(results, title='dbscan vs. nr.clusters', figsize=(15, 8), verbose=3, ax=None, visible=True):
+def plot(results, title='dbscan vs. nr.clusters', xlabel='#Clusters', figsize=(15, 8), ax=None, showfig=True):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -171,8 +171,6 @@ def plot(results, title='dbscan vs. nr.clusters', figsize=(15, 8), verbose=3, ax
         Dictionary that is the output of the .fit() function.
     figsize : tuple, (default: (15,8))
         Figure size, (heigh,width).
-    verbose : int, optional (default: 3)
-        Print message to screen [1-5]. The larger the number, the more information.
 
     Returns
     -------
