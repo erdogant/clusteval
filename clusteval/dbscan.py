@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import sklearn.cluster as cluster
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
-from clusteval.utils import init_logger, set_logger, disable_tqdm
+from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties
 logger = init_logger()
 
 
@@ -162,7 +162,7 @@ def _optimize_eps(X, eps, Param, verbose=3):
 
 
 # %% Plot
-def plot(results, title='dbscan vs. nr.clusters', xlabel='#Clusters', figsize=(15, 8), ax=None, showfig=True):
+def plot(results, title='DBSCAN', title2='', xlabel='Epsilon', ylabel='Score', font_properties={}, figsize=(15, 8), ax=None, showfig=True):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -178,28 +178,40 @@ def plot(results, title='dbscan vs. nr.clusters', xlabel='#Clusters', figsize=(1
         Figure and axis of the figure.
 
     """
+    # Set font properties
+    font_properties = set_font_properties(font_properties)
     fig=None
     # Setup figure properties
     if ax is None:
-        fig, ax = plt.subplots(figsize=figsize)
+        fig, ax = plt.subplots(figsize=figsize, dpi=100)
     ax2 = ax.twinx()
 
     # Make figure 1
     idx = results['fig']['idx']
     ax.plot(results['fig']['eps'], results['fig']['silscores'], color='k')
-    ax.set_xlabel('eps')
-    ax.set_ylabel('Silhouette score')
-    ax.set_title(title)
+    ax.set_xlabel('Epsilon', fontsize=font_properties['size_x_axis'])
+    ax.set_ylabel(ylabel, fontsize=font_properties['size_y_axis'])
+    # ax.set_title(title, fontsize=font_properties['size_title'])
     ax.grid(color='grey', linestyle='--', linewidth=0.2)
+    ax.tick_params(axis='x', labelsize=font_properties['size_x_axis'])
+    ax.tick_params(axis='y', labelsize=font_properties['size_y_axis'])
 
     # Make figure 2
-    ax2.plot(results['fig']['eps'], results['fig']['sillclust'], color='b')
-    ax2.set_ylabel('#Clusters')
-    ax2.grid(color='grey', linestyle='--', linewidth=0.2)
     # Plot vertical line To stress the cut-off point
-    ax2.axvline(x=results['fig']['eps'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r')
+    if idx is None:
+        ax2.axvline(x=0, ymin=0, ymax=0, linewidth=2, color='r', linestyle='--')
+    else:
+        ax2.axvline(x=results['fig']['eps'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=1, color='r', linestyle='--')
+        ax2.axhline(y=len(np.unique(results['labx'])), xmin=0, xmax=1, linewidth=1.5, color='r', linestyle='--')
 
-    if visible:
+    ax2.tick_params(axis='x', labelsize=font_properties['size_x_axis'])
+    ax2.tick_params(axis='y', labelsize=font_properties['size_y_axis'], labelcolor='b')
+    ax2.plot(results['fig']['eps'], results['fig']['sillclust'], color='b')
+    ax2.set_ylabel('Nr. Clusters', fontsize=font_properties['size_y_axis'], color='b')
+    title2 = "Gridsearch on Epsilon. Optimal nr. clusters: %d" %(len(np.unique(results['labx'])))
+    ax2.set_title(title2, fontsize=font_properties['size_title'])
+
+    if showfig:
         plt.show()
     # Return
     return (fig, (ax, ax2))

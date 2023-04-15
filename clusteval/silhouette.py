@@ -6,6 +6,7 @@
 # Respect the autor and leave this here
 #-----------------------------------------------
 
+import colourmap
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -15,7 +16,7 @@ from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
-from clusteval.utils import init_logger, set_logger, disable_tqdm
+from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties
 logger = init_logger()
 
 # %% Main
@@ -184,7 +185,7 @@ def fit(X,
 
 
 # %% plot
-def plot(results, title='Silhouette vs. nr.clusters', figsize=(15, 8), ax=None, visible=True):
+def plot(results, title='Silhouette score', xlabel='Nr. Clusters', ylabel='Score', font_properties={}, figsize=(15, 8), ax=None, showfig=True):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -200,34 +201,34 @@ def plot(results, title='Silhouette vs. nr.clusters', figsize=(15, 8), ax=None, 
         Figure and axis of the figure.
 
     """
+    # Set font properties
+    font_properties = set_font_properties(font_properties)
     fig=None
     idx = np.argmax(results['fig']['silscores'])
+
     # Make figure
-    if ax is None:
-        fig, ax = plt.subplots(figsize=figsize)
+    if ax is None: fig, ax = plt.subplots(figsize=figsize, dpi=100)
     # Plot
     ax.plot(results['fig']['sillclust'], results['fig']['silscores'], color='k')
     # Plot optimal cut
     ax.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r', linestyle="--")
     # Set fontsizes
-    plt.rc('axes', titlesize=14)  # fontsize of the axes title
-    plt.rc('xtick', labelsize=10)  # fontsize of the axes title
-    plt.rc('ytick', labelsize=10)  # fontsize of the axes title
-    plt.rc('font', size=10)
+    ax.tick_params(axis='x', labelsize=font_properties['size_x_axis'])
+    ax.tick_params(axis='y', labelsize=font_properties['size_y_axis'])
     # Set labels
     ax.set_xticks(results['fig']['clustcutt'])
-    ax.set_xlabel('#Clusters')
-    ax.set_ylabel('Score')
-    ax.set_title(title)
+    ax.set_xlabel(xlabel, fontsize=font_properties['size_x_axis'])
+    ax.set_ylabel(ylabel, fontsize=font_properties['size_y_axis'])
+    ax.set_title(title, fontsize=font_properties['size_title'])
     ax.grid(color='grey', linestyle='--', linewidth=0.2)
-    if visible:
+    if showfig:
         plt.show()
     # Return
     return fig, ax
 
 
 # %% Scatter data
-def scatter(y, X=None, dot_size=50, jitter=None, figsize=(15, 8), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}):
+def scatter(y, X=None, dot_size=50, jitter=None, cmap='tab20c', figsize=(15, 8), font_properties={'size_title': 14, 'size_x_axis': 14, 'size_y_axis': 14}, savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, showfig=True):
     """Make scatter for the cluster labels with the samples.
 
     Parameters
@@ -259,6 +260,7 @@ def scatter(y, X=None, dot_size=50, jitter=None, figsize=(15, 8), savefig={'fnam
         Figure and axis of the figure.
 
     """
+    font_properties = set_font_properties(font_properties)
     fig, ax1, ax2 = None, None, None
     if X is None:
         logger.warning('Input data X is required for the scatterplot.')
@@ -278,7 +280,6 @@ def scatter(y, X=None, dot_size=50, jitter=None, figsize=(15, 8), savefig={'fnam
         X[:, 1] = X[:, 1] + np.random.normal(0, jitter, size=X.shape[0])
 
     # Plot silhouette samples plot
-    # n_clusters = len(np.unique(y))
     n_clusters = len(set(y)) - (1 if -1 in y else 0)
     silhouette_avg = silhouette_score(X, y)
     logger.info('Estimated number of n_clusters: %d, average silhouette_score=%.3f' %(n_clusters, silhouette_avg))
@@ -287,7 +288,7 @@ def scatter(y, X=None, dot_size=50, jitter=None, figsize=(15, 8), savefig={'fnam
     sample_silhouette_values = silhouette_samples(X, y)
 
     # Create a subplot with 1 row and 2 columns
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize, dpi=100)
     fig.set_size_inches(18, 7)
     ax1.set_xlim([-0.1, 1])
 
@@ -295,44 +296,51 @@ def scatter(y, X=None, dot_size=50, jitter=None, figsize=(15, 8), savefig={'fnam
     ax1.set_ylim([0, len(X) + (n_clusters + 1) * 10])
     y_lower = 10
     uiclust = np.unique(y)
+    colors = colourmap.fromlist(uiclust, cmap=cmap, scheme='hex')[1]
 
     # Make 1st plot
-    for i in range(0, len(uiclust)):
+    for label in uiclust:
         # Aggregate the silhouette scores for samples belonging to
         # cluster i, and sort them
-        ith_cluster_silhouette_values = sample_silhouette_values[y == uiclust[i]]
+        Iloc = y == label
+        ith_cluster_silhouette_values = sample_silhouette_values[Iloc]
         ith_cluster_silhouette_values.sort()
-
         size_cluster_i = ith_cluster_silhouette_values.shape[0]
         y_upper = y_lower + size_cluster_i
-        color = cm.Set2(float(i) / n_clusters)
-
-        ax1.fill_betweenx(np.arange(y_lower, y_upper), 0, ith_cluster_silhouette_values, facecolor=color, edgecolor=color, alpha=0.7)
-        # ax1.fill_betweenx(np.arange(y_lower, y_upper), 0, ith_cluster_silhouette_values, facecolor=getcolors[i], edgecolor=getcolors[i], alpha=0.7)
+        ax1.fill_betweenx(np.arange(y_lower, y_upper), 0, ith_cluster_silhouette_values, facecolor=colors[label], edgecolor=colors[label], alpha=0.7)
         # Label the silhouette plots with their cluster numbers at the middle
-        ax1.text(-0.05, y_lower + 0.5 * size_cluster_i, str(uiclust[i]))
+        ax1.text(-0.05, y_lower + 0.5 * size_cluster_i, str(label))
         # Compute the new y_lower for next plot
         y_lower = y_upper + 10  # 10 for the 0 samples
+        # Scatter
+        ax2.scatter(X[Iloc, 0], X[Iloc, 1], marker='.', s=dot_size, lw=0, alpha=0.8, c=colors[label], edgecolor='k')
 
-    ax1.set_title("The silhouette plot for the various clusters")
-    ax1.set_xlabel("The silhouette coefficient values")
-    ax1.set_ylabel("Cluster label")
+    # Set ax properties
+    ax1.set_title("Sample-wise silhouette scores across the clusters", fontsize=font_properties['size_title'])
+    ax1.set_xlabel("The silhouette coefficient values", fontsize=font_properties['size_x_axis'])
+    ax1.set_ylabel("Cluster label", fontsize=font_properties['size_y_axis'])
     # The vertical line for average silhouette score of all the values
     ax1.axvline(x=silhouette_avg, color="red", linestyle="--")
-    ax1.set_yticks([])  # Clear the yaxis labels / ticks
     ax1.set_xticks([-0.1, 0, 0.2, 0.4, 0.6, 0.8, 1])
     ax1.grid(color='grey', linestyle='--', linewidth=0.2)
+    # Set fontsizes
+    ax1.tick_params(axis='x', labelsize=font_properties['size_x_axis'])
+    ax1.tick_params(axis='y', labelsize=font_properties['size_y_axis'])
+    ax1.set_yticks([])  # Clear the yaxis labels / ticks
 
     # 2nd Plot showing the actual clusters formed
-    color = cm.Set2(y.astype(float) / n_clusters)
-    ax2.scatter(X[:, 0], X[:, 1], marker='.', s=dot_size, lw=0, alpha=0.8, c=color, edgecolor='k')
     ax2.grid(color='grey', linestyle='--', linewidth=0.2)
-    ax2.set_title("Estimated cluster labels")
-    ax2.set_xlabel("1st feature")
-    ax2.set_ylabel("2nd feature")
+    ax2.set_title("Cluster labels", fontsize=font_properties['size_title'])
+    ax2.set_xlabel("1st feature", fontsize=font_properties['size_x_axis'])
+    ax2.set_ylabel("2nd feature", fontsize=font_properties['size_y_axis'])
+    # Set fontsizes
+    ax2.tick_params(axis='x', labelsize=font_properties['size_x_axis'])
+    ax2.tick_params(axis='y', labelsize=font_properties['size_y_axis'])
+
     # General title
-    plt.suptitle(("Silhouette analysis results in n_clusters = %d" %(n_clusters)), fontsize=14, fontweight='bold')
-    plt.show()
+    plt.suptitle(("Silhouette analysis. Detected clusters: %d" %(n_clusters)), fontsize=font_properties['size_title'])
+    if showfig:
+        plt.show()
 
     # Save figure
     if (savefig['fname'] is not None) and (fig is not None):

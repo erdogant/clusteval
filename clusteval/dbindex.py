@@ -14,7 +14,7 @@ from scipy.spatial.distance import euclidean
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
-from clusteval.utils import init_logger, set_logger, disable_tqdm
+from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties
 logger = init_logger()
 
 
@@ -180,7 +180,7 @@ def _dbindex_score(X, labels):
 
 
 # %% plot
-def plot(results, title='Davies Bouldin index vs. nr.clusters', figsize=(15, 8), ax=None, visible=True):
+def plot(results, title='Davies Bouldin index', xlabel='Nr. Clusters', ylabel='Score', font_properties={}, figsize=(15, 8), ax=None, showfig=True):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -196,27 +196,26 @@ def plot(results, title='Davies Bouldin index vs. nr.clusters', figsize=(15, 8),
         Figure and axis of the figure.
 
     """
+    # Set font properties
+    font_properties = set_font_properties(font_properties)
     idx = np.argmin(results['fig']['scores'])
     fig=None
     # Make figure
     if ax is None:
-        fig, ax = plt.subplots(figsize=figsize)
+        fig, ax = plt.subplots(figsize=figsize, dpi=100)
     # Plot
     ax.plot(results['fig']['dbclust'], results['fig']['scores'], color='k')
     # Plot optimal cut
     ax.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['dbclust'][idx], linewidth=2, color='r', linestyle="--")
     # Set fontsizes
-    plt.rc('axes', titlesize=14)     # fontsize of the axes title
-    plt.rc('xtick', labelsize=10)     # fontsize of the axes title
-    plt.rc('ytick', labelsize=10)     # fontsize of the axes title
-    plt.rc('font', size=10)
+    ax.tick_params(axis='x', labelsize=font_properties['size_x_axis'])
+    ax.tick_params(axis='y', labelsize=font_properties['size_y_axis'])
     # Set labels
     ax.set_xticks(results['fig']['clustcutt'])
-    ax.set_xlabel('#Clusters')
-    ax.set_ylabel('Score')
-    ax.set_title(title)
+    ax.set_xlabel(xlabel, fontsize=font_properties['size_x_axis'])
+    ax.set_ylabel(ylabel, fontsize=font_properties['size_y_axis'])
+    ax.set_title(title, fontsize=font_properties['size_title'])
     ax.grid(color='grey', linestyle='--', linewidth=0.2)
-    if visible:
-        plt.show()
+    if showfig: plt.show()
     # Return
     return(fig, ax)

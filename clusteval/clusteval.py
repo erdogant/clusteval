@@ -102,6 +102,8 @@ class clusteval:
 
         if not np.any(np.isin(evaluate, ['silhouette', 'dbindex', 'derivative'])): raise ValueError("evaluate has incorrect input argument [%s]." %(evaluate))
         if not np.any(np.isin(cluster, ['agglomerative', 'kmeans', 'dbscan', 'hdbscan'])): raise ValueError("cluster has incorrect input argument [%s]." %(cluster))
+        if cluster=='kmeans' and evaluate=='dbindex':
+            logger.error("kmeans can not be combined with dbindex.")
 
         # Set parameters for dbscan
         dbscan_defaults = {'metric': metric, 'min_clust': min_clust, 'max_clust': max_clust, 'eps': None, 'epsres': 50, 'min_samples': 0.01, 'norm': False, 'n_jobs': -1, 'verbose': verbose}
@@ -142,12 +144,14 @@ class clusteval:
                 Relevant information to make the plot.
 
         """
+        if self.evaluate=='dbindex' and (self.cluster=='kmeans'):
+            return None
         if 'array' not in str(type(X)): raise ValueError('Input data must be of type numpy array')
         max_d, max_d_lower, max_d_upper = None, None, None
         self.Z = []
 
         # Cluster using on metric/linkage
-        logger.info('Fit using %s with metric: %s, and linkage: %s' %(self.cluster, self.metric, self.linkage))
+        logger.info('Fit with method=[%s], metric=[%s], linkage=[%s]' %(self.cluster, self.metric, self.linkage))
         # Compute linkages
         if self.cluster!='kmeans':
             self.Z = scipy_linkage(X, method=self.linkage, metric=self.metric)
@@ -169,7 +173,8 @@ class clusteval:
                 raise ValueError('hdbscan must be installed manually. Try to: <pip install hdbscan> or <conda install -c conda-forge hdbscan>')
             self.results = hdbscan.fit(X, min_samples=None, metric=self.metric, norm=True, n_jobs=-1, min_clust=self.min_clust, verbose=self.verbose)
         else:
-            raise ValueError('The combination cluster"%s", evaluate="%s" is not implemented.' %(self.cluster, self.evaluate))
+            logger.warning('<SKIP> The combination cluster="%s", evaluate="%s" is not implemented.' %(self.cluster, self.evaluate))
+            return None
 
         # Compute the dendrogram threshold
         max_d, max_d_lower, max_d_upper = None, None, None
@@ -194,8 +199,10 @@ class clusteval:
     def plot(self,
              title=None,
              xlabel='Nr. clusters',
+             ylabel='Score',
              figsize=(15, 8),
              savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
+             font_properties = {'size_title': 18, 'size_x_axis': 18, 'size_y_axis': 18},
              ax=None,
              showfig=True,
              verbose='info',
@@ -235,13 +242,13 @@ class clusteval:
 
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
             if self.evaluate=='silhouette':
-                fig, ax = silhouette.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ax=ax, showfig=showfig)
+                fig, ax = silhouette.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, ax=ax, showfig=showfig)
             elif self.evaluate=='dbindex':
-                fig, ax = dbindex.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ax=ax, showfig=showfig)
+                fig, ax = dbindex.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, ax=ax, showfig=showfig)
             elif self.evaluate=='derivative':
-                fig, ax = derivative.plot(self.results, title=title, figsize=figsize, xlabel=xlabel, ax=ax, showfig=showfig)
+                fig, ax = derivative.plot(self.results, title=title, figsize=figsize, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, ax=ax, showfig=showfig)
         elif self.cluster=='dbscan':
-            fig, ax = dbscan.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ax=ax, showfig=showfig)
+            fig, ax = dbscan.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, ax=ax, showfig=showfig)
         elif self.cluster=='hdbscan':
             import clusteval.hdbscan as hdbscan
             fig, ax = hdbscan.plot(self.results, figsize=figsize, savefig=savefig)
@@ -255,11 +262,14 @@ class clusteval:
         return fig, ax
 
     # Plot
-    def scatter(self, X,
+    def scatter(self,
+                X,
                 dot_size=75,
                 jitter=None,
+                cmap='tab20c',
                 figsize=(15, 8),
                 savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
+                showfig=True,
                 ):
         """Make a plot.
 
@@ -271,7 +281,9 @@ class clusteval:
             Size of the dot in the scatterplot
         jitter : float, default: None
             Add jitter to data points as random normal data. Values of 0.01 is usually good for one-hot data seperation.
-        figsize : tuple, (default: (15,8).
+        cmap : string (default: 'tab20c')
+            Colourmap.
+        figsize : tuple, (default: (15, 8).
             Size of the figure (height,width).
         savefig : dict.
             https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
@@ -292,13 +304,35 @@ class clusteval:
         if (self.results is None) or (self.results['labx'] is None):
             logger.info('No results to plot. Tip: try the .fit() function first.')
             return None
+
         # Make scatterplot
-        fig, ax1, ax2 = silhouette.scatter(self.results, X=X, dot_size=dot_size, figsize=figsize, jitter=jitter, savefig=savefig)
+        fig, ax1, ax2 = silhouette.scatter(self.results,
+                                           X=X,
+                                           dot_size=dot_size,
+                                           jitter=jitter,
+                                           cmap=cmap,
+                                           figsize=figsize,
+                                           showfig=showfig,
+                                           savefig=savefig)
         # Return
         return fig, ax1, ax2
 
     # Plot dendrogram
-    def dendrogram(self, X=None, labels=None, leaf_rotation=90, leaf_font_size=12, orientation='top', show_contracted=True, max_d=None, showfig=True, metric=None, linkage=None, truncate_mode=None, figsize=(15, 10), savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, verbose=3):
+    def dendrogram(self,
+                   X=None,
+                   labels=None,
+                   leaf_rotation=90,
+                   leaf_font_size=12,
+                   orientation='top',
+                   show_contracted=True,
+                   max_d=None,
+                   showfig=True,
+                   metric=None,
+                   linkage=None,
+                   truncate_mode=None,
+                   figsize=(15, 10),
+                   savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
+                   ):
         """Plot Dendrogram.
 
         Parameters
@@ -463,7 +497,7 @@ class clusteval:
             self.results = storedata['results']
             return self.results
 
-    def import_example(self, data='titanic', url=None, sep=','):
+    def import_example(self, data='titanic', url=None, sep=',', params={}):
         """Import example dataset from github source.
 
         Import one of the few datasets from github source or specify your own download url link.
@@ -471,7 +505,22 @@ class clusteval:
         Parameters
         ----------
         data : str
-            Name of datasets: 'sprinkler', 'titanic', 'student', 'fifa', 'cancer', 'waterpump', 'retail', 'breast', 'iris'
+            * 'blobs'
+            * 'moons'
+            * 'circles'
+            * 'anisotropic'
+            * 'globular'
+            * 'uniform'
+            * 'densities'
+            * 'sprinkler'
+            * 'titanic'
+            * 'student'
+            * 'fifa'
+            * 'cancer'
+            * 'waterpump'
+            * 'retail'
+            * 'breast'
+            * 'iris'
         url : str
             url link to to dataset.
         sep : str
@@ -487,7 +536,7 @@ class clusteval:
             * student: https://archive-beta.ics.uci.edu/dataset/320/student+performance
 
         """
-        return import_example(data=data, url=url, sep=sep, logger=logger)
+        return import_example(data=data, url=url, sep=sep, params=params, logger=logger)
 
 
 # %% Compute dendrogram threshold
@@ -510,7 +559,7 @@ def _compute_dendrogram_threshold(Z, labx, verbose=3):
 
 
 # %% Import example dataset from github.
-def import_example(data='titanic', url=None, sep=',', logger=None):
+def import_example(data='titanic', url=None, sep=',', params={}, logger=None):
     """Import example dataset from github source.
 
     Import one of the few datasets from github source or specify your own download url link.
@@ -523,9 +572,6 @@ def import_example(data='titanic', url=None, sep=',', logger=None):
         url link to to dataset.
     sep : str
         Delimiter of the data set.
-    verbose : int, (default: 20)
-        Print progress to screen. The default is 3.
-        60: None, 40: Error, 30: Warn, 20: Info, 10: Debug
 
     Returns
     -------
@@ -533,6 +579,7 @@ def import_example(data='titanic', url=None, sep=',', logger=None):
         Dataset containing mixed features.
 
     """
+    params = {**{'n_samples': 1000, 'n_feat': 2, 'noise': 0.05, 'random_state': 170}, **params}
     from sklearn import datasets
 
     if url is None:
@@ -556,12 +603,48 @@ def import_example(data='titanic', url=None, sep=',', logger=None):
             return X, y
         elif data=='breast':
             X, y = datasets.load_breast_cancer(return_X_y=True)
+        elif data=='blobs':
+            X, y = datasets.make_blobs(n_samples=params['n_samples'], centers=4, n_features=params['n_feat'], cluster_std=0.5, random_state=params['random_state'])
+            return X, y
+        elif data=='moons':
+            X, y = datasets.make_moons(n_samples=params['n_samples'], noise=params['noise'])
+            return X, y
+        elif data=='circles':
+            X, y = datasets.make_circles(n_samples=params['n_samples'], factor=0.5, noise=params['noise'])
+            return X, y
+        elif data=='anisotropic':
+            X, y = datasets.make_blobs(n_samples=params['n_samples'], random_state=params['random_state'])
+            transformation = [[0.6, -0.6], [-0.4, 0.8]]
+            X = np.dot(X, transformation)
+            return X, y
+        elif data=='globular':
+            n_samples = int(np.round(params['n_samples']/5))
+            C1 = [-5, -2] + 0.8 * np.random.randn(n_samples, 2)
+            C2 = [4, -1] + 0.1 * np.random.randn(n_samples, 2)
+            C3 = [1, -2] + 0.2 * np.random.randn(n_samples, 2)
+            C4 = [-2, 3] + 0.3 * np.random.randn(n_samples, 2)
+            C5 = [3, -2] + 1.6 * np.random.randn(n_samples, 2)
+            C6 = [5, 6] + 2 * np.random.randn(n_samples, 2)
+            X = np.vstack((C1, C2, C3, C4, C5, C6))
+            y = np.vstack(([1]*len(C1), [2]*len(C2), [3]*len(C3), [4]*len(C4), [5]*len(C5), [6]*len(C6))).ravel()
+            return X, y
+        elif data=='densities':
+            n_samples = int(np.round(params['n_samples']/5))
+            X, y = datasets.make_blobs(n_samples=n_samples, n_features=params['n_feat'], centers=2, random_state=params['random_state'])
+            c = np.random.multivariate_normal([40, 40], [[20, 1], [1, 30]], size=[200,])
+            d = np.random.multivariate_normal([80, 80], [[30, 1], [1, 30]], size=[200,])
+            e = np.random.multivariate_normal([0, 100], [[200, 1], [1, 100]], size=[200,])
+            X = np.concatenate((X, c, d, e),)
+            y = np.concatenate((y, len(c)*[2], len(c)*[3], len(c)*[4]),)
+            return X, y
+        elif data=='uniform':
+            X, y = np.random.rand(params['n_samples'], 2), None
             return X, y
     else:
         data = wget.filename_from_url(url)
 
     if url is None:
-        logger.info('Nothing to download.')
+        if logger is not None: logger.info('Nothing to download.')
         return None
 
     curpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
@@ -572,11 +655,11 @@ def import_example(data='titanic', url=None, sep=',', logger=None):
 
     # Check file exists.
     if not os.path.isfile(PATH_TO_DATA):
-        logger.info('Downloading [%s] dataset from github source..' %(data))
+        if logger is not None: logger.info('Downloading [%s] dataset from github source..' %(data))
         wget.download(url, PATH_TO_DATA)
 
     # Import local dataset
-    logger.info('Import dataset [%s]' %(data))
+    if logger is not None: logger.info('Import dataset [%s]' %(data))
     df = pd.read_csv(PATH_TO_DATA, sep=sep)
     # Return
     return df

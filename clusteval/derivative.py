@@ -10,7 +10,7 @@ import numpy as np
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as linkage_scipy
 import matplotlib.pyplot as plt
-from clusteval.utils import init_logger, set_logger
+from clusteval.utils import init_logger, set_logger, set_font_properties
 logger = init_logger()
 
 
@@ -81,7 +81,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
 
     set_logger(verbose=verbose)
     # Make all possible cluster-cut-offs
-    logger.info('Evaluate clustering using derivatives method')
+    logger.info('Evaluate clustering using [derivatives] method')
 
     if Param['cluster']=='kmeans':
         logger.info('Does not work with Kmeans! <return>')
@@ -99,7 +99,7 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
         Z = linkage_scipy(X, method=Param['linkage'], metric=Param['metric'])
 
     # Run over all cluster cutoffs
-    last = Z[-10:, 2]
+    last = Z[-max_clust:, 2]
     last_rev = last[::-1]
 
     acceleration = np.diff(last, 2)  # 2nd derivative of the distances
@@ -129,11 +129,11 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
     results['fig']['last_rev'] = last_rev
     results['fig']['acceleration_rev'] = acceleration_rev
     # Return
-    return(results)
+    return results
 
 
 # %% Plot
-def plot(results, title=None, figsize=(15,8), ax=None, visible=True, verbose=3):
+def plot(results, title='Derivative (Elbow method)', xlabel='Nr. Clusters', ylabel='Score', font_properties={}, figsize=(15,8), ax=None, showfig=True, verbose=3):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -151,14 +151,16 @@ def plot(results, title=None, figsize=(15,8), ax=None, visible=True, verbose=3):
         Figure and axis of the figure.
 
     """
+    # Set font properties
+    font_properties = set_font_properties(font_properties)
     fig=None
-    if title is None: title='derivative vs. nr.clusters'
+    if title is None: title='Derivative (Elbow method)'
     idxs = np.arange(1, len(results['fig']['last_rev']) + 1)
     k = results['fig']['acceleration_rev'].argmax() + 2  # if idx 0 is the max of this we want 2 clusters
 
     # Make figure
     if ax is None:
-        fig, ax = plt.subplots(figsize=figsize)
+        fig, ax = plt.subplots(figsize=figsize, dpi=100)
     # Plot
     ax.plot(idxs, results['fig']['last_rev'])
     ax.plot(idxs[:-2] + 1, results['fig']['acceleration_rev'])
@@ -166,17 +168,16 @@ def plot(results, title=None, figsize=(15,8), ax=None, visible=True, verbose=3):
     # Plot optimal cut
     ax.axvline(x=k, ymin=0, linewidth=2, color='r', linestyle="--")
     # Set fontsizes
-    plt.rc('axes', titlesize=14)     # fontsize of the axes title
-    plt.rc('xtick', labelsize=10)     # fontsize of the axes title
-    plt.rc('ytick', labelsize=10)     # fontsize of the axes title
-    plt.rc('font', size=10)
+    # plt.rc('axes', titlesize=14)     # fontsize of the axes title
+    plt.rc('xtick', labelsize=font_properties['size_x_axis'])  # fontsize of the axes title
+    plt.rc('ytick', labelsize=font_properties['size_y_axis'])  # fontsize of the axes title
+    # plt.rc('font', size=10)
     # Set labels
     ax.set_xticks(np.arange(0, len(idxs)))
-    ax.set_xlabel('#Clusters')
-    ax.set_ylabel('Score')
-    ax.set_title(title)
+    ax.set_xlabel(xlabel, fontsize=font_properties['size_x_axis'])
+    ax.set_ylabel(ylabel, fontsize=font_properties['size_y_axis'])
+    ax.set_title(title, fontsize=font_properties['size_title'])
     ax.grid(color='grey', linestyle='--', linewidth=0.2)
-    if visible:
-        plt.show()
+    if showfig: plt.show()
     # Return
-    return(fig, ax)
+    return fig, ax

@@ -6,3 +6,4 @@ seaborn
 hdbscan
 scikit-learn
 pypickle
+colourmap

@@ -10,6 +10,10 @@ logger.addHandler(console)
 logger = logging.getLogger(__name__)
 
 # %%
+def set_font_properties(font_properties):
+    return {**{'size_title': 20, 'size_x_axis': 16, 'size_y_axis': 16}, **font_properties}
+
+# %%
 def init_logger():
     logger = logging.getLogger('')
     for handler in logger.handlers[:]: #get rid of existing old handlers
