@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Generate data &mdash; clusteval clusteval documentation</title>
@@ -13,9 +13,6 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -30,14 +27,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> clusteval
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            clusteval
           </a>
               <div class="version">
-                2.1.4
+                2.1.6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -113,8 +114,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Generate data</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Generate data</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/Plots.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -127,8 +128,8 @@
   <section id="generate-data">
 <h1>Generate data<a class="headerlink" href="#generate-data" title="Permalink to this heading"></a></h1>
 <p>Install requried libraries</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
-pip install sklearn
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scatterd
+pip<span class="w"> </span>install<span class="w"> </span>sklearn
 </pre></div>
 </div>
 <p>Generate Data.</p>
@@ -144,9 +145,6 @@ pip install sklearn
 </div>
 <table class="docutils align-center" id="id1">
 <caption><span class="caption-text">Six circular clusters</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP1" src="_images/medium_clusters.png" /></p></td>
 </tr>
@@ -177,14 +175,16 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 
 <span class="c1"># Plot</span>
 <span class="n">ce</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="c1"># Plot</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># Plot Silhouette</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">plot_silhouette</span><span class="p">()</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id2">
 <caption><span class="caption-text">Method vs. number of clusters</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP2" src="_images/medium_clusters_sil.png" /></p></td>
 <td><p><img alt="figP3" src="_images/medium_clusters_dbindex.png" /></p></td>
@@ -204,9 +204,6 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </div>
 <table class="docutils align-center" id="id3">
 <caption><span class="caption-text">Method vs. number of clusters for the silhouette method.</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP6" src="_images/medium_clusters_sil_scatter.png" /></p></td>
 </tr>
@@ -222,9 +219,6 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP10" src="_images/medium_clusters_sil_dendrogram.png" /></p></td>
 </tr>
@@ -242,9 +236,6 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP11" src="_images/medium_clusters_sil_dendrogram_60.png" /></p></td>
 </tr>
@@ -259,9 +250,6 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP12" src="_images/medium_clusters_sil_dendrogram_orientation.png" /></p></td>
 </tr>

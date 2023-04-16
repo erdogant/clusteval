@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>API References &mdash; clusteval clusteval documentation</title>
@@ -13,9 +13,6 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -29,14 +26,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> clusteval
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            clusteval
           </a>
               <div class="version">
-                2.1.4
+                2.1.6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -92,15 +93,22 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API References</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#clusteval.clusteval.clusteval"><code class="docutils literal notranslate"><span class="pre">clusteval</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.dendrogram"><code class="docutils literal notranslate"><span class="pre">clusteval.dendrogram()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.enrichment"><code class="docutils literal notranslate"><span class="pre">clusteval.enrichment()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.fit"><code class="docutils literal notranslate"><span class="pre">clusteval.fit()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.import_example"><code class="docutils literal notranslate"><span class="pre">clusteval.import_example()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.load"><code class="docutils literal notranslate"><span class="pre">clusteval.load()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.plot"><code class="docutils literal notranslate"><span class="pre">clusteval.plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.plot_silhouette"><code class="docutils literal notranslate"><span class="pre">clusteval.plot_silhouette()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.save"><code class="docutils literal notranslate"><span class="pre">clusteval.save()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.clusteval.scatter"><code class="docutils literal notranslate"><span class="pre">clusteval.scatter()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#clusteval.clusteval.import_example"><code class="docutils literal notranslate"><span class="pre">import_example()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#clusteval.clusteval.wget"><code class="docutils literal notranslate"><span class="pre">wget</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.wget.download"><code class="docutils literal notranslate"><span class="pre">wget.download()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clusteval.clusteval.wget.filename_from_url"><code class="docutils literal notranslate"><span class="pre">wget.filename_from_url()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -120,8 +128,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>API References</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">API References</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/clusteval.clusteval.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -133,101 +141,71 @@
              
   <section id="module-clusteval.clusteval">
 <span id="api-references"></span><h1>API References<a class="headerlink" href="#module-clusteval.clusteval" title="Permalink to this heading"></a></h1>
+<p>clusteval is a python package to measure the goodness of the unsupervised clustering.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="clusteval.clusteval.clusteval">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clusteval.clusteval.</span></span><span class="sig-name descname"><span class="pre">clusteval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'agglomerative'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'silhouette'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'euclidean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linkage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_clust</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_clust</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savemem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_dbscan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'eps':</span> <span class="pre">None,</span> <span class="pre">'epsres':</span> <span class="pre">50,</span> <span class="pre">'min_samples':</span> <span class="pre">0.01,</span> <span class="pre">'n_jobs':</span> <span class="pre">-1,</span> <span class="pre">'norm':</span> <span class="pre">False}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clusteval.clusteval.</span></span><span class="sig-name descname"><span class="pre">clusteval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'agglomerative'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'silhouette'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'euclidean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linkage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_clust</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_clust</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savemem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'info'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params_dbscan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'eps':</span> <span class="pre">None,</span> <span class="pre">'epsres':</span> <span class="pre">50,</span> <span class="pre">'min_samples':</span> <span class="pre">0.01,</span> <span class="pre">'n_jobs':</span> <span class="pre">-1,</span> <span class="pre">'norm':</span> <span class="pre">False}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval" title="Permalink to this definition"></a></dt>
 <dd><p>Cluster evaluation.</p>
-<section id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading"></a></h2>
-<p>clusteval is a python package that provides various evaluation approaches to measure the goodness of the unsupervised clustering.</p>
+<p>clusteval is a python package that provides various evaluation approaches to
+measure the goodness of the unsupervised clustering.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param cluster</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>Type of clustering.</dt><dd><ul class="simple">
-<li><p>‘agglomerative’</p></li>
-<li><p>‘kmeans’</p></li>
-<li><p>‘dbscan’</p></li>
-<li><p>‘hdbscan’</p></li>
-<li><p>‘optics’ # TODO</p></li>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cluster</strong> (<em>str</em><em>, </em><em>(</em><em>default: 'agglomerative'</em><em>)</em>) – <dl class="simple">
+<dt>Type of clustering.</dt><dd><ul>
+<li><p>’agglomerative’</p></li>
+<li><p>’kmeans’</p></li>
+<li><p>’dbscan’</p></li>
+<li><p>’hdbscan’</p></li>
+<li><p>’optics’ # TODO</p></li>
 </ul>
 </dd>
 </dl>
-</dd>
-<dt class="field-even">type cluster</dt>
-<dd class="field-even"><p>str, (default: ‘agglomerative’)</p>
-</dd>
-<dt class="field-odd">param evaluate</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>Evaluation method for cluster validation.</dt><dd><ul class="simple">
-<li><p>‘silhouette’</p></li>
-<li><p>‘dbindex’</p></li>
-<li><p>‘derivative’</p></li>
+</p></li>
+<li><p><strong>evaluate</strong> (<em>str</em><em>, </em><em>(</em><em>default: 'silhouette'</em><em>)</em>) – <dl class="simple">
+<dt>Evaluation method for cluster validation.</dt><dd><ul>
+<li><p>’silhouette’</p></li>
+<li><p>’dbindex’</p></li>
+<li><p>’derivative’</p></li>
 </ul>
 </dd>
 </dl>
-</dd>
-<dt class="field-even">type evaluate</dt>
-<dd class="field-even"><p>str, (default: ‘silhouette’)</p>
-</dd>
-<dt class="field-odd">param metric</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>Distance measures. All metrics from sklearn can be used such as:</dt><dd><ul class="simple">
-<li><p>‘euclidean’</p></li>
-<li><p>‘hamming’</p></li>
-<li><p>‘braycurtis’, ‘canberra’, ‘chebyshev’, ‘cityblock’, ‘correlation’, ‘cosine’, ‘dice’, ‘euclidean’, ‘hamming’, ‘jaccard’, ‘jensenshannon’, ‘kulsinski’, ‘mahalanobis’, ‘matching’, ‘minkowski’, ‘rogerstanimoto’, ‘russellrao’, ‘seuclidean’, ‘sokalmichener’, ‘sokalsneath’, ‘sqeuclidean’, ‘yule’</p></li>
+</p></li>
+<li><p><strong>metric</strong> (<em>str</em><em>, </em><em>(</em><em>default: 'euclidean'</em><em>)</em><em>.</em>) – <dl class="simple">
+<dt>Distance measures. All metrics from sklearn can be used such as:</dt><dd><ul>
+<li><p>’euclidean’</p></li>
+<li><p>’hamming’</p></li>
+<li><p>’braycurtis’, ‘canberra’, ‘chebyshev’, ‘cityblock’, ‘correlation’, ‘cosine’, ‘dice’, ‘jaccard’, ‘jensenshannon’, ‘kulsinski’, ‘mahalanobis’, ‘matching’, ‘minkowski’, ‘rogerstanimoto’, ‘russellrao’, ‘seuclidean’, ‘sokalmichener’, ‘sokalsneath’, ‘sqeuclidean’, ‘yule’</p></li>
 </ul>
 </dd>
 </dl>
-</dd>
-<dt class="field-even">type metric</dt>
-<dd class="field-even"><p>str, (default: ‘euclidean’).</p>
-</dd>
-<dt class="field-odd">param linkage</dt>
-<dd class="field-odd"><dl class="simple">
-<dt>Linkage type for the clustering.</dt><dd><ul class="simple">
-<li><p>‘ward’</p></li>
-<li><p>‘single’</p></li>
-<li><p>‘complete’</p></li>
-<li><p>‘average’</p></li>
-<li><p>‘weighted’</p></li>
-<li><p>‘centroid’</p></li>
-<li><p>‘median’</p></li>
+</p></li>
+<li><p><strong>linkage</strong> (<em>str</em><em>, </em><em>(</em><em>default: 'ward'</em><em>)</em>) – <dl class="simple">
+<dt>Linkage type for the clustering.</dt><dd><ul>
+<li><p>’ward’</p></li>
+<li><p>’single’</p></li>
+<li><p>’complete’</p></li>
+<li><p>’average’</p></li>
+<li><p>’weighted’</p></li>
+<li><p>’centroid’</p></li>
+<li><p>’median’</p></li>
 </ul>
 </dd>
 </dl>
+</p></li>
+<li><p><strong>min_clust</strong> (<em>int</em><em>, </em><em>(</em><em>default: 2</em><em>)</em>) – Number of clusters that is evaluated greater or equals to min_clust.</p></li>
+<li><p><strong>max_clust</strong> (<em>int</em><em>, </em><em>(</em><em>default: 25</em><em>)</em>) – Number of clusters that is evaluated smaller or equals to max_clust.</p></li>
+<li><p><strong>savemem</strong> (<em>bool</em><em>, </em><em>(</em><em>default: False</em><em>)</em>) – Save memmory when working with large datasets. Note that htis option only in case of KMeans.</p></li>
+<li><p><strong>jitter</strong> (<em>float</em><em>, </em><em>default: None</em>) – Add jitter to data points as random normal data. Values of 0.01 is usually good for one-hot data seperation.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>(</em><em>default: 'info'</em><em>)</em>) – Print progress to screen. The default is ‘info’.
+60: None, 40: Error, 30: Warn, 20: Info, 10: Debug</p></li>
+</ul>
 </dd>
-<dt class="field-even">type linkage</dt>
-<dd class="field-even"><p>str, (default: ‘ward’)</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>dict</strong></p>
 </dd>
-<dt class="field-odd">param min_clust</dt>
-<dd class="field-odd"><p>Number of clusters that is evaluated greater or equals to min_clust.</p>
-</dd>
-<dt class="field-even">type min_clust</dt>
-<dd class="field-even"><p>int, (default: 2)</p>
-</dd>
-<dt class="field-odd">param max_clust</dt>
-<dd class="field-odd"><p>Number of clusters that is evaluated smaller or equals to max_clust.</p>
-</dd>
-<dt class="field-even">type max_clust</dt>
-<dd class="field-even"><p>int, (default: 25)</p>
-</dd>
-<dt class="field-odd">param savemem</dt>
-<dd class="field-odd"><p>Save memmory when working with large datasets. Note that htis option only in case of KMeans.</p>
-</dd>
-<dt class="field-even">type savemem</dt>
-<dd class="field-even"><p>bool, (default: False)</p>
-</dd>
-<dt class="field-odd">param verbose</dt>
-<dd class="field-odd"><p>Print message to screen [1-5]. The larger the number, the more information.</p>
-</dd>
-<dt class="field-even">type verbose</dt>
-<dd class="field-even"><p>int, optional (default: 3)</p>
-</dd>
-<dt class="field-odd">returns</dt>
-<dd class="field-odd"><p><strong>dict</strong></p>
-</dd>
-<dt class="field-even">rtype</dt>
-<dd class="field-even"><p>dictionary with keys:</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary with keys:</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -246,6 +224,9 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Make plot</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ce</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 <span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># silhouette plot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ce</span><span class="o">.</span><span class="n">plot_silhouette</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Scatter plot</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 <span class="go">&gt;&gt;&gt;</span>
@@ -255,10 +236,10 @@
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="clusteval.clusteval.clusteval.dendrogram">
-<span class="sig-name descname"><span class="pre">dendrogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaf_rotation=90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaf_font_size=12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation='top'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_contracted=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_d=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linkage=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate_mode=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">10)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig={'fname':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">format&gt;:</span> <span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'dpi</span> <span class="pre">':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'orientation':</span> <span class="pre">'portrait'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'facecolor':</span> <span class="pre">'auto'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.dendrogram" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">dendrogram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaf_rotation=90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">leaf_font_size=12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation='top'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_contracted=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_d=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linkage=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truncate_mode=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">10)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig={'fname':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">format&gt;:</span> <span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'dpi</span> <span class="pre">':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'orientation':</span> <span class="pre">'portrait'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'facecolor':</span> <span class="pre">'auto'}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.dendrogram" title="Permalink to this definition"></a></dt>
 <dd><p>Plot Dendrogram.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>numpy-array</em><em> (</em><em>default : None</em><em>)</em>) – Input data.</p></li>
 <li><p><strong>labels</strong> (<em>list</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – Plot the labels. When None: the index of the original observation is used to label the leaf nodes.</p></li>
@@ -282,10 +263,9 @@
 ‘facecolor’:’auto’,
 ‘edgecolor’:’auto’,
 ‘backend’:None}</p></li>
-<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>optional</em><em> (</em><em>default: 3</em><em>)</em>) – Print message to screen [1-5]. The larger the number, the more information.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><p><strong>results</strong> –</p>
 <ul class="simple">
 <li><p>labx : int : Cluster labels based on the input-ordering.</p></li>
@@ -296,21 +276,43 @@
 </ul>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="clusteval.clusteval.clusteval.enrichment">
+<span class="sig-name descname"><span class="pre">enrichment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.enrichment" title="Permalink to this definition"></a></dt>
+<dd><p>Enrichment analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>DataFrame</em>) – The input dataframe that is used to determine whether there is any enrichment with the detected
+cluster labels.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataframe containing significant associations with the cluster labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="clusteval.clusteval.clusteval.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.fit" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savemem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.fit" title="Permalink to this definition"></a></dt>
 <dd><p>Cluster validation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>Numpy-array.</em>) – The rows are the features and the colums are the samples.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>Numpy-array.</em>) – The rows are the features and the colums are the samples.</p></li>
+<li><p><strong>savemem</strong> (<em>bool</em><em>, </em><em>(</em><em>default: False</em><em>)</em>) – Save memmory when working with large datasets. Setting this value to True will not store the dataset in
+memory, and K-means will be optimized.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>evaluate: str</dt><dd><p>evaluate name that is used for cluster evaluation.</p>
 </dd>
@@ -323,7 +325,7 @@
 </dl>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict. with various keys. Note that the underneath keys can change based on the used evaluation method.</p>
 </dd>
 </dl>
@@ -331,52 +333,57 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="clusteval.clusteval.clusteval.import_example">
-<span class="sig-name descname"><span class="pre">import_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'titanic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.import_example" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">import_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'titanic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.import_example" title="Permalink to this definition"></a></dt>
 <dd><p>Import example dataset from github source.</p>
-<section id="id1">
-<h3>Description<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
 <p>Import one of the few datasets from github source or specify your own download url link.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param data</dt>
-<dd class="field-odd"><p>Name of datasets: ‘sprinkler’, ‘titanic’, ‘student’, ‘fifa’, ‘cancer’, ‘waterpump’, ‘retail’</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>str</em>) – <ul>
+<li><p>‘blobs’</p></li>
+<li><p>’moons’</p></li>
+<li><p>’circles’</p></li>
+<li><p>’anisotropic’</p></li>
+<li><p>’globular’</p></li>
+<li><p>’uniform’</p></li>
+<li><p>’densities’</p></li>
+<li><p>’sprinkler’</p></li>
+<li><p>’titanic’</p></li>
+<li><p>’student’</p></li>
+<li><p>’fifa’</p></li>
+<li><p>’cancer’</p></li>
+<li><p>’waterpump’</p></li>
+<li><p>’retail’</p></li>
+<li><p>’breast’</p></li>
+<li><p>’iris’</p></li>
+</ul>
+</p></li>
+<li><p><strong>url</strong> (<em>str</em>) – url link to to dataset.</p></li>
+<li><p><strong>sep</strong> (<em>str</em>) – Delimiter of the data set.</p></li>
+</ul>
 </dd>
-<dt class="field-even">type data</dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataset containing mixed features.</p>
 </dd>
-<dt class="field-odd">param url</dt>
-<dd class="field-odd"><p>url link to to dataset.</p>
-</dd>
-<dt class="field-even">type url</dt>
-<dd class="field-even"><p>str</p>
-</dd>
-<dt class="field-odd">param verbose</dt>
-<dd class="field-odd"><p>Print message to screen.</p>
-</dd>
-<dt class="field-even">type verbose</dt>
-<dd class="field-even"><p>int, (default: 3)</p>
-</dd>
-<dt class="field-odd">returns</dt>
-<dd class="field-odd"><p>Dataset containing mixed features.</p>
-</dd>
-<dt class="field-even">rtype</dt>
-<dd class="field-even"><p>pd.DataFrame()</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame()</p>
 </dd>
 </dl>
-</section>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>student: <a class="reference external" href="https://archive-beta.ics.uci.edu/dataset/320/student+performance">https://archive-beta.ics.uci.edu/dataset/320/student+performance</a></p></li>
+</ul>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="clusteval.clusteval.clusteval.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clusteval.pkl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.load" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clusteval.pkl'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.load" title="Permalink to this definition"></a></dt>
 <dd><p>Restore previous results.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filepath</strong> (<em>str</em>) – Pathname to stored pickle files.</p></li>
-<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>optional</em>) – Show message. A higher number gives more information. The default is 3.</p></li>
-</ul>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – Pathname to stored pickle files.</p>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>Object.</p>
 </dd>
 </dl>
@@ -384,10 +391,10 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="clusteval.clusteval.clusteval.plot">
-<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig={'fname':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">format&gt;:</span> <span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'dpi</span> <span class="pre">':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'orientation':</span> <span class="pre">'portrait'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'facecolor':</span> <span class="pre">'auto'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.plot" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel='Nr.</span> <span class="pre">clusters'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel='Score'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig={'fname':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">format&gt;:</span> <span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'dpi</span> <span class="pre">':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'orientation':</span> <span class="pre">'portrait'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'facecolor':</span> <span class="pre">'auto'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font_properties={'size_title':</span> <span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'size_x_axis':</span> <span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'size_y_axis':</span> <span class="pre">18}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose='info'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.plot" title="Permalink to this definition"></a></dt>
 <dd><p>Make a plot.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figsize</strong> (<em>tuple</em><em>, </em><em>(</em><em>default:</em><em> (</em><em>15</em><em>, </em><em>8</em><em>)</em><em>.</em>) – Size of the figure (height,width).</p></li>
 <li><p><strong>savefig</strong> (<em>dict.</em>) – <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html</a>
@@ -399,49 +406,34 @@
 ‘facecolor’:’auto’,
 ‘edgecolor’:’auto’,
 ‘backend’:None}</p></li>
-<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>optional</em><em> (</em><em>default: 3</em><em>)</em>) – Print message to screen [1-5]. The larger the number, the more information.</p></li>
+<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>(</em><em>default: 'info'</em><em>)</em>) – Print progress to screen. The default is ‘info’.
+60: None, 40: Error, 30: Warn, 20: Info, 10: Debug</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>tuple</strong></p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>(fig, ax)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="clusteval.clusteval.clusteval.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clusteval.pkl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.save" title="Permalink to this definition"></a></dt>
-<dd><p>Save model in pickle file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filepath</strong> (<em>str</em><em>, </em><em>(</em><em>default: 'clusteval.pkl'</em><em>)</em>) – Pathname to store pickle files.</p></li>
-<li><p><strong>overwrite</strong> (<em>bool</em><em>, </em><em>(</em><em>default=False</em><em>)</em>) – Overwite file if exists.</p></li>
-<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>optional</em>) – Show message. A higher number gives more informatie. The default is 3.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>bool</strong> – Status whether the file is saved.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>[True, False]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="clusteval.clusteval.clusteval.scatter">
-<span class="sig-name descname"><span class="pre">scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dot_size=75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig={'fname':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">format&gt;:</span> <span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'dpi</span> <span class="pre">':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'orientation':</span> <span class="pre">'portrait'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'facecolor':</span> <span class="pre">'auto'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.scatter" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="clusteval.clusteval.clusteval.plot_silhouette">
+<span class="sig-name descname"><span class="pre">plot_silhouette</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dot_size=75</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jitter=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">embedding=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap='tab20c'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize=(15</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">savefig={'fname':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">format&gt;:</span> <span class="pre">'png'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'dpi</span> <span class="pre">':</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'orientation':</span> <span class="pre">'portrait'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'facecolor':</span> <span class="pre">'auto'}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">showfig=True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.plot_silhouette" title="Permalink to this definition"></a></dt>
 <dd><p>Make a plot.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>array-like</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – Input dataset used in the .fit() funciton. Some plots will be more extensive if the input data is also provided.</p></li>
+<li><p><strong>X</strong> (<em>array-like</em><em>, </em><em>(</em><em>default: None</em><em>)</em>) – Input dataset used in the .fit() function. You can also provide PCA or tSNE coordinates.</p></li>
 <li><p><strong>dot_size</strong> (<em>int</em><em>, </em><em>(</em><em>default: 50</em><em>)</em>) – Size of the dot in the scatterplot</p></li>
-<li><p><strong>figsize</strong> (<em>tuple</em><em>, </em><em>(</em><em>default:</em><em> (</em><em>15</em><em>,</em><em>8</em><em>)</em><em>.</em>) – Size of the figure (height,width).</p></li>
+<li><p><strong>jitter</strong> (<em>float</em><em>, </em><em>default: None</em>) – Add jitter to data points as random normal data. Values of 0.01 is usually good for one-hot data seperation.</p></li>
+<li><p><strong>embedding</strong> (<em>str</em><em> (</em><em>default: None</em><em>)</em>) – In case high dimensional data, a embedding with t-SNE can be performed.
+* None
+* ‘tsne’</p></li>
+<li><p><strong>cmap</strong> (<em>string</em><em> (</em><em>default: 'tab20c'</em><em>)</em>) – Colourmap.</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em><em>, </em><em>(</em><em>default:</em><em> (</em><em>15</em><em>, </em><em>8</em><em>)</em><em>.</em>) – Size of the figure (height,width).</p></li>
 <li><p><strong>savefig</strong> (<em>dict.</em>) – <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html</a>
 {‘dpi’:’figure’,
 ‘format’:None,
@@ -451,52 +443,139 @@
 ‘facecolor’:’auto’,
 ‘edgecolor’:’auto’,
 ‘backend’:None}</p></li>
-<li><p><strong>verbose</strong> (<em>int</em><em>, </em><em>optional</em><em> (</em><em>default: 3</em><em>)</em>) – Print message to screen [1-5]. The larger the number, the more information.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type</dt>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None.</p>
 </dd>
 </dl>
 </dd></dl>
 
-</section>
+<dl class="py method">
+<dt class="sig sig-object py" id="clusteval.clusteval.clusteval.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'clusteval.pkl'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overwrite</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.save" title="Permalink to this definition"></a></dt>
+<dd><p>Save model in pickle file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em><em>, </em><em>(</em><em>default: 'clusteval.pkl'</em><em>)</em>) – Pathname to store pickle files.</p></li>
+<li><p><strong>overwrite</strong> (<em>bool</em><em>, </em><em>(</em><em>default=False</em><em>)</em>) – Overwite file if exists.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>bool</strong> – Status whether the file is saved.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>[True, False]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clusteval.clusteval.clusteval.scatter">
+<span class="sig-name descname"><span class="pre">scatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">X=None,</span> <span class="pre">s=50,</span> <span class="pre">embedding=None,</span> <span class="pre">n_feat=2,</span> <span class="pre">legend=False,</span> <span class="pre">jitter=None,</span> <span class="pre">cmap='tab20c',</span> <span class="pre">figsize=(25,</span> <span class="pre">15),</span> <span class="pre">fontsize=18,</span> <span class="pre">fontcolor=[0,</span> <span class="pre">0,</span> <span class="pre">0],</span> <span class="pre">savefig={'fname':</span> <span class="pre">None,</span> <span class="pre">&lt;built-in</span> <span class="pre">function</span> <span class="pre">format&gt;:</span> <span class="pre">'png',</span> <span class="pre">'dpi</span> <span class="pre">':</span> <span class="pre">None,</span> <span class="pre">'orientation':</span> <span class="pre">'portrait',</span> <span class="pre">'facecolor':</span> <span class="pre">'auto'},</span> <span class="pre">showfig=True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.clusteval.scatter" title="Permalink to this definition"></a></dt>
+<dd><p>Scatterplot.</p>
+<p>Create a scatterplot for the first two features or with an t-SNE embedding.
+The clusters are colored based on the cluster labels and labeld with the features from the enrichment analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>DataFrame</em><em> or </em><em>Numpy-array.</em>) – The rows are the features and the colums are the samples.</p></li>
+<li><p><strong>s</strong> (<em>int</em><em>, </em><em>optional</em>) – Dotsize. The default is 50. After an enrichment analysis, the size is based on the -log(P) value for the enriched cluster label.</p></li>
+<li><p><strong>embedding</strong> (<em>str</em><em> (</em><em>default: None</em><em>)</em>) – In case high dimensional data, a embedding with t-SNE can be performed.
+* None
+* ‘tsne’</p></li>
+<li><p><strong>n_feat</strong> (<em>int</em><em>, </em><em>(</em><em>default: 2</em><em>)</em>) – Number of top significant features for the particular label to be plotted.
+This requires doing an enrichment analysis first.</p></li>
+<li><p><strong>legend</strong> (<em>bool</em><em>, </em><em>(</em><em>default: False</em><em>)</em>) – Plot the legend.</p></li>
+<li><p><strong>jitter</strong> (<em>float</em><em>, </em><em>default: None</em>) – Add jitter to data points as random normal data. Values of 0.01 is usually good for one-hot data seperation.</p></li>
+<li><p><strong>cmap</strong> (<em>String</em><em>, </em><em>optional</em>) – ‘Set1’       (default)
+‘Set2’
+‘rainbow’
+‘bwr’        Blue-white-red
+‘binary’ or ‘binary_r’
+‘seismic’    Blue-white-red
+‘Blues’      white-to-blue
+‘Reds’       white-to-red
+‘Pastel1’    Discrete colors
+‘Paired’     Discrete colors
+‘Set1’       Discrete colors</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em><em>, </em><em>optional</em>) – Figure size. The default is (25, 15).</p></li>
+<li><p><strong>fontsize</strong> (<em>str</em><em> (</em><em>default: 18</em><em>)</em>) – The fontsize of the y labels that are plotted in the graph.</p></li>
+<li><p><strong>fontcolor</strong> (<em>list/array</em><em> of </em><em>RGB colors with same size as X</em><em> (</em><em>default : None</em><em>)</em>) – None : Use same colorscheme as for c
+[0,0,0] : If the input is a single color, all fonts will get this color.</p></li>
+<li><p><strong>savefig</strong> (<em>dict.</em>) – <a class="reference external" href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html">https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html</a>
+{‘dpi’:’figure’,
+‘format’:None,
+‘metadata’:None,
+‘bbox_inches’: None,
+‘pad_inches’:0.1,
+‘facecolor’:’auto’,
+‘edgecolor’:’auto’,
+‘backend’:None}</p></li>
+<li><p><strong>showfig</strong> (<em>bool</em><em>, </em><em>optional</em>) – Show the figure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Figure and axis of the figure.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple, (fig, ax)</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="clusteval.clusteval.import_example">
-<span class="sig-prename descclassname"><span class="pre">clusteval.clusteval.</span></span><span class="sig-name descname"><span class="pre">import_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'titanic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.import_example" title="Permalink to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">clusteval.clusteval.</span></span><span class="sig-name descname"><span class="pre">import_example</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'titanic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">','</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.import_example" title="Permalink to this definition"></a></dt>
 <dd><p>Import example dataset from github source.</p>
-<section id="id2">
-<h2>Description<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <p>Import one of the few datasets from github source or specify your own download url link.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param data</dt>
-<dd class="field-odd"><p>Name of datasets: ‘sprinkler’, ‘titanic’, ‘student’, ‘fifa’, ‘cancer’, ‘waterpump’, ‘retail’</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>str</em>) – Name of datasets: ‘sprinkler’, ‘titanic’, ‘student’, ‘fifa’, ‘cancer’, ‘waterpump’, ‘retail’, ‘breast’, ‘iris’</p></li>
+<li><p><strong>url</strong> (<em>str</em>) – url link to to dataset.</p></li>
+<li><p><strong>sep</strong> (<em>str</em>) – Delimiter of the data set.</p></li>
+</ul>
 </dd>
-<dt class="field-even">type data</dt>
-<dd class="field-even"><p>str</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataset containing mixed features.</p>
 </dd>
-<dt class="field-odd">param url</dt>
-<dd class="field-odd"><p>url link to to dataset.</p>
-</dd>
-<dt class="field-even">type url</dt>
-<dd class="field-even"><p>str</p>
-</dd>
-<dt class="field-odd">param verbose</dt>
-<dd class="field-odd"><p>Print message to screen.</p>
-</dd>
-<dt class="field-even">type verbose</dt>
-<dd class="field-even"><p>int, (default: 3)</p>
-</dd>
-<dt class="field-odd">returns</dt>
-<dd class="field-odd"><p>Dataset containing mixed features.</p>
-</dd>
-<dt class="field-even">rtype</dt>
-<dd class="field-even"><p>pd.DataFrame()</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame()</p>
 </dd>
 </dl>
-</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="clusteval.clusteval.wget">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">clusteval.clusteval.</span></span><span class="sig-name descname"><span class="pre">wget</span></span><a class="headerlink" href="#clusteval.clusteval.wget" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve file from url.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="clusteval.clusteval.wget.download">
+<span class="sig-name descname"><span class="pre">download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">writepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.wget.download" title="Permalink to this definition"></a></dt>
+<dd><p>Download.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>url</strong> (<em>str.</em>) – Internet source.</p></li>
+<li><p><strong>writepath</strong> (<em>str.</em>) – Directory to write the file.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clusteval.clusteval.wget.filename_from_url">
+<span class="sig-name descname"><span class="pre">filename_from_url</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clusteval.clusteval.wget.filename_from_url" title="Permalink to this definition"></a></dt>
+<dd><p>Return filename.</p>
+</dd></dl>
+
 </dd></dl>
 
 <hr>

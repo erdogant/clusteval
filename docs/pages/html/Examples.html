@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Easy clusters &mdash; clusteval clusteval documentation</title>
@@ -13,9 +13,6 @@
   <![endif]-->
   
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
@@ -30,14 +27,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> clusteval
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            clusteval
           </a>
               <div class="version">
-                2.1.4
+                2.1.6
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -126,8 +127,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Easy clusters</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Easy clusters</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/Examples.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -143,8 +144,8 @@
 <section id="generate-data">
 <h2>Generate data<a class="headerlink" href="#generate-data" title="Permalink to this heading"></a></h2>
 <p>Install requried libraries</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
-pip install sklearn
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scatterd
+pip<span class="w"> </span>install<span class="w"> </span>sklearn
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Imports</span>
@@ -159,10 +160,6 @@ pip install sklearn
 </div>
 <table class="docutils align-center" id="id1">
 <caption><span class="caption-text">Left: Samples without labels. Right: Samples colored on labels.</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCX7" src="_images/easy_clusters_no_labels.png" /></p></td>
 <td><p><img alt="figCX8" src="_images/easy_clusters_with_labels.png" /></p></td>
@@ -189,10 +186,6 @@ pip install sklearn
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCX9" src="_images/easy_clusters_nr_clusters.png" /></p></td>
 <td><p><img alt="figCX10" src="_images/easy_clusters_dendrogram.png" /></p></td>
@@ -211,32 +204,28 @@ pip install sklearn
 
 <span class="c1"># dbindex</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbindex</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbindex</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;dbindex&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbindex</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;dbindex&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">]);</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># silhouette</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">silhouette</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">silhouette</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">silhouette</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">]);</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># derivative</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">derivative</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">derivative</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;derivative&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">derivative</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;derivative&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">]);</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># dbscan</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbscan</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbscan</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;dbscan&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbscan</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;dbscan&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">]);</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td colspan="2"><p><img alt="figCX12" src="_images/easy_clusters_comparisons.png" /></p></td>
 </tr>
@@ -247,8 +236,8 @@ pip install sklearn
 <section id="snake-clusters">
 <h1>Snake clusters<a class="headerlink" href="#snake-clusters" title="Permalink to this heading"></a></h1>
 <p>The definition of a <strong>cluster</strong> depends on, among others, the <strong>aim</strong>. In this experiment I will evaluate the goodness of clusters when the aim is to find circular or snake clusters.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
-pip install sklearn
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scatterd
+pip<span class="w"> </span>install<span class="w"> </span>sklearn
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import some required libraries for this experiment</span>
@@ -262,10 +251,6 @@ pip install sklearn
 </div>
 <table class="docutils align-center" id="id2">
 <caption><span class="caption-text">Left: Samples without labels. Right: Samples colored on labels.</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCX1" src="_images/circular_cluster_labels.png" /></p></td>
 <td><p><img alt="figCX2" src="_images/circular_cluster_black.png" /></p></td>
@@ -290,10 +275,6 @@ pip install sklearn
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCX3" src="_images/circular_cluster_nr_clusters.png" /></p></td>
 <td><p><img alt="figCX4" src="_images/circular_cluster_ward.png" /></p></td>
@@ -319,10 +300,6 @@ pip install sklearn
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCX5" src="_images/circular_cluster_single_nr_clusters.png" /></p></td>
 <td><p><img alt="figCX6" src="_images/circular_cluster_single.png" /></p></td>
@@ -362,10 +339,6 @@ pip install sklearn
 </div>
 <table class="docutils align-center" id="id3">
 <caption><span class="caption-text">Left plot: group of samples with different densities. Right plot: True labels</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 48%" />
-<col style="width: 52%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figC1" src="_images/random_clusters_density_black.png" /></p></td>
 <td><p><img alt="figC2" src="_images/random_clusters_density_color.png" /></p></td>
@@ -392,10 +365,6 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figC4" src="_images/Derivative_random_samples.png" /></p></td>
 <td><p><img alt="figC5" src="_images/Derivative_random_samples_scatter.png" /></p></td>
@@ -421,10 +390,6 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figC6" src="_images/random_agglomerative_silhouette_1.png" /></p></td>
 <td><p><img alt="figC7" src="_images/random_agglomerative_silhouette_2.png" /></p></td>
@@ -451,10 +416,6 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figC8" src="_images/random_agglomerative_dbindex_1.png" /></p></td>
 <td><p><img alt="figC10" src="_images/random_agglomerative_dbindex_3.png" /></p></td>
@@ -477,10 +438,6 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figC11" src="_images/random_agglomerative_dbindex_4.png" /></p></td>
 <td><p><img alt="figC12" src="_images/random_agglomerative_dbindex_5.png" /></p></td>
@@ -519,10 +476,6 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </div>
 <table class="docutils align-center" id="id4">
 <caption><span class="caption-text">Left: the DBindex cluster evaluation. Right: The tSNE plot coloured based on the cluster-labels.</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCE7" src="_images/random_dbscan_1.png" /></p></td>
 <td><p><img alt="figCE8" src="_images/random_dbscan_2.png" /></p></td>
@@ -533,7 +486,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 <section id="hdbscan">
 <h2>HDBSCAN<a class="headerlink" href="#hdbscan" title="Permalink to this heading"></a></h2>
 <p>Install the library first because this approach is not installed by default in <code class="docutils literal notranslate"><span class="pre">clusteval</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install hdbscan
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>hdbscan
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
@@ -548,10 +501,6 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </pre></div>
 </div>
 <table class="docutils align-center">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCE12" src="_images/circular_cluster_hdbscan.png" /></p></td>
 <td><p><img alt="figCE10" src="_images/circular_cluster_hdbscan2.png" /></p></td>
@@ -572,22 +521,22 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 
 <span class="c1"># dbindex</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbindex</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbindex</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;dbindex&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbindex</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;dbindex&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">]);</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># silhouette</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">silhouette</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">silhouette</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">silhouette</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">]);</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># derivative</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">derivative</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">derivative</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;derivative&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">derivative</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;derivative&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">]);</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># dbscan</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbscan</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbscan</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;dbscan&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">clusteval</span><span class="o">.</span><span class="n">dbscan</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s1">&#39;dbscan&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="n">showfig</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span><span class="n">c</span><span class="o">=</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;labx&#39;</span><span class="p">]);</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -595,9 +544,6 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </div>
 <table class="docutils align-center" id="id5">
 <caption><span class="caption-text">Comparison of all methods.</span><a class="headerlink" href="#id5" title="Permalink to this table"></a></caption>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCE9" src="_images/random_comparison_methods.png" /></p></td>
 </tr>

@@ -92,6 +92,7 @@ Let's demonstrate this using the previously randomly generated samples.
 	# Make plots
 	ce.plot()
 	ce.scatter(X)
+	ce.plot_silhouette(X)
 
 
 
