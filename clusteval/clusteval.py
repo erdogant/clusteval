@@ -88,6 +88,9 @@ class clusteval:
     >>> # Make plot
     >>> ce.plot()
     >>>
+    >>> # silhouette plot
+    >>> ce.plot_silhouette(X)
+    >>>
     >>> # Scatter plot
     >>> ce.scatter(X)
     >>>

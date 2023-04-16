@@ -61,6 +61,12 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 	# Plot
 	ce.plot()
 
+	# Plot
+	ce.scatter(X)
+
+	# Plot Silhouette
+	ce.plot_silhouette()
+
 
 .. |figP2| image:: ../figs/medium_clusters_sil.png
 .. |figP3| image:: ../figs/medium_clusters_dbindex.png

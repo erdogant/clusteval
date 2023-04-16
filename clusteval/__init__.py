@@ -12,7 +12,7 @@ from clusteval.clusteval import (
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.1.5'
+__version__ = '2.1.6'
 
 
 __doc__ = """
@@ -43,6 +43,9 @@ Examples
 >>>
 >>> # Scatter plot
 >>> ce.scatter(X)
+>>>
+>>> # Silhouette plot
+>>> ce.plot_silhouette(X)
 >>>
 >>> # Dendrogram
 >>> ce.dendrogram()
