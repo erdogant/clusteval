@@ -1,10 +1,11 @@
 """clusteval is a python package to measure the goodness of the unsupervised clustering."""
 
+from scatterd import scatterd
 import clusteval.dbindex as dbindex
 import clusteval.silhouette as silhouette
 import clusteval.derivative as derivative
 import clusteval.dbscan as dbscan
-from clusteval.utils import init_logger, set_logger
+from clusteval.utils import init_logger, set_logger, compute_embedding
 from clusteval.plot_dendrogram import plot_dendrogram
 import pypickle
 import pandas as pd
@@ -60,6 +61,8 @@ class clusteval:
         Number of clusters that is evaluated smaller or equals to max_clust.
     savemem : bool, (default: False)
         Save memmory when working with large datasets. Note that htis option only in case of KMeans.
+    jitter : float, default: None
+        Add jitter to data points as random normal data. Values of 0.01 is usually good for one-hot data seperation.
     verbose : int, (default: 'info')
         Print progress to screen. The default is 'info'.
         60: None, 40: Error, 30: Warn, 20: Info, 10: Debug
@@ -123,13 +126,16 @@ class clusteval:
         set_logger(verbose=verbose)
 
     # Fit
-    def fit(self, X):
+    def fit(self, X, savemem=False):
         """Cluster validation.
 
         Parameters
         ----------
         X : Numpy-array.
             The rows are the features and the colums are the samples.
+        savemem : bool, (default: False)
+            Save memmory when working with large datasets. Setting this value to True will not store the dataset in
+            memory, and K-means will be optimized.
 
         Returns
         -------
@@ -145,13 +151,22 @@ class clusteval:
 
         """
         if self.evaluate=='dbindex' and (self.cluster=='kmeans'):
+            logger.warning('Cluster evaluation [%s] can not per performed for [%s] <return>' %(self.evaluate, self.cluster))
+            self.results = None
             return None
+
+        # Store the input data in self
+        if not savemem:
+            self.X = X.copy()
+
+        if isinstance(X, pd.DataFrame): X = X.values
         if 'array' not in str(type(X)): raise ValueError('Input data must be of type numpy array')
         max_d, max_d_lower, max_d_upper = None, None, None
         self.Z = []
 
         # Cluster using on metric/linkage
         logger.info('Fit with method=[%s], metric=[%s], linkage=[%s]' %(self.cluster, self.metric, self.linkage))
+
         # Compute linkages
         if self.cluster!='kmeans':
             self.Z = scipy_linkage(X, method=self.linkage, metric=self.metric)
@@ -187,6 +202,7 @@ class clusteval:
         if self.results['labx'] is not None:
             logger.info('Optimal number clusters detected: [%.0d].' %(len(np.unique(self.results['labx']))))
 
+        # Store the input data in self
         self.results['max_d'] = max_d
         self.results['max_d_lower'] = max_d_lower
         self.results['max_d_upper'] = max_d_upper
@@ -194,6 +210,36 @@ class clusteval:
 
         # Return
         return self.results
+
+    # Enrichment
+    def enrichment(self, X=None):
+        """Enrichment analysis.
+
+        Parameters
+        ----------
+        X : DataFrame
+            The input dataframe that is used to determine whether there is any enrichment with the detected
+            cluster labels.
+
+        Returns
+        -------
+        pd.DataFrame
+            Dataframe containing significant associations with the cluster labels.
+
+        """
+        # Check results
+        if not _check_results(self, logger): return None
+        X = _check_input_data(self, X, logger)
+        if X is None: return None
+        if X.shape[0]!=len(self.results['labx']): raise Exception('The input dataframe (Rows=%d) should match the number of observations of the cluster labels (y=%d)' %(X.shape[0], len(self.results['labx'])))
+
+        # Enrichment analysis
+        if _check_import_hnet(logger):
+            import hnet
+            # Enrichment analysis
+            self.results['enrichment'] = hnet.enrichment(X, self.results['labx'])
+            # Return
+            return self.results['enrichment']
 
     # Plot
     def plot(self,
@@ -236,9 +282,7 @@ class clusteval:
         set_logger(verbose=verbose)
 
         if ax is None: fig = None
-        if (self.results is None) or (self.results['labx'] is None):
-            logger.info('No results to plot. Tip: try the .fit() function first.')
-            return None
+        if not _check_results(self, logger): return None
 
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
             if self.evaluate=='silhouette':
@@ -261,11 +305,134 @@ class clusteval:
         # Return
         return fig, ax
 
-    # Plot
     def scatter(self,
-                X,
+                X=None,
+                s=50,
+                embedding=None,
+                n_feat=2,
+                legend=False,
+                jitter=None,
+                cmap='tab20c',
+                figsize=(25, 15),
+                fontsize=18,
+                fontcolor=[0,0,0],
+                savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
+                showfig=True,
+                ):
+        """Scatterplot.
+
+        Create a scatterplot for the first two features or with an t-SNE embedding.
+        The clusters are colored based on the cluster labels and labeld with the features from the enrichment analysis.
+
+        Parameters
+        ----------
+        X : DataFrame or Numpy-array.
+            The rows are the features and the colums are the samples.
+        s : int, optional
+            Dotsize. The default is 50. After an enrichment analysis, the size is based on the -log(P) value for the enriched cluster label.
+        embedding : str (default: None)
+            In case high dimensional data, a embedding with t-SNE can be performed.
+            * None
+            * 'tsne'
+        n_feat : int, (default: 2)
+            Number of top significant features for the particular label to be plotted.
+            This requires doing an enrichment analysis first.
+        legend : bool, (default: False)
+            Plot the legend.
+        jitter : float, default: None
+            Add jitter to data points as random normal data. Values of 0.01 is usually good for one-hot data seperation.
+        cmap : String, optional
+            'Set1'       (default)
+            'Set2'
+            'rainbow'
+            'bwr'        Blue-white-red
+            'binary' or 'binary_r'
+            'seismic'    Blue-white-red
+            'Blues'      white-to-blue
+            'Reds'       white-to-red
+            'Pastel1'    Discrete colors
+            'Paired'     Discrete colors
+            'Set1'       Discrete colors
+        figsize : tuple, optional
+            Figure size. The default is (25, 15).
+        fontsize : str (default: 18)
+            The fontsize of the y labels that are plotted in the graph.
+        fontcolor: list/array of RGB colors with same size as X (default : None)
+            None : Use same colorscheme as for c
+            [0,0,0] : If the input is a single color, all fonts will get this color.
+        savefig : dict.
+            https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
+            {'dpi':'figure',
+            'format':None,
+            'metadata':None,
+            'bbox_inches': None,
+            'pad_inches':0.1,
+            'facecolor':'auto',
+            'edgecolor':'auto',
+            'backend':None}
+        showfig : bool, optional
+            Show the figure.
+
+        Returns
+        -------
+        tuple, (fig, ax)
+            Figure and axis of the figure.
+
+        """
+        # Make some checks
+        if not _check_results(self, logger): return None
+        X = _check_input_data(self, X, logger)
+        if X is None: return None
+        if isinstance(X, pd.DataFrame): X = X.values
+
+        # Compute embedding
+        X = compute_embedding(X, embedding, logger)
+
+        # Defaults
+        defaults = {'figsize': (25, 15), 'cmap': 'tab20c', 'z': None, 'c': [0, 0, 0], 'marker': None, 'alpha': None, 'gradient': None, 'density': False, 'norm': False, 'xlabel': 'x-axis', 'ylabel': 'y-axis', 'title': '', 'fontsize': 20, 'fontcolor': None, 'axiscolor': '#dddddd', 'jitter': None}
+        params = {**defaults, **{'jitter': jitter, 'cmap': cmap}, 'figsize': figsize, 'fontsize': fontsize, 'fontcolor': fontcolor}
+
+        if self.results.get('enrichment') is None:
+            labels = self.results['labx']
+            scores = np.ones(X.shape[0]) * s
+        else:
+            # For each cluster, add the most important feature.
+            labels = np.repeat('', X.shape[0]).astype('O')
+            scores = np.ones(X.shape[0]) * 25
+            for y in self.results['enrichment']['y'].unique():
+                Iloc = self.results['enrichment']['y']==y
+                tmpdf = self.results['enrichment'].loc[Iloc, :].sort_values('logP')[0: n_feat]
+                catname = list(tmpdf['category_name'].values)
+                catlab = list(tmpdf['category_label'].values)
+                label = [catname[i] + ' (' + catlab[i] + ')' for i in range(len(catname))]
+                label = '\n'.join(label)
+                # Compute maximum
+                score = np.max(tmpdf['logP'].values * -1)
+                # Store
+                labels[self.results['labx']==int(y)] = label
+                scores[self.results['labx']==int(y)] = score
+
+        # Scatter
+        fig, ax = scatterd(X[:, 0], X[:, 1], labels=labels, s=scores, legend=legend, **params)
+        # Save figure
+        if (savefig['fname'] is not None) and (fig is not None):
+            logger.info('Saving silhouetteplot to [%s]' %(savefig['fname']))
+            fig.savefig(**savefig)
+
+        # if d3blocks and  _check_import_d3blocks:
+        #     from d3blocks import D3Blocks
+        #     d3 = D3Blocks()
+        #     d3.scatter(X[:, 0], X[:, 1], jitter=jitter, size=scores/10, tooltip=labels, cmap=cmap, color=self.results['labx'].astype(str))
+
+        # Return
+        return fig, ax
+
+    # Plot
+    def plot_silhouette(self,
+                X=None,
                 dot_size=75,
                 jitter=None,
+                embedding=None,
                 cmap='tab20c',
                 figsize=(15, 8),
                 savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
@@ -276,11 +443,15 @@ class clusteval:
         Parameters
         ----------
         X : array-like, (default: None)
-            Input dataset used in the .fit() funciton. Some plots will be more extensive if the input data is also provided.
+            Input dataset used in the .fit() function. You can also provide PCA or tSNE coordinates.
         dot_size : int, (default: 50)
             Size of the dot in the scatterplot
         jitter : float, default: None
             Add jitter to data points as random normal data. Values of 0.01 is usually good for one-hot data seperation.
+        embedding : str (default: None)
+            In case high dimensional data, a embedding with t-SNE can be performed.
+            * None
+            * 'tsne'
         cmap : string (default: 'tab20c')
             Colourmap.
         figsize : tuple, (default: (15, 8).
@@ -301,9 +472,10 @@ class clusteval:
         None.
 
         """
-        if (self.results is None) or (self.results['labx'] is None):
-            logger.info('No results to plot. Tip: try the .fit() function first.')
-            return None
+        if not _check_results(self, logger): return None
+        X = _check_input_data(self, X, logger)
+        if X is None: return None
+        if isinstance(X, pd.DataFrame): X = X.values
 
         # Make scatterplot
         fig, ax1, ax2 = silhouette.scatter(self.results,
@@ -311,6 +483,7 @@ class clusteval:
                                            dot_size=dot_size,
                                            jitter=jitter,
                                            cmap=cmap,
+                                           embedding=embedding,
                                            figsize=figsize,
                                            showfig=showfig,
                                            savefig=savefig)
@@ -383,11 +556,7 @@ class clusteval:
             * max_d_upper : float : maximum distance upperbound
 
         """
-        fig, ax = None, None
-        if (self.results is None) or (self.results['labx'] is None):
-            logger.info('No results to plot. Tip: try the .fit() function first.')
-            return None
-
+        if not _check_results(self, logger): return None
         # Set parameters
         no_plot = False if showfig else True
         max_d_lower, max_d_upper = None, None
@@ -618,7 +787,7 @@ def import_example(data='titanic', url=None, sep=',', params={}, logger=None):
             X = np.dot(X, transformation)
             return X, y
         elif data=='globular':
-            n_samples = int(np.round(params['n_samples']/5))
+            n_samples = int(np.round(params['n_samples'] / 5))
             C1 = [-5, -2] + 0.8 * np.random.randn(n_samples, 2)
             C2 = [4, -1] + 0.1 * np.random.randn(n_samples, 2)
             C3 = [1, -2] + 0.2 * np.random.randn(n_samples, 2)
@@ -626,16 +795,16 @@ def import_example(data='titanic', url=None, sep=',', params={}, logger=None):
             C5 = [3, -2] + 1.6 * np.random.randn(n_samples, 2)
             C6 = [5, 6] + 2 * np.random.randn(n_samples, 2)
             X = np.vstack((C1, C2, C3, C4, C5, C6))
-            y = np.vstack(([1]*len(C1), [2]*len(C2), [3]*len(C3), [4]*len(C4), [5]*len(C5), [6]*len(C6))).ravel()
+            y = np.vstack(([1] * len(C1), [2] * len(C2), [3] * len(C3), [4] * len(C4), [5] * len(C5), [6] * len(C6))).ravel()
             return X, y
         elif data=='densities':
-            n_samples = int(np.round(params['n_samples']/5))
+            n_samples = int(np.round(params['n_samples'] / 5))
             X, y = datasets.make_blobs(n_samples=n_samples, n_features=params['n_feat'], centers=2, random_state=params['random_state'])
             c = np.random.multivariate_normal([40, 40], [[20, 1], [1, 30]], size=[200,])
             d = np.random.multivariate_normal([80, 80], [[30, 1], [1, 30]], size=[200,])
             e = np.random.multivariate_normal([0, 100], [[200, 1], [1, 100]], size=[200,])
             X = np.concatenate((X, c, d, e),)
-            y = np.concatenate((y, len(c)*[2], len(c)*[3], len(c)*[4]),)
+            y = np.concatenate((y, len(c) * [2], len(c) * [3], len(c) * [4]),)
             return X, y
         elif data=='uniform':
             X, y = np.random.rand(params['n_samples'], 2), None
@@ -692,3 +861,39 @@ class wget:
         with open(writepath, "wb") as fd:
             for chunk in r.iter_content(chunk_size=1024):
                 fd.write(chunk)
+
+
+def _check_input_data(self, X, logger):
+    if X is None and hasattr(self, 'X'):
+        X = self.X.copy()
+    elif X is None and not hasattr(self, 'X'):
+        logger.error('Input data set is required <return>')
+        X = None
+    return X
+
+
+def _check_import_hnet(logger):
+    try:
+        import hnet
+        status = True
+    except:
+        logger.error('The Library [hnet] is not installed by default. Try: <pip install hnet>')
+        status = False
+    return status
+
+def _check_import_d3blocks(logger):
+    try:
+        import d3blocks
+        status = True
+    except:
+        logger.error('The Library [d3blocks] is not installed by default. Try: <pip install d3blocks>')
+        status = False
+    return status
+
+
+def _check_results(self, logger):
+    status = True
+    if (self.results is None) or (self.results['labx'] is None):
+        logger.info('No results to plot. Tip: try the .fit() function first.')
+        status = False
+    return status

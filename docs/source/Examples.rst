@@ -87,22 +87,22 @@ Cluster Comparison
 
 	# dbindex
 	results = clusteval.dbindex.fit(X)
-	_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], visible=False)
+	_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], showfig=False)
 	axs[1][0].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][0].grid(True)
 
 	# silhouette
 	results = clusteval.silhouette.fit(X)
-	_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], visible=False)
+	_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], showfig=False)
 	axs[1][1].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][1].grid(True)
 
 	# derivative
 	results = clusteval.derivative.fit(X)
-	_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], visible=False)
+	_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], showfig=False)
 	axs[1][2].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][2].grid(True)
 
 	# dbscan
 	results = clusteval.dbscan.fit(X)
-	_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], visible=False)
+	_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], showfig=False)
 	axs[1][3].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
 
 	plt.show()
@@ -496,22 +496,22 @@ A comparison of all four methods when using **kemans** is as shown underneath. T
 
 	# dbindex
 	results = clusteval.dbindex.fit(X)
-	_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], visible=False)
+	_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], showfig=False)
 	axs[1][0].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][0].grid(True)
 
 	# silhouette
 	results = clusteval.silhouette.fit(X)
-	_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], visible=False)
+	_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], showfig=False)
 	axs[1][1].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][1].grid(True)
 
 	# derivative
 	results = clusteval.derivative.fit(X)
-	_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], visible=False)
+	_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], showfig=False)
 	axs[1][2].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][2].grid(True)
 
 	# dbscan
 	results = clusteval.dbscan.fit(X)
-	_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], visible=False)
+	_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], showfig=False)
 	axs[1][3].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
 
 	plt.show()

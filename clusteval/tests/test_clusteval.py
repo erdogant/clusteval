@@ -10,56 +10,53 @@ import matplotlib.pyplot as plt
 class TestCLUSTEVAL(unittest.TestCase):
 
     def test_different_X():
+        ce = clusteval()
+        
         # Generate random data
-        n_samples = 1000
-        X1, y1 = datasets.make_circles(n_samples=n_samples, factor=0.5, noise=0.05)
-        X2, y2 = datasets.make_moons(n_samples=n_samples, noise=0.05)
-        X3, y3 = make_blobs(n_samples=200, n_features=2, centers=2, random_state=1)
+        X1, y1 = ce.import_example(data='circles')
+        X2, y2 = ce.import_example(data='moons')
+        X3, y3 = ce.import_example(data='anisotropic')
+        X4, y4 = ce.import_example(data='densities')
+        X5, y5 = ce.import_example(data='blobs', params={'random_state': 1})
+        X6, y6 = ce.import_example(data='globular')
+        X7, y7 = ce.import_example(data='uniform')
 
-        c = np.random.multivariate_normal([40, 40], [[20, 1], [1, 30]], size=[200,])
-        d = np.random.multivariate_normal([80, 80], [[30, 1], [1, 30]], size=[200,])
-        e = np.random.multivariate_normal([0, 100], [[200, 1], [1, 100]], size=[200,])
-        X3 = np.concatenate((X3, c, d, e), )
-        y3 = np.concatenate((y3, len(c) * [2], len(c) * [3], len(c) * [4]), )
-
-        X4, y4 = make_blobs(n_samples=n_samples, centers=4, n_features=4, cluster_std=0.5)
-        X5, y5 = np.random.rand(n_samples, 2), None
-
-        # scatterd(X1[:,0], X1[:,1],labels=y1, figsize=(15, 10))
-        # scatterd(X2[:,0], X2[:,1],labels=y2, figsize=(15, 10))
-        # scatterd(X3[:,0], X3[:,1],labels=y3, figsize=(15, 10))
-        # scatterd(X4[:,0], X4[:,1],labels=y4, figsize=(15, 10))
-        # scatterd(X5[:,0], X5[:,1],labels=y5, figsize=(15, 10))
-
-        datas = [X1, X2, X3, X4, X5]
-        methods = [['kmeans'], ['dbscan'], ['agglomerative', 'single'], ['agglomerative', 'complete'], ['agglomerative', 'average'], ['agglomerative', 'ward']]
+        datas = [X1, X2, X3, X5, X4, X6, X7]
+        ys = [y1, y2, y3, y5, y4, y6, y7]
+        titles = ['Noisy Circles', 'Noisy Moons', 'Anisotropic', 'Blobs', 'Different Densities', 'Globular', 'No Structure']
+        fig, axs = plt.subplots(1, 7, figsize=(60, 8), dpi=100)
+        for i, data in enumerate(zip(datas, ys)):
+            axs[i].scatter(data[0][:, 0], data[0][:, 1], c=data[1])
+            axs[i].set_title(titles[i], fontsize=33)
+            axs[i].set_xticks([])
+            axs[i].set_yticks([])
+            axs[i].set_xticklabels([])
+            axs[i].set_yticklabels([])
+        
+        methods = [['kmeans'], ['dbscan'], ['agglomerative', 'single'], ['agglomerative', 'complete'], ['agglomerative', 'ward']]
         evaluations = ['silhouette', 'dbindex', 'derivative']
-
-        for k, method in enumerate(methods):
-            plt.figure()
-            fig, axs = plt.subplots(len(datas), len(evaluations), figsize=(25, 22))
-            fig.suptitle(method)
-            plt.figure()
-            fig2, axs2 = plt.subplots(len(datas), len(evaluations), figsize=(25, 22))
-            fig2.suptitle(method)
+        font_properties = {'size_x_axis': 18, 'size_y_axis': 18, 'size_title': 26}
+        
+        for k, evaluate in enumerate(evaluations):
+            fig, axs = plt.subplots(len(datas), len(methods), figsize=(60, 60), dpi=75)
+            fig.suptitle(evaluate.title(), fontsize=36)
+            fig2, axs2 = plt.subplots(len(datas), len(methods), figsize=(60, 60), dpi=75)
+            fig2.suptitle(evaluate.title(), fontsize=36)
+        
+            # Run over data
             for j, X in enumerate(datas):
-                for i, evaluate in enumerate(evaluations):
+                for i, method in enumerate(methods):
                     linkage = 'ward' if len(method)==1 else method[1]
                     ce = clusteval(evaluate=evaluate, cluster=method[0], metric='euclidean', linkage=linkage, max_clust=10)
                     results = ce.fit(X)
-                    if results is not None:
-                        # ce.plot()
-                        # ce.scatter(X)
-                        # ce.dendrogram()
-                        ce.plot(title='', ax=axs[j][i], showfig=False)
+                    if (results is not None):
+                        ce.plot(title='', ax=axs[j][i], showfig=False, xlabel='Nr. Clusters', ylabel='', font_properties=font_properties)
                         axs2[j][i].scatter(X[:, 0], X[:, 1], c=results['labx'])
                         axs2[j][i].grid(True)
                         if j==0:
-                            axs[j][i].set_title(evaluate)
-                            axs2[j][i].set_title(evaluate)
-                        if i==0:
-                            axs[j][i].set_ylabel(method)
-                            axs2[j][i].set_ylabel(method)
+                            axs[j][i].set_title(' '.join(method).title(), fontsize=42)
+                            axs2[j][i].set_title(' '.join(method).title(), fontsize=42)
+
 
     def test_import_example(self):
         cl = clusteval()
@@ -70,8 +67,8 @@ class TestCLUSTEVAL(unittest.TestCase):
             assert df.shape==size
 
     def test_fit(self):
-        X, y_true = make_blobs(n_samples=500, centers=6, n_features=10, random_state=1)
-        # X, y_true = make_blobs(n_samples=50, centers=[[1, 1], [-1, -1], [1, -1]], cluster_std=0.4,random_state=0)
+        ce = clusteval()
+        X, y_true = ce.import_example(data='blobs', params={'random_state': 1})
 
         # Set all parameters to be evaluated
         clusters = ['agglomerative', 'kmeans', 'dbscan']
@@ -119,7 +116,7 @@ def parameter_gridtest(X, y_true, clusters, evaluates, metrics, linkages, min_cl
                                 # assert ce.scatter(X)
                                 # assert ce.dendrogram()
 
-                                if (ce.results['labx'] is not None) and (linkage!='single') and (min_clust < len(np.unique(y_true))) and (max_clust > len(np.unique(y_true))) and (metric=='euclidean'):
+                                if (ce.results is not None) and (ce.results['labx'] is not None) and (linkage!='single') and (min_clust < len(np.unique(y_true))) and (max_clust > len(np.unique(y_true))) and (metric=='euclidean'):
                                     print(len(np.unique(results['labx'])))
                                     print(len(np.unique(y_true)))
                                     assert len(np.unique(results['labx']))==len(np.unique(y_true))

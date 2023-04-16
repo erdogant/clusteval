@@ -16,7 +16,7 @@ from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
-from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties
+from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties, compute_embedding
 logger = init_logger()
 
 # %% Main
@@ -49,7 +49,7 @@ def fit(X,
     max_clust : int, (default: 25)
         Number of clusters that is evaluated smaller or equals to max_clust.
     savemem : bool, (default: False)
-        Save memmory when working with large datasets. Note that htis option only in case of KMeans.
+        Save memmory when working with large datasets. Note that this option only works in case of KMeans.
     Z : Object, (default: None).
         This will speed-up computation if you readily have Z. e.g., Z=linkage(X, method='ward', metric='euclidean').
 
@@ -170,10 +170,13 @@ def fit(X,
             clustlabx = [0]
 
     # Store results
+    sillclust=sillclust.astype(int)
+    clustcutt=clustcutt.astype(int)
     results = {}
     results['evaluate']='silhouette'
-    results['score'] = pd.DataFrame(np.array([sillclust, silscores]).T, columns=['clusters', 'score'])
+    results['score'] = pd.DataFrame(np.array([clustcutt, sillclust, silscores]).T, columns=['cluster_threshold', 'clusters', 'score'])
     results['score']['clusters'] = results['score']['clusters'].astype(int)
+    results['score']['cluster_threshold'] = results['score']['cluster_threshold'].astype(int)
     results['labx'] = clustlabx
     results['fig'] = {}
     results['fig']['silscores'] = silscores
@@ -207,9 +210,12 @@ def plot(results, title='Silhouette score', xlabel='Nr. Clusters', ylabel='Score
     idx = np.argmax(results['fig']['silscores'])
 
     # Make figure
-    if ax is None: fig, ax = plt.subplots(figsize=figsize, dpi=100)
+    if ax is None:
+        fig, ax = plt.subplots(figsize=figsize, dpi=100)
+
     # Plot
-    ax.plot(results['fig']['sillclust'], results['fig']['silscores'], color='k')
+    # ax.plot(results['fig']['sillclust'], results['fig']['silscores'], color='k')
+    ax.plot(results['fig']['clustcutt'], results['fig']['silscores'], color='k')
     # Plot optimal cut
     ax.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r', linestyle="--")
     # Set fontsizes
@@ -217,10 +223,12 @@ def plot(results, title='Silhouette score', xlabel='Nr. Clusters', ylabel='Score
     ax.tick_params(axis='y', labelsize=font_properties['size_y_axis'])
     # Set labels
     ax.set_xticks(results['fig']['clustcutt'])
+    ax.set_xticklabels(results['fig']['sillclust'])
     ax.set_xlabel(xlabel, fontsize=font_properties['size_x_axis'])
     ax.set_ylabel(ylabel, fontsize=font_properties['size_y_axis'])
     ax.set_title(title, fontsize=font_properties['size_title'])
     ax.grid(color='grey', linestyle='--', linewidth=0.2)
+
     if showfig:
         plt.show()
     # Return
@@ -228,7 +236,7 @@ def plot(results, title='Silhouette score', xlabel='Nr. Clusters', ylabel='Score
 
 
 # %% Scatter data
-def scatter(y, X=None, dot_size=50, jitter=None, cmap='tab20c', figsize=(15, 8), font_properties={'size_title': 14, 'size_x_axis': 14, 'size_y_axis': 14}, savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, showfig=True):
+def scatter(y, X=None, dot_size=50, jitter=None, embedding=None, cmap='tab20c', figsize=(15, 8), font_properties={'size_title': 14, 'size_x_axis': 14, 'size_y_axis': 14}, savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'}, showfig=True):
     """Make scatter for the cluster labels with the samples.
 
     Parameters
@@ -241,6 +249,10 @@ def scatter(y, X=None, dot_size=50, jitter=None, cmap='tab20c', figsize=(15, 8),
         Size of the dot in the scatterplot
     jitter : float, default: None
         Add jitter to data points as random normal data. Values of 0.01 is usually good for one-hot data seperation.
+    embedding : str (default: None)
+        In case high dimensional data, a embedding with t-SNE can be performed.
+        * None
+        * 'tsne'
     savefig : dict.
         https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
         {'dpi':'figure',
@@ -266,9 +278,17 @@ def scatter(y, X=None, dot_size=50, jitter=None, cmap='tab20c', figsize=(15, 8),
         logger.warning('Input data X is required for the scatterplot.')
         return None
 
+    # Compute embedding
+    X = compute_embedding(X, embedding, logger)
+
+    if X.shape[1]>2:
+        logger.info('Scatterplot is performed on the first two dimensions of input data X.')
+        X = X[:, :2]
+
     # Extract label from dict
     if isinstance(y, dict):
         y = y.get('labx', None)
+
     # Check y
     if (y is None) or (len(np.unique(y))==1):
         logger.error('No valid labels provided.')
@@ -276,8 +296,7 @@ def scatter(y, X=None, dot_size=50, jitter=None, cmap='tab20c', figsize=(15, 8),
 
     # Add jitter
     if jitter is not None:
-        X[:, 0] = X[:, 0] + np.random.normal(0, jitter, size=X.shape[0])
-        X[:, 1] = X[:, 1] + np.random.normal(0, jitter, size=X.shape[0])
+        X = X + np.random.normal(0, jitter, size=X.shape)
 
     # Plot silhouette samples plot
     n_clusters = len(set(y)) - (1 if -1 in y else 0)
@@ -314,6 +333,7 @@ def scatter(y, X=None, dot_size=50, jitter=None, cmap='tab20c', figsize=(15, 8),
         y_lower = y_upper + 10  # 10 for the 0 samples
         # Scatter
         ax2.scatter(X[Iloc, 0], X[Iloc, 1], marker='.', s=dot_size, lw=0, alpha=0.8, c=colors[label], edgecolor='k')
+        ax2.text(X[Iloc, 0].mean(), X[Iloc, 1].mean(), label, c='#000000')
 
     # Set ax properties
     ax1.set_title("Sample-wise silhouette scores across the clusters", fontsize=font_properties['size_title'])

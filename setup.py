@@ -13,7 +13,7 @@ else:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 setuptools.setup(
-     install_requires=['pypickle','matplotlib','numpy','pandas','tqdm','seaborn','scikit-learn', 'colourmap'],
+     install_requires=['scatterd', 'pypickle','matplotlib','numpy','pandas','tqdm','seaborn','scikit-learn', 'colourmap'],
      python_requires='>=3',
      name='clusteval',
      version=new_version,

@@ -94,7 +94,7 @@ def fit(X, eps=None, min_samples=0.01, metric='euclidean', norm=False, n_jobs=-1
     if Param['eps'] is None:
         idx = None
         labx = np.zeros(X.shape[0])
-        logger.info('Gridsearch across epsilon..')
+        logger.info('Gridsearch across Epsilon.')
         # Optimize
         eps, sillclust, silscores, silllabx = _optimize_eps(X, eps, Param, verbose=verbose)
         # Store results
@@ -191,7 +191,6 @@ def plot(results, title='DBSCAN', title2='', xlabel='Epsilon', ylabel='Score', f
     ax.plot(results['fig']['eps'], results['fig']['silscores'], color='k')
     ax.set_xlabel('Epsilon', fontsize=font_properties['size_x_axis'])
     ax.set_ylabel(ylabel, fontsize=font_properties['size_y_axis'])
-    # ax.set_title(title, fontsize=font_properties['size_title'])
     ax.grid(color='grey', linestyle='--', linewidth=0.2)
     ax.tick_params(axis='x', labelsize=font_properties['size_x_axis'])
     ax.tick_params(axis='y', labelsize=font_properties['size_y_axis'])

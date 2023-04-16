@@ -7,3 +7,4 @@ hdbscan
 scikit-learn
 pypickle
 colourmap
+scatterd

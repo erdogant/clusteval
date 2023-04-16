@@ -9,6 +9,15 @@ console.setFormatter(formatter)
 logger.addHandler(console)
 logger = logging.getLogger(__name__)
 
+
+# %%
+def compute_embedding(X, embedding, logger):
+    if embedding=='tsne':
+        logger.info('Compute t-SNE embedding.')
+        from sklearn.manifold import TSNE
+        X = TSNE(n_components=2, init='random').fit_transform(X)
+    return X
+
 # %%
 def set_font_properties(font_properties):
     return {**{'size_title': 20, 'size_x_axis': 16, 'size_y_axis': 16}, **font_properties}
