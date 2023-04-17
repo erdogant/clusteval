@@ -1,7 +1,10 @@
 # EXAMPLE
+# import sys
+# sys.path.insert(1, 'D:/REPOS/clusteval/clusteval/')
 from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
 from clusteval import clusteval
+
 
 # import clusteval
 # print(clusteval.__version__)
@@ -17,24 +20,27 @@ df = ce.import_example(url=url)
 # Add column names
 df.columns=['age','workclass','fnlwgt','education','education-num','marital-status','occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country','earnings']
 # Set the following columns as floating type
-cols_as_float = ['age','hours-per-week','capital-loss','capital-gain', 'fnlwgt']
+df.drop(labels=['fnlwgt', 'marital-status', 'education-num'], axis=1, inplace=True)
+cols_as_float = ['age','hours-per-week','capital-loss','capital-gain']
 df[cols_as_float]=df[cols_as_float].astype(float)
-dfhot = df2onehot(df, excl_background=['0.0', 'None'], verbose=4)['onehot']
+dfhot = df2onehot(df, hot_only=True, excl_background=['0.0', 'None', '?', 'False'], perc_min_num=0.8, remove_mutual_exclusive=True, verbose=4)['onehot']
 
 ce = clusteval(cluster='agglomerative', metric='hamming', linkage='complete', min_clust=7, verbose='info')
+ce = clusteval(cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, verbose='info')
+
 ce.fit(dfhot);
 ce.plot()
+ce.plot_silhouette(embedding='tsne')
 ce.scatter(jitter=0.01)
+
+ce.enrichment(df)
+ce.scatter(embedding='tsne', fontcolor='k')
 
 from pca import pca
 model = pca()
 xycoord = model.fit_transform(dfhot)['PC'].values
 ce.scatter(xycoord, jitter=0.05)
 
-from sklearn.manifold import TSNE
-xycoord = TSNE(n_components=2, init='random').fit_transform(dfhot)
-ce.scatter(xycoord)
-ce.enrichment()
 
 # %% Enrichment analysis
 
@@ -48,7 +54,7 @@ df.drop(labels=['Survived', 'Name', 'Age', 'PassengerId', 'Ticket', 'Fare', 'Cab
 dfhot = df2onehot(df, excl_background=['0.0', 'None'], verbose=4)['onehot']
 X = dfhot.values
 
-ce = clusteval(cluster='agglomerative', metric='hamming', linkage='complete', min_clust=7, verbose='info')
+ce = clusteval(evaluate='dbindex', cluster='agglomerative', metric='hamming', linkage='complete', min_clust=7, verbose='info')
 # ce = clusteval(cluster='agglomerative', linkage='complete', min_clust=7, max_clust=40, verbose='info')
 # ce = clusteval(cluster='dbscan', linkage='complete', min_clust=7, max_clust=40, verbose='info')
 # ce = clusteval(cluster='dbscan', metric='hamming', linkage='complete', min_clust=7, verbose='info')
@@ -57,7 +63,7 @@ ce.plot()
 ce.scatter()
 ce.scatter(embedding='tsne')
 ce.enrichment(df)
-ce.scatter(embedding='tsne')
+ce.scatter(embedding='tsne', fontcolor='k')
 
 from pca import pca
 model = pca()
@@ -229,7 +235,6 @@ df = ce.import_example(data='retail')
 df.drop(labels=['CustomerID', 'InvoiceNo', 'StockCode', 'Country', 'InvoiceDate', 'UnitPrice'], axis=1, inplace=True)
 X = df2onehot(df, excl_background=['0.0', 'NaN', 'nan'], verbose=4)['onehot'].values
 
-
 df = ce.import_example(data='titanic')
 df.drop(labels=['Name', 'Age', 'PassengerId', 'Ticket', 'Fare', 'Cabin'], axis=1, inplace=True)
 X = df2onehot(df, excl_background=['0.0', 'NaN', 'nan'], verbose=4)['onehot'].values
@@ -237,11 +242,12 @@ X = df2onehot(df, excl_background=['0.0', 'NaN', 'nan'], verbose=4)['onehot'].va
 from clusteval import clusteval
 ce = clusteval(cluster='agglomerative', metric='hamming', linkage='complete', min_clust=7, verbose=3)
 ce = clusteval(cluster='agglomerative', metric='euclidean', linkage='complete', min_clust=7, verbose=3)
-# ce = clusteval(cluster='dbscan', metric='hamming', linkage='complete', min_clust=7, verbose=3)
+ce = clusteval(cluster='dbscan', metric='euclidean', linkage='complete', min_clust=7, verbose=3)
 results = ce.fit(X)
 ce.plot()
 ce.scatter(embedding='tsne')
-ce.plot_silhouette(jitter=0.01)
+ce.plot_silhouette(embedding='tsne')
+ce.enrichment(df)
 
 from pca import pca
 model = pca()
@@ -396,7 +402,8 @@ from clusteval import clusteval
 ce = clusteval(cluster='dbscan')
 ce.fit(X)
 ce.plot()
-ce.scatter(X)
+ce.plot_silhouette(embedding='tsne')
+ce.scatter(embedding='tsne')
 ce.dendrogram(labels=corpus)
 
 # %% Generate dataset
@@ -490,6 +497,7 @@ results_dendro = ce.dendrogram(figsize=(15, 8), orientation='top')
 import clusteval
 from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
+
 X, labels_true = make_blobs(n_samples=750, centers=4, n_features=10)
 
 
