@@ -5,7 +5,7 @@ import clusteval.dbindex as dbindex
 import clusteval.silhouette as silhouette
 import clusteval.derivative as derivative
 import clusteval.dbscan as dbscan
-from clusteval.utils import init_logger, set_logger, compute_embedding
+from clusteval.utils import init_logger, set_logger, compute_embedding, normalize_size
 from clusteval.plot_dendrogram import plot_dendrogram
 import pypickle
 import pandas as pd
@@ -160,6 +160,7 @@ class clusteval:
 
         # Store the input data in self
         if not savemem:
+            logger.info('Saving data in memory.')
             self.X = X.copy()
 
         if isinstance(X, pd.DataFrame): X = X.values
@@ -318,7 +319,7 @@ class clusteval:
                 cmap='tab20c',
                 figsize=(25, 15),
                 fontsize=18,
-                fontcolor=[0,0,0],
+                fontcolor=None,
                 savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
                 showfig=True,
                 ):
@@ -388,12 +389,12 @@ class clusteval:
         if X is None: return None
         if isinstance(X, pd.DataFrame): X = X.values
 
-        # Compute embedding
-        X = compute_embedding(X, embedding, logger)
-
         # Defaults
         defaults = {'figsize': (25, 15), 'cmap': 'tab20c', 'z': None, 'c': [0, 0, 0], 'marker': None, 'alpha': None, 'gradient': None, 'density': False, 'norm': False, 'xlabel': 'x-axis', 'ylabel': 'y-axis', 'title': '', 'fontsize': 20, 'fontcolor': None, 'axiscolor': '#dddddd', 'jitter': None}
         params = {**defaults, **{'jitter': jitter, 'cmap': cmap}, 'figsize': figsize, 'fontsize': fontsize, 'fontcolor': fontcolor}
+
+        # Compute embedding
+        X = compute_embedding(self, X, embedding, logger)
 
         if self.results.get('enrichment') is None:
             labels = self.results['labx']
@@ -410,10 +411,12 @@ class clusteval:
                 label = [catname[i] + ' (' + catlab[i] + ')' for i in range(len(catname))]
                 label = '\n'.join(label)
                 # Compute maximum
-                score = np.max(tmpdf['logP'].values * -1)
+                score = np.mean(tmpdf['logP'].values * -1)
                 # Store
                 labels[self.results['labx']==int(y)] = label
                 scores[self.results['labx']==int(y)] = score
+            # Normalize scores
+            scores = normalize_size(scores, minscale=25, maxscale=150)
 
         # Scatter
         fig, ax = scatterd(X[:, 0], X[:, 1], labels=labels, s=scores, legend=legend, **params)
@@ -428,6 +431,7 @@ class clusteval:
         #     d3.scatter(X[:, 0], X[:, 1], jitter=jitter, size=scores/10, tooltip=labels, cmap=cmap, color=self.results['labx'].astype(str))
 
         # Return
+        if embedding: self.results['xycoord'] = X
         return fig, ax
 
     # Plot
@@ -868,6 +872,7 @@ class wget:
 
 def _check_input_data(self, X, logger):
     if X is None and hasattr(self, 'X'):
+        logger.info('Retrieving input data set.')
         X = self.X.copy()
     elif X is None and not hasattr(self, 'X'):
         logger.error('Input data set is required <return>')

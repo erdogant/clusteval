@@ -207,8 +207,8 @@ def plot(results, title='DBSCAN', title2='', xlabel='Epsilon', ylabel='Score', f
     ax2.tick_params(axis='y', labelsize=font_properties['size_y_axis'], labelcolor='b')
     ax2.plot(results['fig']['eps'], results['fig']['sillclust'], color='b')
     ax2.set_ylabel('Nr. Clusters', fontsize=font_properties['size_y_axis'], color='b')
-    title2 = "Gridsearch on Epsilon. Optimal nr. clusters: %d" %(len(np.unique(results['labx'])))
-    ax2.set_title(title2, fontsize=font_properties['size_title'])
+    # title2 = "Gridsearch on Epsilon. Optimal nr. clusters: %d" %(len(np.unique(results['labx'])))
+    ax2.set_title(title, fontsize=font_properties['size_title'])
 
     if showfig:
         plt.show()

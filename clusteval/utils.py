@@ -1,4 +1,7 @@
 import logging
+import numpy as np
+from typing import List, Union, Tuple
+from sklearn.manifold import TSNE
 
 logger = logging.getLogger('')
 for handler in logger.handlers[:]: #get rid of existing old handlers
@@ -10,13 +13,56 @@ logger.addHandler(console)
 logger = logging.getLogger(__name__)
 
 
+# %% Normalize.
+def normalize_size(getsizes, minscale: Union[int, float] = 0.5, maxscale: Union[int, float] = 4, scaler: str = 'zscore'):
+    # Instead of Min-Max scaling, that shrinks any distribution in the [0, 1] interval, scaling the variables to
+    # Z-scores is better. Min-Max Scaling is too sensitive to outlier observations and generates unseen problems,
+    
+    # Set sizes to 0 if not available
+    getsizes[np.isinf(getsizes)]=0
+    getsizes[np.isnan(getsizes)]=0
+
+    # out-of-scale datapoints.
+    if scaler == 'zscore' and len(np.unique(getsizes)) > 3:
+        getsizes = (getsizes.flatten() - np.mean(getsizes)) / np.std(getsizes)
+        getsizes = getsizes + (minscale - np.min(getsizes))
+    elif scaler == 'minmax':
+        try:
+            from sklearn.preprocessing import MinMaxScaler
+        except:
+            raise Exception('sklearn needs to be pip installed first. Try: pip install scikit-learn')
+        # scaling
+        getsizes = MinMaxScaler(feature_range=(minscale, maxscale)).fit_transform(getsizes).flatten()
+    else:
+        getsizes = getsizes.ravel()
+    # Max digits is 4
+    getsizes = np.array(list(map(lambda x: round(x, 4), getsizes)))
+
+    return getsizes
+
+
 # %%
-def compute_embedding(X, embedding, logger):
-    if embedding=='tsne':
-        logger.info('Compute t-SNE embedding.')
-        from sklearn.manifold import TSNE
-        X = TSNE(n_components=2, init='random').fit_transform(X)
+def _compute_embedding(X, logger):
+    logger.info('Compute t-SNE embedding.')
+    perplexity = np.minimum(X.shape[0]-1, 30)
+    X = TSNE(n_components=2, init='random', perplexity=perplexity).fit_transform(X)
     return X
+
+
+# %%
+def compute_embedding(self, X, embedding, logger):
+    if (embedding=='tsne'):
+        if (self.results.get('xycoord') is not None):
+            logger.info('Retrieving previously computed [%s] embedding.' %(embedding))
+            X = self.results['xycoord']
+        else:
+            X = _compute_embedding(X, logger)
+    else:
+        logger.info('Coordinates (x, y) are set based on the first two features.')
+        X = X[:, :2]
+
+    return X
+
 
 # %%
 def set_font_properties(font_properties):
