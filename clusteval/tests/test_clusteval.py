@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 class TestCLUSTEVAL(unittest.TestCase):
 
-    def test_different_X():
+    def test_different_X(self):
         ce = clusteval()
         
         # Generate random data
