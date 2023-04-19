@@ -93,12 +93,12 @@ def parameter_gridtest(X, y_true, clusters, evaluates, metrics, linkages, min_cl
                 for linkage in linkages:
                     for min_clust in min_clusts:
                         for max_clust in max_clusts:
-                            print(cluster)
-                            print(evaluate)
-                            print(metric)
-                            print(linkage)
-                            print(min_clust)
-                            print(max_clust)
+                            # print(cluster)
+                            # print(evaluate)
+                            # print(metric)
+                            # print(linkage)
+                            # print(min_clust)
+                            # print(max_clust)
 
                             # cluster='agglomerative'
                             # evaluate='dbindex'
@@ -109,7 +109,7 @@ def parameter_gridtest(X, y_true, clusters, evaluates, metrics, linkages, min_cl
 
                             try:
                                 status = 'OK'
-                                ce = clusteval(evaluate=evaluate, cluster=cluster, metric=metric, linkage=linkage, min_clust=min_clust, max_clust=max_clust, verbose=3)
+                                ce = clusteval(evaluate=evaluate, cluster=cluster, metric=metric, linkage=linkage, min_clust=min_clust, max_clust=max_clust, verbose=2)
                                 results = ce.fit(X)
                                 # print('Clusters: %s' %(str(np.unique(results['labx']))))
                                 # assert ce.plot()
@@ -117,8 +117,8 @@ def parameter_gridtest(X, y_true, clusters, evaluates, metrics, linkages, min_cl
                                 # assert ce.dendrogram()
 
                                 if (ce.results is not None) and (ce.results['labx'] is not None) and (linkage!='single') and (min_clust < len(np.unique(y_true))) and (max_clust > len(np.unique(y_true))) and (metric=='euclidean'):
-                                    print(len(np.unique(results['labx'])))
-                                    print(len(np.unique(y_true)))
+                                    # print(len(np.unique(results['labx'])))
+                                    # print(len(np.unique(y_true)))
                                     assert len(np.unique(results['labx']))==len(np.unique(y_true))
 
                             except ValueError as err:
