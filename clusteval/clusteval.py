@@ -13,6 +13,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from scipy.cluster.hierarchy import fcluster
+from sklearn.preprocessing import StandardScaler
 from urllib.parse import urlparse
 import requests
 import os
@@ -59,6 +60,8 @@ class clusteval:
         Number of clusters that is evaluated greater or equals to min_clust.
     max_clust : int, (default: 25)
         Number of clusters that is evaluated smaller or equals to max_clust.
+    normalize : bool (default : False)
+        Normalize data, Z-score
     savemem : bool, (default: False)
         Save memmory when working with large datasets. Note that htis option only in case of KMeans.
     jitter : float, default: None
@@ -124,6 +127,7 @@ class clusteval:
         self.min_clust = min_clust
         self.max_clust = max_clust
         self.savemem = savemem
+        self.normalize = normalize
         self.verbose = verbose
         # Set the logger
         set_logger(verbose=verbose)
@@ -157,6 +161,12 @@ class clusteval:
             logger.warning('Cluster evaluation [%s] can not per performed for [%s] <return>' %(self.evaluate, self.cluster))
             self.results = None
             return None
+
+        # normalize data
+        if self.normalize:
+            logger.info('Normalizing input data per feature (zero mean and unit variance)')
+            scaler = StandardScaler(with_mean=True, with_std=True).fit(X)
+            X = scaler.transform(X)
 
         # Store the input data in self
         if not savemem:
