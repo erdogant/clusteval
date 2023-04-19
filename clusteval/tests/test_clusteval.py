@@ -71,8 +71,8 @@ class TestCLUSTEVAL(unittest.TestCase):
         X, y_true = ce.import_example(data='blobs', params={'random_state': 1})
 
         # Set all parameters to be evaluated
-        clusters = ['agglomerative', 'kmeans', 'dbscan']
-        evaluates = ['silhouette', 'dbindex', 'derivative']
+        clusters = ['dbscan', 'agglomerative', 'kmeans']
+        evaluates = ['dbindex', 'derivative', 'silhouette']
         metrics = ['euclidean', 'hamming']
         linkages = ['ward', 'single', 'complete']
         min_clusts = [1, 2, 10]
@@ -116,7 +116,7 @@ def parameter_gridtest(X, y_true, clusters, evaluates, metrics, linkages, min_cl
                                 # assert ce.scatter(X)
                                 # assert ce.dendrogram()
 
-                                if (ce.results is not None) and (ce.results['labx'] is not None) and (linkage!='single') and (min_clust < len(np.unique(y_true))) and (max_clust > len(np.unique(y_true))) and (metric=='euclidean'):
+                                if (results is not None) and (ce.results['labx'] is not None) and (linkage!='single') and (min_clust < len(np.unique(y_true))) and (max_clust > len(np.unique(y_true))) and (metric=='euclidean'):
                                     # print(len(np.unique(results['labx'])))
                                     # print(len(np.unique(y_true)))
                                     assert len(np.unique(results['labx']))==len(np.unique(y_true))
