@@ -140,10 +140,7 @@ def fit(X,
             silscores[i] = silhouette_score(X, labx)
 
     # Convert to array
-    # clustlabx = np.array(clustlabx)
-
-    # Create a summary
-    
+    clustlabx = np.array(clustlabx)
 
     # Store only if agrees to restriction of input clusters number
     I1 = np.isnan(silscores)==False
