@@ -92,10 +92,10 @@ class clusteval:
     >>> ce.plot()
     >>>
     >>> # silhouette plot
-    >>> ce.plot_silhouette(X)
+    >>> ce.plot_silhouette()
     >>>
     >>> # Scatter plot
-    >>> ce.scatter(X)
+    >>> ce.scatter()
     >>>
     >>> # Dendrogram
     >>> ce.dendrogram()
@@ -315,9 +315,6 @@ class clusteval:
         if (savefig['fname'] is not None) and (fig is not None) and (self.cluster!='hdbscan'):
             logger.info('Saving plot: [%s]' %(savefig['fname']))
             fig.savefig(**savefig)
-        
-        # Create Categorical bubble plot
-        
 
         # Return
         return fig, ax

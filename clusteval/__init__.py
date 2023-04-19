@@ -12,7 +12,7 @@ from clusteval.clusteval import (
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.1.6'
+__version__ = '2.2.0'
 
 
 __doc__ = """
