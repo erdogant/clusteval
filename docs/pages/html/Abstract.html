@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="Installation.html" />
-    <link rel="prev" title="clusteval’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Content" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -69,7 +69,8 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="Plots.html">Generate data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Plots.html#plot">Plot</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Plots.html#scatterplot">Scatterplot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#silhouette-plot">Silhouette plot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Plots.html#scatter-plot">Scatter plot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Plots.html#dendrogram">Dendrogram</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
@@ -77,6 +78,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Examples.html">Easy clusters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html#snake-clusters">Snake clusters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Examples.html#different-density-clusters">Different Density Clusters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html#clustering-categorical-data">Clustering Categorical Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Examples.html#detect-the-driving-features">Detect the Driving features</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Save and Load</span></p>
 <ul>
@@ -135,25 +138,23 @@
 <section id="quickstart">
 <h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h1>
 <p>A quick example how to learn a model on a given dataset.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Required library</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_blobs</span>
-
-<span class="c1"># Load library</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
 
-<span class="c1"># Generate random data</span>
-<span class="n">X</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">centers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cluster_std</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># Initialize</span>
+<span class="n">cl</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">()</span>
 
-<span class="c1"># Initialize with default parameters</span>
-<span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">()</span>
+<span class="c1"># Generate random data</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">cl</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;blobs&#39;</span><span class="p">)</span>
 
 <span class="c1"># Fit data X</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
 <span class="c1"># Plot</span>
 <span class="n">ce</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
-<span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-<span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">plot_silhouette</span><span class="p">()</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">()</span>
+<span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">()</span>
 </pre></div>
 </div>
 <figure class="align-default" id="schematic-overview">
@@ -172,7 +173,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="clusteval’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="Content" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="Installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

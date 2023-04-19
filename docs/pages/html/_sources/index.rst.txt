@@ -1,12 +1,14 @@
-clusteval's documentation!
-============================
+.. |figCL| image:: ../figs/logo_large_3.png
+
+.. table::
+   :align: center
+   :width: 100%
+
+   +---------+
+   | |figCL| |
+   +---------+
 
 |python| |pypi| |docs| |stars| |LOC| |downloads_month| |downloads_total| |license| |forks| |open issues| |project status| |medium| |colab| |DOI| |repo-size| |donate|
-
-
-.. _schematic_overview:
-
-.. figure:: ../figs/cluster.png
 
 
 -----------------------------------
@@ -34,7 +36,11 @@ clusteval's documentation!
 
 -----------------------------------
 
+.. _schematic_overview:
 
+.. figure:: ../figs/cluster.png
+
+-----------------------------------
 
 
 Content

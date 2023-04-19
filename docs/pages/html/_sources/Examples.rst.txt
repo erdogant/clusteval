@@ -1,7 +1,7 @@
 Easy clusters
 ################################################
 
-Let's start with finding clusters using a very easy dataset.
+Let's start with finding clusters using an easy dataset.
 
 
 Generate data
@@ -14,17 +14,18 @@ Install requried libraries
 	pip install scatterd
 	pip install sklearn
 
-
-.. code:: python
-
 	# Imports
-	from sklearn.datasets import make_blobs
-	
+	from scatterd import scatterd
+	from clusteval import clusteval
+
+	# Init
+	cl = clusteval()
+
 	# Generate random data
-	X, _ = make_blobs(n_samples=750, centers=4, n_features=2, cluster_std=0.5)
+	X, y = cl.import_example(data='blobs')
 	
 	# Scatter samples
-	scatterd(X[:,0], X[:,1],label=y, figsize=(6,6));
+	scatterd(X[:,0], X[:,1],labels=y)
 
 
 .. |figCX7| image:: ../figs/easy_clusters_no_labels.png
@@ -56,8 +57,9 @@ Cluster Evaluation
 
 	# Plot
 	ce.plot()
+	ce.plot_silhouette()
+	ce.scatter()
 	ce.dendrogram()
-	ce.scatter(X)
 
 
 .. |figCX9| image:: ../figs/easy_clusters_nr_clusters.png
@@ -74,49 +76,6 @@ Cluster Evaluation
    +----------+----------+
 
 
-Cluster Comparison
-*********************
-
-
-.. code:: python
-
-	import clusteval
-
-	plt.figure()
-	fig, axs = plt.subplots(2,4, figsize=(25,10))
-
-	# dbindex
-	results = clusteval.dbindex.fit(X)
-	_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], showfig=False)
-	axs[1][0].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][0].grid(True)
-
-	# silhouette
-	results = clusteval.silhouette.fit(X)
-	_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], showfig=False)
-	axs[1][1].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][1].grid(True)
-
-	# derivative
-	results = clusteval.derivative.fit(X)
-	_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], showfig=False)
-	axs[1][2].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][2].grid(True)
-
-	# dbscan
-	results = clusteval.dbscan.fit(X)
-	_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], showfig=False)
-	axs[1][3].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
-
-	plt.show()
-
-.. |figCX12| image:: ../figs/easy_clusters_comparisons.png
-
-.. table:: 
-   :align: center
-
-   +----------+----------+
-   |       |figCX12|     |
-   +----------+----------+
-
-
 
 Snake clusters
 ################################################################
@@ -128,17 +87,10 @@ The definition of a **cluster** depends on, among others, the **aim**. In this e
 
 	pip install scatterd
 	pip install sklearn
-
-
-.. code:: python
 	
-	# Import some required libraries for this experiment
-	from sklearn.datasets import make_circles
-	from scatterd import scatterd
-
 	# Generate data
-	X,y = make_circles(n_samples=2000, factor=0.3, noise=0.05, random_state=4)
-	scatterd(X[:,0], X[:,1],label=y, figsize=(6,6));
+	X, y = ce.import_example(data='circles')
+	scatterd(X[:,0], X[:,1],labels=y)
 
 
 .. |figCX1| image:: ../figs/circular_cluster_labels.png
@@ -170,6 +122,7 @@ If we aim to determine snake clusters, it is best to use the ``single`` linkage 
 	
 	# Plot
 	ce.plot()
+	ce.plot_silhouette()
 	ce.scatter(X)
 
 
@@ -203,6 +156,7 @@ If the aim is to cluster samples that are in a **snake pattern**, it is best to 
 	
 	# Plot
 	ce.plot()
+	ce.plot_silhouette()
 	ce.scatter(X)
 
 
@@ -233,26 +187,9 @@ Let's generate 5 groups of samples, each with 200 but with different standard de
 
 .. code:: python
 	
-	# Import libraries
-	from sklearn.datasets import make_blobs
-	import matplotlib.pyplot as plt
-	import numpy as np
-	
-	# Create random blobs
-	X, y = make_blobs(n_samples=200, n_features=2, centers=2, random_state=1)
-
-	# Make more blobs with different densities
-	c = np.random.multivariate_normal([40, 40], [[20, 1], [1, 30]], size=[200,])
-	d = np.random.multivariate_normal([80, 80], [[30, 1], [1, 30]], size=[200,])
-	e = np.random.multivariate_normal([0, 100], [[200, 1], [1, 100]], size=[200,])
-
-	# Concatenate the data
-	X = np.concatenate((X, c, d, e),)
-	y = np.concatenate((y, len(c)*[2], len(c)*[3], len(c)*[4]),)
-	
-	plt.figure(figsize=(15,10))
-	plt.scatter(X[:,0], X[:,1])
-	plt.grid(True); plt.xlabel('Feature 1'); plt.ylabel('Feature 2')
+	# Generate data
+	X, y = ce.import_example(data='densities')
+	scatterd(X[:,0], X[:,1],labels=y)
 
 
 .. |figC1| image:: ../figs/random_clusters_density_black.png
@@ -285,6 +222,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 
 	# Make plots
 	ce.plot()
+	ce.plot_silhouette()
 	ce.scatter(X)
 
 
@@ -317,6 +255,7 @@ The silhouette method detects an optimum of 4 clusters. The scatterplot shows th
 
 	# Make plots
 	ce.plot()
+	ce.plot_silhouette()
 	ce.scatter(X)
 
 
@@ -350,7 +289,8 @@ The DBindex method finds 4 cluster scores lowers gradually and stops at 22 clust
 
 	# Make plots
 	ce.plot()
-	ce.scatter(X)
+	ce.plot_silhouette()
+	ce.scatter()
 	ce.dendrogram()
 
 
@@ -380,7 +320,8 @@ Set the ``max_clust=10`` for find the local optimal minima.
 
 	# Make plots
 	ce.plot()
-	ce.scatter(X)
+	ce.plot_silhouette()
+	ce.scatter()
 	ce.dendrogram()
 
 
@@ -427,7 +368,8 @@ The ``eps`` parameter is gridsearched together with a varying number of clusters
 
 	# Make plots
 	ce.plot()
-	ce.scatter(X)
+	ce.plot_silhouette()
+	ce.scatter()
 
 
 .. |figCE7| image:: ../figs/random_dbscan_1.png
@@ -451,9 +393,6 @@ Install the library first because this approach is not installed by default in `
 
 	pip install hdbscan
 
-
-.. code:: python
-
 	# Intialize model
 	ce = clusteval(cluster='hdbscan')
 
@@ -462,7 +401,8 @@ Install the library first because this approach is not installed by default in `
 
 	# Make plots
 	ce.plot()
-	ce.scatter(X)
+	ce.plot_silhouette()
+	ce.scatter()
 
 
 .. |figCE12| image:: ../figs/circular_cluster_hdbscan.png
@@ -481,52 +421,196 @@ Install the library first because this approach is not installed by default in `
 
 
 
-Comparison methods
-**********************
+Cluster Comparison
+*********************
 
 A comparison of all four methods when using **kemans** is as shown underneath. The best approach is ``dbscan`` in case of having various density groups.
 
 .. code:: python
-	
-	import matplotlib.pyplot as plt
+
 	import clusteval
+	from scatterd import scatterd
+	import numpy as np
+
+	X, y = ce.import_example(data='blobs')
+	# X, y = datasets.make_circles(n_samples=n_samples, factor=0.5, noise=0.05)
+
+	plt.figure(figsize=(15,10))
+	plt.grid(True); plt.xlabel('Feature 1'); plt.ylabel('Feature 2')
 
 	plt.figure()
 	fig, axs = plt.subplots(2,4, figsize=(25,10))
+	font_properties={'size_x_axis': 12, 'size_y_axis': 12}
 
 	# dbindex
-	results = clusteval.dbindex.fit(X)
-	_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], showfig=False)
+	results = clusteval.dbindex.fit(X, max_clust=10)
+	_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], showfig=False, font_properties=font_properties)
 	axs[1][0].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][0].grid(True)
 
 	# silhouette
 	results = clusteval.silhouette.fit(X)
-	_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], showfig=False)
+	_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], showfig=False, font_properties=font_properties)
 	axs[1][1].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][1].grid(True)
 
 	# derivative
 	results = clusteval.derivative.fit(X)
-	_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], showfig=False)
+	_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], showfig=False, font_properties=font_properties)
 	axs[1][2].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][2].grid(True)
 
 	# dbscan
 	results = clusteval.dbscan.fit(X)
-	_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], showfig=False)
+	_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], showfig=False, font_properties=font_properties)
 	axs[1][3].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
 
-	plt.show()
+
+.. |figCX12| image:: ../figs/easy_clusters_comparisons.png
+
+.. table:: 
+   :align: center
+
+   +----------+----------+
+   |       |figCX12|     |
+   +----------+----------+
 
 
-.. |figCE9| image:: ../figs/random_comparison_methods.png
 
-.. table:: Comparison of all methods.
+Clustering Categorical Data
+################################################
+
+Let's load an example data set of online shoppers' intentions and perform the clustering and evaluation step. This data set contains in total of 12330 samples with 18 features. I decided to use a mixed dataset which allows me to also demonstrate some of the required pre-processing steps. Thus, the first step is to create homogeneous data sets with units that are comparable. A common manner to work with mixed data sets is by discretizing and creating a one-hot matrix. I will use the df2onehot library, with the following pre-processing steps to discretize:
+
+* Categorical values 0.0, None, ? and False are removed. 
+* One-hot features with less than 50 positive values are removed.
+* For features that only had 2 categories, only one is kept.
+* Features with 80% unique values or more are considered to be numeric.
+
+The pre-processing step converted the data set into a one-hot matrix containing the 12330 samples with 121 features. For clustering, we will be using agglomerative clustering with hamming distance and complete linkage. After running clusteval on the data set, it returns 9 clusters.
+
+
+.. code:: python
+
+	# Intall libraries
+	pip install df2onehot
+
+	# Import libraries
+	from clusteval import clusteval
+	from df2onehot import df2onehot
+
+	# Load data from UCI
+	url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00468/online_shoppers_intention.csv'
+
+	# Initialize clusteval
+	ce = clusteval()
+	# Import data from url
+	df = ce.import_example(url=url)
+
+	# Preprocessing
+	cols_as_float = ['ProductRelated', 'Administrative']
+	df[cols_as_float]=df[cols_as_float].astype(float)
+	dfhot = df2onehot(df, excl_background=['0.0', 'None', '?', 'False'], y_min=50, perc_min_num=0.8, remove_mutual_exclusive=True, verbose=4)['onehot']
+
+	# Initialize using the specific parameters
+	ce = clusteval(evaluate='silhouette',
+		       cluster='agglomerative',
+		       metric='hamming',
+		       linkage='complete',
+		       min_clust=2,
+		       verbose='info')
+
+	# Clustering and evaluation
+	results = ce.fit(dfhot)
+
+	# [clusteval] >INFO> Saving data in memory.
+	# [clusteval] >INFO> Fit with method=[agglomerative], metric=[hamming], linkage=[complete]
+	# [clusteval] >INFO> Evaluate using silhouette.
+	# [clusteval] >INFO: 100%|██████████| 23/23 [00:28<00:00,  1.23s/it]
+	# [clusteval] >INFO> Compute dendrogram threshold.
+	# [clusteval] >INFO> Optimal number clusters detected: [9].
+	# [clusteval] >INFO> Fin.
+
+
+Because the data contains 121 dimensions (the features), we can not directly visually inspect the clusters in a scatterplot. However, we can perform an embedding and then visually inspect the data using a scatterplot as shown in the code section below.
+
+.. code:: python
+
+	# Plot the Silhouette and show the scatterplot using tSNE
+	ce.plot_silhouette(embedding='tsne')
+
+
+.. |figM1| image:: ../figs/fig_cat_1.png
+
+.. table:: 
    :align: center
 
    +----------+
-   | |figCE9| |
+   | |figM1|  |
    +----------+
 
 
+The results in Figure 1 (right panel) depict the scatterplot after a t-SNE embedding, where the samples are colored on the cluster labels. In the left panel is shown the Silhouette plot where we can visually assess the quality of the clustering results, such as the homogeneity, separation of clusters, and the optimal number of clusters that are detected using the clustering algorithm.
+
+Moreover, the Silhouette score ranges from -1 to 1 (x-axis) for which a score close to 1 indicates that data points within a cluster are very similar to each other and dissimilar to points in other clusters. Clusters 2, 3, and 5 imply to be well-separated clusters. A Silhouette score close to 0 indicates overlapping clusters or that the data points are equally similar to their own cluster and neighboring clusters. A score close to -1 suggests that data points are more similar to points in neighboring clusters than to their own cluster, indicating poor clustering.
+
+The width of the bars represents the density or size of each cluster. Wider bars indicate larger clusters with more data points, while narrower bars indicate smaller clusters with fewer data points. The dashed red line represents the average silhouette score for all data points. It serves as a reference to assess the overall quality of clustering. Clusters with average silhouette scores above the dashed line are considered well-separated, while clusters with scores below the dashed line may indicate poor clustering. In general, a good clustering should have silhouette scores close to 1, indicating well-separated clusters. However, in our use case, we clustered our data in high dimensions and now evaluate the clustering results after a t-SNE embedding in the low 2-dimensional space. 
+
+Instead, we can also do the embedding first and then cluster the data on the low-dimensional space (see code section below). Now we will use the Euclidean distance metric because our input data is not one-hot anymore but are the coordinates from the t-SNE mapping. After fitting, we detect an optimal number of 27 clusters, which is a lot more than in our previous results. We can also see that the cluster evaluation scores in Figure 2 appear to be turbulent. This has to do with the structure of the data and describes that at certain threshold cuts, optimal clusters can be formed.
+
+
+.. code:: python
+
+	# Initialize library
+	from sklearn.manifold import TSNE
+	xycoord = TSNE(n_components=2, init='random', perplexity=30).fit_transform(dfhot.values)
+
+	# Initialize clusteval
+	ce = clusteval(cluster='agglomerative', metric='euclidean', linkage='complete', min_clust=5, max_clust=30)
+
+	# Clustering and evaluation
+	results = ce.fit(xycoord)
+
+	# Make plots
+	ce.plot()
+	ce.plot_silhouette()
+
+
+This Silhouette plot does show  better results than our previous results as the score of the clusters is higher, indicating well-separated clusters. It is great to have these clustering results but what does it mean?
+
+.. |figM2| image:: ../figs/fig_cat_2.png
+.. |figM3| image:: ../figs/fig_cat_3.png
+
+.. table:: 
+   :align: center
+
+   +----------+
+   | |figM2|  |
+   +----------+
+   | |figM3|  |
+   +----------+
+
+
+Detect the Driving features
+################################################
+
+This example is the next step from the example above this section.
+To detect the driving features behind the cluster labels, we can compute the statistical association between the features and the detected cluster labels. This will point out whether certain values of one variable tend to co-occur with one or more cluster labels. Various statistical measures of association, such as the Chi-square test, Fisher exact test, and Hypergeometric test, are commonly used when dealing with ordinal or nominal variables. I will use the Hypergeometric test to test for the association between categorical variables and the cluster labels, and the Mann-Whitney U test for the association between continuous variables and the cluster labels. These tests are readily implemented in HNET, which is in turn utilized in the clusteval library. With the enrichment functionality, we can now easily test for statistically significant associations. When we then again use the scatter functionality, the results are shown too.
+
+.. code:: python
+
+	# Enrichment between the detected cluster labels and the input dataframe
+	enrichment_results = ce.enrichment(df)
+
+	# Make scatterplot and plot the top n_feat enriched features.
+	ce.scatter(n_feat=2)
+
+
+.. |figM4| image:: ../figs/fig_cat_4.png
+
+.. table:: 
+   :align: center
+
+   +----------+
+   | |figM4|  |
+   +----------+
 
 
 .. include:: add_bottom.add

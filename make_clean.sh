@@ -12,6 +12,8 @@ rm -rf tests/__pycache__
 rm -rf clusteval/data/*.zip
 rm -rf clusteval/data/*.data
 rm -rf clusteval/data/*.names
+rm -rf clusteval/data/*.csv
+rm -rf clusteval/data/*.txt
 rm -rf *.js
 rm -rf *.html
 rm -rf *.css

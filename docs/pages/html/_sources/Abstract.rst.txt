@@ -20,25 +20,23 @@ A quick example how to learn a model on a given dataset.
 
 .. code:: python
 
-	# Required library
-	from sklearn.datasets import make_blobs
-
-	# Load library
+	# Import library
 	from clusteval import clusteval
 
-	# Generate random data
-	X, _ = make_blobs(n_samples=500, centers=2, n_features=2, cluster_std=1)
+	# Initialize
+	cl = clusteval()
 
-	# Initialize with default parameters
-	ce = clusteval()
+	# Generate random data
+	X, y = cl.import_example(data='blobs')
 
 	# Fit data X
 	results = ce.fit(X)
 	
 	# Plot
 	ce.plot()
-	ce.scatter(X)
-	ce.dendrogram(X)
+	ce.plot_silhouette()
+	ce.scatter()
+	ce.dendrogram()
 
 
 

@@ -13,11 +13,15 @@ Generate Data.
 .. code:: python
 
 	# Imports
-	from sklearn.datasets import make_blobs
-	
+	from scatterd import scatterd
+	from clusteval import clusteval
+
+	# Init
+	cl = clusteval()
+
 	# Generate random data
-	X, _ = make_blobs(n_samples=750, centers=6, n_features=2, cluster_std=1)
-	
+	X, y = cl.import_example(data='blobs')
+
 	# Scatter samples
 	scatterd(X[:,0], X[:,1], figsize=(15, 10));
 
@@ -45,13 +49,10 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 
 	# Silhouette cluster evaluation.
 	ce = clusteval(evaluate='silhouette')
-
 	# In case of using dbindex, it is best to clip the maximum number of clusters to avoid finding local minima.
 	ce = clusteval(evaluate='dbindex', max_clust=10)
-
 	# Derivative method.
 	ce = clusteval(evaluate='derivative')
-
 	# DBscan method.
 	ce = clusteval(cluster='dbscan')
 
@@ -60,12 +61,6 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 
 	# Plot
 	ce.plot()
-
-	# Plot
-	ce.scatter(X)
-
-	# Plot Silhouette
-	ce.plot_silhouette()
 
 
 .. |figP2| image:: ../figs/medium_clusters_sil.png
@@ -83,15 +78,15 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
    | |figP4|  | |figP5|  |
    +----------+----------+
 
-Scatterplot
+Silhouette plot
 ################################################
 
 The aim of the scatterplot is to scatter the samples with the **silhouette** coefficient values. Note that for the scatterplot, only the first two features can be used. 
 
 .. code:: python
 
-	# Plot
-	ce.scatter(X)
+	# Plot Silhouette
+	ce.plot_silhouette()
 
 
 .. |figP6| image:: ../figs/medium_clusters_sil_scatter.png
@@ -102,6 +97,28 @@ The aim of the scatterplot is to scatter the samples with the **silhouette** coe
 
    +----------+
    | |figP6|  |
+   +----------+
+
+
+Scatter plot
+################################################
+
+The aim of the scatterplot is to scatter the samples with the **silhouette** coefficient values. Note that for the scatterplot, only the first two features can be used. 
+
+.. code:: python
+
+	# Scatterplot
+	ce.scatter()
+
+
+.. |figP7| image:: ../figs/medium_clusters_scatter.png
+
+
+.. table:: Scatterplot
+   :align: center
+
+   +----------+
+   | |figP7|  |
    +----------+
 
 
@@ -126,6 +143,7 @@ To furter investigate the clustering results, a dendrogram can be created.
    +----------+
    | |figP10| |
    +----------+
+
 
 Change the cut-off threshold
 *****************************
