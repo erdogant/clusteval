@@ -16,7 +16,7 @@ from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
-from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties, _compute_embedding
+from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties, compute_embedding
 logger = init_logger()
 
 # %% Main
@@ -140,7 +140,10 @@ def fit(X,
             silscores[i] = silhouette_score(X, labx)
 
     # Convert to array
-    clustlabx = np.array(clustlabx)
+    # clustlabx = np.array(clustlabx)
+
+    # Create a summary
+    
 
     # Store only if agrees to restriction of input clusters number
     I1 = np.isnan(silscores)==False
@@ -278,9 +281,8 @@ def scatter(y, X=None, dot_size=50, jitter=None, embedding=None, cmap='tab20c', 
         logger.warning('Input data X is required for the scatterplot.')
         return None
 
-    # Compute embedding
-    if (embedding=='tsne'):
-        X = _compute_embedding(X, logger)
+    # # Compute embedding
+    # X = compute_embedding(y, X, embedding, logger)
 
     if X.shape[1]>2:
         logger.info('Scatterplot is performed on the first two dimensions of input data X.')

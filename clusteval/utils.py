@@ -52,7 +52,7 @@ def _compute_embedding(X, logger):
 # %%
 def compute_embedding(self, X, embedding, logger):
     if (embedding=='tsne'):
-        if (self.results.get('xycoord') is not None):
+        if hasattr(self, 'results') and (self.results.get('xycoord') is not None):
             logger.info('Retrieving previously computed [%s] embedding.' %(embedding))
             X = self.results['xycoord']
         else:
