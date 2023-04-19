@@ -5,10 +5,71 @@ from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
 from clusteval import clusteval
 
-
 # import clusteval
 # print(clusteval.__version__)
 # print(dir(clusteval))
+
+# %%
+from df2onehot import df2onehot
+from clusteval import clusteval
+
+# url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv'
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00468/online_shoppers_intention.csv'
+ce = clusteval()
+df = ce.import_example(url=url)
+# df = ce.import_example(data='waterpump')
+
+# Set the following columns as floating type
+# df.drop(labels=['id', 'date_recorded'], axis=1, inplace=True)
+# cols_as_float = ['ProductRelated', 'Administrative']
+# df[cols_as_float]=df[cols_as_float].astype(float)
+dfhot = df2onehot(df,
+                  excl_background=['0.0', 'None', '?', 'False'],
+                  y_min=50,
+                  perc_min_num=0.8,
+                  remove_mutual_exclusive=True,
+                  verbose=4)['onehot']
+
+ce = clusteval(evaluate='silhouette',
+               cluster='agglomerative',
+               metric='hamming',
+               linkage='complete',
+               min_clust=2,
+               normalize=False,
+               verbose='info')
+# ce = clusteval(cluster='dbscan', metric='hamming', linkage='complete', min_clust=2, verbose='info')
+
+ce.fit(dfhot)
+ce.plot()
+ce.plot_silhouette()
+ce.plot_silhouette(embedding='tsne')
+ce.scatter(embedding='tsne', fontsize=26)
+ce.dendrogram()
+
+ce.enrichment(df)
+ce.scatter(embedding='tsne', n_feat=3, fontcolor=None, fontsize=12)
+ce.scatter(embedding='tsne', n_feat=3, fontcolor='k', fontsize=12)
+# scatterd(ce.results['xycoord'][:,0], ce.results['xycoord'][:,1], labels=df['Browser'], fontcolor='k', cmap='tab20c')
+
+
+from sklearn.manifold import TSNE
+xycoord = TSNE(n_components=2, init='random', perplexity=30).fit_transform(dfhot.values)
+# ce = clusteval(cluster='dbscan', min_clust=2, verbose='info')
+ce = clusteval(evaluate='silhouette', cluster='agglomerative', linkage='complete', min_clust=5, max_clust=30, verbose='info')
+ce.fit(xycoord)
+
+ce.plot()
+ce.plot_silhouette()
+ce.scatter()
+ce.enrichment(df)
+ce.scatter(fontcolor='k', n_feat=2)
+
+from scatterd import scatterd
+# scatterd(xycoord[:,0], xycoord[:,1], labels=ce.results['labx'], cmap='tab20c')
+scatterd(xycoord[:,0], xycoord[:,1], labels=df['Browser'], fontcolor='k', cmap='tab20c')
+scatterd(xycoord[:,0], xycoord[:,1], labels=dfhot['TrafficType_11.0'], fontcolor='k', cmap='tab20c')
+scatterd(xycoord[:,0], xycoord[:,1], labels=dfhot['Browser_2.0'], fontcolor='k', cmap='tab20c')
+
 
 # %% Imort own data 
 from df2onehot import df2onehot
@@ -17,6 +78,8 @@ ce = clusteval()
 
 url='https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data'
 df = ce.import_example(url=url)
+df = df.iloc[0:1000, :]
+
 # Add column names
 df.columns=['age','workclass','fnlwgt','education','education-num','marital-status','occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country','earnings']
 # Set the following columns as floating type
@@ -25,13 +88,22 @@ cols_as_float = ['age','hours-per-week','capital-loss','capital-gain']
 df[cols_as_float]=df[cols_as_float].astype(float)
 dfhot = df2onehot(df, hot_only=True, excl_background=['0.0', 'None', '?', 'False'], perc_min_num=0.8, remove_mutual_exclusive=True, verbose=4)['onehot']
 
-ce = clusteval(cluster='agglomerative', metric='hamming', linkage='complete', min_clust=7, verbose='info')
-ce = clusteval(cluster='agglomerative', metric='euclidean', linkage='ward', min_clust=2, verbose='info')
+ce = clusteval(cluster='agglomerative', metric='hamming', linkage='complete', min_clust=10, max_clust=25, verbose='info')
+ce = clusteval(cluster='agglomerative', metric='euclidean', linkage='complete', min_clust=7, normalize=True, verbose='info')
+ce = clusteval(cluster='dbscan', metric='euclidean', linkage='complete', min_clust=7, normalize=True, verbose='info')
+ce = clusteval(evaluate='dbindex', cluster='agglomerative', metric='hamming', linkage='complete', min_clust=7, normalize=False, verbose='info')
+ce = clusteval(evaluate='dbindex', cluster='agglomerative', metric='euclidean', linkage='complete', min_clust=7, normalize=True, verbose='info')
+
+# fig, axs = plt.subplots(2,4, figsize=(25,10))
 
 ce.fit(dfhot);
 ce.plot()
 ce.plot_silhouette(embedding='tsne')
-ce.scatter(jitter=0.01)
+ce.scatter(embedding='tsne', fontcolor='k')
+ce.dendrogram()
+ce.dendrogram(max_d=0.125)
+ce.scatter(embedding='tsne')
+
 
 ce.enrichment(df)
 ce.scatter(embedding='tsne', fontcolor='k')
@@ -39,7 +111,11 @@ ce.scatter(embedding='tsne', fontcolor='k')
 from pca import pca
 model = pca()
 xycoord = model.fit_transform(dfhot)['PC'].values
-ce.scatter(xycoord, jitter=0.05)
+ce.scatter(xycoord)
+
+from scatterd import scatterd
+scatterd(xycoord[:,0], xycoord[:,1], labels=ce.results['labx']==16)
+scatterd(xycoord[:,0], xycoord[:,1], labels=dfhot['Sex_female'])
 
 
 # %% Enrichment analysis
@@ -54,10 +130,10 @@ df.drop(labels=['Survived', 'Name', 'Age', 'PassengerId', 'Ticket', 'Fare', 'Cab
 dfhot = df2onehot(df, excl_background=['0.0', 'None'], verbose=4)['onehot']
 X = dfhot.values
 
-ce = clusteval(evaluate='dbindex', cluster='agglomerative', metric='hamming', linkage='complete', min_clust=7, verbose='info')
+ce = clusteval(cluster='agglomerative', metric='hamming', linkage='complete', min_clust=7, verbose='info')
 # ce = clusteval(cluster='agglomerative', linkage='complete', min_clust=7, max_clust=40, verbose='info')
 # ce = clusteval(cluster='dbscan', linkage='complete', min_clust=7, max_clust=40, verbose='info')
-# ce = clusteval(cluster='dbscan', metric='hamming', linkage='complete', min_clust=7, verbose='info')
+# ce = clusteval(cluster='dbscan', linkage='complete', min_clust=7, verbose='info')
 ce.fit(dfhot);
 ce.plot()
 ce.scatter()
@@ -70,6 +146,8 @@ model = pca()
 xycoord = model.fit_transform(X)['PC'].values
 ce.scatter(X=xycoord)
 
+from scatterd import scatterd
+scatterd(ce.results['xycoord'][:,0], ce.results['xycoord'][:,1], labels=df['Embarked'].astype(str))
 
 from scatterd import scatterd
 scatterd(xycoord[:,0], xycoord[:,1], labels=ce.results['labx']==16)
@@ -134,36 +212,33 @@ from scatterd import scatterd
 import numpy as np
 
 X, y = ce.import_example(data='blobs', params={'random_state': 1})
-
-plt.figure(figsize=(15,10))
-plt.scatter(X[:,0], X[:,1])
-plt.grid(True); plt.xlabel('Feature 1'); plt.ylabel('Feature 2')
-
 # X, y = datasets.make_circles(n_samples=n_samples, factor=0.5, noise=0.05)
 
-scatterd(X[:,0], X[:,1],labels=y, figsize=(15, 10))
+plt.figure(figsize=(15,10))
+plt.grid(True); plt.xlabel('Feature 1'); plt.ylabel('Feature 2')
 
 plt.figure()
 fig, axs = plt.subplots(2,4, figsize=(25,10))
+font_properties={'size_x_axis': 12, 'size_y_axis': 12}
 
 # dbindex
-results = clusteval.dbindex.fit(X)
-_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], showfig=False)
+results = clusteval.dbindex.fit(X, max_clust=10)
+_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], showfig=False, font_properties=font_properties)
 axs[1][0].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][0].grid(True)
 
 # silhouette
 results = clusteval.silhouette.fit(X)
-_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], showfig=False)
+_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], showfig=False, font_properties=font_properties)
 axs[1][1].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][1].grid(True)
 
 # derivative
 results = clusteval.derivative.fit(X)
-_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], showfig=False)
+_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], showfig=False, font_properties=font_properties)
 axs[1][2].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][2].grid(True)
 
 # dbscan
 results = clusteval.dbscan.fit(X)
-_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], showfig=False)
+_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], showfig=False, font_properties=font_properties)
 axs[1][3].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
 
 # results = clusteval.hdbscan.fit(X)
