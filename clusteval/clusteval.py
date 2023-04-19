@@ -102,12 +102,12 @@ class clusteval:
 
     """
 
-    def __init__(self, cluster='agglomerative', evaluate='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, savemem=False, verbose='info', params_dbscan={'eps': None, 'epsres': 50, 'min_samples': 0.01, 'norm': False, 'n_jobs': -1}):
+    def __init__(self, cluster='agglomerative', evaluate='silhouette', metric='euclidean', linkage='ward', min_clust=2, max_clust=25, normalize=False, savemem=False, verbose='info', params_dbscan={'eps': None, 'epsres': 50, 'min_samples': 0.01, 'norm': False, 'n_jobs': -1}):
         """Initialize clusteval with user-defined parameters."""
         if ((min_clust is None) or (min_clust<2)):
             min_clust=2
         if ((max_clust is None) or (max_clust<min_clust)):
-            max_clust=min_clust + 1
+            max_clust = min_clust + 1
 
         if not np.any(np.isin(evaluate, ['silhouette', 'dbindex', 'derivative'])): raise ValueError("evaluate has incorrect input argument [%s]." %(evaluate))
         if not np.any(np.isin(cluster, ['agglomerative', 'kmeans', 'dbscan', 'hdbscan'])): raise ValueError("cluster has incorrect input argument [%s]." %(cluster))
@@ -188,7 +188,7 @@ class clusteval:
         # Choosing method
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
             if self.evaluate=='silhouette':
-                self.results = silhouette.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, savemem=self.savemem, verbose=self.verbose)
+                self.results = silhouette.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, linkage=self.linkage, min_clust=self.min_clust, max_clust=self.max_clust, savemem=self.savemem, verbose=self.verbose)
             elif self.evaluate=='dbindex':
                 self.results = dbindex.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, savemem=self.savemem, verbose=self.verbose)
             elif self.evaluate=='derivative':
@@ -315,21 +315,24 @@ class clusteval:
         if (savefig['fname'] is not None) and (fig is not None) and (self.cluster!='hdbscan'):
             logger.info('Saving plot: [%s]' %(savefig['fname']))
             fig.savefig(**savefig)
+        
+        # Create Categorical bubble plot
+        
 
         # Return
         return fig, ax
 
     def scatter(self,
                 X=None,
-                s=50,
+                s=25,
                 embedding=None,
                 n_feat=2,
                 legend=False,
                 jitter=None,
                 cmap='tab20c',
                 figsize=(25, 15),
-                fontsize=18,
-                fontcolor=None,
+                fontsize=16,
+                fontcolor='k',
                 savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
                 showfig=True,
                 ):
@@ -400,7 +403,7 @@ class clusteval:
         if isinstance(X, pd.DataFrame): X = X.values
 
         # Defaults
-        defaults = {'figsize': (25, 15), 'cmap': 'tab20c', 'z': None, 'c': [0, 0, 0], 'marker': None, 'alpha': None, 'gradient': None, 'density': False, 'norm': False, 'xlabel': 'x-axis', 'ylabel': 'y-axis', 'title': '', 'fontsize': 20, 'fontcolor': None, 'axiscolor': '#dddddd', 'jitter': None}
+        defaults = {'figsize': (25, 15), 'cmap': 'tab20c', 'z': None, 'c': [0, 0, 0], 'marker': None, 'alpha': 0.8, 'gradient': None, 'density': False, 'norm': False, 'xlabel': 'x-axis', 'ylabel': 'y-axis', 'title': '', 'fontsize': 20, 'fontcolor': None, 'axiscolor': '#dddddd', 'jitter': None}
         params = {**defaults, **{'jitter': jitter, 'cmap': cmap}, 'figsize': figsize, 'fontsize': fontsize, 'fontcolor': fontcolor}
 
         # Compute embedding
@@ -412,21 +415,22 @@ class clusteval:
         else:
             # For each cluster, add the most important feature.
             labels = np.repeat('', X.shape[0]).astype('O')
-            scores = np.ones(X.shape[0]) * 25
+            scores = np.ones(X.shape[0]) * s
             for y in self.results['enrichment']['y'].unique():
                 Iloc = self.results['enrichment']['y']==y
                 tmpdf = self.results['enrichment'].loc[Iloc, :].sort_values('logP')[0: n_feat]
                 catname = list(tmpdf['category_name'].values)
                 catlab = list(tmpdf['category_label'].values)
                 label = [catname[i] + ' (' + catlab[i] + ')' for i in range(len(catname))]
+                label = ['cluster ' + str(int(y))] + label
                 label = '\n'.join(label)
                 # Compute maximum
-                score = np.mean(tmpdf['logP'].values * -1)
+                # score = np.mean(tmpdf['logP'].values * -1)
                 # Store
                 labels[self.results['labx']==int(y)] = label
-                scores[self.results['labx']==int(y)] = score
+                # scores[self.results['labx']==int(y)] = score
             # Normalize scores
-            scores = normalize_size(scores, minscale=25, maxscale=150)
+            # scores = normalize_size(scores, minscale=25, maxscale=150)
 
         # Scatter
         fig, ax = scatterd(X[:, 0], X[:, 1], labels=labels, s=scores, legend=legend, **params)
@@ -447,7 +451,7 @@ class clusteval:
     # Plot
     def plot_silhouette(self,
                 X=None,
-                dot_size=75,
+                dot_size=25,
                 jitter=None,
                 embedding=None,
                 cmap='tab20c',
@@ -494,6 +498,9 @@ class clusteval:
         if X is None: return None
         if isinstance(X, pd.DataFrame): X = X.values
 
+        # Compute embedding
+        X = compute_embedding(self, X, embedding, logger)
+
         # Make scatterplot
         fig, ax1, ax2 = silhouette.scatter(self.results,
                                            X=X,
@@ -505,6 +512,7 @@ class clusteval:
                                            showfig=showfig,
                                            savefig=savefig)
         # Return
+        if embedding: self.results['xycoord'] = X
         return fig, ax1, ax2
 
     # Plot dendrogram
@@ -520,6 +528,7 @@ class clusteval:
                    metric=None,
                    linkage=None,
                    truncate_mode=None,
+                   update_results = False,
                    figsize=(15, 10),
                    savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
                    ):
@@ -574,6 +583,10 @@ class clusteval:
 
         """
         if not _check_results(self, logger): return None
+        X = _check_input_data(self, X, logger)
+        if X is None: return None
+        if isinstance(X, pd.DataFrame): X = X.values
+
         # Set parameters
         no_plot = False if showfig else True
         max_d_lower, max_d_upper = None, None
@@ -608,6 +621,8 @@ class clusteval:
         if showfig:
             fig, ax = plt.subplots(figsize=figsize)
         annotate_above = max_d
+
+        # Make the dendrogram
         results = plot_dendrogram(Z, labels=labels, leaf_rotation=leaf_rotation, leaf_font_size=leaf_font_size, orientation=orientation, show_contracted=show_contracted, annotate_above=annotate_above, max_d=max_d, truncate_mode=truncate_mode, ax=ax, no_plot=no_plot)
 
         # Compute cluster labels
@@ -626,6 +641,15 @@ class clusteval:
         if (savefig['fname'] is not None) and (fig is not None):
             logger.info('Saving dendrogram: [%s]' %(savefig['fname']))
             fig.savefig(**savefig)
+
+        if update_results:
+            logger.info('Updating results.')
+            self.results['order_rows'] = results['order_rows']
+            self.results['labx'] = results['labx']
+            self.results['max_d'] = results['max_d']
+            self.results['max_d_lower'] = results['max_d_lower']
+            self.results['max_d_upper'] = results['max_d_upper']
+            self.results['ax'] = results['ax']
 
         return results
 
@@ -691,16 +715,16 @@ class clusteval:
         Parameters
         ----------
         data : str
-            * 'blobs'
-            * 'moons'
-            * 'circles'
-            * 'anisotropic'
-            * 'globular'
-            * 'uniform'
-            * 'densities'
-            * 'sprinkler'
-            * 'titanic'
-            * 'student'
+            * 'blobs' (numeric)
+            * 'moons' (numeric)
+            * 'circles' (numeric)
+            * 'anisotropic' (numeric)
+            * 'globular' (numeric)
+            * 'uniform' (numeric)
+            * 'densities' (numeric)
+            * 'sprinkler' (categorical)
+            * 'titanic' (mixed)
+            * 'student' (categorical)
             * 'fifa'
             * 'cancer'
             * 'waterpump'
