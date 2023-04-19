@@ -1,4 +1,9 @@
 # clusteval
+<p align="center">
+  <a href="https://erdogant.github.io/clusteval">
+  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/logo_large_2.png" width="300" />
+  </a>
+</p>
 
 [![Python](https://img.shields.io/pypi/pyversions/clusteval)](https://img.shields.io/pypi/pyversions/clusteval)
 [![PyPI Version](https://img.shields.io/pypi/v/clusteval)](https://pypi.org/project/clusteval/)
