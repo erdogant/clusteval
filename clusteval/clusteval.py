@@ -330,8 +330,11 @@ class clusteval:
                 figsize=(25, 15),
                 fontsize=16,
                 fontcolor='k',
-                savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
+                density=False,
+                grid=True,
                 showfig=True,
+                savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
+                params_scatterd = {'dpi': 100, 'marker': 'o', 'alpha': 0.8},
                 ):
         """Scatterplot.
 
@@ -400,8 +403,7 @@ class clusteval:
         if isinstance(X, pd.DataFrame): X = X.values
 
         # Defaults
-        defaults = {'figsize': (25, 15), 'cmap': 'tab20c', 'z': None, 'c': [0, 0, 0], 'marker': None, 'alpha': 0.8, 'gradient': None, 'density': False, 'norm': False, 'xlabel': 'x-axis', 'ylabel': 'y-axis', 'title': '', 'fontsize': 20, 'fontcolor': None, 'axiscolor': '#dddddd', 'jitter': None}
-        params = {**defaults, **{'jitter': jitter, 'cmap': cmap}, 'figsize': figsize, 'fontsize': fontsize, 'fontcolor': fontcolor}
+        params = {**params_scatterd, **{'grid': grid, 'edgecolor': '#000000', 'jitter': jitter, 'cmap': cmap, 'figsize': figsize, 'fontsize': fontsize, 'fontcolor': fontcolor, 'density': density}}
 
         # Compute embedding
         X = compute_embedding(self, X, embedding, logger)

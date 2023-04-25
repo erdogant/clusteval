@@ -60,7 +60,7 @@ ce.fit(xycoord)
 
 ce.plot()
 ce.plot_silhouette()
-ce.scatter()
+ce.scatter(jitter=0.05, density=True, params_scatterd={'grid': True}, s=10)
 ce.enrichment(df)
 ce.scatter(fontcolor='k', n_feat=2)
 
