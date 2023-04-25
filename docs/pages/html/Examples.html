@@ -34,7 +34,7 @@
             clusteval
           </a>
               <div class="version">
-                2.1.6
+                2.2.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -146,21 +146,21 @@
 <section id="generate-data">
 <h2>Generate data<a class="headerlink" href="#generate-data" title="Permalink to this heading"></a></h2>
 <p>Install requried libraries</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scatterd
-pip<span class="w"> </span>install<span class="w"> </span>sklearn
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
+pip install sklearn
 
 <span class="c1"># Imports</span>
-from<span class="w"> </span>scatterd<span class="w"> </span>import<span class="w"> </span>scatterd
-from<span class="w"> </span>clusteval<span class="w"> </span>import<span class="w"> </span>clusteval
+from scatterd import scatterd
+from clusteval import clusteval
 
 <span class="c1"># Init</span>
-<span class="nv">cl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>clusteval<span class="o">()</span>
+<span class="nv">cl</span> <span class="o">=</span> clusteval<span class="o">()</span>
 
 <span class="c1"># Generate random data</span>
-X,<span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>cl.import_example<span class="o">(</span><span class="nv">data</span><span class="o">=</span><span class="s1">&#39;blobs&#39;</span><span class="o">)</span>
+X, <span class="nv">y</span> <span class="o">=</span> cl.import_example<span class="o">(</span><span class="nv">data</span><span class="o">=</span><span class="s1">&#39;blobs&#39;</span><span class="o">)</span>
 
 <span class="c1"># Scatter samples</span>
-scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</span>,<span class="w"> </span>X<span class="o">[</span>:,1<span class="o">]</span>,labels<span class="o">=</span>y<span class="o">)</span>
+scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</span>, X<span class="o">[</span>:,1<span class="o">]</span>,labels<span class="o">=</span>y<span class="o">)</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id1">
@@ -205,12 +205,12 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 <section id="snake-clusters">
 <h1>Snake clusters<a class="headerlink" href="#snake-clusters" title="Permalink to this heading"></a></h1>
 <p>The definition of a <strong>cluster</strong> depends on, among others, the <strong>aim</strong>. In this experiment I will evaluate the goodness of clusters when the aim is to find circular or snake clusters.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scatterd
-pip<span class="w"> </span>install<span class="w"> </span>sklearn
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
+pip install sklearn
 
 <span class="c1"># Generate data</span>
-X,<span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ce.import_example<span class="o">(</span><span class="nv">data</span><span class="o">=</span><span class="s1">&#39;circles&#39;</span><span class="o">)</span>
-scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</span>,<span class="w"> </span>X<span class="o">[</span>:,1<span class="o">]</span>,labels<span class="o">=</span>y<span class="o">)</span>
+X, <span class="nv">y</span> <span class="o">=</span> ce.import_example<span class="o">(</span><span class="nv">data</span><span class="o">=</span><span class="s1">&#39;circles&#39;</span><span class="o">)</span>
+scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</span>, X<span class="o">[</span>:,1<span class="o">]</span>,labels<span class="o">=</span>y<span class="o">)</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id2">
@@ -440,13 +440,13 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 <section id="hdbscan">
 <h2>HDBSCAN<a class="headerlink" href="#hdbscan" title="Permalink to this heading"></a></h2>
 <p>Install the library first because this approach is not installed by default in <code class="docutils literal notranslate"><span class="pre">clusteval</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>hdbscan
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install hdbscan
 
 <span class="c1"># Intialize model</span>
-<span class="nv">ce</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>clusteval<span class="o">(</span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;hdbscan&#39;</span><span class="o">)</span>
+<span class="nv">ce</span> <span class="o">=</span> clusteval<span class="o">(</span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;hdbscan&#39;</span><span class="o">)</span>
 
 <span class="c1"># Cluster evaluation</span>
-<span class="nv">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ce.fit<span class="o">(</span>X<span class="o">)</span>
+<span class="nv">results</span> <span class="o">=</span> ce.fit<span class="o">(</span>X<span class="o">)</span>
 
 <span class="c1"># Make plots</span>
 ce.plot<span class="o">()</span>
