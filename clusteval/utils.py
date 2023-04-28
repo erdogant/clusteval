@@ -15,6 +15,27 @@ logger = logging.getLogger(__name__)
 
 # %% Normalize.
 def normalize_size(getsizes, minscale: Union[int, float] = 0.5, maxscale: Union[int, float] = 4, scaler: str = 'zscore'):
+    """Normalize values between minimum and maximum value.
+
+    Parameters
+    ----------
+    getsizes : input array
+        Array of values that needs to be scaled.
+    minscale : Union[int, float], optional
+        Minimum value. The default is 0.5.
+    maxscale : Union[int, float], optional
+        Maximum value. The default is 4.
+    scaler : str, optional
+        Type of scaler. The default is 'zscore'.
+            * 'zscore'
+            * 'minmax'
+
+    Returns
+    -------
+    getsizes : array-like
+        scaled values between min-max.
+
+    """
     # Instead of Min-Max scaling, that shrinks any distribution in the [0, 1] interval, scaling the variables to
     # Z-scores is better. Min-Max Scaling is too sensitive to outlier observations and generates unseen problems,
     
