@@ -334,7 +334,7 @@ class clusteval:
                 grid=True,
                 showfig=True,
                 savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
-                params_scatterd = {'dpi': 100, 'marker': 'o', 'alpha': 0.8},
+                params_scatterd = {'dpi': 100, 'marker': 'o', 'alpha': 0.8, 'edgecolor': None, 'gradient': None},
                 ):
         """Scatterplot.
 
@@ -403,7 +403,8 @@ class clusteval:
         if isinstance(X, pd.DataFrame): X = X.values
 
         # Defaults
-        params = {**params_scatterd, **{'grid': grid, 'edgecolor': '#000000', 'jitter': jitter, 'cmap': cmap, 'figsize': figsize, 'fontsize': fontsize, 'fontcolor': fontcolor, 'density': density}}
+        params = {**params_scatterd, **{'grid': grid, 'jitter': jitter, 'cmap': cmap, 'figsize': figsize, 'fontsize': fontsize, 'fontcolor': fontcolor, 'density': density}}
+        print(params)
 
         # Compute embedding
         X = compute_embedding(self, X, embedding, logger)
@@ -807,6 +808,9 @@ def import_example(data='titanic', url=None, sep=',', params={}, logger=None):
         elif data=='retail':
             url='https://erdogant.github.io/datasets/marketing_data_online_retail_small.zip'
             sep = ';'
+        elif data=='ds_salaries':
+            url='https://erdogant.github.io/datasets/DS_salaries.zip'
+            sep = ','
         elif data=='iris':
             X, y = datasets.load_iris(return_X_y=True)
             return X, y
