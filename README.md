@@ -35,6 +35,7 @@
 
 #### [4. From Clusters To Insights; The Next Step](https://towardsdatascience.com/from-clusters-to-insights-the-next-step-1c166814e0c6)
 
+#### [5. Detection of Duplicate Images Using Image Hash Functions](https://medium.com/towards-data-science/detection-of-duplicate-images-using-image-hash-functions-4d9c53f04a75)
 
 # 
 
