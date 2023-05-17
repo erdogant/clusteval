@@ -27,14 +27,13 @@
 # 
 
 ### Blogs
+#### [1. A step-by-step guide for clustering images](https://towardsdatascience.com/a-step-by-step-guide-for-clustering-images-4b45f9906128)
 
-Read the blog to get a structured overview how you can use ``clusteval``.
-* [Medium Blog: A step-by-step guide for clustering images](https://towardsdatascience.com/a-step-by-step-guide-for-clustering-images-4b45f9906128)
+#### [2. Detection of Duplicate Images Using Image Hash Functions](https://towardsdatascience.com/detection-of-duplicate-images-using-image-hash-functions-4d9c53f04a75)
 
-In case you want to detect identical images, you can also use hash functionalities.
-* [Medium Blog: Detection of Duplicate Images Using Image Hash Functions](https://towardsdatascience.com/detection-of-duplicate-images-using-image-hash-functions-4d9c53f04a75)
+#### [3. From Data to Clusters: When is Your Clustering Good Enough?](https://towardsdatascience.com/from-data-to-clusters-when-is-your-clustering-good-enough-5895440a978a)
 
-# 
+#### [4. From Clusters To Insights; The Next Step](https://towardsdatascience.com/from-clusters-to-insights-the-next-step-1c166814e0c6)
 
 
 ### [Documentation pages](https://erdogant.github.io/clusteval/)
