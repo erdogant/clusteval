@@ -10,6 +10,12 @@ from clusteval import clusteval
 # print(dir(clusteval))
 
 # %%
+from clusteval import clusteval
+cl = clusteval()
+df = cl.import_example('ds_salaries', overwrite=True)
+
+
+# %%
 from df2onehot import df2onehot
 from clusteval import clusteval
 
