@@ -19,13 +19,10 @@ __doc__ = """
 clusteval
 =====================================================================
 
-Description
------------
 clusteval is a python package for unsupervised cluster validation.
 
 Examples
 --------
-
 >>> # Import library
 >>> from clusteval import clusteval
 >>> # Initialize clusteval with default parameters

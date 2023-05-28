@@ -404,7 +404,6 @@ class clusteval:
 
         # Defaults
         params = {**params_scatterd, **{'grid': grid, 'jitter': jitter, 'cmap': cmap, 'figsize': figsize, 'fontsize': fontsize, 'fontcolor': fontcolor, 'density': density}}
-        print(params)
 
         # Compute embedding
         X = compute_embedding(self, X, embedding, logger)
@@ -433,16 +432,18 @@ class clusteval:
             # scores = normalize_size(scores, minscale=25, maxscale=150)
 
         # Scatter
-        fig, ax = scatterd(X[:, 0], X[:, 1], labels=labels, s=scores, legend=legend, **params)
-        # Save figure
-        if (savefig['fname'] is not None) and (fig is not None):
-            logger.info('Saving silhouetteplot to [%s]' %(savefig['fname']))
-            fig.savefig(**savefig)
-
-        # if d3blocks and  _check_import_d3blocks:
-        #     from d3blocks import D3Blocks
-        #     d3 = D3Blocks()
-        #     d3.scatter(X[:, 0], X[:, 1], jitter=jitter, size=scores/10, tooltip=labels, cmap=cmap, color=self.results['labx'].astype(str))
+        if interactive:
+            if _check_import_d3blocks():
+                pass
+                from d3blocks import D3Blocks
+                d3 = D3Blocks()
+                d3.scatter(X[:, 0], X[:, 1], jitter=jitter, size=scores/10, tooltip=labels, cmap=cmap, color=self.results['labx'].astype(str))
+        else:
+            fig, ax = scatterd(X[:, 0], X[:, 1], labels=labels, s=scores, legend=legend, **params)
+            # Save figure
+            if (savefig['fname'] is not None) and (fig is not None):
+                logger.info('Saving silhouetteplot to [%s]' %(savefig['fname']))
+                fig.savefig(**savefig)
 
         # Return
         if embedding: self.results['xycoord'] = X
@@ -749,25 +750,6 @@ class clusteval:
         return import_example(data=data, url=url, sep=sep, params=params, logger=logger)
 
 
-# %% Compute dendrogram threshold
-def _compute_dendrogram_threshold(Z, labx, verbose=3):
-    logger.info('Compute dendrogram threshold.')
-    max_d, max_d_lower, max_d_upper = 0, 0, 0
-    Iloc = np.isin(Z[:, 3], np.unique(labx, return_counts=True)[1])
-
-    if np.any(Iloc):
-        max_d_lower = np.max(Z[Iloc, 2])
-        # Find the next level
-        if np.any(Z[:, 2] > max_d_lower):
-            max_d_upper = Z[np.where(Z[:, 2] > max_d_lower)[0][0], 2]
-        else:
-            max_d_upper = np.sort(Z[Iloc, 2])[-2]
-        # Average the max_d between the start and stop level
-        max_d = max_d_lower + ((max_d_upper - max_d_lower) / 2)
-    # Return
-    return max_d, max_d_lower, max_d_upper
-
-
 # %% Import example dataset from github.
 def import_example(data='titanic', url=None, sep=',', params={}, logger=None):
     """Import example dataset from github source.
@@ -942,3 +924,23 @@ def _check_results(self, logger):
         logger.info('No results to plot. Tip: try the .fit() function first.')
         status = False
     return status
+
+
+# %% Compute dendrogram threshold
+def _compute_dendrogram_threshold(Z, labx, verbose=3):
+    logger.info('Compute dendrogram threshold.')
+    max_d, max_d_lower, max_d_upper = 0, 0, 0
+    Iloc = np.isin(Z[:, 3], np.unique(labx, return_counts=True)[1])
+
+    if np.any(Iloc):
+        max_d_lower = np.max(Z[Iloc, 2])
+        # Find the next level
+        if np.any(Z[:, 2] > max_d_lower):
+            max_d_upper = Z[np.where(Z[:, 2] > max_d_lower)[0][0], 2]
+        else:
+            max_d_upper = np.sort(Z[Iloc, 2])[-2]
+        # Average the max_d between the start and stop level
+        max_d = max_d_lower + ((max_d_upper - max_d_lower) / 2)
+    # Return
+    return max_d, max_d_lower, max_d_upper
+
