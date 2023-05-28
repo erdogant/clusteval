@@ -335,6 +335,7 @@ class clusteval:
                 showfig=True,
                 savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
                 params_scatterd = {'dpi': 100, 'marker': 'o', 'alpha': 0.8, 'edgecolor': None, 'gradient': None},
+                interactive=False,
                 ):
         """Scatterplot.
 
