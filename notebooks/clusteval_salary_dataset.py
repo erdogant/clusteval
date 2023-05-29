@@ -12,27 +12,34 @@ from df2onehot import df2onehot
 df = dz.get('ds_salaries.zip')
 
 # %%
+countries_europe = ['SM', 'DE', 'GB', 'ES', 'FR', 'RU', 'IT', 'NL', 'CH', 'CF', 'FI', 'UA', 'IE', 'GR', 'MK', 'RO', 'AL', 'LT', 'BA', 'LV', 'EE', 'AM', 'HR', 'SI', 'PT', 'HU', 'AT', 'SK', 'CZ', 'DK', 'BE', 'MD', 'MT']
+df['europe'] = np.isin(df['company_location'], countries_europe)
+# df = df.loc[df['europe'], :]
+
+# %%
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-top_n = df['job_title'].value_counts().head(50)
+# fig, ax = plt.subplots(1, 2, figsize=(30, 15))
+n = 25
+top_n = df['job_title'].value_counts().head(n)
 plt.figure(figsize=(12, 12))
 sns.barplot(x=top_n.values, y=top_n.index)
-plt.title('Top 50 Job Titles')
+plt.title('Top Job Titles Europe')
 plt.xlabel('Frequency')
 plt.ylabel('Job Title')
 plt.grid(True)
-plt.show()
+# ax[0].show()
 
 
-top_n = df.groupby('job_title')['salary_in_usd'].mean().nlargest(50)
+top_n = df.groupby('job_title')['salary_in_usd'].mean().nlargest(n)
 plt.figure(figsize=(12, 12))
 sns.barplot(x=top_n.values, y=top_n.index)
-plt.title('Top 50 Job Titles with Highest Salary')
+plt.title('Top Job Titles with Highest Salary Europe')
 plt.xlabel('Average Salary (USD)')
 plt.ylabel('Job Title')
 plt.grid(True)
-plt.show()
+# plt.show()
 
 
 # %%
@@ -49,7 +56,6 @@ df['work_year'] = df['work_year'].astype(str)
 
 
 # %%
-# dfhot = df2onehot(df, verbose=4, dtypes=['cat', 'cat','cat','cat','cat','cat','cat','cat'], remove_multicollinearity=True, y_min=5)['onehot']
 dfhot = df2onehot(df,
                   remove_multicollinearity=True,
                   y_min=5,
@@ -77,9 +83,9 @@ model.biplot(labels=df['job_title'],
              )
 
 # %%
-model.scatter(labels=df['company_size'],
+model.scatter(labels=df['europe'],
              s=y/500,
-             # marker=df['experience_level'],
+             marker=df['job_title'],
              density=True,
              fontsize=20,
              jitter=0.05,
@@ -87,7 +93,7 @@ model.scatter(labels=df['company_size'],
              figsize=(40, 30),
              verbose=4,
              grid=True,
-             legend=True,
+             legend=False,
              )
 
 # %% Remove work year
@@ -140,7 +146,9 @@ d3.scatter(jitter_func(X[:,0], jitter=1),      # PC1 x-coordinates
            y1=jitter_func(model.results['PC']['PC2'].values, jitter=0.05),
            color=df['job_title'].values,       # Hex-colors or classlabels
            tooltip=tooltip,                    # Tooltip
-           size=normalize(y.values)*1.3,       # Node size
+           size=normalize(y.values,
+                          minscale=1,
+                          maxscale=25),        # Node size
            opacity='opaque',                   # Opacity
            stroke='#000000',                   # Edge color
            cmap='tab20',                       # Colormap
@@ -162,17 +170,3 @@ ce.plot_silhouette(jitter=0.05)
 ce.scatter(n_feat=4, s=y/500, jitter=0.05, fontsize=14, density=True, params_scatterd={'marker':df['experience_level'], 'gradient':'opaque', 'dpi':200}, figsize=(40,30))
 ce.scatter(n_feat=4, s=0, jitter=0.05, fontsize=14, density=True, params_scatterd={'marker':df['experience_level'], 'gradient':'opaque', 'dpi':200}, figsize=(40,30))
 
-
-
-# %%
-# Compare RAW vs. tSNE
-scores = flameplot.compare(dfhot, X, n_steps=15)
-fig, ax = flameplot.plot(scores, xlabel='Original RAW', ylabel='t-SNE (2d)')
-
-# Compare PCA(50) vs. tSNE
-scores = flameplot.compare(model.results['PC'], X, n_steps=15)
-fig, ax = flameplot.plot(scores, xlabel='PCA (95% Explained variance)', ylabel='t-SNE (2d)')
-
-# %% D3Blocks
-
-X
