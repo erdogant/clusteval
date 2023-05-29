@@ -14,7 +14,8 @@ df = dz.get('ds_salaries.zip')
 # %%
 countries_europe = ['SM', 'DE', 'GB', 'ES', 'FR', 'RU', 'IT', 'NL', 'CH', 'CF', 'FI', 'UA', 'IE', 'GR', 'MK', 'RO', 'AL', 'LT', 'BA', 'LV', 'EE', 'AM', 'HR', 'SI', 'PT', 'HU', 'AT', 'SK', 'CZ', 'DK', 'BE', 'MD', 'MT']
 df['europe'] = np.isin(df['company_location'], countries_europe)
-# df = df.loc[df['europe'], :]
+df = df.loc[df['europe'], :]
+df.reset_index(drop=True, inplace=True)
 
 # %%
 import matplotlib.pyplot as plt
@@ -102,8 +103,8 @@ dfhot = df2onehot(df, remove_multicollinearity=True, y_min=5, verbose=4)['onehot
 
 # %%
 from sklearn.manifold import TSNE
-# X = TSNE(n_components=2, init='pca', perplexity=50, metric='hamming').fit_transform(dfhot.values)
-X = TSNE(n_components=2, init='pca', perplexity=100).fit_transform(dfhot.values)
+X = TSNE(n_components=2, init='pca', perplexity=30).fit_transform(dfhot.values)
+# X = TSNE(n_components=2, init='pca', perplexity=100).fit_transform(dfhot.values)
 
 # %%
 fig, ax = scatterd(X[:, 0],
@@ -132,7 +133,7 @@ import numpy as np
 
 # Initialize
 d3 = D3Blocks()
-
+# df.reset_index(drop=True, inplace=True)
 tooltip = []
 for i in range(0, df.shape[0]):
     tip = '<br>'.join(list(map(lambda x: x[0].replace('_', ' ').title()+': '+x[1], np.array(list(zip(df.columns, df.iloc[i,:].values))))))
@@ -146,16 +147,17 @@ d3.scatter(jitter_func(X[:,0], jitter=1),      # PC1 x-coordinates
            y1=jitter_func(model.results['PC']['PC2'].values, jitter=0.05),
            color=df['job_title'].values,       # Hex-colors or classlabels
            tooltip=tooltip,                    # Tooltip
-           size=normalize(y.values,
+           size=normalize(y.values.reshape(-1, 1),
                           minscale=1,
-                          maxscale=25),        # Node size
+                          maxscale=25,
+                          scaler='minmax'),        # Node size
            opacity='opaque',                   # Opacity
            stroke='#000000',                   # Edge color
            cmap='tab20',                       # Colormap
            scale=True,                         # Scale the datapoints
            label_radio=['tSNE', 'PCA'],
            figsize=[1024, 768],
-           filepath='c://temp//data_science_landscape.html',
+           filepath='c://temp//data_science_landscape_europe.html',
            )
 
 
