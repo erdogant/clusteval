@@ -69,7 +69,7 @@ model.plot()
 
 # %%
 model.biplot(labels=df['job_title'],
-             s=y/500,
+             s=y/100,
              marker=df['experience_level'],
              n_feat=10,
              density=True,
@@ -83,11 +83,11 @@ model.biplot(labels=df['job_title'],
              )
 
 # %%
-model.scatter(labels=df['europe'],
-             s=y/500,
+model.scatter(labels=df['experience_level'],
+             s=y/100,
              marker=df['job_title'],
              density=True,
-             fontsize=20,
+             fontsize=40,
              jitter=0.05,
              alpha=0.8,
              figsize=(40, 30),
@@ -109,7 +109,7 @@ X = TSNE(n_components=2, init='pca', perplexity=100).fit_transform(dfhot.values)
 fig, ax = scatterd(X[:, 0],
                    X[:, 1],
                    marker=df['experience_level'],
-                   s=y/500,
+                   s=y/100,
                    labels=df['job_title'],
                    fontweight='normal',
                    fontsize=0,
@@ -167,6 +167,21 @@ results = ce.enrichment(df)
 # %%
 ce.plot(figsize=(12,5))
 ce.plot_silhouette(jitter=0.05)
-ce.scatter(n_feat=4, s=y/500, jitter=0.05, fontsize=14, density=True, params_scatterd={'marker':df['experience_level'], 'gradient':'opaque', 'dpi':200}, figsize=(40,30))
-ce.scatter(n_feat=4, s=0, jitter=0.05, fontsize=14, density=True, params_scatterd={'marker':df['experience_level'], 'gradient':'opaque', 'dpi':200}, figsize=(40,30))
+
+# %%
+ce.scatter(n_feat=4,
+           s=y/100,
+           jitter=0.05,
+           fontsize=18,
+           density=True,
+           params_scatterd={'marker':df['experience_level'], 'gradient':'opaque', 'dpi':200, 'alpha': 0.2},
+           figsize=(40,30),
+           )
+
+ce.scatter(n_feat=4,
+           s=0, jitter=0.05,
+           fontsize=18,
+           density=True,
+           params_scatterd={'marker':df['experience_level'], 'gradient':'opaque', 'dpi':200, 'alpha': 0.2},
+           figsize=(40,30))
 
