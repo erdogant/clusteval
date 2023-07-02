@@ -530,7 +530,7 @@ class clusteval:
                    metric=None,
                    linkage=None,
                    truncate_mode=None,
-                   update_results = False,
+                   update_results=False,
                    figsize=(15, 10),
                    savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
                    ):
@@ -625,7 +625,7 @@ class clusteval:
         annotate_above = max_d
 
         # Make the dendrogram
-        results = plot_dendrogram(Z, labels=labels, leaf_rotation=leaf_rotation, leaf_font_size=leaf_font_size, orientation=orientation, show_contracted=show_contracted, annotate_above=annotate_above, max_d=max_d, truncate_mode=truncate_mode, ax=ax, no_plot=no_plot)
+        results = plot_dendrogram(Z, labels=labels, leaf_rotation=leaf_rotation, leaf_font_size=leaf_font_size, orientation=orientation, show_contracted=show_contracted, annotate_above=annotate_above, max_d=max_d, truncate_mode=truncate_mode, no_plot=no_plot, ax=ax)
 
         # Compute cluster labels
         logger.info('Compute cluster labels.')
