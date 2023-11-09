@@ -9,19 +9,19 @@ With unsupervised clustering we aim to determine “natural” or “data-driven
 
 The implemented cluster evaluation methods works pretty well in certain scenarios **but** it requires to **understand the mathematical properties of the methods so that it matches with the statistical properties of the data.** 
 
-	# 1. Investigate the underlying distribution of the data.
-	# 2. How should clusters "look" like? What is your aim? 
-	# 3. Decide which distance metric, and linkage type is most appropriate for point 2.
-	# 4. Use the cluster evaluation method that fits best to the above mentioned points.
+	1. Investigate the underlying distribution of the data.
+	2. How should clusters "look" like? What is your aim? 
+	3. Decide which distance metric, and linkage type is most appropriate for point 2.
+	4. Use the cluster evaluation method that fits best to the above mentioned points.
 
-As an example: *DBScan* in combination with the *Silhouette evaluation* can detect clusters with different densities and shapes while *k-means* assumes that clusters are *convex shaped*. Or in other words, when using kmeans, you will always find convex shaped clustes!
+As an example: *DBScan* in combination with the *Silhouette evaluation* can detect clusters with different densities and shapes while *k-means* assumes that clusters are *convex shaped*. Or in other words, when using kmeans, you will always find convex shaped clusters!
 
 
 
 Distance Metric
 ****************
 
-**What is a “good” clustering?** Intuitively we may describe it as a group of samples that are cluttered together. However, it is better to describe clusters with **the distances between the samples**. The most well-known distance metric is the **Euclidean distance**. Although it is set as the default metric in many methods, it is not always the best choice. As an example, in case your dataset is boolean, then it is more wise to use a distance metric such as the hamming distance. Or in other words, use the metric that fits best by the statistical properties of your data.
+**What is a “good” clustering?** Intuitively, we may describe it as a group of samples that are cluttered together. However, it is better to describe clusters with **the distances between the samples**. The most well-known distance metric is the **Euclidean distance**. Although it is set as the default metric in many methods, it is not always the best choice. As an example, in case your dataset is boolean, then it is more wise to use a distance metric such as the hamming distance. Or in other words, use the metric that fits best by the statistical properties of your data.
 
 .. |figC11| image:: ../figs/distance_metrics.png
 
@@ -67,7 +67,7 @@ Choose the metric and linkage type carefully because it directly affects the fin
 Derivative method
 ############################
 
-The **derivative" method** is build on ``fcluster()`` from ``scipy``. In ``clusteval``, it compares each cluster merge's **height** to the average avg and normalizing it by the **standard deviation** formed over the depth previous levels. Finally, the **derivative" method** returns the cluster labels for the optimal cutt-off based on the choosen hierarchical clustering method.
+The **"derivative" method** is built on ``fcluster()`` from ``scipy``. In ``clusteval``, it compares each cluster merge's **height** to the average and normalizes it by the **standard deviation** formed over the depth previous levels. Finally, the **"derivative" method** returns the cluster labels for the optimal cut-off based on the choosen hierarchical clustering method.
 
 Let's demonstrate this using the previously randomly generated samples.
 
@@ -216,7 +216,7 @@ DBscan
 HDBscan
 ################
 
-**Hierarchical Density-Based Spatial Clustering of Applications with Noise** is an extention of the **DBscan** method which hierarchically finds core samples of high density and expands clusters from them. 
+**Hierarchical Density-Based Spatial Clustering of Applications with Noise** is an extension of the **DBscan** method which hierarchically finds core samples of high density and expands clusters from them. 
 
 Let's evaluate the results using **hdbscan**.
 
