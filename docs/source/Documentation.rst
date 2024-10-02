@@ -29,7 +29,9 @@ Colab Notebook
 .. note::
 	Experiment with ``clusteval`` library using the `Colab notebook`_.
 
-.. _Colab notebook clusteval (basics): https://colab.research.google.com/github/erdogant/clusteval/blob/master/notebooks/clusteval.ipynb
+	Experiment with ``clusteval`` library using the `Colab notebook clusteval (salary dataset)`_.
+
+.. _Colab notebook: https://colab.research.google.com/github/erdogant/clusteval/blob/master/notebooks/clusteval.ipynb
 .. _Colab notebook clusteval (salary dataset): https://colab.research.google.com/github/erdogant/clusteval/blob/master/notebooks/clusteval_salary_dataset.ipynb
 
 

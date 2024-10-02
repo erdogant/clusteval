@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Easy clusters &mdash; clusteval clusteval documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8850db52"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,7 +38,7 @@
             clusteval
           </a>
               <div class="version">
-                2.2.0
+                2.2.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -141,30 +145,30 @@
            <div itemprop="articleBody">
              
   <section id="easy-clusters">
-<h1>Easy clusters<a class="headerlink" href="#easy-clusters" title="Permalink to this heading"></a></h1>
+<h1>Easy clusters<a class="headerlink" href="#easy-clusters" title="Link to this heading"></a></h1>
 <p>Let’s start with finding clusters using an easy dataset.</p>
 <section id="generate-data">
-<h2>Generate data<a class="headerlink" href="#generate-data" title="Permalink to this heading"></a></h2>
+<h2>Generate data<a class="headerlink" href="#generate-data" title="Link to this heading"></a></h2>
 <p>Install requried libraries</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
-pip install sklearn
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scatterd
+pip<span class="w"> </span>install<span class="w"> </span>sklearn
 
 <span class="c1"># Imports</span>
-from scatterd import scatterd
-from clusteval import clusteval
+from<span class="w"> </span>scatterd<span class="w"> </span>import<span class="w"> </span>scatterd
+from<span class="w"> </span>clusteval<span class="w"> </span>import<span class="w"> </span>clusteval
 
 <span class="c1"># Init</span>
-<span class="nv">cl</span> <span class="o">=</span> clusteval<span class="o">()</span>
+<span class="nv">cl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>clusteval<span class="o">()</span>
 
 <span class="c1"># Generate random data</span>
-X, <span class="nv">y</span> <span class="o">=</span> cl.import_example<span class="o">(</span><span class="nv">data</span><span class="o">=</span><span class="s1">&#39;blobs&#39;</span><span class="o">)</span>
+X,<span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>cl.import_example<span class="o">(</span><span class="nv">data</span><span class="o">=</span><span class="s1">&#39;blobs&#39;</span><span class="o">)</span>
 
 <span class="c1"># Scatter samples</span>
-scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</span>, X<span class="o">[</span>:,1<span class="o">]</span>,labels<span class="o">=</span>y<span class="o">)</span>
+scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</span>,<span class="w"> </span>X<span class="o">[</span>:,1<span class="o">]</span>,labels<span class="o">=</span>y<span class="o">)</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id1">
-<caption><span class="caption-text">Left: Samples without labels. Right: Samples colored on labels.</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Left: Samples without labels. Right: Samples colored on labels.</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCX7" src="_images/easy_clusters_no_labels.png" /></p></td>
 <td><p><img alt="figCX8" src="_images/easy_clusters_with_labels.png" /></p></td>
@@ -173,7 +177,7 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 </table>
 </section>
 <section id="cluster-evaluation">
-<h2>Cluster Evaluation<a class="headerlink" href="#cluster-evaluation" title="Permalink to this heading"></a></h2>
+<h2>Cluster Evaluation<a class="headerlink" href="#cluster-evaluation" title="Link to this heading"></a></h2>
 <p># Determine the optimal number of clusters</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import</span>
 <span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
@@ -203,18 +207,18 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 </section>
 </section>
 <section id="snake-clusters">
-<h1>Snake clusters<a class="headerlink" href="#snake-clusters" title="Permalink to this heading"></a></h1>
+<h1>Snake clusters<a class="headerlink" href="#snake-clusters" title="Link to this heading"></a></h1>
 <p>The definition of a <strong>cluster</strong> depends on, among others, the <strong>aim</strong>. In this experiment I will evaluate the goodness of clusters when the aim is to find circular or snake clusters.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
-pip install sklearn
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scatterd
+pip<span class="w"> </span>install<span class="w"> </span>sklearn
 
 <span class="c1"># Generate data</span>
-X, <span class="nv">y</span> <span class="o">=</span> ce.import_example<span class="o">(</span><span class="nv">data</span><span class="o">=</span><span class="s1">&#39;circles&#39;</span><span class="o">)</span>
-scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</span>, X<span class="o">[</span>:,1<span class="o">]</span>,labels<span class="o">=</span>y<span class="o">)</span>
+X,<span class="w"> </span><span class="nv">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ce.import_example<span class="o">(</span><span class="nv">data</span><span class="o">=</span><span class="s1">&#39;circles&#39;</span><span class="o">)</span>
+scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</span>,<span class="w"> </span>X<span class="o">[</span>:,1<span class="o">]</span>,labels<span class="o">=</span>y<span class="o">)</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id2">
-<caption><span class="caption-text">Left: Samples without labels. Right: Samples colored on labels.</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Left: Samples without labels. Right: Samples colored on labels.</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCX1" src="_images/circular_cluster_labels.png" /></p></td>
 <td><p><img alt="figCX2" src="_images/circular_cluster_black.png" /></p></td>
@@ -222,7 +226,7 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 </tbody>
 </table>
 <section id="ward-distance">
-<h2>Ward distance<a class="headerlink" href="#ward-distance" title="Permalink to this heading"></a></h2>
+<h2>Ward distance<a class="headerlink" href="#ward-distance" title="Link to this heading"></a></h2>
 <p>If we aim to determine snake clusters, it is best to use the <code class="docutils literal notranslate"><span class="pre">single</span></code> linkage type as it hierarchically connects samples with the closest group. For demonstration purposes, I will show what happens when a metric such as <code class="docutils literal notranslate"><span class="pre">ward</span></code> distance is used. Note that this metric uses the centroids to group samples.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
 <span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
@@ -249,7 +253,7 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 <p>As can be seen, the inner circle is detected as one cluster but the outside circle is devided into multiple smaller clusters.</p>
 </section>
 <section id="single-distance">
-<h2>Single distance<a class="headerlink" href="#single-distance" title="Permalink to this heading"></a></h2>
+<h2>Single distance<a class="headerlink" href="#single-distance" title="Link to this heading"></a></h2>
 <p>If the aim is to cluster samples that are in a <strong>snake pattern</strong>, it is best to use the <code class="docutils literal notranslate"><span class="pre">single</span></code> linkage type as it hierarchically connects samples to the closest group.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
 
@@ -276,10 +280,10 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 </section>
 </section>
 <section id="different-density-clusters">
-<h1>Different Density Clusters<a class="headerlink" href="#different-density-clusters" title="Permalink to this heading"></a></h1>
+<h1>Different Density Clusters<a class="headerlink" href="#different-density-clusters" title="Link to this heading"></a></h1>
 <p>Many cluster evaluation methods can easily determine the optimal number of clusters when clusters are evenly distributed for which the groups of samples have similar density. Here I will generate groups of samples with various densities to demontrate the performance of the cluster evaluation methods.</p>
 <section id="generate-dataset">
-<h2>Generate Dataset<a class="headerlink" href="#generate-dataset" title="Permalink to this heading"></a></h2>
+<h2>Generate Dataset<a class="headerlink" href="#generate-dataset" title="Link to this heading"></a></h2>
 <p>Let’s generate 5 groups of samples, each with 200 but with different standard deviations per cluster.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate data</span>
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;densities&#39;</span><span class="p">)</span>
@@ -287,7 +291,7 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 </pre></div>
 </div>
 <table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Left plot: group of samples with different densities. Right plot: True labels</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Left plot: group of samples with different densities. Right plot: True labels</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figC1" src="_images/random_clusters_density_black.png" /></p></td>
 <td><p><img alt="figC2" src="_images/random_clusters_density_color.png" /></p></td>
@@ -296,7 +300,7 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 </table>
 </section>
 <section id="derivative-method">
-<h2>Derivative Method<a class="headerlink" href="#derivative-method" title="Permalink to this heading"></a></h2>
+<h2>Derivative Method<a class="headerlink" href="#derivative-method" title="Link to this heading"></a></h2>
 <p>The optimal number of clusters is 4 but the original dataet consits out of 5 clusters.
 When we scatter plot the samples with the etimated cluster labels, it can be seen that this approach has trouble in finding the correct labels for the smaller high density groups. Note that the results did not change in case of using the different clustering methods, such as ‘agglomerative’, and ‘kmeans’.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
@@ -323,7 +327,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </table>
 </section>
 <section id="silhouette-method">
-<h2>Silhouette Method<a class="headerlink" href="#silhouette-method" title="Permalink to this heading"></a></h2>
+<h2>Silhouette Method<a class="headerlink" href="#silhouette-method" title="Link to this heading"></a></h2>
 <p>The silhouette method detects an optimum of 4 clusters. The scatterplot shows that it has troubles in finding the high density clusters. Note that when using <code class="docutils literal notranslate"><span class="pre">cluster='agglomerative'</span></code>, similar results are detected.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
 <span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;agglomerative&#39;</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">)</span>
@@ -349,7 +353,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </table>
 </section>
 <section id="dbindex-method">
-<h2>DBindex method<a class="headerlink" href="#dbindex-method" title="Permalink to this heading"></a></h2>
+<h2>DBindex method<a class="headerlink" href="#dbindex-method" title="Link to this heading"></a></h2>
 <p>The DBindex method finds 4 cluster scores lowers gradually and stops at 22 clusters. This is (almost) the maximum default search space. The search space can be altered using <code class="docutils literal notranslate"><span class="pre">min_clust</span></code> and <code class="docutils literal notranslate"><span class="pre">max_clust</span></code> in the function function <a class="reference internal" href="clusteval.clusteval.html#clusteval.clusteval.clusteval.fit" title="clusteval.clusteval.clusteval.fit"><code class="xref py py-func docutils literal notranslate"><span class="pre">clusteval.clusteval.clusteval.fit()</span></code></a>. It is recommended to set <code class="docutils literal notranslate"><span class="pre">max_clust=10</span></code> to find the local minima.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
 <span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;agglomerative&#39;</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;dbindex&#39;</span><span class="p">)</span>
@@ -401,7 +405,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </table>
 </section>
 <section id="dbscan">
-<h2>DBSCAN<a class="headerlink" href="#dbscan" title="Permalink to this heading"></a></h2>
+<h2>DBSCAN<a class="headerlink" href="#dbscan" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">eps</span></code> parameter is gridsearched together with a varying number of clusters. The global maximum is found at the expected 5 clusters. When we scatter the samples with the new cluster labels, it can be seen that this approach works pretty well. However, for the cluster with large deviation, many <strong>outliers</strong> are marked with the default parameters.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Intialize model</span>
 <span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;dbscan&#39;</span><span class="p">)</span>
@@ -429,7 +433,7 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </pre></div>
 </div>
 <table class="docutils align-center" id="id4">
-<caption><span class="caption-text">Left: the DBindex cluster evaluation. Right: The tSNE plot coloured based on the cluster-labels.</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Left: the DBindex cluster evaluation. Right: The tSNE plot coloured based on the cluster-labels.</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figCE7" src="_images/random_dbscan_1.png" /></p></td>
 <td><p><img alt="figCE8" src="_images/random_dbscan_2.png" /></p></td>
@@ -438,15 +442,15 @@ When we scatter plot the samples with the etimated cluster labels, it can be see
 </table>
 </section>
 <section id="hdbscan">
-<h2>HDBSCAN<a class="headerlink" href="#hdbscan" title="Permalink to this heading"></a></h2>
+<h2>HDBSCAN<a class="headerlink" href="#hdbscan" title="Link to this heading"></a></h2>
 <p>Install the library first because this approach is not installed by default in <code class="docutils literal notranslate"><span class="pre">clusteval</span></code>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install hdbscan
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>hdbscan
 
 <span class="c1"># Intialize model</span>
-<span class="nv">ce</span> <span class="o">=</span> clusteval<span class="o">(</span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;hdbscan&#39;</span><span class="o">)</span>
+<span class="nv">ce</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>clusteval<span class="o">(</span><span class="nv">cluster</span><span class="o">=</span><span class="s1">&#39;hdbscan&#39;</span><span class="o">)</span>
 
 <span class="c1"># Cluster evaluation</span>
-<span class="nv">results</span> <span class="o">=</span> ce.fit<span class="o">(</span>X<span class="o">)</span>
+<span class="nv">results</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ce.fit<span class="o">(</span>X<span class="o">)</span>
 
 <span class="c1"># Make plots</span>
 ce.plot<span class="o">()</span>
@@ -465,7 +469,7 @@ ce.scatter<span class="o">()</span>
 </table>
 </section>
 <section id="cluster-comparison">
-<h2>Cluster Comparison<a class="headerlink" href="#cluster-comparison" title="Permalink to this heading"></a></h2>
+<h2>Cluster Comparison<a class="headerlink" href="#cluster-comparison" title="Link to this heading"></a></h2>
 <p>A comparison of all four methods when using <strong>kemans</strong> is as shown underneath. The best approach is <code class="docutils literal notranslate"><span class="pre">dbscan</span></code> in case of having various density groups.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">clusteval</span>
 <span class="kn">from</span> <span class="nn">scatterd</span> <span class="kn">import</span> <span class="n">scatterd</span>
@@ -511,7 +515,7 @@ ce.scatter<span class="o">()</span>
 </section>
 </section>
 <section id="clustering-categorical-data">
-<h1>Clustering Categorical Data<a class="headerlink" href="#clustering-categorical-data" title="Permalink to this heading"></a></h1>
+<h1>Clustering Categorical Data<a class="headerlink" href="#clustering-categorical-data" title="Link to this heading"></a></h1>
 <p>Let’s load an example data set of online shoppers’ intentions and perform the clustering and evaluation step. This data set contains in total of 12330 samples with 18 features. I decided to use a mixed dataset which allows me to also demonstrate some of the required pre-processing steps. Thus, the first step is to create homogeneous data sets with units that are comparable. A common manner to work with mixed data sets is by discretizing and creating a one-hot matrix. I will use the df2onehot library, with the following pre-processing steps to discretize:</p>
 <ul class="simple">
 <li><p>Categorical values 0.0, None, ? and False are removed.</p></li>
@@ -601,7 +605,7 @@ ce.scatter<span class="o">()</span>
 </table>
 </section>
 <section id="detect-the-driving-features">
-<h1>Detect the Driving features<a class="headerlink" href="#detect-the-driving-features" title="Permalink to this heading"></a></h1>
+<h1>Detect the Driving features<a class="headerlink" href="#detect-the-driving-features" title="Link to this heading"></a></h1>
 <p>This example is the next step from the example above this section.
 To detect the driving features behind the cluster labels, we can compute the statistical association between the features and the detected cluster labels. This will point out whether certain values of one variable tend to co-occur with one or more cluster labels. Various statistical measures of association, such as the Chi-square test, Fisher exact test, and Hypergeometric test, are commonly used when dealing with ordinal or nominal variables. I will use the Hypergeometric test to test for the association between categorical variables and the cluster labels, and the Mann-Whitney U test for the association between continuous variables and the cluster labels. These tests are readily implemented in HNET, which is in turn utilized in the clusteval library. With the enrichment functionality, we can now easily test for statistically significant associations. When we then again use the scatter functionality, the results are shown too.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Enrichment between the detected cluster labels and the input dataframe</span>

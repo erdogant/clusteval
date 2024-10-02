@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Generate data &mdash; clusteval clusteval documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8850db52"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,7 +38,7 @@
             clusteval
           </a>
               <div class="version">
-                2.2.0
+                2.2.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -129,10 +133,10 @@
            <div itemprop="articleBody">
              
   <section id="generate-data">
-<h1>Generate data<a class="headerlink" href="#generate-data" title="Permalink to this heading"></a></h1>
+<h1>Generate data<a class="headerlink" href="#generate-data" title="Link to this heading"></a></h1>
 <p>Install requried libraries</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install scatterd
-pip install sklearn
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>scatterd
+pip<span class="w"> </span>install<span class="w"> </span>sklearn
 </pre></div>
 </div>
 <p>Generate Data.</p>
@@ -151,7 +155,7 @@ pip install sklearn
 </pre></div>
 </div>
 <table class="docutils align-center" id="id1">
-<caption><span class="caption-text">Six circular clusters</span><a class="headerlink" href="#id1" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Six circular clusters</span><a class="headerlink" href="#id1" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP1" src="_images/medium_clusters.png" /></p></td>
 </tr>
@@ -159,7 +163,7 @@ pip install sklearn
 </table>
 </section>
 <section id="plot">
-<h1>Plot<a class="headerlink" href="#plot" title="Permalink to this heading"></a></h1>
+<h1>Plot<a class="headerlink" href="#plot" title="Link to this heading"></a></h1>
 <p>The plot functionality is to plot score of the cluster evaluation method versus the number of clusters.
 For demonstration, the clusters are evaluated using four cluster evaluation methods. It can be seen that all methods were able to detect the expected six clusters.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import</span>
@@ -182,7 +186,7 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </pre></div>
 </div>
 <table class="docutils align-center" id="id2">
-<caption><span class="caption-text">Method vs. number of clusters</span><a class="headerlink" href="#id2" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Method vs. number of clusters</span><a class="headerlink" href="#id2" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP2" src="_images/medium_clusters_sil.png" /></p></td>
 <td><p><img alt="figP3" src="_images/medium_clusters_dbindex.png" /></p></td>
@@ -194,14 +198,14 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </table>
 </section>
 <section id="silhouette-plot">
-<h1>Silhouette plot<a class="headerlink" href="#silhouette-plot" title="Permalink to this heading"></a></h1>
+<h1>Silhouette plot<a class="headerlink" href="#silhouette-plot" title="Link to this heading"></a></h1>
 <p>The aim of the scatterplot is to scatter the samples with the <strong>silhouette</strong> coefficient values. Note that for the scatterplot, only the first two features can be used.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot Silhouette</span>
 <span class="n">ce</span><span class="o">.</span><span class="n">plot_silhouette</span><span class="p">()</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id3">
-<caption><span class="caption-text">Method vs. number of clusters for the silhouette method.</span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Method vs. number of clusters for the silhouette method.</span><a class="headerlink" href="#id3" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP6" src="_images/medium_clusters_sil_scatter.png" /></p></td>
 </tr>
@@ -209,14 +213,14 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </table>
 </section>
 <section id="scatter-plot">
-<h1>Scatter plot<a class="headerlink" href="#scatter-plot" title="Permalink to this heading"></a></h1>
+<h1>Scatter plot<a class="headerlink" href="#scatter-plot" title="Link to this heading"></a></h1>
 <p>The aim of the scatterplot is to scatter the samples with the <strong>silhouette</strong> coefficient values. Note that for the scatterplot, only the first two features can be used.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scatterplot</span>
 <span class="n">ce</span><span class="o">.</span><span class="n">scatter</span><span class="p">()</span>
 </pre></div>
 </div>
 <table class="docutils align-center" id="id4">
-<caption><span class="caption-text">Scatterplot</span><a class="headerlink" href="#id4" title="Permalink to this table"></a></caption>
+<caption><span class="caption-text">Scatterplot</span><a class="headerlink" href="#id4" title="Link to this table"></a></caption>
 <tbody>
 <tr class="row-odd"><td><p><img alt="figP7" src="_images/medium_clusters_scatter.png" /></p></td>
 </tr>
@@ -224,9 +228,9 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </table>
 </section>
 <section id="dendrogram">
-<h1>Dendrogram<a class="headerlink" href="#dendrogram" title="Permalink to this heading"></a></h1>
+<h1>Dendrogram<a class="headerlink" href="#dendrogram" title="Link to this heading"></a></h1>
 <section id="hierarchical-tree-plot">
-<h2>Hierarchical tree plot<a class="headerlink" href="#hierarchical-tree-plot" title="Permalink to this heading"></a></h2>
+<h2>Hierarchical tree plot<a class="headerlink" href="#hierarchical-tree-plot" title="Link to this heading"></a></h2>
 <p>To furter investigate the clustering results, a dendrogram can be created.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">()</span>
 </pre></div>
@@ -239,7 +243,7 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </table>
 </section>
 <section id="change-the-cut-off-threshold">
-<h2>Change the cut-off threshold<a class="headerlink" href="#change-the-cut-off-threshold" title="Permalink to this heading"></a></h2>
+<h2>Change the cut-off threshold<a class="headerlink" href="#change-the-cut-off-threshold" title="Link to this heading"></a></h2>
 <p>The dendrogram function can now also be used to create differents cuts in the hierarchical clustering and retrieve the associated cluster labels. Let’s cut the tree at level 60</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the dendrogram and make the cut at distance height 60</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">max_d</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>
@@ -256,7 +260,7 @@ For demonstration, the clusters are evaluated using four cluster evaluation meth
 </table>
 </section>
 <section id="orientation">
-<h2>Orientation<a class="headerlink" href="#orientation" title="Permalink to this heading"></a></h2>
+<h2>Orientation<a class="headerlink" href="#orientation" title="Link to this heading"></a></h2>
 <p>Change various parameters, such as orientation, leaf rotation, and the font size.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the dendrogram</span>
 <span class="n">ce</span><span class="o">.</span><span class="n">dendrogram</span><span class="p">(</span><span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">leaf_rotation</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span> <span class="n">leaf_font_size</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="mi">30</span><span class="p">))</span>

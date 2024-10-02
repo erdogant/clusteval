@@ -885,7 +885,7 @@ class wget:
 
         """
         r = requests.get(url, stream=True)
-        with open(writepath, "wb") as fd:
+        with open(writepath, "wb", encoding='utf8') as fd:
             for chunk in r.iter_content(chunk_size=1024):
                 fd.write(chunk)
 

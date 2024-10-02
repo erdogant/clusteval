@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Background &mdash; clusteval clusteval documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=8850db52"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,7 +38,7 @@
             clusteval
           </a>
               <div class="version">
-                2.2.0
+                2.2.3
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -124,11 +128,11 @@
            <div itemprop="articleBody">
              
   <section id="background">
-<h1>Background<a class="headerlink" href="#background" title="Permalink to this heading"></a></h1>
+<h1>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h1>
 <p>Clustering is an unsupervised machine learning approach where the aim i to determine “natural” or “data-driven” groups in the data without using apriori knowledge about labels or categories. The challenges in unsupervised clustering is that it always produces a partitioning of the samples since each clustering method implicitly impose a structure on the data. The question is: What is a “good” clustering? We need to evaluate the results based on the <strong>clustering tendency</strong>, <strong>number of clusters</strong> and the <strong>clustering quality</strong>.</p>
 </section>
 <section id="aim">
-<h1>Aim<a class="headerlink" href="#aim" title="Permalink to this heading"></a></h1>
+<h1>Aim<a class="headerlink" href="#aim" title="Link to this heading"></a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">clusteval</span></code> is a Python package that is developed to evaluate the <strong>clustering tendency</strong>, <strong>number of clusters</strong> and <strong>clustering quality</strong>. <code class="docutils literal notranslate"><span class="pre">clusteval</span></code> returns the cluster labels for the optimal number of cluster that produces the best partitioning of the samples. The following evaluation strategies are implemented: <strong>silhouette</strong>, <strong>dbindex</strong>, and <strong>derivative</strong> which can be used in combination with <strong>agglomerative</strong> and <strong>kmeans</strong> clustering. In addition <strong>dbscan</strong> and <strong>hdbscan</strong> is implemented for which an internal gridsearch scheme will determine the best partitioning.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -136,7 +140,7 @@
 </div>
 </section>
 <section id="quickstart">
-<h1>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading"></a></h1>
+<h1>Quickstart<a class="headerlink" href="#quickstart" title="Link to this heading"></a></h1>
 <p>A quick example how to learn a model on a given dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
 <span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
