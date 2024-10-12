@@ -1,3 +1,124 @@
+#%% Example DBindex computations
+
+########################################################################
+# Let's implement each step of the Davies-Bouldin index with Python.
+# First, we'll generate three clusters using the `make_blobs` function.
+########################################################################
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs
+from sklearn.metrics import pairwise_distances
+
+
+# Generate data with 3 clusters
+n_samples = 300
+X, y = make_blobs(n_samples=n_samples, centers=3, cluster_std=1.0, random_state=42)
+# X, y = make_blobs(n_samples=n_samples, centers=3, cluster_std=5, random_state=42)
+
+# Visualize the clusters
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap='viridis', marker='o')
+plt.title('Generated Clusters')
+plt.show()
+
+# Returning X and y for further steps
+X[:10], y[:10]  # Display first 10 samples of X and y for verification
+
+##########################################################################
+# Step 1: Find the tightness of each cluster (within-cluster scatter, Si)
+# We'll start by calculating the spread (tightness) of each cluster. ​​
+##########################################################################
+def calculate_tightness(X, labels):
+    tightness = []
+    for label in np.unique(labels):
+        cluster_points = X[labels == label]
+        center = np.mean(cluster_points, axis=0)
+
+        # Calculate the average distance from center to all points in the cluster
+        distances = np.linalg.norm(cluster_points - center, axis=1)
+        S_i = np.mean(distances)
+        tightness.append(S_i)
+    return np.array(tightness)
+
+# Calculate tightness for each cluster
+tightness = calculate_tightness(X, y)
+
+# The tightness (within-cluster scatter) of the three clusters are:
+print(f'Cluster 0 - S0: {tightness[0]}')
+print(f'Cluster 1 - S1: {tightness[1]}')
+print(f'Cluster 2 - S2: {tightness[2]}')
+
+##########################################################################
+# Step 2: Calculate the distance between each pair of clusters (inter-cluster distance, d(i,j)
+# The distances between the centers of the clusters are as follows:
+##########################################################################
+def calculate_intercluster_distances(X, labels):
+    centers = []
+    for cluster in np.unique(labels):
+        cluster_points = X[labels == cluster]
+        center = np.mean(cluster_points, axis=0)
+        centers.append(center)
+    
+    centers = np.array(centers)
+    # Calculate distances between each pair of centers
+    intercluster_distances = pairwise_distances(centers)
+    return intercluster_distances
+
+# Calculate inter-cluster distances
+intercluster_distances = calculate_intercluster_distances(X, y)
+print(intercluster_distances)
+print(f'Distance between Cluster 0 and Cluster 1: {intercluster_distances[0, 1]}')
+print(f'Distance between Cluster 0 and Cluster 2: {intercluster_distances[0, 2]}')
+print(f'Distance between Cluster 1 and Cluster 2: {intercluster_distances[1, 2]}')
+
+
+################################################################################################
+# Step 3: Compute the R_ij values for each pair of clusters
+# The ratio of the sum of spreads to the distance between clusters. ​​
+################################################################################################
+
+def calculate_Rij(tightness, intercluster_distances):
+    num_clusters = len(tightness)
+    R = np.zeros((num_clusters, num_clusters))
+    for i in range(num_clusters):
+        for j in range(num_clusters):
+            if i != j:
+                R[i, j] = (tightness[i] + tightness[j]) / intercluster_distances[i, j]
+    return R
+
+# Calculate R_ij values
+R = calculate_Rij(tightness, intercluster_distances)
+R
+
+print(f'Ratio of spread between Cluster 0 and Cluster 1: {R[0, 1]}')
+print(f'Ratio of spread between Cluster 0 and Cluster 2: {R[0, 2]}')
+print(f'Ratio of spread between Cluster 1 and Cluster 2: {R[1, 2]}')
+
+###################################################
+# Step 4: Find the worst-case 𝑅i for each cluster.
+###################################################
+def calculate_Ri(R):
+    # For each cluster, find the maximum R_ij (worst-case separation)
+    Ri = np.max(R, axis=1)
+    return Ri
+
+# Calculate R_i for each cluster
+Ri = calculate_Ri(R)
+print("Worst-case R_i values:", Ri)
+
+###################################################
+# Step 5: Calculate the Davies-Bouldin Index (DB)
+###################################################
+def calculate_davies_bouldin_index(Ri):
+    # Take the average of the worst-case R_i values
+    DB_index = np.mean(Ri)
+    return DB_index
+
+# Calculate Davies-Bouldin Index
+DB_index = calculate_davies_bouldin_index(Ri)
+print("Davies-Bouldin Index:", DB_index)
+
+# %%
 # EXAMPLE
 # import sys
 # sys.path.insert(1, 'D:/REPOS/clusteval/clusteval/')
