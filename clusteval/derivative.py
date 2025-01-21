@@ -1,11 +1,13 @@
-# -----------------------------------------------
+"""Derivative.
+
 # Name        : derivative.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # Licence     : MIT
 # Respect the autor and leave this here
-# -----------------------------------------------
 
+"""
+from clusteval.utils import init_figure
 import numpy as np
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as linkage_scipy
@@ -133,7 +135,19 @@ def fit(X, cluster='agglomerative', metric='euclidean', linkage='ward', min_clus
 
 
 # %% Plot
-def plot(results, title='Derivative (Elbow method)', xlabel='Nr. Clusters', ylabel='Score', font_properties={}, figsize=(15,8), ax=None, showfig=True, verbose=3):
+def plot(results,
+         title='Derivative (Elbow method)',
+         xlabel='Nr. Clusters',
+         ylabel='Score',
+         font_properties={},
+         params_line={'color': 'k'},
+         params_line2={'color': 'b'},
+         params_vline={'color': 'r', 'linewidth': 2, 'linestyle': "--"},
+         figsize=(15, 8),
+         ax=None,
+         visible=True,
+         showfig=True,
+         verbose=3):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -153,20 +167,21 @@ def plot(results, title='Derivative (Elbow method)', xlabel='Nr. Clusters', ylab
     """
     # Set font properties
     font_properties = set_font_properties(font_properties)
-    fig=None
+    params_line = {**{'color': 'k'}, **params_line}
+    params_line2 = {**{'color': 'b'}, **params_line2}
+    params_vline = {**{'color': 'r', 'linewidth': 2, 'linestyle': "--"}, **params_vline}
     if title is None: title='Derivative (Elbow method)'
     idxs = np.arange(1, len(results['fig']['last_rev']) + 1)
     k = results['fig']['acceleration_rev'].argmax() + 2  # if idx 0 is the max of this we want 2 clusters
 
     # Make figure
-    if ax is None:
-        fig, ax = plt.subplots(figsize=figsize, dpi=100)
+    fig, ax = init_figure(fig=None, ax=ax, dpi=100, figsize=figsize, visible=visible)
     # Plot
-    ax.plot(idxs, results['fig']['last_rev'])
-    ax.plot(idxs[:-2] + 1, results['fig']['acceleration_rev'])
+    ax.plot(idxs, results['fig']['last_rev'], **params_line)
+    ax.plot(idxs[:-2] + 1, results['fig']['acceleration_rev'], **params_line2)
 
     # Plot optimal cut
-    ax.axvline(x=k, ymin=0, linewidth=2, color='r', linestyle="--")
+    ax.axvline(x=k, ymin=0, **params_vline)
     # Set fontsizes
     # plt.rc('axes', titlesize=14)     # fontsize of the axes title
     plt.rc('xtick', labelsize=font_properties['size_x_axis'])  # fontsize of the axes title

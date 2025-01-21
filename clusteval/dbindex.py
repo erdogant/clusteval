@@ -1,11 +1,13 @@
-# -----------------------------------------------
+"""DBIndex.
+
 # Name        : dbindex.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # Licence     : MIT
 # Respect the autor and leave this here
-# -----------------------------------------------
 
+"""
+from clusteval.utils import init_figure
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -180,7 +182,17 @@ def _dbindex_score(X, labels):
 
 
 # %% plot
-def plot(results, title='Davies Bouldin index', xlabel='Nr. Clusters', ylabel='Score', font_properties={}, figsize=(15, 8), ax=None, showfig=True):
+def plot(results,
+         title='Davies Bouldin index',
+         xlabel='Nr. Clusters',
+         ylabel='Score',
+         font_properties={},
+         params_line={'color': 'k'},
+         params_vline={'color': 'r', 'linewidth': 2, 'linestyle': "--"},
+         figsize=(15, 8),
+         ax=None,
+         visible=True,
+         showfig=True):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -198,24 +210,38 @@ def plot(results, title='Davies Bouldin index', xlabel='Nr. Clusters', ylabel='S
     """
     # Set font properties
     font_properties = set_font_properties(font_properties)
+    params_line = {**{'color': 'k'}, **params_line}
+    params_vline = {**{'color': 'r', 'linewidth': 2, 'linestyle': "--"}, **params_vline}
     idx = np.argmin(results['fig']['scores'])
-    fig=None
+
     # Make figure
-    if ax is None:
-        fig, ax = plt.subplots(figsize=figsize, dpi=100)
+    fig, ax = init_figure(fig=None, ax=ax, dpi=100, figsize=figsize, visible=visible)
     # Plot
-    ax.plot(results['fig']['dbclust'], results['fig']['scores'], color='k')
+    ax.plot(results['fig']['dbclust'], results['fig']['scores'], **params_line)
     # Plot optimal cut
-    ax.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['dbclust'][idx], linewidth=2, color='r', linestyle="--")
-    # Set fontsizes
-    ax.tick_params(axis='x', labelsize=font_properties['size_x_axis'])
-    ax.tick_params(axis='y', labelsize=font_properties['size_y_axis'])
+    ax.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['dbclust'][idx], **params_vline)
+
     # Set labels
     ax.set_xticks(results['fig']['clustcutt'])
-    ax.set_xlabel(xlabel, fontsize=font_properties['size_x_axis'])
-    ax.set_ylabel(ylabel, fontsize=font_properties['size_y_axis'])
-    ax.set_title(title, fontsize=font_properties['size_title'])
-    ax.grid(color='grey', linestyle='--', linewidth=0.2)
+    # Set axis properties
+    ax = set_axis_properties(ax, font_properties, xlabel, ylabel, title)
+    # Show figure
     if showfig: plt.show()
     # Return
-    return(fig, ax)
+    return fig, ax
+
+def set_axis_properties(ax, font_properties, xlabel, ylabel, title):
+    # Axis
+    ax.tick_params(axis='x', labelsize=font_properties['size_x_axis'], color=font_properties['axis_color'])
+    ax.tick_params(axis='y', labelsize=font_properties['size_y_axis'], color=font_properties['axis_color'])
+
+    # Fonts
+    ax.set_xlabel(xlabel, fontsize=font_properties['size_x_axis'], color=font_properties['fontcolor'])
+    ax.set_ylabel(ylabel, fontsize=font_properties['size_y_axis'], color=font_properties['fontcolor'])
+    ax.set_title(title, fontsize=font_properties['size_title'], color=font_properties['fontcolor'])
+
+    # Grid
+    ax.grid(color='grey', linestyle='--', linewidth=0.2)
+
+    # Return
+    return ax

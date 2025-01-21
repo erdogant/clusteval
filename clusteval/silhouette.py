@@ -1,23 +1,25 @@
-#-----------------------------------------------
+"""Silhouette.
+
 # Name        : silhouette.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # Licence     : MIT
 # Respect the autor and leave this here
-#-----------------------------------------------
 
+"""
+from clusteval.utils import init_figure
 import colourmap
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
-from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties, compute_embedding
+from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties  # compute_embedding
 logger = init_logger()
+
 
 # %% Main
 def fit(X,
@@ -188,7 +190,17 @@ def fit(X,
 
 
 # %% plot
-def plot(results, title='Silhouette score', xlabel='Nr. Clusters', ylabel='Score', font_properties={}, figsize=(15, 8), ax=None, showfig=True):
+def plot(results,
+         title='Silhouette score',
+         xlabel='Nr. Clusters',
+         ylabel='Score',
+         font_properties={},
+         params_line={'color': 'k'},
+         params_vline={'color': 'r', 'linewidth': 2, 'linestyle': "--"},
+         figsize=(15, 8),
+         ax=None,
+         visible=True,
+         showfig=True):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -206,18 +218,18 @@ def plot(results, title='Silhouette score', xlabel='Nr. Clusters', ylabel='Score
     """
     # Set font properties
     font_properties = set_font_properties(font_properties)
-    fig=None
+    params_line = {**{'color': 'k'}, **params_line}
+    params_vline = {**{'color': 'r', 'linewidth': 2, 'linestyle': "--"}, **params_vline}
     idx = np.argmax(results['fig']['silscores'])
 
     # Make figure
-    if ax is None:
-        fig, ax = plt.subplots(figsize=figsize, dpi=100)
+    fig, ax = init_figure(fig=None, ax=ax, dpi=100, figsize=figsize, visible=visible)
 
     # Plot
     # ax.plot(results['fig']['sillclust'], results['fig']['silscores'], color='k')
-    ax.plot(results['fig']['clustcutt'], results['fig']['silscores'], color='k')
+    ax.plot(results['fig']['clustcutt'], results['fig']['silscores'], **params_line)
     # Plot optimal cut
-    ax.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=2, color='r', linestyle="--")
+    ax.axvline(x=results['fig']['clustcutt'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], **params_vline)
     # Set fontsizes
     ax.tick_params(axis='x', labelsize=font_properties['size_x_axis'])
     ax.tick_params(axis='y', labelsize=font_properties['size_y_axis'])
@@ -229,8 +241,7 @@ def plot(results, title='Silhouette score', xlabel='Nr. Clusters', ylabel='Score
     ax.set_title(title, fontsize=font_properties['size_title'])
     ax.grid(color='grey', linestyle='--', linewidth=0.2)
 
-    if showfig:
-        plt.show()
+    if showfig: plt.show()
     # Return
     return fig, ax
 

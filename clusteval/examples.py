@@ -132,8 +132,9 @@ from clusteval import clusteval
 
 # %%
 from clusteval import clusteval
-cl = clusteval()
-df = cl.import_example('ds_salaries', overwrite=True)
+ce = clusteval()
+df = ce.import_example('ds_salaries')
+df = ce.import_example('blobs', params={'n_samples': 500, 'n_feat': 5, 'noise': 0.05, 'random_state': 1})
 
 
 # %%
@@ -167,11 +168,13 @@ ce = clusteval(evaluate='silhouette',
 # ce = clusteval(cluster='dbscan', metric='hamming', linkage='complete', min_clust=2, verbose='info')
 
 ce.fit(dfhot)
+
+# Plots
 ce.plot()
 ce.plot_silhouette()
 ce.plot_silhouette(embedding='tsne')
 ce.scatter(embedding='tsne', fontsize=26)
-ce.dendrogram()
+ce.dendrogram(showfig=True, visible=True)
 
 ce.enrichment(df)
 ce.scatter(embedding='tsne', n_feat=3, fontcolor=None, fontsize=12)
@@ -286,9 +289,10 @@ from clusteval import clusteval
 # Initialize for DBSCAN and silhouette method
 ce = clusteval(cluster='agglomerative', evaluate='silhouette', max_clust=10)
 # Import example dataset
-X, y = ce.import_example(data='blobs', params={'random_state':1})
+df = ce.import_example(data='blobs', params={'random_state':1})
+
 # find optimal number of clusters
-results = ce.fit(X)
+results = ce.fit(df.values)
 # Make plot
 ce.plot(figsize=(12, 7))
 # Show scatterplot with silhouette scores
@@ -300,9 +304,9 @@ from clusteval import clusteval
 # Initialize
 ce = clusteval(cluster='agglomerative', evaluate='dbindex', max_clust=10)
 # Import example dataset
-X, y = ce.import_example(data='blobs', params={'random_state':1})
+df = ce.import_example(data='blobs', params={'random_state':1})
 # find optimal number of clusters
-results = ce.fit(X)
+results = ce.fit(df.values)
 # Make plot
 ce.plot(figsize=(12, 8))
 # Show scatterplot with silhouette scores
@@ -314,9 +318,9 @@ from clusteval import clusteval
 # Initialize
 ce = clusteval(cluster='agglomerative', evaluate='derivative', max_clust=20)
 # Import example dataset
-X, y = ce.import_example(data='blobs', params={'random_state':1})
+df = ce.import_example(data='blobs', params={'random_state':1})
 # find optimal number of clusters
-results = ce.fit(X)
+results = ce.fit(df.values)
 # Make plot
 ce.plot(figsize=(12, 8))
 # Show scatterplot with silhouette scores
@@ -324,9 +328,9 @@ ce.scatter()
 ce.plot_silhouette()
 
 # %%
-X, y = ce.import_example(data='blobs', params={'random_state':1})
+df = ce.import_example(data='blobs', params={'random_state':1})
 ce = clusteval(cluster='agglomerative', evaluate='silhouette')
-results = ce.fit(X)
+results = ce.fit(df.values)
 ce.plot()
 ce.scatter()
 ce.plot_silhouette()
@@ -334,12 +338,13 @@ cluster_labels = results['labx']
 
 
 # %%
+import matplotlib.pyplot as plt
 import clusteval
 from scatterd import scatterd
 import numpy as np
 
-X, y = ce.import_example(data='blobs', params={'random_state': 1})
-# X, y = datasets.make_circles(n_samples=n_samples, factor=0.5, noise=0.05)
+df = ce.import_example(data='blobs', params={'random_state': 1})
+# df = datasets.make_circles(n_samples=n_samples, factor=0.5, noise=0.05)
 
 plt.figure(figsize=(15,10))
 plt.grid(True); plt.xlabel('Feature 1'); plt.ylabel('Feature 2')
@@ -349,28 +354,28 @@ fig, axs = plt.subplots(2,4, figsize=(25,10))
 font_properties={'size_x_axis': 12, 'size_y_axis': 12}
 
 # dbindex
-results = clusteval.dbindex.fit(X, max_clust=10)
+results = clusteval.dbindex.fit(df.values, max_clust=10)
 _ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], showfig=False, font_properties=font_properties)
-axs[1][0].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][0].grid(True)
+axs[1][0].scatter(df.values[:,0], df.values[:,1],c=results['labx']);axs[1][0].grid(True)
 
 # silhouette
-results = clusteval.silhouette.fit(X)
+results = clusteval.silhouette.fit(df.values)
 _ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], showfig=False, font_properties=font_properties)
-axs[1][1].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][1].grid(True)
+axs[1][1].scatter(df.values[:,0], df.values[:,1],c=results['labx']);axs[1][1].grid(True)
 
 # derivative
-results = clusteval.derivative.fit(X)
+results = clusteval.derivative.fit(df.values)
 _ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], showfig=False, font_properties=font_properties)
-axs[1][2].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][2].grid(True)
+axs[1][2].scatter(df.values[:,0], df.values[:,1],c=results['labx']);axs[1][2].grid(True)
 
 # dbscan
-results = clusteval.dbscan.fit(X)
+results = clusteval.dbscan.fit(df.values)
 _ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], showfig=False, font_properties=font_properties)
-axs[1][3].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
+axs[1][3].scatter(df.values[:,0], df.values[:,1],c=results['labx']);axs[1][3].grid(True)
 
-# results = clusteval.hdbscan.fit(X)
+# results = clusteval.hdbscan.fit(df.values)
 # _ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], showfig=False)
-# axs[1][3].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
+# axs[1][3].scatter(df.values[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
 
 
 
@@ -379,13 +384,26 @@ from clusteval import clusteval
 ce = clusteval()
 
 # Generate random data
-X1, y1 = ce.import_example(data='circles')
-X2, y2 = ce.import_example(data='moons')
-X3, y3 = ce.import_example(data='anisotropic')
-X4, y4 = ce.import_example(data='densities')
-X5, y5 = ce.import_example(data='blobs', params={'random_state': 1})
-X6, y6 = ce.import_example(data='globular')
-X7, y7 = ce.import_example(data='uniform')
+df = ce.import_example(data='circles')
+X1, y1 = df.values, df.index.values
+
+df = ce.import_example(data='moons')
+X2, y2 = df.values, df.index.values
+
+df = ce.import_example(data='anisotropic')
+X3, y3 = df.values, df.index.values
+
+df = ce.import_example(data='densities')
+X4, y4 = df.values, df.index.values
+
+df = ce.import_example(data='blobs', params={'random_state': 1})
+X5, y5 = df.values, df.index.values
+
+df = ce.import_example(data='globular')
+X6, y6 = df.values, df.index.values
+
+df = ce.import_example(data='uniform')
+X7, y7 = df.values, df.index.values
 
 datas = [X1, X2, X3, X5, X4, X6, X7]
 ys = [y1, y2, y3, y5, y4, y6, y7]

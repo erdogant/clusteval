@@ -1,12 +1,15 @@
 """clusteval is a python package to measure the goodness of the unsupervised clustering."""
 
+from clusteval.utils import init_figure
 from scatterd import scatterd
 import clusteval.dbindex as dbindex
 import clusteval.silhouette as silhouette
 import clusteval.derivative as derivative
 import clusteval.dbscan as dbscan
-from clusteval.utils import init_logger, set_logger, compute_embedding, normalize_size
+from clusteval.utils import init_logger, set_logger, get_logger, compute_embedding  # normalize_size
 from clusteval.plot_dendrogram import plot_dendrogram
+
+import datazets as dz
 import pypickle
 import pandas as pd
 import numpy as np
@@ -14,9 +17,9 @@ import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from scipy.cluster.hierarchy import fcluster
 from sklearn.preprocessing import StandardScaler
-from urllib.parse import urlparse
-import requests
-import os
+# from urllib.parse import urlparse
+# import requests
+# import os
 
 logger = init_logger()
 
@@ -262,7 +265,9 @@ class clusteval:
              ylabel='Score',
              figsize=(15, 8),
              savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
-             font_properties = {'size_title': 18, 'size_x_axis': 18, 'size_y_axis': 18},
+             font_properties = {'size_title': 18, 'size_x_axis': 18, 'size_y_axis': 18, 'fontcolor': '#000000', 'axis_color': '#000000'},
+             params_line={'color': 'k'},
+             params_vline={'color': 'r', 'linewidth': 2, 'linestyle': "--"},
              ax=None,
              showfig=True,
              verbose='info',
@@ -300,13 +305,15 @@ class clusteval:
 
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
             if self.evaluate=='silhouette':
-                fig, ax = silhouette.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, ax=ax, showfig=showfig)
+                fig, ax = silhouette.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, params_line=params_line, params_vline=params_vline, ax=ax, showfig=showfig)
             elif self.evaluate=='dbindex':
-                fig, ax = dbindex.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, ax=ax, showfig=showfig)
+                fig, ax = dbindex.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, params_line=params_line, params_vline=params_vline, ax=ax, showfig=showfig)
             elif self.evaluate=='derivative':
-                fig, ax = derivative.plot(self.results, title=title, figsize=figsize, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, ax=ax, showfig=showfig)
+                fig, ax = derivative.plot(self.results, title=title, figsize=figsize, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, params_line=params_line, params_vline=params_vline, ax=ax, showfig=showfig)
         elif self.cluster=='dbscan':
-            fig, ax = dbscan.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, ax=ax, showfig=showfig)
+            params_vline2={'color': 'r', 'linewidth': 1, 'linestyle': "--"}
+            params_hline2={'color': 'r', 'linewidth': 1.5, 'linestyle': "--"}
+            fig, ax = dbscan.plot(self.results, figsize=figsize, title=title, xlabel=xlabel, ylabel=ylabel, font_properties=font_properties, params_line=params_line, params_vline=params_vline, params_vline2=params_vline2, params_hline2=params_hline2, ax=ax, showfig=showfig)
         elif self.cluster=='hdbscan':
             import clusteval.hdbscan as hdbscan
             fig, ax = hdbscan.plot(self.results, figsize=figsize, savefig=savefig)
@@ -526,12 +533,14 @@ class clusteval:
                    orientation='top',
                    show_contracted=True,
                    max_d=None,
-                   showfig=True,
                    metric=None,
                    linkage=None,
                    truncate_mode=None,
                    update_results=False,
                    figsize=(15, 10),
+                   visible=True,
+                   dpi=200,
+                   ax=None,
                    savefig={'fname': None, format: 'png', 'dpi ': None, 'orientation': 'portrait', 'facecolor': 'auto'},
                    ):
         """Plot Dendrogram.
@@ -552,8 +561,6 @@ class clusteval:
             The heights of non-singleton nodes contracted into a leaf node are plotted as crosses along the link connecting that leaf node.
         max_d : Float, (default: None)
             Height of the dendrogram to make a horizontal cut-off line.
-        showfig : bool, (default = True)
-            Plot the dendrogram.
         metric : str, (default: 'euclidean').
             Distance measure for the clustering, such as 'euclidean','hamming', etc.
         linkage : str, (default: 'ward')
@@ -563,6 +570,8 @@ class clusteval:
             Truncation is used to condense the dendrogram, which can be based on: 'level', 'lastp' or None
         figsize : tuple, (default: (15, 10).
             Size of the figure (height,width).
+        visible : bool, (default = True)
+            Make the fig visible.
         savefig : dict.
             https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
             {'dpi':'figure',
@@ -590,7 +599,6 @@ class clusteval:
         if isinstance(X, pd.DataFrame): X = X.values
 
         # Set parameters
-        no_plot = False if showfig else True
         max_d_lower, max_d_upper = None, None
 
         # Check whether
@@ -618,14 +626,13 @@ class clusteval:
             max_d = self.results['max_d']
             max_d_lower = self.results['max_d_lower']
             max_d_upper = self.results['max_d_upper']
-
-        # Make the dendrogram
-        if showfig:
-            fig, ax = plt.subplots(figsize=figsize)
         annotate_above = max_d
 
         # Make the dendrogram
-        results = plot_dendrogram(Z, labels=labels, leaf_rotation=leaf_rotation, leaf_font_size=leaf_font_size, orientation=orientation, show_contracted=show_contracted, annotate_above=annotate_above, max_d=max_d, truncate_mode=truncate_mode, no_plot=no_plot, ax=ax)
+        fig, ax = init_figure(None, ax, dpi, figsize, visible)
+
+        # Make the dendrogram
+        results = plot_dendrogram(Z, labels=labels, leaf_rotation=leaf_rotation, leaf_font_size=leaf_font_size, orientation=orientation, show_contracted=show_contracted, annotate_above=annotate_above, max_d=max_d, truncate_mode=truncate_mode, fig=fig, ax=ax)
 
         # Compute cluster labels
         logger.info('Compute cluster labels.')
@@ -638,6 +645,7 @@ class clusteval:
         results['max_d_lower'] = max_d_lower
         results['max_d_upper'] = max_d_upper
         results['ax'] = ax
+        results['fig'] = fig
 
         # Save figure
         if (savefig['fname'] is not None) and (fig is not None):
@@ -652,6 +660,7 @@ class clusteval:
             self.results['max_d_lower'] = results['max_d_lower']
             self.results['max_d_upper'] = results['max_d_upper']
             self.results['ax'] = results['ax']
+            self.results['fig'] = results['fig']
 
         return results
 
@@ -709,10 +718,11 @@ class clusteval:
             self.results = storedata['results']
             return self.results
 
-    def import_example(self, data='titanic', url=None, sep=',', params={}):
+    def import_example(self, data='titanic', url=None, sep=',', params={'n_samples': 1000, 'n_feat': 2, 'noise': 0.05, 'random_state': 170}):
         """Import example dataset from github source.
 
-        Import one of the few datasets from github source or specify your own download url link.
+        Import one of the datasets that can be loaded from datzets or use an url link.
+        For more details see here: https://github.com/erdogant/datazets
 
         Parameters
         ----------

@@ -10,7 +10,7 @@ from scipy.cluster.hierarchy import dendrogram
 import matplotlib.pyplot as plt
 
 
-def plot_dendrogram(*args, **kwargs):
+def plot_dendrogram(*args, fig=None, ax=None, **kwargs):
     """Plot dendrogram using specific input parameters.
 
     Parameters
@@ -33,7 +33,7 @@ def plot_dendrogram(*args, **kwargs):
         Font size labels.
     leaf_rotation : int, (default: 90)
         Rotation of the labels [0-360].
-    no_plot : bool, (default = False)
+    showfig : bool, (default = False)
         Plot the dendrogram.
 
     Returns
@@ -46,11 +46,16 @@ def plot_dendrogram(*args, **kwargs):
 
     """
     max_d = kwargs.pop('max_d', None)
-    if max_d and ('color_threshold' not in kwargs): kwargs['color_threshold'] = max_d
+    if max_d and ('color_threshold' not in kwargs):
+        kwargs['color_threshold'] = max_d
     annotate_above = kwargs.pop('annotate_above', 0)
 
     # Compute the dendrogram
     ddata = dendrogram(*args, **kwargs)
+
+    # Create fig and ax if not provided
+    if fig is None or ax is None:
+        fig, ax = plt.subplots()
 
     # Plot the dendrogram
     if not kwargs.get('no_plot', False):
@@ -61,14 +66,45 @@ def plot_dendrogram(*args, **kwargs):
 
             # Annotate above threshold
             if y > annotate_above:
-                plt.plot(x, y, 'o', c=c)
-                plt.annotate("%.3g" % y, (x, y), xytext=(0, -5), textcoords='offset points', va='top', ha='center')
+                ax.plot(x, y, 'o', c=c)
+                ax.annotate(f"{y:.3g}", (x, y), xytext=(0, -5), textcoords='offset points', va='top', ha='center')
 
         # Plot horizontal line
-        if max_d: plt.axhline(y=max_d, c='k')
-        plt.title('Hierarchical Clustering Dendrogram')
-        plt.xlabel('Samples')
-        plt.ylabel('distance')
+        if max_d:
+            ax.axhline(y=max_d, c='k')
 
-    # Return
+        # Set titles and labels
+        ax.set_title('Hierarchical Clustering Dendrogram')
+        ax.set_xlabel('Samples')
+        ax.set_ylabel('Distance')
+
+    # Return the dendrogram data
     return ddata
+
+    # max_d = kwargs.pop('max_d', None)
+    # if max_d and ('color_threshold' not in kwargs): kwargs['color_threshold'] = max_d
+    # annotate_above = kwargs.pop('annotate_above', 0)
+
+    # # Compute the dendrogram
+    # ddata = dendrogram(*args, **kwargs)
+
+    # # Plot the dendrogram
+    # if not kwargs.get('no_plot', False):
+    #     # Extract coordinates and colors
+    #     for i, d, c in zip(ddata['icoord'], ddata['dcoord'], ddata['color_list']):
+    #         x = 0.5 * sum(i[1:3])
+    #         y = d[1]
+
+    #         # Annotate above threshold
+    #         if y > annotate_above:
+    #             plt.plot(x, y, 'o', c=c)
+    #             plt.annotate("%.3g" % y, (x, y), xytext=(0, -5), textcoords='offset points', va='top', ha='center')
+
+    #     # Plot horizontal line
+    #     if max_d: plt.axhline(y=max_d, c='k')
+    #     plt.title('Hierarchical Clustering Dendrogram')
+    #     plt.xlabel('Samples')
+    #     plt.ylabel('distance')
+
+    # # Return
+    # return ddata

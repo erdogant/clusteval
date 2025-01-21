@@ -1,11 +1,14 @@
-# -----------------------------------
+"""DBScan.
+
 # Name        : dbscan.py
 # Author      : E.Taskesen
 # Contact     : erdogant@gmail.com
 # Licence     : MIT
 # Respect the autor and leave this here
-# -----------------------------------------------
 
+"""
+
+from clusteval.utils import init_figure
 from tqdm import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
@@ -162,7 +165,20 @@ def _optimize_eps(X, eps, Param, verbose=3):
 
 
 # %% Plot
-def plot(results, title='DBSCAN', title2='', xlabel='Epsilon', ylabel='Score', font_properties={}, figsize=(15, 8), ax=None, showfig=True):
+def plot(results,
+         title='DBSCAN',
+         title2='',
+         xlabel='Epsilon',
+         ylabel='Score',
+         font_properties={},
+         params_line={'color': 'k'},
+         params_vline={'color': 'r', 'linewidth': 2, 'linestyle': "--"},
+         params_vline2={'color': 'r', 'linewidth': 1, 'linestyle': "--"},
+         params_hline2={'color': 'r', 'linewidth': 1.5, 'linestyle': "--"},
+         figsize=(15, 8),
+         ax=None,
+         visible=True,
+         showfig=True):
     """Make plot for the gridsearch over the number of clusters.
 
     Parameters
@@ -180,15 +196,19 @@ def plot(results, title='DBSCAN', title2='', xlabel='Epsilon', ylabel='Score', f
     """
     # Set font properties
     font_properties = set_font_properties(font_properties)
-    fig=None
+    params_line = {**{'color': 'k'}, **params_line}
+    params_vline = {**{'color': 'r', 'linewidth': 2, 'linestyle': "--"}, **params_vline}
+    params_vline2 = {**{'color': 'r', 'linewidth': 1, 'linestyle': "--"}, **params_vline2}
+    params_hline2 = {**{'color': 'r', 'linewidth': 1.5, 'linestyle': "--"}, **params_hline2}
+
+    # Make figure
+    fig, ax = init_figure(fig=None, ax=ax, dpi=100, figsize=figsize, visible=visible)
     # Setup figure properties
-    if ax is None:
-        fig, ax = plt.subplots(figsize=figsize, dpi=100)
     ax2 = ax.twinx()
 
     # Make figure 1
     idx = results['fig']['idx']
-    ax.plot(results['fig']['eps'], results['fig']['silscores'], color='k')
+    ax.plot(results['fig']['eps'], results['fig']['silscores'], color=params_line['color'])
     ax.set_xlabel('Epsilon', fontsize=font_properties['size_x_axis'])
     ax.set_ylabel(ylabel, fontsize=font_properties['size_y_axis'])
     ax.grid(color='grey', linestyle='--', linewidth=0.2)
@@ -198,10 +218,10 @@ def plot(results, title='DBSCAN', title2='', xlabel='Epsilon', ylabel='Score', f
     # Make figure 2
     # Plot vertical line To stress the cut-off point
     if idx is None:
-        ax2.axvline(x=0, ymin=0, ymax=0, linewidth=2, color='r', linestyle='--')
+        ax2.axvline(x=0, ymin=0, ymax=0, **params_vline)
     else:
-        ax2.axvline(x=results['fig']['eps'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], linewidth=1, color='r', linestyle='--')
-        ax2.axhline(y=len(np.unique(results['labx'])), xmin=0, xmax=1, linewidth=1.5, color='r', linestyle='--')
+        ax2.axvline(x=results['fig']['eps'][idx], ymin=0, ymax=results['fig']['sillclust'][idx], **params_vline2)
+        ax2.axhline(y=len(np.unique(results['labx'])), xmin=0, xmax=1, **params_hline2)
 
     ax2.tick_params(axis='x', labelsize=font_properties['size_x_axis'])
     ax2.tick_params(axis='y', labelsize=font_properties['size_y_axis'], labelcolor='b')
@@ -210,7 +230,6 @@ def plot(results, title='DBSCAN', title2='', xlabel='Epsilon', ylabel='Score', f
     # title2 = "Gridsearch on Epsilon. Optimal nr. clusters: %d" %(len(np.unique(results['labx'])))
     ax2.set_title(title, fontsize=font_properties['size_title'])
 
-    if showfig:
-        plt.show()
+    if showfig: plt.show()
     # Return
     return (fig, (ax, ax2))

@@ -1,7 +1,8 @@
 import logging
 import numpy as np
-from typing import List, Union, Tuple
+from typing import Union  # List, Tuple
 from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
 
 logger = logging.getLogger('')
 for handler in logger.handlers[:]: #get rid of existing old handlers
@@ -87,7 +88,22 @@ def compute_embedding(self, X, embedding, logger):
 
 # %%
 def set_font_properties(font_properties):
-    return {**{'size_title': 20, 'size_x_axis': 16, 'size_y_axis': 16}, **font_properties}
+    return {**{'size_title': 18, 'size_x_axis': 18, 'size_y_axis': 18, 'fontcolor': '#000000', 'axis_color': '#000000'}, **font_properties}
+
+
+# %%
+def init_figure(fig, ax, dpi, figsize, visible):
+    """Initialize figure."""
+    if ax is None:
+        fig = plt.figure(figsize=figsize, dpi=dpi)
+        # Adjust global font settings
+        # plt.rcParams['font.size'] = np.maximum(fontsize, 1)  # Set an appropriate font size
+        ax = fig.add_subplot()
+
+    if fig is not None:
+        fig.set_visible(visible)
+
+    return fig, ax
 
 # %%
 def init_logger():
@@ -145,6 +161,11 @@ def set_logger(verbose: [str, int] = 'info'):
 
     # Show examples
     logger.setLevel(verbose)
+
+# %%
+def get_logger():
+    """Return logger status."""
+    return logger.getEffectiveLevel()
 
 # %%
 def disable_tqdm():
