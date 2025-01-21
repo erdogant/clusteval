@@ -724,170 +724,162 @@ class clusteval:
             * 'globular' (numeric)
             * 'uniform' (numeric)
             * 'densities' (numeric)
-            * 'sprinkler' (categorical)
-            * 'titanic' (mixed)
-            * 'student' (categorical)
-            * 'fifa'
-            * 'cancer'
-            * 'waterpump'
-            * 'retail'
-            * 'breast'
-            * 'iris'
+            * etc
         url : str
             url link to to dataset.
         sep : str
             Delimiter of the data set.
+        params : dict
+            Parameter that are used to generate more cutomized data sets.
 
         Returns
         -------
         pd.DataFrame()
-            Dataset containing mixed features.
-
-        References
-        ----------
-            * student: https://archive-beta.ics.uci.edu/dataset/320/student+performance
 
         """
-        return import_example(data=data, url=url, sep=sep, params=params, logger=logger)
+        # if np.any(np.isin(data, ['blobs', 'moons', 'circles', 'anisotropic', 'globular', 'uniform', 'densities'])):
+        #     return import_example(data=data, url=url, sep=sep, params=params, logger=logger)
+        # else:
+        return dz.get(data=data, url=url, sep=sep, params=params, logger=get_logger())
 
 
 # %% Import example dataset from github.
-def import_example(data='titanic', url=None, sep=',', params={}, logger=None):
-    """Import example dataset from github source.
+# def import_example(data='titanic', url=None, sep=',', params={}, logger=None):
+#     """Import example dataset from github source.
 
-    Import one of the few datasets from github source or specify your own download url link.
+#     Import one of the few datasets from github source or specify your own download url link.
 
-    Parameters
-    ----------
-    data : str
-        Name of datasets: 'sprinkler', 'titanic', 'student', 'fifa', 'cancer', 'waterpump', 'retail', 'breast', 'iris'
-    url : str
-        url link to to dataset.
-    sep : str
-        Delimiter of the data set.
+#     Parameters
+#     ----------
+#     data : str
+#         Name of datasets: 'sprinkler', 'titanic', 'student', 'fifa', 'cancer', 'waterpump', 'retail', 'breast', 'iris'
+#     url : str
+#         url link to to dataset.
+#     sep : str
+#         Delimiter of the data set.
 
-    Returns
-    -------
-    pd.DataFrame()
-        Dataset containing mixed features.
+#     Returns
+#     -------
+#     pd.DataFrame()
+#         Dataset containing mixed features.
 
-    """
-    params = {**{'n_samples': 1000, 'n_feat': 2, 'noise': 0.05, 'random_state': 170}, **params}
-    from sklearn import datasets
+#     """
+#     params = {**{'n_samples': 1000, 'n_feat': 2, 'noise': 0.05, 'random_state': 170}, **params}
+#     from sklearn import datasets
 
-    if url is None:
-        if data=='sprinkler':
-            url='https://erdogant.github.io/datasets/sprinkler.zip'
-        elif data=='titanic':
-            url='https://erdogant.github.io/datasets/titanic_train.zip'
-        elif data=='student':
-            url='https://erdogant.github.io/datasets/student_train.zip'
-        elif data=='cancer':
-            url='https://erdogant.github.io/datasets/cancer_dataset.zip'
-        elif data=='fifa':
-            url='https://erdogant.github.io/datasets/FIFA_2018.zip'
-        elif data=='waterpump':
-            url='https://erdogant.github.io/datasets/waterpump/waterpump_test.zip'
-        elif data=='retail':
-            url='https://erdogant.github.io/datasets/marketing_data_online_retail_small.zip'
-            sep = ';'
-        elif data=='ds_salaries':
-            url='https://erdogant.github.io/datasets/DS_salaries.zip'
-            sep = ','
-        elif data=='iris':
-            X, y = datasets.load_iris(return_X_y=True)
-            return X, y
-        elif data=='breast':
-            X, y = datasets.load_breast_cancer(return_X_y=True)
-        elif data=='blobs':
-            X, y = datasets.make_blobs(n_samples=params['n_samples'], centers=4, n_features=params['n_feat'], cluster_std=0.5, random_state=params['random_state'])
-            return X, y
-        elif data=='moons':
-            X, y = datasets.make_moons(n_samples=params['n_samples'], noise=params['noise'])
-            return X, y
-        elif data=='circles':
-            X, y = datasets.make_circles(n_samples=params['n_samples'], factor=0.5, noise=params['noise'])
-            return X, y
-        elif data=='anisotropic':
-            X, y = datasets.make_blobs(n_samples=params['n_samples'], random_state=params['random_state'])
-            transformation = [[0.6, -0.6], [-0.4, 0.8]]
-            X = np.dot(X, transformation)
-            return X, y
-        elif data=='globular':
-            n_samples = int(np.round(params['n_samples'] / 5))
-            C1 = [-5, -2] + 0.8 * np.random.randn(n_samples, 2)
-            C2 = [4, -1] + 0.1 * np.random.randn(n_samples, 2)
-            C3 = [1, -2] + 0.2 * np.random.randn(n_samples, 2)
-            C4 = [-2, 3] + 0.3 * np.random.randn(n_samples, 2)
-            C5 = [3, -2] + 1.6 * np.random.randn(n_samples, 2)
-            C6 = [5, 6] + 2 * np.random.randn(n_samples, 2)
-            X = np.vstack((C1, C2, C3, C4, C5, C6))
-            y = np.vstack(([1] * len(C1), [2] * len(C2), [3] * len(C3), [4] * len(C4), [5] * len(C5), [6] * len(C6))).ravel()
-            return X, y
-        elif data=='densities':
-            n_samples = int(np.round(params['n_samples'] / 5))
-            X, y = datasets.make_blobs(n_samples=n_samples, n_features=params['n_feat'], centers=2, random_state=params['random_state'])
-            c = np.random.multivariate_normal([40, 40], [[20, 1], [1, 30]], size=[200,])
-            d = np.random.multivariate_normal([80, 80], [[30, 1], [1, 30]], size=[200,])
-            e = np.random.multivariate_normal([0, 100], [[200, 1], [1, 100]], size=[200,])
-            X = np.concatenate((X, c, d, e),)
-            y = np.concatenate((y, len(c) * [2], len(c) * [3], len(c) * [4]),)
-            return X, y
-        elif data=='uniform':
-            X, y = np.random.rand(params['n_samples'], 2), None
-            return X, y
-    else:
-        data = wget.filename_from_url(url)
+#     if url is None:
+#         if data=='sprinkler':
+#             url='https://erdogant.github.io/datasets/sprinkler.zip'
+#         elif data=='titanic':
+#             url='https://erdogant.github.io/datasets/titanic_train.zip'
+#         elif data=='student':
+#             url='https://erdogant.github.io/datasets/student_train.zip'
+#         elif data=='cancer':
+#             url='https://erdogant.github.io/datasets/cancer_dataset.zip'
+#         elif data=='fifa':
+#             url='https://erdogant.github.io/datasets/FIFA_2018.zip'
+#         elif data=='waterpump':
+#             url='https://erdogant.github.io/datasets/waterpump/waterpump_test.zip'
+#         elif data=='retail':
+#             url='https://erdogant.github.io/datasets/marketing_data_online_retail_small.zip'
+#             sep = ';'
+#         elif data=='ds_salaries':
+#             url='https://erdogant.github.io/datasets/DS_salaries.zip'
+#             sep = ','
+#         elif data=='iris':
+#             X, y = datasets.load_iris(return_X_y=True)
+#             return X, y
+#         elif data=='breast':
+#             X, y = datasets.load_breast_cancer(return_X_y=True)
+#         elif data=='blobs':
+#             X, y = datasets.make_blobs(n_samples=params['n_samples'], centers=4, n_features=params['n_feat'], cluster_std=0.5, random_state=params['random_state'])
+#             return X, y
+#         elif data=='moons':
+#             X, y = datasets.make_moons(n_samples=params['n_samples'], noise=params['noise'])
+#             return X, y
+#         elif data=='circles':
+#             X, y = datasets.make_circles(n_samples=params['n_samples'], factor=0.5, noise=params['noise'])
+#             return X, y
+#         elif data=='anisotropic':
+#             X, y = datasets.make_blobs(n_samples=params['n_samples'], random_state=params['random_state'])
+#             transformation = [[0.6, -0.6], [-0.4, 0.8]]
+#             X = np.dot(X, transformation)
+#             return X, y
+#         elif data=='globular':
+#             n_samples = int(np.round(params['n_samples'] / 5))
+#             C1 = [-5, -2] + 0.8 * np.random.randn(n_samples, 2)
+#             C2 = [4, -1] + 0.1 * np.random.randn(n_samples, 2)
+#             C3 = [1, -2] + 0.2 * np.random.randn(n_samples, 2)
+#             C4 = [-2, 3] + 0.3 * np.random.randn(n_samples, 2)
+#             C5 = [3, -2] + 1.6 * np.random.randn(n_samples, 2)
+#             C6 = [5, 6] + 2 * np.random.randn(n_samples, 2)
+#             X = np.vstack((C1, C2, C3, C4, C5, C6))
+#             y = np.vstack(([1] * len(C1), [2] * len(C2), [3] * len(C3), [4] * len(C4), [5] * len(C5), [6] * len(C6))).ravel()
+#             return X, y
+#         elif data=='densities':
+#             n_samples = int(np.round(params['n_samples'] / 5))
+#             X, y = datasets.make_blobs(n_samples=n_samples, n_features=params['n_feat'], centers=2, random_state=params['random_state'])
+#             c = np.random.multivariate_normal([40, 40], [[20, 1], [1, 30]], size=[200,])
+#             d = np.random.multivariate_normal([80, 80], [[30, 1], [1, 30]], size=[200,])
+#             e = np.random.multivariate_normal([0, 100], [[200, 1], [1, 100]], size=[200,])
+#             X = np.concatenate((X, c, d, e),)
+#             y = np.concatenate((y, len(c) * [2], len(c) * [3], len(c) * [4]),)
+#             return X, y
+#         elif data=='uniform':
+#             X, y = np.random.rand(params['n_samples'], 2), None
+#             return X, y
+#     else:
+#         data = wget.filename_from_url(url)
 
-    if url is None:
-        if logger is not None: logger.info('Nothing to download.')
-        return None
+#     if url is None:
+#         if logger is not None: logger.info('Nothing to download.')
+#         return None
 
-    curpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-    filename = os.path.basename(urlparse(url).path)
-    PATH_TO_DATA = os.path.join(curpath, filename)
-    if not os.path.isdir(curpath):
-        os.makedirs(curpath, exist_ok=True)
+#     curpath = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
+#     filename = os.path.basename(urlparse(url).path)
+#     PATH_TO_DATA = os.path.join(curpath, filename)
+#     if not os.path.isdir(curpath):
+#         os.makedirs(curpath, exist_ok=True)
 
-    # Check file exists.
-    if not os.path.isfile(PATH_TO_DATA):
-        if logger is not None: logger.info('Downloading [%s] dataset from github source..' %(data))
-        wget.download(url, PATH_TO_DATA)
+#     # Check file exists.
+#     if not os.path.isfile(PATH_TO_DATA):
+#         if logger is not None: logger.info('Downloading [%s] dataset from github source..' %(data))
+#         wget.download(url, PATH_TO_DATA)
 
-    # Import local dataset
-    if logger is not None: logger.info('Import dataset [%s]' %(data))
-    df = pd.read_csv(PATH_TO_DATA, sep=sep)
-    # Return
-    return df
+#     # Import local dataset
+#     if logger is not None: logger.info('Import dataset [%s]' %(data))
+#     df = pd.read_csv(PATH_TO_DATA, sep=sep)
+#     # Return
+#     return df
 
 
 # %% Retrieve files files.
-class wget:
-    """Retrieve file from url."""
+# class wget:
+#     """Retrieve file from url."""
 
-    def filename_from_url(url):
-        """Return filename."""
-        return os.path.basename(url)
+#     def filename_from_url(url):
+#         """Return filename."""
+#         return os.path.basename(url)
 
-    def download(url, writepath):
-        """Download.
+#     def download(url, writepath):
+#         """Download.
 
-        Parameters
-        ----------
-        url : str.
-            Internet source.
-        writepath : str.
-            Directory to write the file.
+#         Parameters
+#         ----------
+#         url : str.
+#             Internet source.
+#         writepath : str.
+#             Directory to write the file.
 
-        Returns
-        -------
-        None.
+#         Returns
+#         -------
+#         None.
 
-        """
-        r = requests.get(url, stream=True)
-        with open(writepath, "wb", encoding='utf8') as fd:
-            for chunk in r.iter_content(chunk_size=1024):
-                fd.write(chunk)
+#         """
+#         r = requests.get(url, stream=True)
+#         with open(writepath, "wb", encoding='utf8') as fd:
+#             for chunk in r.iter_content(chunk_size=1024):
+#                 fd.write(chunk)
 
 
 def _check_input_data(self, X, logger):
