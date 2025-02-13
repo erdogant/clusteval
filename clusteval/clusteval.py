@@ -191,7 +191,7 @@ class clusteval:
         # Choosing method
         if (self.cluster=='agglomerative') or (self.cluster=='kmeans'):
             if self.evaluate=='silhouette':
-                self.results = silhouette.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, linkage=self.linkage, min_clust=self.min_clust, max_clust=np.maximum(self.max_clust, X.shape[0]), savemem=self.savemem, verbose=self.verbose)
+                self.results = silhouette.fit(X, Z=self.Z, cluster=self.cluster, metric=self.metric, linkage=self.linkage, min_clust=self.min_clust, max_clust=np.minimum(self.max_clust, X.shape[0] - 1), savemem=self.savemem, verbose=self.verbose)
             elif self.evaluate=='dbindex':
                 self.results = dbindex.fit(X, Z=self.Z, metric=self.metric, min_clust=self.min_clust, max_clust=self.max_clust, savemem=self.savemem, verbose=self.verbose)
             elif self.evaluate=='derivative':
