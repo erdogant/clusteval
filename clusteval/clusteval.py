@@ -175,7 +175,7 @@ class clusteval:
         # Store the input data in self
         if not savemem:
             logger.info('Saving data in memory.')
-            self.X = X.copy()
+            self.X = copy.deepcopy(X) if X is not None else None
 
         if isinstance(X, pd.DataFrame): X = X.values
         if 'array' not in str(type(X)): raise ValueError('Input data must be of type numpy array')
