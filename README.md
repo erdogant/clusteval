@@ -25,153 +25,121 @@
 # 
 **⭐️ Star this repo if you like it ⭐️**
 # 
+## 📘 Blogs
 
-### Blogs
-#### [1. A step-by-step guide for clustering images](https://towardsdatascience.com/a-step-by-step-guide-for-clustering-images-4b45f9906128)
+1. [A step-by-step guide for clustering images](https://towardsdatascience.com/a-step-by-step-guide-for-clustering-images-4b45f9906128)  
+2. [Detection of Duplicate Images Using Image Hash Functions](https://towardsdatascience.com/detection-of-duplicate-images-using-image-hash-functions-4d9c53f04a75)  
+3. [From Data to Clusters: When is Your Clustering Good Enough?](https://towardsdatascience.com/from-data-to-clusters-when-is-your-clustering-good-enough-5895440a978a)  
+4. [From Clusters To Insights; The Next Step](https://towardsdatascience.com/from-clusters-to-insights-the-next-step-1c166814e0c6)
 
-#### [2. Detection of Duplicate Images Using Image Hash Functions](https://towardsdatascience.com/detection-of-duplicate-images-using-image-hash-functions-4d9c53f04a75)
+---
 
-#### [3. From Data to Clusters: When is Your Clustering Good Enough?](https://towardsdatascience.com/from-data-to-clusters-when-is-your-clustering-good-enough-5895440a978a)
+## 📚 Documentation
 
-#### [4. From Clusters To Insights; The Next Step](https://towardsdatascience.com/from-clusters-to-insights-the-next-step-1c166814e0c6)
+Full documentation is available at [erdogant.github.io/clusteval](https://erdogant.github.io/clusteval/), including examples and API references.
 
+---
 
-# 
+## ⚙️ Installation
 
-### [Documentation pages](https://erdogant.github.io/clusteval/)
+It is advisable to use a virtual environment:
 
-On the [documentation pages](https://erdogant.github.io/clusteval/) you can find detailed information about the working of the ``clusteval`` with many examples. 
-
-# 
-
-### Installation
-
-##### It is advisable to create a new environment (e.g. with Conda). 
 ```bash
 conda create -n env_clusteval python=3.8
-conda activate clusteval
+conda activate env_clusteval
 ```
 
-##### Install from PyPI
+Install via PyPI:
+
 ```bash
 pip install clusteval
 ```
 
-##### Import library
+To upgrade to the latest version:
+
+```bash
+pip install --upgrade clusteval
+```
+
+Import the library:
+
 ```python
 from clusteval import clusteval
 ```
 
-<hr>
+---
 
-### Examples
-A structured overview of all examples are now available on the [documentation pages](https://erdogant.github.io/clusteval/).
+## 💡 Examples
 
-<hr>
+More examples are available in the [documentation](https://erdogant.github.io/clusteval/pages/html/Examples.html).
 
+### 🔹 Cluster validation using Silhouette score  
+[Example](https://erdogant.github.io/clusteval/pages/html/Examples.html#cluster-evaluation)  
+![Silhouette Score](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1b_sil.png)
 
-* [Example: Cluster validation using Silhouette score](https://erdogant.github.io/clusteval/pages/html/Examples.html#cluster-evaluation)
+---
 
-<p align="left">
-  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#cluster-evaluation">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1b_sil.png" width="600" />
-  </a>
-</p>
+### 🔹 Determine the optimal number of clusters  
+[Example](https://erdogant.github.io/clusteval/pages/html/Plots.html#plot)  
+![Optimal Clusters](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png)
 
+---
 
-#
+### 🔹 Plot the dendrogram  
+[Example](https://erdogant.github.io/clusteval/pages/html/Plots.html#dendrogram)  
+![Dendrogram](https://github.com/erdogant/clusteval/blob/master/docs/figs/dendrogram.png)
 
-* [Example: Determine the optimal number of clusters](https://erdogant.github.io/clusteval/pages/html/Plots.html#plot)
+---
 
-<p align="left">
-  <a href="https://erdogant.github.io/clusteval/pages/html/Plots.html#plot">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png" width="600" />
-  </a>
-</p>
+### 🔹 Cluster validation using Davies-Bouldin index  
+[Example](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method)  
+![Davies-Bouldin](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png)
 
-#
+---
 
-* [Example: Plot the dendrogram](https://erdogant.github.io/clusteval/pages/html/Plots.html#dendrogram)
+### 🔹 Derivative evaluation method  
+[Example](https://erdogant.github.io/clusteval/pages/html/Examples.html#derivative-method)  
+![Derivative Method](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig3_der.png)
 
-<p align="left">
-  <a href="https://erdogant.github.io/clusteval/pages/html/Plots.html#dendrogram">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/dendrogram.png" width="600" />
-  </a>
-</p>
+---
 
-#
+### 🔹 DBSCAN clustering  
+[Example](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan)  
+![DBSCAN](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig5_dbscan.png)
 
-* [Example: Cluster validation using davies-boulin index](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method)
+---
 
-<p align="left">
-  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/dendrogram.png" width="600" />
-  </a>
-</p>
+### 🔹 HDBSCAN clustering  
+[Example](https://erdogant.github.io/clusteval/pages/html/Examples.html#hdbscan)  
+![HDBSCAN](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4a_hdbscan.png)  
+![HDBSCAN](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4b_hdbscan.png)
 
-#
+---
 
-* [Example: Cluster validation using davies-boulin index](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method)
+## 📖 Citation
 
-<p align="left">
-  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png" width="600" />
-  </a>
-</p>
+Please cite `clusteval` in your publications if it has been helpful in your research. Citation information is available at the top right of the [GitHub page](https://github.com/erdogant/clusteval).
 
-#
+---
 
-* [Example: Cluster validation using derivative evaluation method](https://erdogant.github.io/clusteval/pages/html/Examples.html#derivative-method)
+## 🔍 Related Tools & Blogs
 
-<p align="left">
-  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#derivative-method">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig3_der.png" width="600" />
-  </a>
-</p>
+- Use **ARI** when clustering contains large equal-sized clusters  
+- Use **AMI** for unbalanced clusters with small components  
+- [Adjusted Rand Score — scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html)  
+- [Adjusted for Chance Measures — scikit-learn](https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_measures.html)  
+- [imagededup GitHub repo](https://github.com/idealo/imagededup)  
+- [Clustering images by visual similarity](https://towardsdatascience.com/how-to-cluster-images-based-on-visual-similarity-cd6e7209fe34)  
+- [Facebook DeepCluster](https://github.com/facebookresearch/deepcluster)  
+- [PCA on Hyperspectral Data](https://towardsdatascience.com/pca-on-hyperspectral-data-99c9c5178385)  
+- [Face Recognition with PCA](https://machinelearningmastery.com/face-recognition-using-principal-component-analysis/)
 
-#
+---
 
+## ☕ Support
 
-* [Example: Cluster validation using dbscan](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan)
+If you find this project useful, consider supporting me:
 
-<p align="left">
-  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig5_dbscan.png" width="600" />
-  </a>
-</p>
-
-#
-
-* [Example: Cluster validation using hdbscan](https://erdogant.github.io/clusteval/pages/html/Examples.html#hdbscan)
-
-<p align="left">
-  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#hdbscan">
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4a_hdbscan.png" width="600" />
-  <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4b_hdbscan.png" width="600" />
-  </a>
-</p>
-
-
-
-
-
-
-## Citation
-Please cite clusteval in your publications if this is useful for your research (see right top for citation).
-
-## Other interesting techniques/blogs
-* Use ARI when the ground truth clustering has large equal sized clusters
-* Usa AMI when the ground truth clustering is unbalanced and there exist small clusters
-* https://scikit-learn.org/stable/modules/generated/sklearn.metrics.adjusted_rand_score.html
-* https://scikit-learn.org/stable/auto_examples/cluster/plot_adjusted_for_chance_measures.html#sphx-glr-auto-examples-cluster-plot-adjusted-for-chance-measures-py
-* https://github.com/idealo/imagededup
-* https://towardsdatascience.com/how-to-cluster-images-based-on-visual-similarity-cd6e7209fe34
-* https://github.com/facebookresearch/deepcluster
-* https://towardsdatascience.com/pca-on-hyperspectral-data-99c9c5178385
-* https://machinelearningmastery.com/face-recognition-using-principal-component-analysis/
-
-### Maintainer
-* Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
-* Contributions are welcome.
-* If you wish to buy me a <a href="https://erdogant.github.io/donate/?currency=USD&amount=5">Coffee</a> for this work, it is very appreciated :)
-	Star it if you like it!
+<a href="https://www.buymeacoffee.com/erdogant">
+  <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=erdogant&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" />
+</a>
