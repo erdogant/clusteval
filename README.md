@@ -45,7 +45,7 @@ Full documentation is available at [erdogant.github.io/clusteval](https://erdoga
 It is advisable to use a virtual environment:
 
 ```bash
-conda create -n env_clusteval python=3.8
+conda create -n env_clusteval python=3.12
 conda activate env_clusteval
 ```
 
