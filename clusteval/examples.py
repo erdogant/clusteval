@@ -1,4 +1,9 @@
 #%% 
+from clusteval import clusteval
+clusteval.silhouette()
+clusteval.dbindex()
+clusteval.derivative()
+
 
 #%% Example DBindex computations
 
