@@ -71,48 +71,66 @@ from clusteval import clusteval
 
 ## 💡 Examples
 
-More examples are available in the [documentation](https://erdogant.github.io/clusteval/pages/html/Examples.html).
+A structured overview is available in the [documentation](https://erdogant.github.io/clusteval/pages/html/Examples.html).
 
-### 🔹 Cluster validation using Silhouette score  
-[Example](https://erdogant.github.io/clusteval/pages/html/Examples.html#cluster-evaluation)  
-![Silhouette Score](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1b_sil.png)
-
----
-
-### 🔹 Determine the optimal number of clusters  
-[Example](https://erdogant.github.io/clusteval/pages/html/Plots.html#plot)  
-![Optimal Clusters](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png)
-
----
-
-### 🔹 Plot the dendrogram  
-[Example](https://erdogant.github.io/clusteval/pages/html/Plots.html#dendrogram)  
-![Dendrogram](https://github.com/erdogant/clusteval/blob/master/docs/figs/dendrogram.png)
-
----
-
-### 🔹 Cluster validation using Davies-Bouldin index  
-[Example](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method)  
-![Davies-Bouldin](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png)
-
----
-
-### 🔹 Derivative evaluation method  
-[Example](https://erdogant.github.io/clusteval/pages/html/Examples.html#derivative-method)  
-![Derivative Method](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig3_der.png)
-
----
-
-### 🔹 DBSCAN clustering  
-[Example](https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan)  
-![DBSCAN](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig5_dbscan.png)
-
----
-
-### 🔹 HDBSCAN clustering  
-[Example](https://erdogant.github.io/clusteval/pages/html/Examples.html#hdbscan)  
-![HDBSCAN](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4a_hdbscan.png)  
-![HDBSCAN](https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4b_hdbscan.png)
+<table>
+<tr>
+<td align="center">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#cluster-evaluation">
+    <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1b_sil.png" width="300"/>
+    <br>Silhouette Score
+  </a>
+</td>
+<td align="center">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Plots.html#plot">
+    <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig1a_sil.png" width="300"/>
+    <br>Optimal Clusters
+  </a>
+</td>
+</tr>
+<tr>
+<td align="center">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Plots.html#dendrogram">
+    <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/dendrogram.png" width="300"/>
+    <br>Dendrogram
+  </a>
+</td>
+<td align="center">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#dbindex-method">
+    <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig2_dbindex.png" width="300"/>
+    <br>Davies-Bouldin Index
+  </a>
+</td>
+</tr>
+<tr>
+<td align="center">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#derivative-method">
+    <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig3_der.png" width="300"/>
+    <br>Derivative Method
+  </a>
+</td>
+<td align="center">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#dbscan">
+    <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig5_dbscan.png" width="300"/>
+    <br>DBSCAN
+  </a>
+</td>
+</tr>
+<tr>
+<td align="center">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#hdbscan">
+    <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4a_hdbscan.png" width="300"/>
+    <br>HDBSCAN A
+  </a>
+</td>
+<td align="center">
+  <a href="https://erdogant.github.io/clusteval/pages/html/Examples.html#hdbscan">
+    <img src="https://github.com/erdogant/clusteval/blob/master/docs/figs/fig4b_hdbscan.png" width="300"/>
+    <br>HDBSCAN B
+  </a>
+</td>
+</tr>
+</table>
 
 ---
 
