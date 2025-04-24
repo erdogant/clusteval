@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
@@ -5,20 +7,16 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Easy clusters &mdash; clusteval clusteval documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=e0179649" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=8850db52"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=8850db52"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -37,9 +35,6 @@
           <a href="index.html" class="icon icon-home">
             clusteval
           </a>
-              <div class="version">
-                2.2.3
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -180,7 +175,7 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 <h2>Cluster Evaluation<a class="headerlink" href="#cluster-evaluation" title="Link to this heading"></a></h2>
 <p># Determine the optimal number of clusters</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import</span>
-<span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">clusteval</span><span class="w"> </span><span class="kn">import</span> <span class="n">clusteval</span>
 
 <span class="c1"># Initialize</span>
 <span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">)</span>
@@ -229,7 +224,7 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 <h2>Ward distance<a class="headerlink" href="#ward-distance" title="Link to this heading"></a></h2>
 <p>If we aim to determine snake clusters, it is best to use the <code class="docutils literal notranslate"><span class="pre">single</span></code> linkage type as it hierarchically connects samples with the closest group. For demonstration purposes, I will show what happens when a metric such as <code class="docutils literal notranslate"><span class="pre">ward</span></code> distance is used. Note that this metric uses the centroids to group samples.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load library</span>
-<span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">clusteval</span><span class="w"> </span><span class="kn">import</span> <span class="n">clusteval</span>
 
 <span class="c1"># Initialize</span>
 <span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;agglomerative&#39;</span><span class="p">,</span> <span class="n">linkage</span><span class="o">=</span><span class="s1">&#39;ward&#39;</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">)</span>
@@ -255,7 +250,7 @@ scatterd<span class="o">(</span>X<span class="o">[</span>:,0<span class="o">]</s
 <section id="single-distance">
 <h2>Single distance<a class="headerlink" href="#single-distance" title="Link to this heading"></a></h2>
 <p>If the aim is to cluster samples that are in a <strong>snake pattern</strong>, it is best to use the <code class="docutils literal notranslate"><span class="pre">single</span></code> linkage type as it hierarchically connects samples to the closest group.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">clusteval</span><span class="w"> </span><span class="kn">import</span> <span class="n">clusteval</span>
 
 <span class="c1"># Initialize</span>
 <span class="n">ce</span> <span class="o">=</span> <span class="n">clusteval</span><span class="p">(</span><span class="n">cluster</span><span class="o">=</span><span class="s1">&#39;agglomerative&#39;</span><span class="p">,</span> <span class="n">linkage</span><span class="o">=</span><span class="s1">&#39;single&#39;</span><span class="p">,</span> <span class="n">evaluate</span><span class="o">=</span><span class="s1">&#39;silhouette&#39;</span><span class="p">)</span>
@@ -471,9 +466,9 @@ ce.scatter<span class="o">()</span>
 <section id="cluster-comparison">
 <h2>Cluster Comparison<a class="headerlink" href="#cluster-comparison" title="Link to this heading"></a></h2>
 <p>A comparison of all four methods when using <strong>kemans</strong> is as shown underneath. The best approach is <code class="docutils literal notranslate"><span class="pre">dbscan</span></code> in case of having various density groups.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">clusteval</span>
-<span class="kn">from</span> <span class="nn">scatterd</span> <span class="kn">import</span> <span class="n">scatterd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">clusteval</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scatterd</span><span class="w"> </span><span class="kn">import</span> <span class="n">scatterd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">ce</span><span class="o">.</span><span class="n">import_example</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="s1">&#39;blobs&#39;</span><span class="p">)</span>
 <span class="c1"># X, y = datasets.make_circles(n_samples=n_samples, factor=0.5, noise=0.05)</span>
@@ -528,8 +523,8 @@ ce.scatter<span class="o">()</span>
 <span class="n">pip</span> <span class="n">install</span> <span class="n">df2onehot</span>
 
 <span class="c1"># Import libraries</span>
-<span class="kn">from</span> <span class="nn">clusteval</span> <span class="kn">import</span> <span class="n">clusteval</span>
-<span class="kn">from</span> <span class="nn">df2onehot</span> <span class="kn">import</span> <span class="n">df2onehot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">clusteval</span><span class="w"> </span><span class="kn">import</span> <span class="n">clusteval</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">df2onehot</span><span class="w"> </span><span class="kn">import</span> <span class="n">df2onehot</span>
 
 <span class="c1"># Load data from UCI</span>
 <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://archive.ics.uci.edu/ml/machine-learning-databases/00468/online_shoppers_intention.csv&#39;</span>
@@ -580,7 +575,7 @@ ce.scatter<span class="o">()</span>
 <p>The width of the bars represents the density or size of each cluster. Wider bars indicate larger clusters with more data points, while narrower bars indicate smaller clusters with fewer data points. The dashed red line represents the average silhouette score for all data points. It serves as a reference to assess the overall quality of clustering. Clusters with average silhouette scores above the dashed line are considered well-separated, while clusters with scores below the dashed line may indicate poor clustering. In general, a good clustering should have silhouette scores close to 1, indicating well-separated clusters. However, in our use case, we clustered our data in high dimensions and now evaluate the clustering results after a t-SNE embedding in the low 2-dimensional space.</p>
 <p>Instead, we can also do the embedding first and then cluster the data on the low-dimensional space (see code section below). Now we will use the Euclidean distance metric because our input data is not one-hot anymore but are the coordinates from the t-SNE mapping. After fitting, we detect an optimal number of 27 clusters, which is a lot more than in our previous results. We can also see that the cluster evaluation scores in Figure 2 appear to be turbulent. This has to do with the structure of the data and describes that at certain threshold cuts, optimal clusters can be formed.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize library</span>
-<span class="kn">from</span> <span class="nn">sklearn.manifold</span> <span class="kn">import</span> <span class="n">TSNE</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.manifold</span><span class="w"> </span><span class="kn">import</span> <span class="n">TSNE</span>
 <span class="n">xycoord</span> <span class="o">=</span> <span class="n">TSNE</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">,</span> <span class="n">perplexity</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">dfhot</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
 
 <span class="c1"># Initialize clusteval</span>
