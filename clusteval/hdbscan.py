@@ -13,7 +13,9 @@ import hdbscan as hdb
 import seaborn as sns
 import matplotlib.pyplot as plt
 from clusteval.utils import init_logger, set_logger
-logger = init_logger()
+# logger = init_logger()
+import logging
+logger = logging.getLogger(__name__)
 
 
 # %% Main

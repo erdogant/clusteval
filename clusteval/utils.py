@@ -5,13 +5,16 @@ from typing import Union  # List, Tuple
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
-logger = logging.getLogger('')
-for handler in logger.handlers[:]: #get rid of existing old handlers
-    logger.removeHandler(handler)
-console = logging.StreamHandler()
-formatter = logging.Formatter('[clusteval] >%(levelname)s> %(message)s')
-console.setFormatter(formatter)
-logger.addHandler(console)
+# logger = logging.getLogger('')
+# for handler in logger.handlers[:]: #get rid of existing old handlers
+#     logger.removeHandler(handler)
+# console = logging.StreamHandler()
+# formatter = logging.Formatter('[clusteval] >%(levelname)s> %(message)s')
+# console.setFormatter(formatter)
+# logger.addHandler(console)
+# logger = logging.getLogger(__name__)
+
+import logging
 logger = logging.getLogger(__name__)
 
 

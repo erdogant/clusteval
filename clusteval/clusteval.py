@@ -6,22 +6,23 @@ import clusteval.dbindex as dbindex
 import clusteval.silhouette as silhouette
 import clusteval.derivative as derivative
 import clusteval.dbscan as dbscan
-from clusteval.utils import init_logger, set_logger, get_logger, compute_embedding  # normalize_size
+from clusteval.utils import set_logger, get_logger, compute_embedding  # normalize_size
 from clusteval.plot_dendrogram import plot_dendrogram
 
 import datazets as dz
 import pypickle
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+import copy
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from scipy.cluster.hierarchy import fcluster
 from sklearn.preprocessing import StandardScaler
+import logging
 # from urllib.parse import urlparse
 # import requests
 # import os
 
-logger = init_logger()
+logger = logging.getLogger(__name__)
 
 
 # %% Class

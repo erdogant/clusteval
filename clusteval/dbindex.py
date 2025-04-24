@@ -17,7 +17,8 @@ from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties
-logger = init_logger()
+import logging
+logger = logging.getLogger(__name__)
 
 
 # %% main

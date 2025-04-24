@@ -8,6 +8,8 @@
 
 from scipy.cluster.hierarchy import dendrogram
 import matplotlib.pyplot as plt
+import logging
+logger = logging.getLogger(__name__)
 
 
 def plot_dendrogram(*args, fig=None, ax=None, **kwargs):

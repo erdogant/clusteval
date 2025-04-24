@@ -16,7 +16,9 @@ import sklearn.cluster as cluster
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties
-logger = init_logger()
+# logger = init_logger()
+import logging
+logger = logging.getLogger(__name__)
 
 
 # %% Main function

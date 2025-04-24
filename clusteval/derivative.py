@@ -13,7 +13,9 @@ from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as linkage_scipy
 import matplotlib.pyplot as plt
 from clusteval.utils import init_logger, set_logger, set_font_properties
-logger = init_logger()
+# logger = init_logger()
+import logging
+logger = logging.getLogger(__name__)
 
 
 # %% Main

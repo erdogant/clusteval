@@ -54,6 +54,8 @@
 #%% Libraries
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KernelDensity
+import logging
+logger = logging.getLogger(__name__)
 
 #%%
 def coord2density(X, kernel='gaussian', metric='euclidean', showfig=False, verbose=3):

@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import logging
+logger = logging.getLogger(__name__)
 
 def plot_bubble_grid(df, bubble_size, color_map='Blues'):
     """

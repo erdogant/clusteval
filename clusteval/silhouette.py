@@ -18,7 +18,9 @@ from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties  # compute_embedding
-logger = init_logger()
+# logger = init_logger()
+import logging
+logger = logging.getLogger(__name__)
 
 
 # %% Main
