@@ -1,9 +1,29 @@
 #%% 
-from clusteval import clusteval
-clusteval.silhouette()
-clusteval.dbindex()
-clusteval.derivative()
+# from clusteval import clusteval
+# clusteval.silhouette()
+# clusteval.dbindex()
+# clusteval.derivative()
 
+# %%
+from sklearn.datasets import make_blobs
+from clusteval import clusteval
+
+# Initialize
+cl = clusteval(cluster='dbscan', evaluate='silhouette', max_clust=10)
+X = cl.import_example(data='blobs', params={'random_state':1})
+
+# Generate data with 3 clusters
+n_samples = 300
+X, y = make_blobs(n_samples=n_samples, centers=3, cluster_std=1.0, random_state=42)
+X = cl.import_example(data='blobs', params={'random_state':1})
+# find optimal number of clusters
+results = cl.fit(X)
+
+# Make plot
+cl.plot()
+
+# Show scatterplot with silhouette scores
+cl.scatter()
 
 #%% Example DBindex computations
 

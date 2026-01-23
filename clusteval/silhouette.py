@@ -7,7 +7,11 @@
 # Respect the autor and leave this here
 
 """
-from clusteval.utils import init_figure
+try:
+    from clusteval.utils import init_figure, init_logger, set_logger, disable_tqdm, set_font_properties  # compute_embedding
+except:
+    from utils import init_figure, init_logger, set_logger, disable_tqdm, set_font_properties  # compute_embedding
+
 import colourmap
 import numpy as np
 import pandas as pd
@@ -17,8 +21,7 @@ from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
-from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties  # compute_embedding
-# logger = init_logger()
+
 import logging
 logger = logging.getLogger(__name__)
 

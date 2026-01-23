@@ -2,12 +2,11 @@ import logging
 
 from clusteval.clusteval import clusteval
 
-from clusteval.clusteval import (
+from clusteval import (
     dbindex,
     silhouette,
     derivative,
     dbscan,
-    # hdbscan_custom,
     )
 
 __author__ = 'Erdogan Tasksen'

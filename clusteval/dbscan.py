@@ -8,15 +8,19 @@
 
 """
 
-from clusteval.utils import init_figure
+try:
+    from clusteval.utils import init_figure, set_logger, disable_tqdm, set_font_properties
+except:
+    from utils import init_figure, set_logger, disable_tqdm, set_font_properties
+
 from tqdm import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
+
 import sklearn.cluster as cluster
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
-from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties
-# logger = init_logger()
+
 import logging
 logger = logging.getLogger(__name__)
 

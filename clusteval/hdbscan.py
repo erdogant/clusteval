@@ -6,14 +6,17 @@
 # Respect the autor and leave this here
 #-----------------------------------------------
 
+try:
+    from clusteval.utils import set_logger
+except:
+    from utils import set_logger
+
 from sklearn import metrics
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 import hdbscan as hdb
 import seaborn as sns
 import matplotlib.pyplot as plt
-from clusteval.utils import init_logger, set_logger
-# logger = init_logger()
 import logging
 logger = logging.getLogger(__name__)
 

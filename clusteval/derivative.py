@@ -7,13 +7,16 @@
 # Respect the autor and leave this here
 
 """
-from clusteval.utils import init_figure
+try:
+    from clusteval.utils import init_figure, set_logger, set_font_properties
+except:
+    from utils import init_figure, set_logger, set_font_properties
+
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as linkage_scipy
-import matplotlib.pyplot as plt
-from clusteval.utils import init_logger, set_logger, set_font_properties
-# logger = init_logger()
+
 import logging
 logger = logging.getLogger(__name__)
 

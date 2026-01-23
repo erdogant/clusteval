@@ -1,14 +1,21 @@
 """clusteval is a python package to measure the goodness of the unsupervised clustering."""
 
-from clusteval.utils import init_figure
-from scatterd import scatterd
-import clusteval.dbindex as dbindex
-import clusteval.silhouette as silhouette
-import clusteval.derivative as derivative
-import clusteval.dbscan as dbscan
-from clusteval.utils import set_logger, get_logger, compute_embedding  # normalize_size
-from clusteval.plot_dendrogram import plot_dendrogram
+try:
+    from clusteval.utils import init_figure, set_logger, get_logger, compute_embedding  # normalize_size
+    import clusteval.dbindex as dbindex
+    import clusteval.silhouette as silhouette
+    import clusteval.derivative as derivative
+    import clusteval.dbscan as dbscan
+    from clusteval.plot_dendrogram import plot_dendrogram
+except:
+    from utils import init_figure, set_logger, get_logger, compute_embedding  # normalize_size
+    import dbindex as dbindex
+    import silhouette as silhouette
+    import derivative as derivative
+    import dbscan as dbscan
+    from plot_dendrogram import plot_dendrogram
 
+from scatterd import scatterd
 import datazets as dz
 import pypickle
 import pandas as pd
@@ -17,11 +24,8 @@ import copy
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from scipy.cluster.hierarchy import fcluster
 from sklearn.preprocessing import StandardScaler
-import logging
-# from urllib.parse import urlparse
-# import requests
-# import os
 
+import logging
 logger = logging.getLogger(__name__)
 
 

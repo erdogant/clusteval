@@ -6,6 +6,8 @@ import numpy as np
 import unittest
 import matplotlib.pyplot as plt
 import datazets as dz
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend for tests
 
 
 class TestCLUSTEVAL(unittest.TestCase):

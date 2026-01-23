@@ -7,7 +7,11 @@
 # Respect the autor and leave this here
 
 """
-from clusteval.utils import init_figure
+try:
+    from clusteval.utils import init_figure, set_logger, disable_tqdm, set_font_properties
+except:
+    from utils import init_figure, set_logger, disable_tqdm, set_font_properties
+        
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
@@ -16,7 +20,7 @@ from scipy.spatial.distance import euclidean
 from scipy.cluster.hierarchy import fcluster
 from scipy.cluster.hierarchy import linkage as scipy_linkage
 from sklearn.cluster import KMeans, MiniBatchKMeans
-from clusteval.utils import init_logger, set_logger, disable_tqdm, set_font_properties
+
 import logging
 logger = logging.getLogger(__name__)
 
