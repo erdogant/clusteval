@@ -22,25 +22,22 @@
 ``clusteval`` is a python package that is developed to evaluate detected clusters and return the cluster labels that have most optimal **clustering tendency**, **Number of clusters** and **clustering quality**. Multiple evaluation strategies are implemented for the evaluation; **silhouette**, **dbindex**, and **derivative**, and four clustering methods can be used: **agglomerative**, **kmeans**, **dbscan** and **hdbscan**.
 
 
-# 
-**⭐️ Star this repo if you like it ⭐️**
-# 
-## 📘 Blogs
+## Blogs
 
-1. [A step-by-step guide for clustering images](https://towardsdatascience.com/a-step-by-step-guide-for-clustering-images-4b45f9906128)  
-2. [Detection of Duplicate Images Using Image Hash Functions](https://towardsdatascience.com/detection-of-duplicate-images-using-image-hash-functions-4d9c53f04a75)  
-3. [From Data to Clusters: When is Your Clustering Good Enough?](https://towardsdatascience.com/from-data-to-clusters-when-is-your-clustering-good-enough-5895440a978a)  
-4. [From Clusters To Insights; The Next Step](https://towardsdatascience.com/from-clusters-to-insights-the-next-step-1c166814e0c6)
+1. [A step-by-step guide for clustering images](https://medium.com/data-science-collective/a-step-by-step-guide-for-clustering-images-82b4a83b36a9)  
+2. [Detection of Duplicate Images Using Image Hash Functions](https://medium.com/data-science-collective/detection-of-near-identical-images-using-image-hash-functions-c61e133a0958)  
+3. [From Data to Clusters: When is Your Clustering Good Enough?](Soon)  
+4. [From Clusters To Insights; The Next Step](Soon)
 
 ---
 
-## 📚 Documentation
+## Documentation
 
 Full documentation is available at [erdogant.github.io/clusteval](https://erdogant.github.io/clusteval/), including examples and API references.
 
 ---
 
-## ⚙️ Installation
+## Installation
 
 It is advisable to use a virtual environment:
 
@@ -69,7 +66,7 @@ from clusteval import clusteval
 
 ---
 
-## 💡 Examples
+## Examples
 
 A structured overview is available in the [documentation](https://erdogant.github.io/clusteval/pages/html/Examples.html).
 
@@ -134,13 +131,13 @@ A structured overview is available in the [documentation](https://erdogant.githu
 
 ---
 
-## 📖 Citation
+## Citation
 
 Please cite `clusteval` in your publications if it has been helpful in your research. Citation information is available at the top right of the [GitHub page](https://github.com/erdogant/clusteval).
 
 ---
 
-## 🔍 Related Tools & Blogs
+## Related Tools & Blogs
 
 - Use **ARI** when clustering contains large equal-sized clusters  
 - Use **AMI** for unbalanced clusters with small components  
@@ -154,10 +151,23 @@ Please cite `clusteval` in your publications if it has been helpful in your rese
 
 ---
 
-## ☕ Support
+### Star history
 
-If you find this project useful, consider supporting me:
+[![Star History Chart](https://api.star-history.com/svg?repos=erdogant/clusteval&type=Date)](https://www.star-history.com/#erdogant/clusteval&Date)
 
-<a href="https://www.buymeacoffee.com/erdogant">
-  <img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=erdogant&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" />
-</a>
+### Contributors
+Thank the contributors!
+
+<p align="left">
+  <a href="https://github.com/erdogant/clusteval/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=erdogant/clusteval" />
+  </a>
+</p>
+
+### Maintainer
+* Erdogan Taskesen, github: [erdogant](https://github.com/erdogant)
+* Contributions are welcome.
+* Yes! This library is entirely **free** but it runs on coffee! :) Feel free to support with a <a href="https://erdogant.github.io/donate/?currency=USD&amount=5">Coffee</a>.
+
+[![Buy me a coffee](https://img.buymeacoffee.com/button-api/?text=Buy+me+a+coffee&emoji=&slug=erdogant&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/erdogant)
+
