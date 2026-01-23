@@ -1,4 +1,4 @@
-name: Pytest for clusteval
+name: Pytest for distfit
 on: [push]
 
 jobs:
@@ -9,7 +9,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        python-version: ["3.12"]
+        python-version: ["3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
@@ -26,3 +26,4 @@ jobs:
       - name: Test with pytest
         run: |
           pytest
+         
