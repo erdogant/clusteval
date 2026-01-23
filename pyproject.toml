@@ -9,12 +9,17 @@ authors = [{ name = "Erdogan Taskesen", email = "erdogant@gmail.com" },]
 description = "clusteval is a python package for unsupervised cluster validation."
 readme = "README.md"
 requires-python = ">=3"
-license = { file = "LICENSE" }
+license = "MIT"
 keywords = ["Python", "machine-learning", "unsupervised", "clustering", "dbindex", "silhouette score", "density based clustering", "validation"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Operating System :: Unix",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
     'scatterd>=1.3.5',
@@ -27,6 +32,7 @@ dependencies = [
     'scikit-learn',
     'colourmap>=1.1.14',
     'datazets>=1.1.0',
+    'df2onehot',
 ]
 
 [project.urls]

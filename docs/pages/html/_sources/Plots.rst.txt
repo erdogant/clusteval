@@ -20,10 +20,10 @@ Generate Data.
 	cl = clusteval()
 
 	# Generate random data
-	X, y = cl.import_example(data='blobs')
+	X = cl.import_example(data='blobs')
 
 	# Scatter samples
-	scatterd(X[:,0], X[:,1], figsize=(15, 10));
+	scatterd(X.iloc[:,0], X.iloc[:,1], figsize=(15, 10));
 
 
 .. |figP1| image:: ../figs/medium_clusters.png

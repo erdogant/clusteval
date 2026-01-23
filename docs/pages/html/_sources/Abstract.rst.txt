@@ -24,10 +24,10 @@ A quick example how to learn a model on a given dataset.
 	from clusteval import clusteval
 
 	# Initialize
-	cl = clusteval()
+	ce = clusteval()
 
 	# Generate random data
-	X, y = cl.import_example(data='blobs')
+	X = ce.import_example(data='blobs')
 
 	# Fit data X
 	results = ce.fit(X)

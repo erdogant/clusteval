@@ -22,10 +22,10 @@ Install requried libraries
 	cl = clusteval()
 
 	# Generate random data
-	X, y = cl.import_example(data='blobs')
+	X = cl.import_example(data='blobs')
 	
 	# Scatter samples
-	scatterd(X[:,0], X[:,1],labels=y)
+	scatterd(X.iloc[:,0], X.iloc[:,1],labels=X.index.values)
 
 
 .. |figCX7| image:: ../figs/easy_clusters_no_labels.png
@@ -89,8 +89,8 @@ The definition of a **cluster** depends on, among others, the **aim**. In this e
 	pip install sklearn
 	
 	# Generate data
-	X, y = ce.import_example(data='circles')
-	scatterd(X[:,0], X[:,1],labels=y)
+	X = ce.import_example(data='circles')
+	scatterd(X[:,0], X[:,1],labels=X.index.values)
 
 
 .. |figCX1| image:: ../figs/circular_cluster_labels.png
@@ -188,8 +188,8 @@ Let's generate 5 groups of samples, each with 200 but with different standard de
 .. code:: python
 	
 	# Generate data
-	X, y = ce.import_example(data='densities')
-	scatterd(X[:,0], X[:,1],labels=y)
+	X = ce.import_example(data='densities')
+	scatterd(X.iloc[:,0], X.iloc[:,1],labels=X.index.values)
 
 
 .. |figC1| image:: ../figs/random_clusters_density_black.png
@@ -424,16 +424,18 @@ Install the library first because this approach is not installed by default in `
 Cluster Comparison
 *********************
 
-A comparison of all four methods when using **kemans** is as shown underneath. The best approach is ``dbscan`` in case of having various density groups.
+A comparison of all four methods when using **kmeans** is as shown underneath. The best approach is ``dbscan`` in case of having various density groups.
 
 .. code:: python
 
 	import clusteval
+	import datazets as dz
 	from scatterd import scatterd
 	import numpy as np
-
-	X, y = ce.import_example(data='blobs')
-	# X, y = datasets.make_circles(n_samples=n_samples, factor=0.5, noise=0.05)
+	import matplotlib.pyplot as plt
+	
+	X = dz.get(data='blobs')
+	# X = dz.get(data='circles')
 
 	plt.figure(figsize=(15,10))
 	plt.grid(True); plt.xlabel('Feature 1'); plt.ylabel('Feature 2')
@@ -443,24 +445,26 @@ A comparison of all four methods when using **kemans** is as shown underneath. T
 	font_properties={'size_x_axis': 12, 'size_y_axis': 12}
 
 	# dbindex
-	results = clusteval.dbindex.fit(X, max_clust=10)
+	results = clusteval.dbindex.fit(X.values, max_clust=10)
 	_ = clusteval.dbindex.plot(results, title='dbindex', ax=axs[0][0], showfig=False, font_properties=font_properties)
-	axs[1][0].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][0].grid(True)
+	axs[1][0].scatter(X.iloc[:,0], X.iloc[:,1],c=results['labx']);axs[1][0].grid(True)
 
 	# silhouette
-	results = clusteval.silhouette.fit(X)
+	results = clusteval.silhouette.fit(X.values)
 	_ = clusteval.silhouette.plot(results, title='silhouette', ax=axs[0][1], showfig=False, font_properties=font_properties)
-	axs[1][1].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][1].grid(True)
+	axs[1][1].scatter(X.iloc[:,0], X.iloc[:,1],c=results['labx']);axs[1][1].grid(True)
 
 	# derivative
-	results = clusteval.derivative.fit(X)
+	results = clusteval.derivative.fit(X.values)
 	_ = clusteval.derivative.plot(results, title='derivative', ax=axs[0][2], showfig=False, font_properties=font_properties)
-	axs[1][2].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][2].grid(True)
+	axs[1][2].scatter(X.iloc[:,0], X.iloc[:,1],c=results['labx']);axs[1][2].grid(True)
 
 	# dbscan
-	results = clusteval.dbscan.fit(X)
+	results = clusteval.dbscan.fit(X.values)
 	_ = clusteval.dbscan.plot(results, title='dbscan', ax=axs[0][3], showfig=False, font_properties=font_properties)
-	axs[1][3].scatter(X[:,0], X[:,1],c=results['labx']);axs[1][3].grid(True)
+	axs[1][3].scatter(X.iloc[:,0], X.iloc[:,1],c=results['labx']);axs[1][3].grid(True)
+
+
 
 
 .. |figCX12| image:: ../figs/easy_clusters_comparisons.png

@@ -9,10 +9,10 @@ Blog
 ######
 
 .. note::
-	`Medium Blog: A step-by-step guide for clustering images <https://towardsdatascience.com/a-step-by-step-guide-for-clustering-images-4b45f9906128>`_
+	`Medium Blog: A step-by-step guide for clustering images <https://medium.com/data-science-collective/a-step-by-step-guide-for-clustering-images-82b4a83b36a9>`_
 
 .. note::
-	`Medium Blog: Detection of Duplicate Images Using Image Hash Functions <https://towardsdatascience.com/detection-of-duplicate-images-using-image-hash-functions-4d9c53f04a75>`_
+	`Medium Blog: Detection of Duplicate Images Using Image Hash Functions <https://medium.com/data-science-collective/detection-of-near-identical-images-using-image-hash-functions-c61e133a0958>`_
 
 
 
