@@ -1,5 +1,13 @@
+#glob
+numpy
 sphinx_rtd_theme
 rst2pdf
-sphinx
 pytest
-#git+git://github.com/SuperKogito/sphinxcontrib-pdfembed
+irelease
+tabulate
+
+#spyder-kernels==3.0.*
+sphinx
+sphinxcontrib-fulltoc
+#git+https://github.com/SuperKogito/sphinxcontrib-pdfembed.git
+#nbconvert # jupyter nbconvert --to html notebook.ipynb
