@@ -11,7 +11,7 @@ from clusteval import (
 
 __author__ = 'Erdogan Tasksen'
 __email__ = 'erdogant@gmail.com'
-__version__ = '2.2.6'
+__version__ = '2.2.7'
 
 # Setup root logger
 _logger = logging.getLogger('clusteval')

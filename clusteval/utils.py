@@ -3,9 +3,35 @@ import numpy as np
 from typing import Union
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
+import os
+from contextlib import contextmanager
 
 import logging
 logger = logging.getLogger(__name__)
+
+# %%
+@contextmanager
+def _limit_threads_if_needed():
+    n = max(os.cpu_count() - 1, 1)
+
+    old_loky = os.environ.get("LOKY_MAX_CPU_COUNT")
+    old_omp = os.environ.get("OMP_NUM_THREADS")
+
+    os.environ["LOKY_MAX_CPU_COUNT"] = str(n)
+    os.environ["OMP_NUM_THREADS"] = str(n)
+
+    try:
+        yield
+    finally:
+        if old_loky is None:
+            os.environ.pop("LOKY_MAX_CPU_COUNT", None)
+        else:
+            os.environ["LOKY_MAX_CPU_COUNT"] = old_loky
+
+        if old_omp is None:
+            os.environ.pop("OMP_NUM_THREADS", None)
+        else:
+            os.environ["OMP_NUM_THREADS"] = old_omp
 
 
 # %% Normalize.
@@ -67,18 +93,23 @@ def _compute_embedding(X, logger):
 
 # %%
 def compute_embedding(self, X, embedding, logger):
-    if (embedding=='tsne'):
+
+    if embedding == 'tsne':
         if hasattr(self, 'results') and (self.results.get('xycoord') is not None):
-            logger.info('Retrieving previously computed [%s] embedding.' %(embedding))
+            logger.info(f'Retrieving previously computed {embedding} embedding.')
             X = self.results['xycoord']
         else:
-            X = _compute_embedding(X, logger)
+            logger.info('Compute t-SNE embedding.')
+
+            # Limit threads only during t-SNE computation
+            with _limit_threads_if_needed():
+                X = _compute_embedding(X, logger)
+
     else:
         logger.info('Coordinates (x, y) are set based on the first two features.')
         X = X[:, :2]
 
     return X
-
 
 # %%
 def set_font_properties(font_properties):
