@@ -87,7 +87,10 @@ def normalize_size(getsizes, minscale: Union[int, float] = 0.5, maxscale: Union[
 def _compute_embedding(X, logger):
     logger.info('Compute t-SNE embedding.')
     perplexity = np.minimum(X.shape[0]-1, 30)
-    X = TSNE(n_components=2, init='random', perplexity=perplexity).fit_transform(X)
+
+    # Limit threads only during t-SNE computation
+    with _limit_threads_if_needed():
+        X = TSNE(n_components=2, init='random', perplexity=perplexity).fit_transform(X)
     return X
 
 
@@ -99,12 +102,7 @@ def compute_embedding(self, X, embedding, logger):
             logger.info(f'Retrieving previously computed {embedding} embedding.')
             X = self.results['xycoord']
         else:
-            logger.info('Compute t-SNE embedding.')
-
-            # Limit threads only during t-SNE computation
-            with _limit_threads_if_needed():
-                X = _compute_embedding(X, logger)
-
+            X = _compute_embedding(X, logger)
     else:
         logger.info('Coordinates (x, y) are set based on the first two features.')
         X = X[:, :2]
