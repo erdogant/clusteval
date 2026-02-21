@@ -22,12 +22,12 @@
 ``clusteval`` is a python package that is developed to evaluate detected clusters and return the cluster labels that have most optimal **clustering tendency**, **Number of clusters** and **clustering quality**. Multiple evaluation strategies are implemented for the evaluation; **silhouette**, **dbindex**, and **derivative**, and four clustering methods can be used: **agglomerative**, **kmeans**, **dbscan** and **hdbscan**.
 
 
-## Blogs
-
-1. [A step-by-step guide for clustering images](https://medium.com/data-science-collective/a-step-by-step-guide-for-clustering-images-82b4a83b36a9)  
-2. [Detection of Duplicate Images Using Image Hash Functions](https://medium.com/data-science-collective/detection-of-near-identical-images-using-image-hash-functions-c61e133a0958)  
-3. [From Data to Clusters: When is Your Clustering Good Enough?](Soon)  
-4. [From Clusters To Insights; The Next Step](Soon)
+| Feature | Description | Medium | Gumroad/Podcast |
+|--------|-------------|---|---|
+| [**A step-by-step guide for clustering images**](https://erdogant.github.io/bnlearn/pages/html/Structure%20learning.html) | Learn the basics of causal modelling. |[link](https://medium.com/data-science-collective/a-step-by-step-guide-for-clustering-images-82b4a83b36a9)|---|
+| [**Creation of Hash image signatures**](https://erdogant.github.io/bnlearn/pages/html/Structure%20learning.html) |Detection of (Near) Identical Images Using Image Hash Functions. |[link](https://medium.com/data-science-collective/detection-of-near-identical-images-using-image-hash-functions-c61e133a0958)|---|
+| [**From Data to Clusters**](https://erdogant.github.io/bnlearn/pages/html/Structure%20learning.html) | The step to  go from raw data to reliable clusters. |[link](https://medium.com/data-science-collective/from-data-to-clusters-when-is-your-clustering-good-enough-4af21c1fa2b1)|---|
+| [**From Clusters To Insights.**](https://erdogant.github.io/bnlearn/pages/html/Discretizing.html) | The step from clusters to valuable insights. |[link](https://erdogant.medium.com/from-clusters-to-insights-the-next-step-8e24e9600c9c)|---|
 
 ---
 
